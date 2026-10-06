@@ -275,6 +275,22 @@ class SwissContract:
                     return candidate, price
         return None
 
+    def period_at(self, moment: datetime) -> str:
+        """Return "single", "high" or "low" for the price in force at a moment."""
+        if not self.is_time_dependent():
+            return "single"
+        local = moment.astimezone(SWISS_TZ)
+        current, _ = self.price_at(local)
+        times = sorted({t for w in self._windows() for t in w.boundaries()} | {time(0, 0)})
+        levels = {current}
+        for offset in range(7):
+            day = local.date() + timedelta(days=offset)
+            for boundary in times:
+                levels.add(self.price_at(datetime.combine(day, boundary, SWISS_TZ))[0])
+        if len(levels) == 1:
+            return "single"
+        return "high" if current == max(levels) else "low"
+
     @property
     def monthly_fixed(self) -> float:
         """Fixed charges per month including VAT (metering is not included)."""

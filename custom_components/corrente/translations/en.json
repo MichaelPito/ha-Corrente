@@ -2,8 +2,15 @@
   "config": {
     "step": {
       "user": {
+        "title": "Where do you live?",
+        "description": "Corrente works out your real electricity price and tells you when it pays to switch things on. Missing something? [Suggest a change]({issues_url}). Corrente is free — [buy us a coffee]({donate_url}) ☕",
+        "data": {
+          "country": "Country"
+        }
+      },
+      "italy": {
         "title": "Your electricity contract",
-        "description": "Corrente works out your electricity price from your contract and the Italian time bands (F1, F2, F3).\n\nSwitzerland and PUN-indexed contracts are coming soon. Missing something? [Suggest a change]({issues_url}). Corrente is free — [buy us a coffee]({donate_url}) ☕",
+        "description": "Corrente works out your price from your contract and the Italian time bands (F1, F2, F3). PUN-indexed contracts are coming soon. [Suggest a change]({issues_url}).",
         "data": {
           "contract_type": "Contract type"
         }
@@ -31,14 +38,55 @@
           "price_f2": "Price F2",
           "price_f3": "Price F3"
         }
+      },
+      "ch_search": {
+        "title": "Your municipality",
+        "description": "Type the name of your municipality. Corrente looks up your grid operator in ElCom's open data.",
+        "data": {
+          "municipality": "Municipality"
+        }
+      },
+      "ch_operator": {
+        "title": "Choose your grid operator",
+        "description": "More than one result: pick your municipality and grid operator.",
+        "data": {
+          "operator_name": "Municipality and operator"
+        }
+      },
+      "ch_url": {
+        "title": "Link to the tariff file",
+        "description": "{operator} has not published a readable tariff file (ElCom lists: {elcom_url}). Paste the link to the operator's tariff JSON file if you have it, or [tell us]({issues_url}) and we'll add it.",
+        "data": {
+          "tariff_url": "Link to the tariff file"
+        }
+      },
+      "ch_tariff": {
+        "title": "Your tariff",
+        "description": "Choose your energy tariff from {operator}. Tariffs that can't be calculated from the file (for example dynamic ones) are not listed yet.",
+        "data": {
+          "electricity_tariff": "Energy tariff"
+        }
+      },
+      "ch_grid": {
+        "title": "Grid and fees",
+        "description": "Corrente suggests the grid tariff and the regional fees that go with \"{electricity}\". Check them against your bill.",
+        "data": {
+          "grid_tariff": "Grid tariff",
+          "regional_tariff": "Regional and municipal fees"
+        }
       }
+    },
+    "error": {
+      "cannot_connect": "Could not reach ElCom. Try again in a few minutes.",
+      "no_match": "No municipality found with this name.",
+      "invalid_file": "This link is not a readable tariff file."
     }
   },
   "options": {
     "step": {
       "init": {
         "title": "Change your contract",
-        "description": "Corrente works out your electricity price from your contract and the Italian time bands (F1, F2, F3).\n\nSwitzerland and PUN-indexed contracts are coming soon. Missing something? [Suggest a change]({issues_url}). Corrente is free — [buy us a coffee]({donate_url}) ☕",
+        "description": "Corrente works out your price from your contract and the Italian time bands (F1, F2, F3). PUN-indexed contracts are coming soon. [Suggest a change]({issues_url}).",
         "data": {
           "contract_type": "Contract type"
         }
@@ -67,9 +115,18 @@
           "price_f3": "Price F3"
         }
       }
+    },
+    "abort": {
+      "switzerland_readd": "Swiss tariffs follow your grid operator's file automatically. To choose different tariffs, remove Corrente and add it again."
     }
   },
   "selector": {
+    "country": {
+      "options": {
+        "it": "Italy",
+        "ch": "Switzerland"
+      }
+    },
     "contract_type": {
       "options": {
         "single": "Single price (monoraria)",
@@ -104,6 +161,20 @@
       },
       "next_price": {
         "name": "Next price"
+      },
+      "period": {
+        "name": "Tariff period",
+        "state": {
+          "single": "Single tariff",
+          "high": "High tariff",
+          "low": "Low tariff"
+        }
+      },
+      "next_price_change": {
+        "name": "Next price change"
+      },
+      "monthly_fixed": {
+        "name": "Fixed charges per month"
       }
     }
   }

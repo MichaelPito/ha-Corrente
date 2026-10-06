@@ -2,8 +2,15 @@
   "config": {
     "step": {
       "user": {
+        "title": "Wo wohnen Sie?",
+        "description": "Corrente berechnet Ihren tatsächlichen Strompreis und sagt Ihnen, wann sich das Einschalten lohnt. Fehlt etwas? [Änderung vorschlagen]({issues_url}). Corrente ist kostenlos – [spendieren Sie uns einen Kaffee]({donate_url}) ☕",
+        "data": {
+          "country": "Land"
+        }
+      },
+      "italy": {
         "title": "Ihr Stromvertrag",
-        "description": "Corrente berechnet Ihren Strompreis aus Ihrem Vertrag und den italienischen Zeitbändern (F1, F2, F3).\n\nSchweiz und PUN-indexierte Verträge folgen bald. Fehlt etwas? [Änderung vorschlagen]({issues_url}). Corrente ist kostenlos – [spendieren Sie uns einen Kaffee]({donate_url}) ☕",
+        "description": "Corrente berechnet Ihren Preis aus Ihrem Vertrag und den italienischen Zeitbändern (F1, F2, F3). PUN-indexierte Verträge folgen bald. [Änderung vorschlagen]({issues_url}).",
         "data": {
           "contract_type": "Vertragsart"
         }
@@ -31,14 +38,55 @@
           "price_f2": "Preis F2",
           "price_f3": "Preis F3"
         }
+      },
+      "ch_search": {
+        "title": "Ihre Gemeinde",
+        "description": "Geben Sie den Namen Ihrer Gemeinde ein. Corrente sucht Ihren Netzbetreiber in den offenen Daten der ElCom.",
+        "data": {
+          "municipality": "Gemeinde"
+        }
+      },
+      "ch_operator": {
+        "title": "Netzbetreiber wählen",
+        "description": "Mehrere Treffer: Wählen Sie Ihre Gemeinde und Ihren Netzbetreiber.",
+        "data": {
+          "operator_name": "Gemeinde und Netzbetreiber"
+        }
+      },
+      "ch_url": {
+        "title": "Link zur Tarifdatei",
+        "description": "{operator} hat keine lesbare Tarifdatei veröffentlicht (ElCom nennt: {elcom_url}). Fügen Sie den Link zur JSON-Tarifdatei des Betreibers ein, falls Sie ihn haben, oder [melden Sie es uns]({issues_url}).",
+        "data": {
+          "tariff_url": "Link zur Tarifdatei"
+        }
+      },
+      "ch_tariff": {
+        "title": "Ihr Tarif",
+        "description": "Wählen Sie Ihren Energietarif von {operator}. Tarife, die sich nicht aus der Datei berechnen lassen (z. B. dynamische), werden noch nicht angezeigt.",
+        "data": {
+          "electricity_tariff": "Energietarif"
+        }
+      },
+      "ch_grid": {
+        "title": "Netz und Abgaben",
+        "description": "Corrente schlägt den Netztarif und die regionalen Abgaben vor, die zu \"{electricity}\" gehören. Vergleichen Sie sie mit Ihrer Rechnung.",
+        "data": {
+          "grid_tariff": "Netztarif",
+          "regional_tariff": "Kantonale und kommunale Abgaben"
+        }
       }
+    },
+    "error": {
+      "cannot_connect": "ElCom ist nicht erreichbar. Versuchen Sie es in ein paar Minuten erneut.",
+      "no_match": "Keine Gemeinde mit diesem Namen gefunden.",
+      "invalid_file": "Dieser Link ist keine lesbare Tarifdatei."
     }
   },
   "options": {
     "step": {
       "init": {
         "title": "Vertrag ändern",
-        "description": "Corrente berechnet Ihren Strompreis aus Ihrem Vertrag und den italienischen Zeitbändern (F1, F2, F3).\n\nSchweiz und PUN-indexierte Verträge folgen bald. Fehlt etwas? [Änderung vorschlagen]({issues_url}). Corrente ist kostenlos – [spendieren Sie uns einen Kaffee]({donate_url}) ☕",
+        "description": "Corrente berechnet Ihren Preis aus Ihrem Vertrag und den italienischen Zeitbändern (F1, F2, F3). PUN-indexierte Verträge folgen bald. [Änderung vorschlagen]({issues_url}).",
         "data": {
           "contract_type": "Vertragsart"
         }
@@ -67,9 +115,18 @@
           "price_f3": "Preis F3"
         }
       }
+    },
+    "abort": {
+      "switzerland_readd": "Schweizer Tarife folgen automatisch der Datei Ihres Netzbetreibers. Um andere Tarife zu wählen, entfernen Sie Corrente und fügen es erneut hinzu."
     }
   },
   "selector": {
+    "country": {
+      "options": {
+        "it": "Italien",
+        "ch": "Schweiz"
+      }
+    },
     "contract_type": {
       "options": {
         "single": "Einheitspreis (monoraria)",
@@ -104,6 +161,20 @@
       },
       "next_price": {
         "name": "Nächster Preis"
+      },
+      "period": {
+        "name": "Tarifzeit",
+        "state": {
+          "single": "Einheitstarif",
+          "high": "Hochtarif",
+          "low": "Niedertarif"
+        }
+      },
+      "next_price_change": {
+        "name": "Nächste Preisänderung"
+      },
+      "monthly_fixed": {
+        "name": "Fixkosten pro Monat"
       }
     }
   }

@@ -57,6 +57,7 @@ def test_ail_flat_tariff_price() -> None:
     assert price == pytest.approx(expected, abs=1e-5)
     assert not gap
     assert not contract.is_time_dependent()
+    assert contract.period_at(zurich(2027, 3, 10, 12, 0)) == "single"
     assert contract.next_change(zurich(2027, 3, 10, 12, 0)) is None
     assert contract.monthly_fixed == pytest.approx(8.55 * (1 + SWISS_VAT), abs=0.01)
 
@@ -93,6 +94,8 @@ def test_ail_day_night_tariff() -> None:
     assert night == pytest.approx((0.086 + 0.061 + 0.0285) * (1 + SWISS_VAT), abs=1e-5)
     assert early == night
     assert contract.is_time_dependent()
+    assert contract.period_at(zurich(2027, 3, 10, 10, 0)) == "high"
+    assert contract.period_at(zurich(2027, 3, 10, 23, 0)) == "low"
 
     changes_at, new_price = contract.next_change(zurich(2027, 3, 10, 10, 0))
     assert changes_at == zurich(2027, 3, 10, 22, 0)

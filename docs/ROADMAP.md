@@ -7,11 +7,12 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [ ] Italy: PUN / zonal prices and PUN + spread contracts
 - [x] Switzerland (core): reader for the VSE tariff files operators must publish, high/low windows, cantonal and municipal surcharges, federal charges, VAT — verified against ElCom totals
 - [x] Switzerland (core): find the grid operator(s) of a municipality through ElCom open data, with curated fixes for operators that registered a web page instead of the file
-- [ ] Switzerland: UI setup (municipality → operator → tariff), sensors, daily refresh, manual URL for operators without a file (SES, AEM)
+- [x] Switzerland: UI setup (municipality → operator → tariff → grid and fees), manual link for operators without a readable file (SES, AEM), sensors (price, high/low period, next change, next price, fixed charges), refresh twice a day, automatic switch to the new year's file
 - [x] Sensors: current price, current band, next band change, next band, next price
 - [ ] Sensors: next cheap window, cost today / this month
 - [x] UI-only setup (config flow), translations EN / IT / DE / FR
 - [ ] Dashboard card: price now, next 24 h, best time to run
+- [ ] Switzerland: change tariffs from the options (today: remove and add again)
 - [ ] "Suggest a change" link inside the integration and the card
 
 ## Next (December 2026 – January 2027)
