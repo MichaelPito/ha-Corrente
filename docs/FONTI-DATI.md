@@ -113,3 +113,21 @@ Estratti reali in `tests/fixtures/ch/`.
 6. **Anni misti nello stesso file** (AIM): filtrare sempre per `startDate` / `endDate`.
 7. **Prezzi senza IVA:** aggiungere l'IVA svizzera (8,1%). Secondo la specifica i supplementi nazionali (rete, art. 35 LEne, riserva) sono **già inclusi** nella tariffa di rete: non vanno aggiunti di nuovo. Da verificare sui totali ElCom: AIL 2027, energia 10,35 + rete 9,628 + tributi 2,22 + supplemento 2,3 = 25,911 secondo ElCom.
 8. Le quote fisse (`base`, CHF/mese) e la tassa di misura vanno nei costi mensili, non nel prezzo al kWh.
+
+### Prova dal vivo sul 2026 (6 ottobre 2026)
+Per il 2026 ElCom ha spesso registrato **pagine web** invece dei file, perché l'obbligo del JSON è entrato in vigore con le tariffe 2027. Corrente prova in ordine:
+1. il link dell'anno;
+2. il link dell'anno successivo;
+3. lo stesso link con l'anno sostituito.
+
+Ogni file viene accettato solo se contiene tariffe valide oggi.
+
+| Comune | Gestore | Risultato |
+|---|---|---|
+| Lugano | AIL | ✅ `…/prd/tariffs_2026` (anno sostituito) |
+| Mendrisio | AIM | ✅ il file registrato per il 2027 contiene anche il 2026 |
+| Massagno | AEM | ✅ `Tariffe_AEM_2026.json` (anno sostituito; il file 2027 è ancora 404) |
+| Zurigo | ewz | ✅ file leggibile da macchina |
+| Bellinzona | AMB | ❌ nessun file 2026: link manuale (dal 2027 c'è il file) |
+| Locarno | SES | ❌ nessun file: link manuale |
+

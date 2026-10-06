@@ -18,6 +18,7 @@ from custom_components.corrente.core.elcom import (
     async_fetch_tariff_document,
     async_operators_for,
     async_search_municipalities,
+    async_tariff_url_candidates,
 )
 
 FIXTURES = Path(__file__).parent / "fixtures" / "ch"
@@ -100,3 +101,22 @@ async def test_fetch_tariff_document_errors(
     aioclient_mock.get(url, content=body, status=status)
     with pytest.raises(TariffFileError):
         await async_fetch_tariff_document(async_get_clientsession(hass), url)
+
+
+async def test_url_candidates_add_next_year_and_swapped_year(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker
+) -> None:
+    """AIL 2026: ElCom lists a web page, but next year's link with the year swapped works."""
+    aioclient_mock.post(LINDAS_ENDPOINT, text=fixture_text("lindas-lugano-2027.json"))
+    candidates = await async_tariff_url_candidates(
+        async_get_clientsession(hass),
+        5192,
+        "31",
+        2026,
+        "https://www.ail.ch/privati/elettricita/servizi/tariffe",
+    )
+    assert candidates == [
+        "https://www.ail.ch/privati/elettricita/servizi/tariffe",
+        "https://api-ail.prod01.apimanagement.eu20.hana.ondemand.com/prd/tariffs_2027",
+        "https://api-ail.prod01.apimanagement.eu20.hana.ondemand.com/prd/tariffs_2026",
+    ]

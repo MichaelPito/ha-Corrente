@@ -154,3 +154,33 @@ async def async_fetch_tariff_document(session: aiohttp.ClientSession, url: str) 
     if not isinstance(document, dict) or not isinstance(document.get("tariffs"), list):
         raise TariffFileError("the file is not in the VSE tariff format")
     return document
+
+
+async def async_tariff_url_candidates(
+    session: aiohttp.ClientSession,
+    municipality: int,
+    operator_id: str,
+    year: int,
+    current_url: str | None,
+) -> list[str]:
+    """Links that may hold an operator's tariffs for ``year``, most likely first.
+
+    ElCom stores one link per year, and in practice it is not always the file
+    for that year: for 2026 AIL registered a web page although its file exists
+    at ".../tariffs_2026", and AIM's file registered for 2027 also holds 2026.
+    So, after the link for the year: the link registered for the next year, and
+    that link with the year swapped. Callers check each file for tariffs in force.
+    """
+    candidates: list[str] = []
+    if current_url:
+        candidates.append(current_url)
+    try:
+        next_year = await async_operators_for(session, municipality, year + 1)
+    except ElcomError:
+        next_year = []
+    for operator in next_year:
+        if operator.operator_id == operator_id and operator.tariff_url:
+            candidates.append(operator.tariff_url)
+            if str(year + 1) in operator.tariff_url:
+                candidates.append(operator.tariff_url.replace(str(year + 1), str(year)))
+    return list(dict.fromkeys(candidates))  # unique, order kept

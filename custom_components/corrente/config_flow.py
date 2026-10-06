@@ -55,6 +55,7 @@ from .core.elcom import (
     TariffFileError,
     async_fetch_tariff_document,
     async_search_municipalities,
+    async_tariff_url_candidates,
 )
 from .core.switzerland import (
     SWISS_TZ,
@@ -261,8 +262,16 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
 
     async def _async_use_operator(self, operator: OperatorInMunicipality) -> ConfigFlowResult:
         self._operator = operator
-        if operator.tariff_url and await self._async_load_tariffs(operator.tariff_url):
-            return await self.async_step_ch_tariff()
+        candidates = await async_tariff_url_candidates(
+            async_get_clientsession(self.hass),
+            operator.municipality,
+            operator.operator_id,
+            dt_util.now(SWISS_TZ).year,
+            operator.tariff_url,
+        )
+        for url in candidates:
+            if await self._async_load_tariffs(url):
+                return await self.async_step_ch_tariff()
         return await self.async_step_ch_url()
 
     async def _async_load_tariffs(self, url: str) -> bool:

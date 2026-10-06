@@ -27,6 +27,7 @@ from .core.elcom import (
     TariffFileError,
     async_fetch_tariff_document,
     async_operators_for,
+    async_tariff_url_candidates,
 )
 from .core.switzerland import (
     SWISS_TZ,
@@ -100,19 +101,36 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
         today = dt_util.now(SWISS_TZ).date()
         session = async_get_clientsession(self.hass)
         try:
-            tariffs = parse_tariffs(await async_fetch_tariff_document(session, self._url))
-            if not tariffs_on(tariffs, "electricity", today):
-                # New year: ElCom links each year's file separately.
-                tariffs = await self._async_follow_new_year(session, options, today.year)
+            tariffs = await self._async_load(session, self._url, today)
+            if tariffs is None:
+                # A new year, or the operator moved its file: ask ElCom again.
+                tariffs = await self._async_find_file(session, options, today)
             contract = select_contract(tariffs, options, today)
-        except (TariffFileError, ElcomError, UnsupportedTariffError) as err:
+        except (ElcomError, UnsupportedTariffError) as err:
             raise UpdateFailed(str(err)) from err
         return SwissTariffData(tariffs=tariffs, contract=contract, source_url=self._url)
 
-    async def _async_follow_new_year(self, session, options: dict, year: int) -> list[Tariff]:
-        operators = await async_operators_for(session, options[CONF_MUNICIPALITY], year)
-        for operator in operators:
-            if operator.operator_id == options[CONF_OPERATOR_ID] and operator.tariff_url:
-                self._url = operator.tariff_url
-                return parse_tariffs(await async_fetch_tariff_document(session, self._url))
-        raise TariffFileError(f"no tariff file published for {year} yet")
+    async def _async_load(self, session, url: str, today: date) -> list[Tariff] | None:
+        """Tariffs from ``url`` if the file is readable and has tariffs in force today."""
+        try:
+            tariffs = parse_tariffs(await async_fetch_tariff_document(session, url))
+        except TariffFileError:
+            return None
+        return tariffs if tariffs_on(tariffs, "electricity", today) else None
+
+    async def _async_find_file(self, session, options: dict, today: date) -> list[Tariff]:
+        municipality, operator_id = options[CONF_MUNICIPALITY], options[CONF_OPERATOR_ID]
+        current = [
+            operator.tariff_url
+            for operator in await async_operators_for(session, municipality, today.year)
+            if operator.operator_id == operator_id
+        ]
+        candidates = await async_tariff_url_candidates(
+            session, municipality, operator_id, today.year, current[0] if current else None
+        )
+        for url in candidates:
+            if url != self._url and (tariffs := await self._async_load(session, url, today)):
+                _LOGGER.info("Tariff file for %s: %s", today.year, url)
+                self._url = url
+                return tariffs
+        raise UpdateFailed(f"no tariff file in force on {today} found for this operator")
