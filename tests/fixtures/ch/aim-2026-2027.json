@@ -1,0 +1,442 @@
+{
+ "dsoName": "Aziende Industriali Mendrisio, Sezione Elettricità",
+ "dsoNumber": 10403012345,
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tariffa PC Piccoli clienti - Rete 2026",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": " La tariffa PC (Piccoli clienti) viene applicata a tutti i clienti con la valvola d'abbonato fino  a 63 A compresi, o con un consumo annuo inferiore a 50'000 kWh. Cliente di servizi di base",
+   "prices": {
+    "base": {
+     "price": 5,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "08:00",
+      "to": "20:00",
+      "price": 0.106,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.092,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "08:00",
+      "to": "20:00",
+      "price": 0.092,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "08:00",
+      "price": 0.092,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "tariffName": "Tariffa PC Piccoli clienti - Energia 2026",
+   "tariffType": "electricity",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": " La tariffa PC (Piccoli clienti) viene applicata a tutti i clienti con la valvola d'abbonato fino  a 63 A compresi, o con un consumo annuo inferiore a 50'000 kWh. Cliente di servizi di base",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1251,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "Tariffa PC Piccoli clienti - Tassa misura 2026",
+   "tariffType": "metering",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": " La tariffa PC (Piccoli clienti) viene applicata a tutti i clienti con la valvola d'abbonato fino  a 63 A compresi, o con un consumo annuo inferiore a 50'000 kWh. Cliente di servizi di base",
+   "prices": {
+    "base": {
+     "price": 5.8,
+     "priceUnit": "CHF/M"
+    }
+   }
+  },
+  {
+   "tariffName": "Livello di rete 7 - tasse cantonali e comunali 2026",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Tutti i clienti collegati al livello di rete 7",
+   "prices": {
+    "cantonalTaxes": [
+     {
+      "cantonName": "TI",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.012,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Fondo cantonale per le energie rinnovabili (FER) FINO A 500 MWh/anno : 1.20 cts/kWh ; eccedenza oltre 500 MWh/anno : 0.00 cts/kWh"
+     },
+     {
+      "cantonName": "TI",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0102,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Tassa utilizzo demanio pubblico fino a 8'000'000 kWh/anno : 1.02 cts/kWh ; eccedenza oltre 8'000'000 kWh/anno : 0.00 cts/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tariffa PC Piccoli clienti - Rete 2027",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "La tariffa PC (Piccoli clienti) viene applicata a tutti i clienti con la valvola d'abbonato fino  a 63 A compresi, o con un consumo annuo inferiore a 50'000 kWh. Cliente di servizi di base",
+   "prices": {
+    "base": {
+     "price": 5,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "08:00",
+      "to": "20:00",
+      "price": 0.1032,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.0896,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "08:00",
+      "to": "20:00",
+      "price": 0.0896,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "08:00",
+      "price": 0.0896,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "tariffName": "Tariffa PC Piccoli clienti - Energia 2027",
+   "tariffType": "electricity",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": " La tariffa PC (Piccoli clienti) viene applicata a tutti i clienti con la valvola d'abbonato fino  a 63 A compresi, o con un consumo annuo inferiore a 50'000 kWh. Cliente di servizi di base",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1088,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "Tariffa PC Piccoli clienti - Tassa misura 2027",
+   "tariffType": "metering",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": " La tariffa PC (Piccoli clienti) viene applicata a tutti i clienti con la valvola d'abbonato fino  a 63 A compresi, o con un consumo annuo inferiore a 50'000 kWh. Cliente di servizi di base",
+   "prices": {
+    "base": {
+     "price": 6.12,
+     "priceUnit": "CHF/M"
+    }
+   }
+  },
+  {
+   "tariffName": "Livello di rete 7 - tasse cantonali e comunali 2027",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Tutti i clienti collegati al livello di rete 7",
+   "prices": {
+    "cantonalTaxes": [
+     {
+      "cantonName": "TI",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.012,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Fondo cantonale per le energie rinnovabili (FER) FINO A 500 MWh/anno : 1.20 cts/kWh ; eccedenza oltre 500 MWh/anno : 0.00 cts/kWh"
+     },
+     {
+      "cantonName": "TI",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0102,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Tassa utilizzo demanio pubblico fino a 8'000'000 kWh/anno : 1.02 cts/kWh ; eccedenza oltre 8'000'000 kWh/anno : 0.00 cts/kWh"
+     }
+    ]
+   }
+  }
+ ]
+}

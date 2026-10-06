@@ -97,3 +97,19 @@
   - lingua italiana e attenzione al Ticino;
   - finestra più economica, costi e blueprint;
   - card per la dashboard.
+
+### Stranezze dei file reali — da gestire nel lettore (v0.1)
+Estratti reali in `tests/fixtures/ch/`.
+
+1. **Più voci sempre valide (00:00–00:00) si sommano.** In AIL "tìacqua" l'energia è 0,0975 più un supplemento verde di 0,006 CHF/kWh. Quando le voci sono fasce orarie distinte, ne vale una sola alla volta.
+2. **AMB "Dinamica"** ha tre voci tutte 00:00–00:00 (codifica sbagliata delle fasce giornaliere). Sommarle sarebbe sbagliato: per Corrente è una tariffa **non supportata** finché AMB non pubblica le fasce.
+3. **Buchi negli orari.** In AIM la rete ha lun–ven 8–20, tutti i giorni 20–23:59, sab–dom 8–20, ma **manca 00:00–08:00**: la bassa tariffa notturna non è codificata. Servono una tabella di correzioni per gestore, scritta da noi e documentata, e la possibilità per l'utente di correggere a mano.
+4. **"23:59" vuol dire fine giornata** (lo dice la specifica); "00:00–00:00" vuol dire tutto il giorno.
+5. **Raggruppare le tariffe di un prodotto non è uniforme:**
+   - AIL usa prefisso più suffisso (`…-electricity`, `…-grid7`, `…-metering`, `…-regional_fees`);
+   - AMB usa lo stesso nome per energia e rete ("Casa");
+   - AIM usa "Tariffa PC Piccoli clienti - Energia / - Rete".
+   → Nella configurazione l'utente sceglie **la tariffa dell'energia** e Corrente **propone** la tariffa di rete più simile, che l'utente conferma.
+6. **Anni misti nello stesso file** (AIM): filtrare sempre per `startDate` / `endDate`.
+7. **Prezzi senza IVA:** aggiungere l'IVA svizzera (8,1%). Secondo la specifica i supplementi nazionali (rete, art. 35 LEne, riserva) sono **già inclusi** nella tariffa di rete: non vanno aggiunti di nuovo. Da verificare sui totali ElCom: AIL 2027, energia 10,35 + rete 9,628 + tributi 2,22 + supplemento 2,3 = 25,911 secondo ElCom.
+8. Le quote fisse (`base`, CHF/mese) e la tassa di misura vanno nei costi mensili, non nel prezzo al kWh.

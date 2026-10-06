@@ -1,0 +1,522 @@
+﻿{
+ "dsoName": "Azienda Multiservizi Bellinzona (AMB)",
+ "dsoNumber": 10023012345,
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Casa",
+   "tariffType": "electricity",
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.098,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [],
+    "reactivePower": [],
+    "municipalityTaxes": [],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Casa",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "",
+   "prices": {
+    "base": {
+     "price": 6.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.068,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [],
+    "reactivePower": [],
+    "municipalityTaxes": [],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Casa (metering)",
+   "tariffType": "metering",
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "Tariffa di misurazione",
+   "customerType": "",
+   "prices": {
+    "base": {
+     "price": 5.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [],
+    "power": [],
+    "reactivePower": [],
+    "municipalityTaxes": [],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Casa (regional_fees)",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "",
+   "prices": {
+    "energy": [],
+    "power": [],
+    "reactivePower": [],
+    "municipalityTaxes": [],
+    "cantonalTaxes": [
+     {
+      "cantonName": "TI",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.012,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Fondo cantonale per le energie rinnovabili (FER) (non imponibile)"
+     },
+     {
+      "cantonName": "TI",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0102,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Tassa per l'utilizzo del demanio pubblico"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Dinamica",
+   "tariffType": "electricity",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.108,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.098,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.108,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.088,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.068,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.088,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [],
+    "reactivePower": [],
+    "municipalityTaxes": [],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Dinamica",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "",
+   "prices": {
+    "base": {
+     "price": 6.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.088,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.038,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [],
+    "reactivePower": [],
+    "municipalityTaxes": [],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Dinamica (metering)",
+   "tariffType": "metering",
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "Tariffa di misurazione",
+   "customerType": "",
+   "prices": {
+    "base": {
+     "price": 5.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [],
+    "power": [],
+    "reactivePower": [],
+    "municipalityTaxes": [],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Dinamica (regional_fees)",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "",
+   "prices": {
+    "energy": [],
+    "power": [],
+    "reactivePower": [],
+    "municipalityTaxes": [],
+    "cantonalTaxes": [
+     {
+      "cantonName": "TI",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.012,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Fondo cantonale per le energie rinnovabili (FER) (non imponibile)"
+     },
+     {
+      "cantonName": "TI",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0102,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Tassa per l'utilizzo del demanio pubblico"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tìacqua",
+   "tariffType": "electricity",
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.006,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [],
+    "reactivePower": [],
+    "municipalityTaxes": [],
+    "cantonalTaxes": []
+   }
+  }
+ ]
+}
