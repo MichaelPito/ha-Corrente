@@ -25,5 +25,5 @@ jobs:
       - uses: hacs/action@main
         with:
           category: integration
-          # Brand assets and repository topics are added before the public launch.
-          ignore: brands topics
+          # Brand assets, repository description and topics are set before the public launch.
+          ignore: brands description topics

@@ -27,7 +27,10 @@ class Band(StrEnum):
     F3 = "F3"
 
 
-# Fixed-date national holidays as (month, day). Easter Monday is computed.
+# Holidays that count as F3, as listed by ARERA (TIV, Allegato A to delibera
+# 362/2023/R/eel, Tabella 6; originally delibera 181/06). The list is closed:
+# national holidays added later by law (for example San Francesco on 4 October
+# from 2026) are NOT F3 unless ARERA amends the table. Easter Monday is computed.
 _FIXED_HOLIDAYS: tuple[tuple[int, int], ...] = (
     (1, 1),  # Capodanno
     (1, 6),  # Epifania
@@ -40,10 +43,6 @@ _FIXED_HOLIDAYS: tuple[tuple[int, int], ...] = (
     (12, 25),  # Natale
     (12, 26),  # Santo Stefano
 )
-
-# San Francesco d'Assisi (4 October) is a national holiday again from 2026.
-# Whether ARERA treats it as F3 is tracked in docs/FONTI-DATI.md.
-_SAN_FRANCESCO_FROM_YEAR = 2026
 
 
 def easter_sunday(year: int) -> date:
@@ -62,11 +61,9 @@ def easter_sunday(year: int) -> date:
 
 
 def national_holidays(year: int) -> frozenset[date]:
-    """Return the Italian national holidays that count as F3 in a given year."""
+    """Return the holidays that count as F3 in a given year (ARERA list)."""
     days = {date(year, month, day) for month, day in _FIXED_HOLIDAYS}
     days.add(easter_sunday(year) + timedelta(days=1))  # Lunedì dell'Angelo
-    if year >= _SAN_FRANCESCO_FROM_YEAR:
-        days.add(date(year, 10, 4))
     return frozenset(days)
 
 

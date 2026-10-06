@@ -25,7 +25,7 @@ from .core.italy import Band, band_at, next_band_change
 
 PARALLEL_UPDATES = 0
 
-_BAND_OPTIONS = [band.value for band in Band]
+_BAND_OPTIONS = [band.value.lower() for band in Band]
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -49,7 +49,7 @@ SENSORS: tuple[CorrenteSensorDescription, ...] = (
         translation_key="band",
         device_class=SensorDeviceClass.ENUM,
         options=_BAND_OPTIONS,
-        value_fn=lambda contract, now: band_at(now).value,
+        value_fn=lambda contract, now: band_at(now).value.lower(),
     ),
     CorrenteSensorDescription(
         key="next_band_change",
@@ -62,7 +62,7 @@ SENSORS: tuple[CorrenteSensorDescription, ...] = (
         translation_key="next_band",
         device_class=SensorDeviceClass.ENUM,
         options=_BAND_OPTIONS,
-        value_fn=lambda contract, now: next_band_change(now)[1].value,
+        value_fn=lambda contract, now: next_band_change(now)[1].value.lower(),
     ),
     CorrenteSensorDescription(
         key="next_price",

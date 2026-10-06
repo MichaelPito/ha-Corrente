@@ -40,10 +40,10 @@ def test_easter_sunday(year: int, expected: date) -> None:
 def test_national_holidays() -> None:
     holidays_2026 = national_holidays(2026)
     assert date(2026, 4, 6) in holidays_2026  # Lunedì dell'Angelo
-    assert date(2026, 10, 4) in holidays_2026  # San Francesco, from 2026
     assert date(2026, 12, 26) in holidays_2026
-    assert len(holidays_2026) == 12
-    assert date(2025, 10, 4) not in national_holidays(2025)
+    assert len(holidays_2026) == 11
+    # San Francesco is a national holiday again from 2026, but not in ARERA's list.
+    assert date(2027, 10, 4) not in national_holidays(2027)
 
 
 @pytest.mark.parametrize(
@@ -62,6 +62,7 @@ def test_national_holidays() -> None:
         (rome(2026, 10, 11, 12, 0), Band.F3),  # Sunday
         (rome(2026, 12, 25, 12, 0), Band.F3),  # Christmas, a Friday
         (rome(2026, 4, 6, 12, 0), Band.F3),  # Easter Monday
+        (rome(2027, 10, 4, 12, 0), Band.F1),  # San Francesco 2027, a Monday: still F1
     ],
 )
 def test_band_at(moment: datetime, expected: Band) -> None:

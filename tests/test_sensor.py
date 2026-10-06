@@ -48,8 +48,8 @@ async def test_sensors_follow_the_bands(
     entry = await _setup(hass)
 
     assert hass.states.get(_entity_id(hass, entry, "price")).state == "0.3"
-    assert hass.states.get(_entity_id(hass, entry, "band")).state == "F1"
-    assert hass.states.get(_entity_id(hass, entry, "next_band")).state == "F2"
+    assert hass.states.get(_entity_id(hass, entry, "band")).state == "f1"
+    assert hass.states.get(_entity_id(hass, entry, "next_band")).state == "f2"
     assert hass.states.get(_entity_id(hass, entry, "next_price")).state == "0.25"
     next_change = hass.states.get(_entity_id(hass, entry, "next_band_change")).state
     assert datetime.fromisoformat(next_change) == datetime(2026, 10, 7, 19, 0, tzinfo=ITALY_TZ)
@@ -59,9 +59,9 @@ async def test_sensors_follow_the_bands(
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
 
-    assert hass.states.get(_entity_id(hass, entry, "band")).state == "F2"
+    assert hass.states.get(_entity_id(hass, entry, "band")).state == "f2"
     assert hass.states.get(_entity_id(hass, entry, "price")).state == "0.25"
-    assert hass.states.get(_entity_id(hass, entry, "next_band")).state == "F3"
+    assert hass.states.get(_entity_id(hass, entry, "next_band")).state == "f3"
 
 
 async def test_unload(hass: HomeAssistant) -> None:
