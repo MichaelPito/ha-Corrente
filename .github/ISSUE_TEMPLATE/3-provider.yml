@@ -1,0 +1,35 @@
+name: "🏷️ Add my provider or tariff / Aggiungi il mio fornitore o la mia tariffa"
+description: "Your grid operator, supplier or tariff is missing. / Il tuo gestore, fornitore o tariffa non c'è."
+labels: ["provider", "triage"]
+body:
+  - type: dropdown
+    id: country
+    attributes:
+      label: "Country / Paese"
+      options: ["Italy / Italia", "Switzerland / Svizzera", "Other / Altro"]
+    validations:
+      required: true
+  - type: input
+    id: provider
+    attributes:
+      label: "Provider / grid operator — Fornitore / gestore di rete"
+      placeholder: "e.g. AEM Massagno, SES, Enel Energia, Octopus…"
+    validations:
+      required: true
+  - type: input
+    id: municipality
+    attributes:
+      label: "Municipality (Switzerland) or price zone (Italy) / Comune (CH) o zona di prezzo (IT)"
+      placeholder: "e.g. Lugano / NORD"
+  - type: input
+    id: tariff
+    attributes:
+      label: "Tariff or contract name / Nome della tariffa o del contratto"
+  - type: input
+    id: link
+    attributes:
+      label: "Link to the official tariff page / Link alla pagina ufficiale della tariffa"
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Anything else? / Altro?"

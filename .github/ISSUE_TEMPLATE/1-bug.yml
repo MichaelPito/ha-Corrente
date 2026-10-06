@@ -1,0 +1,53 @@
+name: "🐞 Report a problem / Segnala un problema"
+description: "Something doesn't work as expected. / Qualcosa non funziona come dovrebbe."
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking a minute! English, Italiano, Deutsch or Français are all fine.
+        Grazie! Puoi scrivere in italiano.
+  - type: input
+    id: version
+    attributes:
+      label: "Corrente version / Versione di Corrente"
+      placeholder: "e.g. 0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: ha_version
+    attributes:
+      label: "Home Assistant version / Versione di Home Assistant"
+      placeholder: "e.g. 2026.11.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: country
+    attributes:
+      label: "Country / Paese"
+      options: ["Italy / Italia", "Switzerland / Svizzera", "Other / Altro"]
+    validations:
+      required: true
+  - type: input
+    id: provider
+    attributes:
+      label: "Provider, grid operator or tariff / Fornitore, gestore o tariffa"
+      placeholder: "e.g. PUN + spread, AIL Lugano, EKZ dynamic…"
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: "What happens? / Cosa succede?"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "What did you expect? / Cosa ti aspettavi?"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Logs (optional) / Log (facoltativo)"
+      description: "Settings → System → Logs, filter by 'corrente'. Remove any personal data."
+      render: text

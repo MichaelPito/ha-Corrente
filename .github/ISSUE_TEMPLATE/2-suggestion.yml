@@ -1,0 +1,36 @@
+name: "💡 Suggest a change or an idea / Suggerisci una modifica o un'idea"
+description: "A new feature, an improvement, something you'd like to see. / Una funzione nuova, un miglioramento, un'idea."
+labels: ["idea", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Every suggestion is read. The most requested ones move up the [roadmap](../blob/main/docs/ROADMAP.md).
+        Ogni suggerimento viene letto. I più richiesti salgono nella roadmap.
+  - type: textarea
+    id: what
+    attributes:
+      label: "What would you like? / Cosa vorresti?"
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: "Why? What problem does it solve for you? / Perché? Che problema ti risolve?"
+    validations:
+      required: true
+  - type: dropdown
+    id: importance
+    attributes:
+      label: "How important is it for you? / Quanto è importante per te?"
+      options:
+        - "Nice to have / Sarebbe bello"
+        - "Important / Importante"
+        - "I can't use Corrente without it / Senza non posso usare Corrente"
+    validations:
+      required: true
+  - type: dropdown
+    id: country
+    attributes:
+      label: "Country / Paese"
+      options: ["Italy / Italia", "Switzerland / Svizzera", "Other / Altro"]
