@@ -32,12 +32,12 @@ ma possiamo diventare il riferimento nella nicchia.
 
 | # | Decisione | Scelta |
 |---|---|---|
-| 1 | Faccia pubblica | Marchio con organizzazione GitHub dedicata. L'owner resta dietro le quinte. |
+| 1 | Faccia pubblica | Repo sull'account personale **MichaelPito** (niente organizzazione). Il marchio è il nome del progetto, Corrente. Nessun dato personale oltre al nome utente GitHub. |
 | 2 | Nome | **Corrente** (scelto da Claude, approvato dall'owner). Repo `ha-corrente`, dominio integrazione `corrente`. |
 | 3 | Lingua | Codice e documentazione principale in **inglese**; interfaccia tradotta in IT/DE/FR/EN; guide anche in italiano. |
 | 4 | Trasparenza AI | Si dichiara apertamente che il progetto è sviluppato con Claude. |
 | 5 | Altri progetti | Snello, Beasts Off Duty e Jenny **restano attivi** (decisione dell'owner). |
-| 6 | Donazioni | Link **Buy Me a Coffee** su tutto il materiale gratuito, dal primo rilascio. |
+| 6 | Donazioni | Link **Buy Me a Coffee** (`buymeacoffee.com/michaelpito`) su tutto il materiale gratuito, dal primo rilascio. |
 | 7 | Suggerimenti | **Modulo per richiedere modifiche e suggerimenti** incluso nel prodotto (vedi §6). |
 
 ## 4. Il prodotto
@@ -116,10 +116,10 @@ esperto. Le richieste diventano la roadmap pubblica.
 
 | Periodo | Cosa | Chi |
 |---|---|---|
-| **6–12 ott** | Repo e organizzazione create; struttura del progetto; controlli automatici (hassfest, validazione HACS); verifica di tutte le fonti dati (§4.2). | Owner: 5 minuti per creare org e repo. Claude: tutto il resto. |
+| **6–12 ott** | Repo creata; struttura del progetto; controlli automatici (hassfest, validazione HACS); verifica di tutte le fonti dati (§4.2). | Owner: 2 minuti per creare la repo. Claude: tutto il resto. |
 | **13–26 ott** | Integrazione v0.1: Italia (PUN + fasce + contratto) e Svizzera (tariffe ElCom per tutti i gestori, Ticino incluso). Test automatici. | Claude |
 | **27 ott – 2 nov** | Card v0.1, traduzioni IT/DE/FR/EN, guida di installazione, screenshot e GIF automatici. | Claude |
-| **3–9 nov** | Test sulla casa dell'owner (circa 30 min, Home Assistant in macchina virtuale) e correzioni. Account Buy Me a Coffee. Modulo senza account. | Owner: circa 45 min in tutto. Claude: correzioni. |
+| **3–9 nov** | Test sulla casa dell'owner (circa 30 min, Home Assistant in macchina virtuale) e correzioni. Modulo senza account. | Owner: circa 30 min. Claude: correzioni. |
 | **~17–20 nov** | **Lancio pubblico** v0.1: release su GitHub, richiesta di inserimento nello store HACS, post pronti da copiare (forum HA, r/homeassistant, Telegram inDomus, forum.fibra.click). | Owner: copia e incolla dei post (circa 10 min). Claude: tutto il resto. |
 | **Dic – gen** | Una versione ogni 2 settimane. v0.2: tariffe dinamiche svizzere. v0.3: costo per apparecchio + guida Chain2 / Open Meter. v0.4: blueprint fotovoltaico e spostamento carichi. | Claude |
 | **Feb 2027** | Se i numeri lo giustificano (§8): Corrente Pro e account pagamenti (Lemon Squeezy). | Owner: circa 45 min di account. Claude: il resto. |
@@ -152,9 +152,8 @@ solo utenti che le condividono, quindi sono una stima per difetto) e con le stel
 
 | Quando | Cosa | Tempo |
 |---|---|---|
-| Ora | Creare organizzazione e repo su GitHub e dare accesso all'app Claude | 5 min |
+| Ora | Creare la repo `ha-corrente` sul proprio account GitHub e dare accesso all'app Claude | 2 min |
 | Inizio novembre | Test a casa (Home Assistant in macchina virtuale) | 30 min |
-| Inizio novembre | Account Buy Me a Coffee (serve identità e conto) | 10 min |
 | Lancio + ogni rilascio importante | Copiare e incollare i post preparati nelle community | 2 min a post, 3–5 post in tutto |
 | Febbraio 2027 (se si va avanti) | Account pagamenti per Corrente Pro | 30–60 min |
 | Una volta l'anno | Dichiarare i redditi in Svizzera | — |

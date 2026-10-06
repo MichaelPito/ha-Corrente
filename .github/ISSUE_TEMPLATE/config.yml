@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: "❓ Questions and help / Domande e aiuto"
-    url: https://github.com/OWNER/ha-corrente/discussions
+    url: https://github.com/MichaelPito/ha-corrente/discussions
     about: "Ask how to set something up. / Chiedi come configurare qualcosa."
   - name: "☕ Support Corrente / Sostieni Corrente"
-    url: https://buymeacoffee.com/CHANGE_ME
+    url: https://buymeacoffee.com/michaelpito
     about: "Corrente is free. If it saves you money, buy us a coffee. / Corrente è gratis: se ti fa risparmiare, offrici un caffè."

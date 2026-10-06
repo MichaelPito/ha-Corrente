@@ -20,7 +20,7 @@ Something missing? Your provider or tariff not covered? **[Open a request](../..
 
 ## Support the project
 
-Corrente is free and open source. If it saves you money, you can [buy us a coffee ☕](https://buymeacoffee.com/CHANGE_ME).
+Corrente is free and open source. If it saves you money, you can [buy us a coffee ☕](https://buymeacoffee.com/michaelpito).
 
 ## Transparency
 
