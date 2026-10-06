@@ -20,6 +20,9 @@ jobs:
 
   hacs:
     name: HACS
+    # HACS reads the repository from outside without credentials, so it can only
+    # validate a public repository. Skipped while the repo is private (until launch).
+    if: ${{ github.event.repository && !github.event.repository.private }}
     runs-on: ubuntu-latest
     steps:
       - uses: hacs/action@main
