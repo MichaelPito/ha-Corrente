@@ -1,0 +1,110 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Your electricity contract",
+        "description": "Corrente works out your electricity price from your contract and the Italian time bands (F1, F2, F3).\n\nSwitzerland and PUN-indexed contracts are coming soon. Missing something? [Suggest a change]({issues_url}). Corrente is free — [buy us a coffee]({donate_url}) ☕",
+        "data": {
+          "contract_type": "Contract type"
+        }
+      },
+      "prices_single": {
+        "title": "Prices per kWh",
+        "description": "Enter the energy prices from your bill, in €/kWh (for example 0.1250). Not sure where to find them? [Ask here]({issues_url}).",
+        "data": {
+          "price_f1": "Price"
+        }
+      },
+      "prices_two_bands": {
+        "title": "Prices per kWh",
+        "description": "Enter the energy prices from your bill, in €/kWh (for example 0.1250). Not sure where to find them? [Ask here]({issues_url}).",
+        "data": {
+          "price_f1": "Price F1",
+          "price_f2": "Price F23 (F2 + F3)"
+        }
+      },
+      "prices_three_bands": {
+        "title": "Prices per kWh",
+        "description": "Enter the energy prices from your bill, in €/kWh (for example 0.1250). Not sure where to find them? [Ask here]({issues_url}).",
+        "data": {
+          "price_f1": "Price F1",
+          "price_f2": "Price F2",
+          "price_f3": "Price F3"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Change your contract",
+        "description": "Corrente works out your electricity price from your contract and the Italian time bands (F1, F2, F3).\n\nSwitzerland and PUN-indexed contracts are coming soon. Missing something? [Suggest a change]({issues_url}). Corrente is free — [buy us a coffee]({donate_url}) ☕",
+        "data": {
+          "contract_type": "Contract type"
+        }
+      },
+      "prices_single": {
+        "title": "Prices per kWh",
+        "description": "Enter the energy prices from your bill, in €/kWh (for example 0.1250). Not sure where to find them? [Ask here]({issues_url}).",
+        "data": {
+          "price_f1": "Price"
+        }
+      },
+      "prices_two_bands": {
+        "title": "Prices per kWh",
+        "description": "Enter the energy prices from your bill, in €/kWh (for example 0.1250). Not sure where to find them? [Ask here]({issues_url}).",
+        "data": {
+          "price_f1": "Price F1",
+          "price_f2": "Price F23 (F2 + F3)"
+        }
+      },
+      "prices_three_bands": {
+        "title": "Prices per kWh",
+        "description": "Enter the energy prices from your bill, in €/kWh (for example 0.1250). Not sure where to find them? [Ask here]({issues_url}).",
+        "data": {
+          "price_f1": "Price F1",
+          "price_f2": "Price F2",
+          "price_f3": "Price F3"
+        }
+      }
+    }
+  },
+  "selector": {
+    "contract_type": {
+      "options": {
+        "single": "Single price (monoraria)",
+        "two_bands": "Two bands: F1 and F23 (bioraria)",
+        "three_bands": "Three bands: F1, F2, F3 (trioraria)"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "price": {
+        "name": "Price now"
+      },
+      "band": {
+        "name": "Time band",
+        "state": {
+          "F1": "F1",
+          "F2": "F2",
+          "F3": "F3"
+        }
+      },
+      "next_band_change": {
+        "name": "Next band change"
+      },
+      "next_band": {
+        "name": "Next band",
+        "state": {
+          "F1": "F1",
+          "F2": "F2",
+          "F3": "F3"
+        }
+      },
+      "next_price": {
+        "name": "Next price"
+      }
+    }
+  }
+}
