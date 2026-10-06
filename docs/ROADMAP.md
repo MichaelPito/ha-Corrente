@@ -3,10 +3,12 @@
 Ideas and requests from users are collected through the [request forms](../../../issues/new/choose). The most requested items move up.
 
 ## v0.1 — first public release (planned mid-November 2026)
-- [ ] Italy: PUN / zonal prices, F1 / F2 / F3 bands with national holidays, user contract (fixed, PUN + spread, per-band)
+- [x] Italy: F1 / F2 / F3 bands with national holidays, fixed-price contracts (single, two bands, three bands)
+- [ ] Italy: PUN / zonal prices and PUN + spread contracts
 - [ ] Switzerland: grid-operator tariffs from ElCom open data (Ticino included), high/low tariff windows
-- [ ] Sensors: current price, current band, next cheap window, cost today / this month
-- [ ] UI-only setup (config flow), translations EN / IT / DE / FR
+- [x] Sensors: current price, current band, next band change, next band, next price
+- [ ] Sensors: next cheap window, cost today / this month
+- [x] UI-only setup (config flow), translations EN / IT / DE / FR
 - [ ] Dashboard card: price now, next 24 h, best time to run
 - [ ] "Suggest a change" link inside the integration and the card
 

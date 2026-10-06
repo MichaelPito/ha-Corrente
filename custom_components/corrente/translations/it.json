@@ -1,0 +1,110 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Il tuo contratto della luce",
+        "description": "Corrente calcola il prezzo dell'elettricità dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3).\n\nSvizzera e contratti indicizzati al PUN sono in arrivo. Manca qualcosa? [Suggerisci una modifica]({issues_url}). Corrente è gratis: [offrici un caffè]({donate_url}) ☕",
+        "data": {
+          "contract_type": "Tipo di contratto"
+        }
+      },
+      "prices_single": {
+        "title": "Prezzi al kWh",
+        "description": "Inserisci i prezzi dell'energia che trovi in bolletta, in €/kWh (per esempio 0,1250). Non sai dove trovarli? [Chiedi qui]({issues_url}).",
+        "data": {
+          "price_f1": "Prezzo"
+        }
+      },
+      "prices_two_bands": {
+        "title": "Prezzi al kWh",
+        "description": "Inserisci i prezzi dell'energia che trovi in bolletta, in €/kWh (per esempio 0,1250). Non sai dove trovarli? [Chiedi qui]({issues_url}).",
+        "data": {
+          "price_f1": "Prezzo F1",
+          "price_f2": "Prezzo F23 (F2 + F3)"
+        }
+      },
+      "prices_three_bands": {
+        "title": "Prezzi al kWh",
+        "description": "Inserisci i prezzi dell'energia che trovi in bolletta, in €/kWh (per esempio 0,1250). Non sai dove trovarli? [Chiedi qui]({issues_url}).",
+        "data": {
+          "price_f1": "Prezzo F1",
+          "price_f2": "Prezzo F2",
+          "price_f3": "Prezzo F3"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Modifica il contratto",
+        "description": "Corrente calcola il prezzo dell'elettricità dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3).\n\nSvizzera e contratti indicizzati al PUN sono in arrivo. Manca qualcosa? [Suggerisci una modifica]({issues_url}). Corrente è gratis: [offrici un caffè]({donate_url}) ☕",
+        "data": {
+          "contract_type": "Tipo di contratto"
+        }
+      },
+      "prices_single": {
+        "title": "Prezzi al kWh",
+        "description": "Inserisci i prezzi dell'energia che trovi in bolletta, in €/kWh (per esempio 0,1250). Non sai dove trovarli? [Chiedi qui]({issues_url}).",
+        "data": {
+          "price_f1": "Prezzo"
+        }
+      },
+      "prices_two_bands": {
+        "title": "Prezzi al kWh",
+        "description": "Inserisci i prezzi dell'energia che trovi in bolletta, in €/kWh (per esempio 0,1250). Non sai dove trovarli? [Chiedi qui]({issues_url}).",
+        "data": {
+          "price_f1": "Prezzo F1",
+          "price_f2": "Prezzo F23 (F2 + F3)"
+        }
+      },
+      "prices_three_bands": {
+        "title": "Prezzi al kWh",
+        "description": "Inserisci i prezzi dell'energia che trovi in bolletta, in €/kWh (per esempio 0,1250). Non sai dove trovarli? [Chiedi qui]({issues_url}).",
+        "data": {
+          "price_f1": "Prezzo F1",
+          "price_f2": "Prezzo F2",
+          "price_f3": "Prezzo F3"
+        }
+      }
+    }
+  },
+  "selector": {
+    "contract_type": {
+      "options": {
+        "single": "Prezzo unico (monoraria)",
+        "two_bands": "Due fasce: F1 e F23 (bioraria)",
+        "three_bands": "Tre fasce: F1, F2, F3 (trioraria)"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "price": {
+        "name": "Prezzo attuale"
+      },
+      "band": {
+        "name": "Fascia oraria",
+        "state": {
+          "f1": "F1",
+          "f2": "F2",
+          "f3": "F3"
+        }
+      },
+      "next_band_change": {
+        "name": "Prossimo cambio di fascia"
+      },
+      "next_band": {
+        "name": "Prossima fascia",
+        "state": {
+          "f1": "F1",
+          "f2": "F2",
+          "f3": "F3"
+        }
+      },
+      "next_price": {
+        "name": "Prossimo prezzo"
+      }
+    }
+  }
+}

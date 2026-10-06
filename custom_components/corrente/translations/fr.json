@@ -1,0 +1,110 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Votre contrat d'électricité",
+        "description": "Corrente calcule votre prix de l'électricité à partir de votre contrat et des plages horaires italiennes (F1, F2, F3).\n\nLa Suisse et les contrats indexés sur le PUN arrivent bientôt. Il manque quelque chose ? [Suggérer une modification]({issues_url}). Corrente est gratuit – [offrez-nous un café]({donate_url}) ☕",
+        "data": {
+          "contract_type": "Type de contrat"
+        }
+      },
+      "prices_single": {
+        "title": "Prix par kWh",
+        "description": "Saisissez les prix de l'énergie figurant sur votre facture, en €/kWh (par exemple 0,1250). Vous ne savez pas où les trouver ? [Demandez ici]({issues_url}).",
+        "data": {
+          "price_f1": "Prix"
+        }
+      },
+      "prices_two_bands": {
+        "title": "Prix par kWh",
+        "description": "Saisissez les prix de l'énergie figurant sur votre facture, en €/kWh (par exemple 0,1250). Vous ne savez pas où les trouver ? [Demandez ici]({issues_url}).",
+        "data": {
+          "price_f1": "Prix F1",
+          "price_f2": "Prix F23 (F2 + F3)"
+        }
+      },
+      "prices_three_bands": {
+        "title": "Prix par kWh",
+        "description": "Saisissez les prix de l'énergie figurant sur votre facture, en €/kWh (par exemple 0,1250). Vous ne savez pas où les trouver ? [Demandez ici]({issues_url}).",
+        "data": {
+          "price_f1": "Prix F1",
+          "price_f2": "Prix F2",
+          "price_f3": "Prix F3"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Modifier le contrat",
+        "description": "Corrente calcule votre prix de l'électricité à partir de votre contrat et des plages horaires italiennes (F1, F2, F3).\n\nLa Suisse et les contrats indexés sur le PUN arrivent bientôt. Il manque quelque chose ? [Suggérer une modification]({issues_url}). Corrente est gratuit – [offrez-nous un café]({donate_url}) ☕",
+        "data": {
+          "contract_type": "Type de contrat"
+        }
+      },
+      "prices_single": {
+        "title": "Prix par kWh",
+        "description": "Saisissez les prix de l'énergie figurant sur votre facture, en €/kWh (par exemple 0,1250). Vous ne savez pas où les trouver ? [Demandez ici]({issues_url}).",
+        "data": {
+          "price_f1": "Prix"
+        }
+      },
+      "prices_two_bands": {
+        "title": "Prix par kWh",
+        "description": "Saisissez les prix de l'énergie figurant sur votre facture, en €/kWh (par exemple 0,1250). Vous ne savez pas où les trouver ? [Demandez ici]({issues_url}).",
+        "data": {
+          "price_f1": "Prix F1",
+          "price_f2": "Prix F23 (F2 + F3)"
+        }
+      },
+      "prices_three_bands": {
+        "title": "Prix par kWh",
+        "description": "Saisissez les prix de l'énergie figurant sur votre facture, en €/kWh (par exemple 0,1250). Vous ne savez pas où les trouver ? [Demandez ici]({issues_url}).",
+        "data": {
+          "price_f1": "Prix F1",
+          "price_f2": "Prix F2",
+          "price_f3": "Prix F3"
+        }
+      }
+    }
+  },
+  "selector": {
+    "contract_type": {
+      "options": {
+        "single": "Prix unique (monoraria)",
+        "two_bands": "Deux plages : F1 et F23 (bioraria)",
+        "three_bands": "Trois plages : F1, F2, F3 (trioraria)"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "price": {
+        "name": "Prix actuel"
+      },
+      "band": {
+        "name": "Plage horaire",
+        "state": {
+          "f1": "F1",
+          "f2": "F2",
+          "f3": "F3"
+        }
+      },
+      "next_band_change": {
+        "name": "Prochain changement de plage"
+      },
+      "next_band": {
+        "name": "Prochaine plage",
+        "state": {
+          "f1": "F1",
+          "f2": "F2",
+          "f3": "F3"
+        }
+      },
+      "next_price": {
+        "name": "Prochain prix"
+      }
+    }
+  }
+}

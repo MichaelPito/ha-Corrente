@@ -1,0 +1,12 @@
+{
+  "domain": "corrente",
+  "name": "Corrente",
+  "codeowners": ["@MichaelPito"],
+  "config_flow": true,
+  "documentation": "https://github.com/MichaelPito/ha-corrente",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/MichaelPito/ha-corrente/issues",
+  "requirements": [],
+  "version": "0.0.1"
+}
