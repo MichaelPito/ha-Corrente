@@ -46,4 +46,54 @@
 
 ## Svizzera
 
-⏳ In verifica: dati aperti ElCom, orari di alta e bassa tariffa dei gestori ticinesi, API delle tariffe dinamiche (EKZ, CKW, BKW / SmartGridready, Groupe E).
+### La chiave: ogni gestore deve pubblicare le sue tariffe in JSON
+- L'**art. 7b cpv. 1 OAEl (StromVV)** obbliga ogni gestore di rete a pubblicare le tariffe in **JSON nel formato VSE** e a comunicare il link a ElCom.
+- ElCom lo espone nei dati aperti (campo `urltr`), quindi **un solo lettore copre quasi tutti i gestori, fasce alta/bassa tariffa incluse**.
+- Copertura del link: 446 gestori su 551 nel 2026, 489 su 535 nel 2027.
+- Specifica del formato: https://tariffconverter.strom.ch/ch-electricity-tariffs-openapi.yml ("Tariff Retrieval API" 1.0.1). Prezzi in CHF senza IVA; finestre con mesi, giorni della settimana e orari da/a.
+
+### ElCom / LINDAS — ✅ verificato, ⏳ da implementare (v0.1)
+- SPARQL: `https://lindas.admin.ch/query` (anche `cached.lindas.admin.ch`), POST, senza autenticazione.
+- Cubo: `https://energy.ld.admin.ch/elcom/electricityprice`; dimensioni per comune (numero UST), anno, profilo (H1–H8), gestore, prodotto.
+- Componenti in Rp./kWh: energia, rete, tributi, supplemento rete (2,3), misurazione, totale; più il link `urltr`. **Il 2027 è già pubblicato.**
+- **Niente fasce orarie** nel cubo: solo medie annue per profilo. Le fasce si leggono dal JSON del gestore.
+- Licenza: Open-Use, uso commerciale permesso, citazione non obbligatoria (la mettiamo comunque).
+- Esempi H4, totale in Rp./kWh:
+  - AMB Bellinzona: 24,226 nel 2026 e 25,203 nel 2027;
+  - AIL Lugano: 25,133 nel 2026 e 25,911 nel 2027;
+  - AIM Mendrisio: 28,432 nel 2027.
+
+### Gestori ticinesi
+| Gestore | JSON tariffe | Alta / bassa tariffa | Note |
+|---|---|---|---|
+| AIL (Lugano) | ✅ funziona (95 tariffe 2026–2027) | "giorno-notte": HT 6–22, NT 22–6 tutti i giorni | Tariffa dinamica a 4 fasce, pubblicata entro le 18 per il giorno dopo, **solo come tabella HTML** |
+| AMB (Bellinzona) | ✅ `amb.ch/media/2hcct0s4/tariffe-2027.json` | "Casa" 2027 senza fasce | Il file inizia con un BOM: leggere con `utf-8-sig`. "Dinamica" con fasce diverse ogni giorno (app/email), nessuna API, codificata male nel JSON |
+| AIM (Mendrisio) | ✅ funziona | Rete HT lun–ven 8–20; NT 20–8, sabato e domenica | Il file "2027" contiene anche il 2026: filtrare per data di inizio |
+| SES (Locarno) | ❌ solo pagina web | AMBRA+: NT 22–6 tutti i giorni (solo con apparecchi comandati) | Serve l'inserimento manuale |
+| AEM (Massagno) | ❌ link 2027 rotto (404) | — | Serve l'inserimento manuale |
+| Stabio, Ascona, Airolo, Bedretto, Faido, Moesano | ✅ pubblicano il JSON | — | — |
+
+### Tariffe dinamiche — ✅ verificato, ⏳ v0.2
+- Standard comune **SmartGridready / VSE "Dynamic Tariff"** (OpenAPI, licenza BSD-3): https://github.com/SmartGridready/SGrSpecifications/tree/master/DynamicTariff
+  - V1 per il 2026, V2 per il 2027.
+  - `GET /tariffs?tariff_type=&tariff_name=&start_timestamp=&end_timestamp=`, pubblico.
+  - Fasce da 15 minuti.
+- Endpoint provati, tutti senza autenticazione:
+  - **EKZ:** `https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=electricity_dynamic`
+  - **CKW:** `https://e-ckw-public-data.de-c1.eu1.cloudhub.io/api/v1/netzinformationen/energie/dynamische-preise?tariff_name=home_dynamic&tariff_type=integrated`
+  - **Groupe E:** `https://api.tariffs.groupe-e.ch/v2/tariffs` (la v1 è dismessa)
+  - **BKW**, rimunerazione per l'immissione: `https://api.bkw.ch/api/dyntariffs/v1/Tariffs/energyreturn`
+- Scoperta automatica: il JSON statico del gestore indica l'URL dinamico in `prices.dynamic.url`.
+- **AIL e AMB:** tariffe dinamiche senza API. Leggerle dall'HTML è fragile e di dubbia legittimità: **fuori programma**. Chiederemo loro di pubblicare un'API SGR.
+
+### Rimunerazione per l'immissione
+- VESE pvtarif (`opendata.vese.ch`) richiede una **chiave di licenza** con termini sconosciuti: **non usarla senza permesso di VESE**.
+- Per BKW è disponibile tramite SGR.
+
+### Concorrenza diretta
+- **prusuino/ha_swiss_electricity_price** (MIT, 1 stella, luglio 2026) fa già ElCom + JSON VSE + fasce. Studiarlo, non copiarlo.
+- **Le nostre differenze:**
+  - Italia e Svizzera in un'unica integrazione;
+  - lingua italiana e attenzione al Ticino;
+  - finestra più economica, costi e blueprint;
+  - card per la dashboard.
