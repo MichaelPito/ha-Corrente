@@ -68,7 +68,7 @@
 |---|---|---|---|
 | AIL (Lugano) | ✅ funziona (95 tariffe 2026–2027) | "giorno-notte": HT 6–22, NT 22–6 tutti i giorni | Tariffa dinamica a 4 fasce, pubblicata entro le 18 per il giorno dopo, **solo come tabella HTML** |
 | AMB (Bellinzona) | ✅ `amb.ch/media/2hcct0s4/tariffe-2027.json` | "Casa" 2027 senza fasce | Il file inizia con un BOM: leggere con `utf-8-sig`. "Dinamica" con fasce diverse ogni giorno (app/email), nessuna API, codificata male nel JSON |
-| AIM (Mendrisio) | ✅ funziona | Rete HT lun–ven 8–20; NT 20–8, sabato e domenica | Il file "2027" contiene anche il 2026: filtrare per data di inizio |
+| AIM (Mendrisio) | ✅ funziona, completo | Rete HT lun–ven 8–20; NT 20–8, sabato e domenica | Il file "2027" contiene anche il 2026: filtrare per data di inizio |
 | SES (Locarno) | ❌ solo pagina web | AMBRA+: NT 22–6 tutti i giorni (solo con apparecchi comandati) | Serve l'inserimento manuale |
 | AEM (Massagno) | ❌ link 2027 rotto (404) | — | Serve l'inserimento manuale |
 | Stabio, Ascona, Airolo, Bedretto, Faido, Moesano | ✅ pubblicano il JSON | — | — |
@@ -103,7 +103,7 @@ Estratti reali in `tests/fixtures/ch/`.
 
 1. **Più voci sempre valide (00:00–00:00) si sommano.** In AIL "tìacqua" l'energia è 0,0975 più un supplemento verde di 0,006 CHF/kWh. Quando le voci sono fasce orarie distinte, ne vale una sola alla volta.
 2. **AMB "Dinamica"** ha tre voci tutte 00:00–00:00 (codifica sbagliata delle fasce giornaliere). Sommarle sarebbe sbagliato: per Corrente è una tariffa **non supportata** finché AMB non pubblica le fasce.
-3. **Buchi negli orari.** In AIM la rete ha lun–ven 8–20, tutti i giorni 20–23:59, sab–dom 8–20, ma **manca 00:00–08:00**: la bassa tariffa notturna non è codificata. Servono una tabella di correzioni per gestore, scritta da noi e documentata, e la possibilità per l'utente di correggere a mano.
+3. **AIM è completo** (correzione del 6 ottobre: la prima analisi aveva letto solo 3 voci su 4). Rete HT lun–ven 8–20; NT 0–8 e 20–24 tutti i giorni, più sab–dom 8–20. Per sicurezza il lettore gestisce comunque eventuali buchi negli orari: usa il prezzo più basso e lo segnala.
 4. **"23:59" vuol dire fine giornata** (lo dice la specifica); "00:00–00:00" vuol dire tutto il giorno.
 5. **Raggruppare le tariffe di un prodotto non è uniforme:**
    - AIL usa prefisso più suffisso (`…-electricity`, `…-grid7`, `…-metering`, `…-regional_fees`);
