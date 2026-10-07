@@ -1,97 +1,129 @@
 {
-  "head" : {
-    "vars" : [
-      "muni",
-      "muniName",
-      "op",
-      "opName",
-      "url",
-      "total"
-    ]
-  },
-  "results" : {
-    "bindings" : [
-      {
-        "muni" : {
-          "type" : "uri",
-          "value" : "https://ld.admin.ch/municipality/5002"
-        },
-        "muniName" : {
-          "type" : "literal",
-          "value" : "Bellinzona"
-        },
-        "op" : {
-          "type" : "uri",
-          "value" : "https://energy.ld.admin.ch/elcom/electricityprice/operator/33"
-        },
-        "opName" : {
-          "type" : "literal",
-          "value" : "Azienda Multiservizi Bellinzona (AMB)"
-        },
-        "url" : {
-          "type" : "literal",
-          "value" : "www.amb.ch"
-        },
-        "total" : {
-          "datatype" : "http://www.w3.org/2001/XMLSchema#decimal",
-          "type" : "literal",
-          "value" : "25.203"
-        }
-      },
-      {
-        "muni" : {
-          "type" : "uri",
-          "value" : "https://ld.admin.ch/municipality/3746"
-        },
-        "muniName" : {
-          "type" : "literal",
-          "value" : "Zernez"
-        },
-        "op" : {
-          "type" : "uri",
-          "value" : "https://energy.ld.admin.ch/elcom/electricityprice/operator/72"
-        },
-        "opName" : {
-          "type" : "literal",
-          "value" : "EE Energia Engiadina"
-        },
-        "url" : {
-          "type" : "literal",
-          "value" : "www.ee-en.ch/tarife"
-        },
-        "total" : {
-          "datatype" : "http://www.w3.org/2001/XMLSchema#decimal",
-          "type" : "literal",
-          "value" : "21.157"
-        }
-      },
-      {
-        "muni" : {
-          "type" : "uri",
-          "value" : "https://ld.admin.ch/municipality/3746"
-        },
-        "muniName" : {
-          "type" : "literal",
-          "value" : "Zernez"
-        },
-        "op" : {
-          "type" : "uri",
-          "value" : "https://energy.ld.admin.ch/elcom/electricityprice/operator/57"
-        },
-        "opName" : {
-          "type" : "literal",
-          "value" : "Gemeinde Zernez"
-        },
-        "url" : {
-          "type" : "literal",
-          "value" : "www.ee-en.ch/tarife"
-        },
-        "total" : {
-          "datatype" : "http://www.w3.org/2001/XMLSchema#decimal",
-          "type" : "literal",
-          "value" : "19.898"
-        }
-      }
-    ]
-  }
+ "head": {
+  "vars": [
+   "muni",
+   "muniName",
+   "op",
+   "opName",
+   "url",
+   "total",
+   "gridusage",
+   "aidfee"
+  ]
+ },
+ "results": {
+  "bindings": [
+   {
+    "muni": {
+     "type": "uri",
+     "value": "https://ld.admin.ch/municipality/5002"
+    },
+    "muniName": {
+     "type": "literal",
+     "value": "Bellinzona"
+    },
+    "op": {
+     "type": "uri",
+     "value": "https://energy.ld.admin.ch/elcom/electricityprice/operator/33"
+    },
+    "opName": {
+     "type": "literal",
+     "value": "Azienda Multiservizi Bellinzona (AMB)"
+    },
+    "url": {
+     "type": "literal",
+     "value": "www.amb.ch"
+    },
+    "total": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "25.203"
+    },
+    "gridusage": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "8.950"
+    },
+    "aidfee": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "2.300"
+    }
+   },
+   {
+    "muni": {
+     "type": "uri",
+     "value": "https://ld.admin.ch/municipality/3746"
+    },
+    "muniName": {
+     "type": "literal",
+     "value": "Zernez"
+    },
+    "op": {
+     "type": "uri",
+     "value": "https://energy.ld.admin.ch/elcom/electricityprice/operator/72"
+    },
+    "opName": {
+     "type": "literal",
+     "value": "EE Energia Engiadina"
+    },
+    "url": {
+     "type": "literal",
+     "value": "www.ee-en.ch/tarife"
+    },
+    "total": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "21.157"
+    },
+    "gridusage": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "8.224"
+    },
+    "aidfee": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "2.300"
+    }
+   },
+   {
+    "muni": {
+     "type": "uri",
+     "value": "https://ld.admin.ch/municipality/3746"
+    },
+    "muniName": {
+     "type": "literal",
+     "value": "Zernez"
+    },
+    "op": {
+     "type": "uri",
+     "value": "https://energy.ld.admin.ch/elcom/electricityprice/operator/57"
+    },
+    "opName": {
+     "type": "literal",
+     "value": "Gemeinde Zernez"
+    },
+    "url": {
+     "type": "literal",
+     "value": "www.ee-en.ch/tarife"
+    },
+    "total": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "19.898"
+    },
+    "gridusage": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "7.664"
+    },
+    "aidfee": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "2.300"
+    }
+   }
+  ]
+ }
 }

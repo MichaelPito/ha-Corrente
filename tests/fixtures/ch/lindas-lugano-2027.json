@@ -1,43 +1,55 @@
 {
-  "head" : {
-    "vars" : [
-      "muni",
-      "muniName",
-      "op",
-      "opName",
-      "url",
-      "total"
-    ]
-  },
-  "results" : {
-    "bindings" : [
-      {
-        "muni" : {
-          "type" : "uri",
-          "value" : "https://ld.admin.ch/municipality/5192"
-        },
-        "muniName" : {
-          "type" : "literal",
-          "value" : "Lugano"
-        },
-        "op" : {
-          "type" : "uri",
-          "value" : "https://energy.ld.admin.ch/elcom/electricityprice/operator/31"
-        },
-        "opName" : {
-          "type" : "literal",
-          "value" : "Aziende Industriali di Lugano (AIL) SA"
-        },
-        "url" : {
-          "type" : "literal",
-          "value" : "https://api-ail.prod01.apimanagement.eu20.hana.ondemand.com/prd/tariffs_2027"
-        },
-        "total" : {
-          "datatype" : "http://www.w3.org/2001/XMLSchema#decimal",
-          "type" : "literal",
-          "value" : "25.911"
-        }
-      }
-    ]
-  }
+ "head": {
+  "vars": [
+   "muni",
+   "muniName",
+   "op",
+   "opName",
+   "url",
+   "total",
+   "gridusage",
+   "aidfee"
+  ]
+ },
+ "results": {
+  "bindings": [
+   {
+    "muni": {
+     "type": "uri",
+     "value": "https://ld.admin.ch/municipality/5192"
+    },
+    "muniName": {
+     "type": "literal",
+     "value": "Lugano"
+    },
+    "op": {
+     "type": "uri",
+     "value": "https://energy.ld.admin.ch/elcom/electricityprice/operator/31"
+    },
+    "opName": {
+     "type": "literal",
+     "value": "Aziende Industriali di Lugano (AIL) SA"
+    },
+    "url": {
+     "type": "literal",
+     "value": "https://api-ail.prod01.apimanagement.eu20.hana.ondemand.com/prd/tariffs_2027"
+    },
+    "total": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "25.911"
+    },
+    "gridusage": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "9.628"
+    },
+    "aidfee": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "2.300"
+    }
+   }
+  ]
+ }
 }

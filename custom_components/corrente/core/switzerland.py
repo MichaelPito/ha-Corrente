@@ -44,6 +44,60 @@ class UnsupportedTariffError(ValueError):
     """The tariff cannot be priced from its static description."""
 
 
+# ElCom's "grid usage" component includes the federal charges except the grid
+# surcharge, which ElCom lists separately ("aidfee").
+_H4_KWH_PER_YEAR = 4500
+
+
+def federal_addition(
+    grid_tariffs: Sequence[Tariff],
+    elcom_grid_rp: float,
+    elcom_aidfee_rp: float,
+    year: int,
+    chosen: Tariff | None = None,
+) -> float | None:
+    """How much federal charge to add on top of an operator's grid tariff, in CHF/kWh.
+
+    Operators differ: AIL and ewb leave all federal charges out of their grid
+    tariffs, EKZ includes them. ElCom publishes what a household (profile H4,
+    4500 kWh/year) pays for grid usage, so the operator's flat grid tariffs are
+    compared with ElCom under three hypotheses — nothing included (add all),
+    everything but the grid surcharge included (add the surcharge), everything
+    included (add nothing) — and the best match wins. None if no flat grid
+    tariff is available to compare.
+
+    The comparison uses, in order: the user's own grid tariff if it is flat
+    (EKZ households: "400F"), the operator's flagged standard tariffs, then all
+    flat grid tariffs. An operator can have products that match different
+    hypotheses (EKZ "400LS" for businesses), so the user's tariff comes first.
+    """
+    target = elcom_grid_rp + elcom_aidfee_rp  # what ElCom says grid costs, all charges in
+
+    def is_flat(tariff: Tariff) -> bool:
+        return bool(tariff.energy) and all(w.all_day for w in tariff.energy)
+
+    flat_standard = [t for t in grid_tariffs if t.standard and is_flat(t)]
+    if chosen is not None and is_flat(chosen):
+        flat = [chosen]
+    elif flat_standard:
+        flat = flat_standard
+    else:
+        flat = [t for t in grid_tariffs if is_flat(t)]
+    if not flat:
+        return None
+    candidates = (national_charges(year), elcom_aidfee_rp / 100, 0.0)
+    best_addition, best_error = None, None
+    for addition in candidates:
+        for tariff in flat:
+            grid_rp = 100 * (
+                sum(w.price for w in tariff.energy) + tariff.monthly_base * 12 / _H4_KWH_PER_YEAR
+            )
+            error = abs(grid_rp + 100 * addition - target)
+            if best_error is None or error < best_error:
+                best_addition, best_error = addition, error
+    return best_addition
+
+
 def national_charges(year: int) -> float:
     """Return the federal per-kWh charges for a year (latest known year if unknown)."""
     if year in NATIONAL_CHARGES:
@@ -129,6 +183,7 @@ class Tariff:
     canton_energy: Mapping[str, tuple[PriceWindow, ...]] = field(default_factory=dict)
     municipality_energy: Mapping[int, tuple[PriceWindow, ...]] = field(default_factory=dict)
     dynamic_url: str | None = None
+    standard: bool = False  # the operator's flagged standard tariff (standardBasegroup)
 
     def valid_on(self, day: date) -> bool:
         """Return whether the tariff is in force on a day."""
@@ -188,6 +243,7 @@ def parse_tariffs(document: Mapping[str, Any]) -> list[Tariff]:
                 canton_energy={k: tuple(v) for k, v in canton_energy.items()},
                 municipality_energy={k: tuple(v) for k, v in municipality_energy.items()},
                 dynamic_url=(prices.get("dynamic") or {}).get("url"),
+                standard=bool(raw.get("standardBasegroup")),
             )
         )
     return tariffs
@@ -222,6 +278,8 @@ class SwissContract:
     regional_fees: Tariff | None = None
     canton: str | None = None
     municipality: int | None = None
+    # Federal charges to add per kWh; None: all of them (see federal_addition).
+    federal_per_kwh: float | None = None
 
     def __post_init__(self) -> None:
         for tariff in self._tariffs():
@@ -245,7 +303,10 @@ class SwissContract:
         if moment.tzinfo is None:
             raise ValueError("moment must be timezone-aware")
         local = moment.astimezone(SWISS_TZ)
-        total, any_gap = national_charges(local.year), False
+        federal = (
+            national_charges(local.year) if self.federal_per_kwh is None else self.federal_per_kwh
+        )
+        total, any_gap = federal, False
         # Each tariff has its own schedule: price them separately, then add up.
         for tariff in self._tariffs():
             price, gap = price_of_windows(tariff.windows_for(self.canton, self.municipality), local)

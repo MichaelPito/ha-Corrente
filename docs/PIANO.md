@@ -144,13 +144,16 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ README completo e guida in italiano;
   - ✅ cambio di tariffa svizzera dalle opzioni;
   - ✅ costo di oggi e del mese dal contatore dell'utente;
-  - 82 test.
+  - ✅ durata dell'apparecchio scelta dall'utente; blueprint "avvia l'apparecchio al momento migliore";
+  - ✅ **correzione**: voci nazionali svizzere verificate per gestore con ElCom (prima EKZ era gonfiato del 13% circa);
+  - ✅ kit di lancio (`docs/LANCIO.md`);
+  - 90 test.
   - **In attesa dell'owner:** decisione sul PUN Index GME (vedi FONTI-DATI, "Regole per Corrente").
   - **Prossimi pezzi:**
-    1. durata scelta dall'utente per il momento migliore;
-    2. blueprint di automazione;
-    3. tariffe dinamiche svizzere (v0.2);
-    4. preparazione del lancio: icona/brand, descrizione e topic della repo, testi dei post.
+    1. tariffe dinamiche svizzere (v0.2), con la stessa verifica delle voci nazionali;
+    2. icona e logo per l'elenco ufficiale (repo `home-assistant/brands`);
+    3. modulo per le richieste senza account GitHub;
+    4. versione v0.1.0 e note di rilascio.
 
 ## 8. Numeri di controllo
 
