@@ -133,7 +133,8 @@
       "init": {
         "menu_options": {
           "contract": "Contract or tariff",
-          "meter": "Energy meter (for costs)"
+          "meter": "Energy meter (for costs)",
+          "appliance": "Appliance duration"
         }
       },
       "meter": {
@@ -141,6 +142,13 @@
         "description": "Choose the sensor that counts your consumption in kWh (for example your smart meter or the energy dashboard's grid consumption). Corrente prices every kWh at the moment it is used. Leave empty to turn costs off.",
         "data": {
           "energy_sensor": "Energy meter"
+        }
+      },
+      "appliance": {
+        "title": "Appliance duration",
+        "description": "How long the appliance you want to start at the cheapest time usually runs (dishwasher about 2 h, washing machine 1.5 h, electric car 4 h).",
+        "data": {
+          "best_hours": "Duration"
         }
       }
     },
@@ -205,7 +213,7 @@
         "name": "Fixed charges per month"
       },
       "best_start": {
-        "name": "Best time to start (2 h)"
+        "name": "Best time to start ({hours} h)"
       },
       "cost_day": {
         "name": "Cost today"

@@ -12,7 +12,7 @@
 ## What it does
 
 - **Price now**, the **next change** and the **next price**, from your own contract or your grid operator's tariffs.
-- **Best time to start** a 2-hour appliance (dishwasher, washing machine, boiler) in the next 24 hours.
+- **Best time to start** an appliance (dishwasher, washing machine, boiler, electric car) in the next 24 hours — 2 hours by default, adjustable in the options.
 - A **dashboard card** the whole household can read: price now, the next 24 hours in colours, the best time to start.
 - Set up entirely from the UI. No YAML. Everything is computed locally; the only network calls are to public, official data.
 - Interface in English, Italiano, Deutsch and Français. 🇮🇹 [Guida in italiano](docs/guida-it.md).
@@ -46,7 +46,7 @@ Corrente will be in the default HACS store after the launch. Until then:
 | Next band change / Next price change | ✅ | ✅ |
 | Next band | ✅ | — |
 | Next price | ✅ | ✅ |
-| Best time to start (2 h) | ✅ | ✅ |
+| Best time to start | ✅ | ✅ |
 | Fixed charges per month | — | ✅ |
 | Cost today / Cost this month ¹ | € (energy part) | CHF incl. VAT |
 

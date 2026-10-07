@@ -29,6 +29,7 @@ CONF_CANTON: Final = "canton"
 
 # Both countries
 CONF_ENERGY_SENSOR: Final = "energy_sensor"
+CONF_BEST_HOURS: Final = "best_hours"
 
 ISSUES_URL: Final = "https://github.com/MichaelPito/ha-corrente/issues/new/choose"
 DONATE_URL: Final = "https://buymeacoffee.com/michaelpito"

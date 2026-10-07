@@ -31,6 +31,7 @@ from homeassistant.helpers.selector import (
 from homeassistant.util import dt as dt_util
 
 from .const import (
+    CONF_BEST_HOURS,
     CONF_CANTON,
     CONF_CONTRACT_TYPE,
     CONF_COUNTRY,
@@ -422,7 +423,7 @@ class CorrenteOptionsFlow(OptionsFlow):
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Change the contract or tariff, or the energy meter used for costs."""
-        return self.async_show_menu(step_id="init", menu_options=["contract", "meter"])
+        return self.async_show_menu(step_id="init", menu_options=["contract", "meter", "appliance"])
 
     def _save(self, changes: dict[str, Any]) -> ConfigFlowResult:
         """Keep the options that this step does not change."""
@@ -443,6 +444,30 @@ class CorrenteOptionsFlow(OptionsFlow):
         return self.async_show_form(
             step_id="meter", data_schema=self.add_suggested_values_to_schema(schema, current)
         )
+
+    async def async_step_appliance(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """How long the appliance runs, for the best time to start."""
+        if user_input is not None:
+            return self._save({CONF_BEST_HOURS: float(user_input[CONF_BEST_HOURS])})
+        current = {**self.config_entry.data, **self.config_entry.options}
+        schema = vol.Schema(
+            {
+                vol.Required(
+                    CONF_BEST_HOURS, default=float(current.get(CONF_BEST_HOURS, 2.0))
+                ): NumberSelector(
+                    NumberSelectorConfig(
+                        min=0.5,
+                        max=8,
+                        step=0.5,
+                        mode=NumberSelectorMode.SLIDER,
+                        unit_of_measurement="h",
+                    )
+                )
+            }
+        )
+        return self.async_show_form(step_id="appliance", data_schema=schema)
 
     async def async_step_contract(
         self, user_input: dict[str, Any] | None = None
