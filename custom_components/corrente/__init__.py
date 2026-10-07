@@ -13,14 +13,18 @@ from homeassistant.core import HomeAssistant
 from .const import (
     CONF_CONTRACT_TYPE,
     CONF_COUNTRY,
+    CONF_LOSSES,
     CONF_PRICE_F1,
     CONF_PRICE_F2,
     CONF_PRICE_F3,
+    CONF_SPREAD,
+    CONF_ZONE,
     COUNTRY_SWITZERLAND,
     DOMAIN,
 )
 from .coordinator import SwissTariffCoordinator
-from .core.contract import ItalyContractType, ItalyFixedContract
+from .coordinator_gme import GmePriceCoordinator
+from .core.contract import ItalyContractType, ItalyFixedContract, ItalyIndexedContract
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
@@ -53,6 +57,8 @@ class CorrenteData:
 
     italy: ItalyFixedContract | None = None
     switzerland: SwissTariffCoordinator | None = None
+    italy_indexed: ItalyIndexedContract | None = None
+    gme: GmePriceCoordinator | None = None
 
 
 type CorrenteConfigEntry = ConfigEntry[CorrenteData]
@@ -75,6 +81,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: CorrenteConfigEntry) -> 
         coordinator = SwissTariffCoordinator(hass, entry)
         await coordinator.async_config_entry_first_refresh()
         entry.runtime_data = CorrenteData(switzerland=coordinator)
+    elif {**entry.data, **entry.options}[CONF_CONTRACT_TYPE] == ItalyContractType.INDEXED:
+        options = {**entry.data, **entry.options}
+        indexed = ItalyIndexedContract(
+            spread=options[CONF_SPREAD],
+            losses=options.get(CONF_LOSSES, 0.0) / 100,
+            zone=options.get(CONF_ZONE, "pun").upper(),
+        )
+        gme = GmePriceCoordinator(hass, entry, indexed.zone)
+        await gme.async_config_entry_first_refresh()
+        entry.runtime_data = CorrenteData(italy_indexed=indexed, gme=gme)
     else:
         entry.runtime_data = CorrenteData(
             italy=contract_from_options({**entry.data, **entry.options})

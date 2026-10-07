@@ -38,6 +38,7 @@ from .const import (
     CONF_ELECTRICITY_TARIFF,
     CONF_ENERGY_SENSOR,
     CONF_GRID_TARIFF,
+    CONF_LOSSES,
     CONF_MUNICIPALITY,
     CONF_MUNICIPALITY_NAME,
     CONF_OPERATOR_ID,
@@ -46,7 +47,9 @@ from .const import (
     CONF_PRICE_F2,
     CONF_PRICE_F3,
     CONF_REGIONAL_TARIFF,
+    CONF_SPREAD,
     CONF_TARIFF_URL,
+    CONF_ZONE,
     COUNTRY_ITALY,
     COUNTRY_SWITZERLAND,
     DOMAIN,
@@ -62,6 +65,7 @@ from .core.elcom import (
     async_search_municipalities,
     async_tariff_url_candidates,
 )
+from .core.gme import ZONES
 from .core.switzerland import (
     SWISS_TZ,
     Tariff,
@@ -114,8 +118,41 @@ _URL_SCHEMA = vol.Schema(
 )
 
 
+def _pun_schema(defaults: dict[str, Any]) -> vol.Schema:
+    """Spread, grid losses and zone of a PUN-indexed contract."""
+    return vol.Schema(
+        {
+            vol.Required(
+                CONF_SPREAD, default=defaults.get(CONF_SPREAD, vol.UNDEFINED)
+            ): NumberSelector(
+                NumberSelectorConfig(
+                    min=-0.5,
+                    max=1,
+                    step="any",
+                    mode=NumberSelectorMode.BOX,
+                    unit_of_measurement="€/kWh",
+                )
+            ),
+            vol.Required(CONF_LOSSES, default=defaults.get(CONF_LOSSES, 0.0)): NumberSelector(
+                NumberSelectorConfig(
+                    min=0, max=20, step=0.1, mode=NumberSelectorMode.BOX, unit_of_measurement="%"
+                )
+            ),
+            vol.Required(CONF_ZONE, default=defaults.get(CONF_ZONE, "pun")): SelectSelector(
+                SelectSelectorConfig(
+                    options=[zone.lower() for zone in ZONES],
+                    mode=SelectSelectorMode.DROPDOWN,
+                    translation_key=CONF_ZONE,
+                )
+            ),
+        }
+    )
+
+
 def _prices_schema(contract_type: ItalyContractType, defaults: dict[str, Any]) -> vol.Schema:
     """Return the price fields needed by a contract type."""
+    if contract_type is ItalyContractType.INDEXED:
+        return _pun_schema(defaults)
     fields = [CONF_PRICE_F1]
     if contract_type is not ItalyContractType.SINGLE:
         fields.append(CONF_PRICE_F2)
@@ -259,6 +296,12 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Enter the prices of a three-band contract."""
+        return await self._async_step_prices(user_input)
+
+    async def async_step_prices_pun(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Enter spread, losses and zone of a PUN-indexed contract."""
         return await self._async_step_prices(user_input)
 
     async def _async_step_prices(
@@ -503,6 +546,12 @@ class CorrenteOptionsFlow(OptionsFlow):
         """Change the prices of a three-band contract."""
         return await self._async_step_prices(user_input)
 
+    async def async_step_prices_pun(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Change spread, losses and zone of a PUN-indexed contract."""
+        return await self._async_step_prices(user_input)
+
     async def _async_step_prices(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
@@ -513,7 +562,9 @@ class CorrenteOptionsFlow(OptionsFlow):
         defaults = {
             key: value
             for key, value in current.items()
-            if key in (CONF_PRICE_F1, CONF_PRICE_F2, CONF_PRICE_F3) and value is not None
+            if key
+            in (CONF_PRICE_F1, CONF_PRICE_F2, CONF_PRICE_F3, CONF_SPREAD, CONF_LOSSES, CONF_ZONE)
+            and value is not None
         }
         return self.async_show_form(
             step_id=_step_id_for(self._contract_type),

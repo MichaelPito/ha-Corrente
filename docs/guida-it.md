@@ -18,7 +18,12 @@ Corrente porta in Home Assistant il **vero prezzo della tua elettricità** e ti 
    - **trioraria** (F1, F2, F3).
 3. Inserisci i prezzi dell'energia della bolletta in **€/kWh**, per esempio `0,1250`.
    - Li trovi nella sezione "spesa per la materia energia" o "quota energia".
-   - Se il contratto è indicizzato al PUN, per ora inserisci il prezzo medio dell'ultima bolletta: il supporto al PUN arriva a breve.
+4. Se il contratto è **indicizzato al PUN**, scegli "Indicizzato: PUN (o zona) + spread" e inserisci:
+   - lo **spread** in €/kWh scritto in bolletta;
+   - le **perdite di rete** in %, solo se il contratto le applica al PUN (spesso circa 10%);
+   - il **prezzo di riferimento**: PUN Index GME, oppure la zona se il contratto la usa.
+
+   Corrente scarica ogni giorno dal sito del GME i prezzi al quarto d'ora di oggi e di domani (fonte: GME) e calcola il tuo prezzo momento per momento.
 
 Le fasce seguono le regole ARERA:
 - **F1:** lun–ven 8–19;

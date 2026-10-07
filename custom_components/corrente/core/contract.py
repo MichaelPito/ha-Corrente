@@ -13,11 +13,29 @@ from .italy import Band, band_at
 
 
 class ItalyContractType(StrEnum):
-    """Shapes of Italian contracts that only depend on the time band."""
+    """Shapes of Italian contracts."""
 
     SINGLE = "single"  # monoraria: one price at all hours
     TWO_BANDS = "two_bands"  # bioraria: F1 and F23 (F2 + F3)
     THREE_BANDS = "three_bands"  # trioraria: F1, F2, F3
+    INDEXED = "pun"  # PUN (or a zonal price) + spread
+
+
+@dataclass(frozen=True, slots=True)
+class ItalyIndexedContract:
+    """A contract indexed to the PUN Index GME or to a zonal price, in EUR/kWh."""
+
+    spread: float
+    losses: float = 0.0  # grid losses applied to the wholesale price, e.g. 0.10 for 10%
+    zone: str = "PUN"
+
+    def __post_init__(self) -> None:
+        if not 0 <= self.losses < 1:
+            raise ValueError("losses must be between 0 and 1")
+
+    def price_from(self, wholesale: float) -> float:
+        """Energy price per kWh from the wholesale price per kWh."""
+        return round(wholesale * (1 + self.losses) + self.spread, 6)
 
 
 @dataclass(frozen=True, slots=True)

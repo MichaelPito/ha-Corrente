@@ -6,7 +6,7 @@
 
 <p>
   <img src="docs/images/card-lugano-it.png" width="340" alt="Corrente card for a day/night tariff in Lugano">
-  <img src="docs/images/card-italia-it.png" width="340" alt="Corrente card for an Italian three-band contract">
+  <img src="docs/images/card-pun-it.png" width="340" alt="Corrente card for an Italian PUN-indexed contract, quarter-hour prices">
 </p>
 
 ## What it does
@@ -19,8 +19,7 @@
 
 ### 🇮🇹 Italy
 - Time bands **F1 / F2 / F3** as defined by ARERA, national holidays included (ARERA's closed list — 4 October is *not* F3).
-- Contracts: single price (*monoraria*), two bands F1/F23 (*bioraria*), three bands (*trioraria*).
-- Coming next: PUN Index GME and PUN-indexed contracts.
+- Contracts: single price (*monoraria*), two bands F1/F23 (*bioraria*), three bands (*trioraria*), and **PUN-indexed** (PUN Index GME or your zone + spread, optional grid losses) with quarter-hour prices for today and tomorrow.
 
 ### 🇨🇭 Switzerland
 - Type your **municipality**: Corrente finds your **grid operator** in ElCom's open data and reads the tariff file every operator must publish (Art. 7b StromVV).
@@ -44,7 +43,8 @@ Corrente will be in the default HACS store after the launch. Until then:
 | Price now | €/kWh | CHF/kWh incl. VAT |
 | Time band / Tariff period | F1, F2, F3 | single, high, low |
 | Next band change / Next price change | ✅ | ✅ |
-| Next band | ✅ | — |
+| Next band | ✅ (fixed contracts) | — |
+| Wholesale price (PUN / zone) | ✅ (PUN contracts) | — |
 | Next price | ✅ | ✅ |
 | Best time to start | ✅ | ✅ |
 | Fixed charges per month | — | ✅ |
@@ -88,7 +88,7 @@ automation:
 ## Data sources
 
 - **Switzerland:** ElCom open data (LINDAS, Open-Use licence) and the tariff files published by grid operators. Federal charges per year are documented in [`docs/FONTI-DATI.md`](docs/FONTI-DATI.md).
-- **Italy:** ARERA time-band definitions (TIV, Tabella 6). Prices come from your contract.
+- **Italy:** ARERA time-band definitions (TIV, Tabella 6). Wholesale prices: *Fonte: Gestore dei Mercati Energetici S.p.A. (GME)* — downloaded by your own Home Assistant once or twice a day, for personal, non-commercial use, as GME's terms require. Nothing is shared or cached centrally, and no paid feature will ever be based on GME data.
 
 ## Suggestions and requests
 

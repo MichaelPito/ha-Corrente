@@ -74,6 +74,15 @@
           "grid_tariff": "Tariffa di rete",
           "regional_tariff": "Tributi cantonali e comunali"
         }
+      },
+      "prices_pun": {
+        "title": "Contratto indicizzato al PUN",
+        "description": "Il tuo prezzo è il prezzo all'ingrosso GME (PUN Index o la tua zona) più lo spread indicato in bolletta. Fonte: GME. Non sei sicuro? [Chiedi qui]({issues_url}).",
+        "data": {
+          "spread": "Spread",
+          "losses": "Perdite di rete (se il contratto le applica)",
+          "zone": "Prezzo di riferimento"
+        }
       }
     },
     "error": {
@@ -150,6 +159,15 @@
         "data": {
           "best_hours": "Durata"
         }
+      },
+      "prices_pun": {
+        "title": "Contratto indicizzato al PUN",
+        "description": "Il tuo prezzo è il prezzo all'ingrosso GME (PUN Index o la tua zona) più lo spread indicato in bolletta. Fonte: GME. Non sei sicuro? [Chiedi qui]({issues_url}).",
+        "data": {
+          "spread": "Spread",
+          "losses": "Perdite di rete (se il contratto le applica)",
+          "zone": "Prezzo di riferimento"
+        }
       }
     },
     "abort": {
@@ -167,7 +185,20 @@
       "options": {
         "single": "Prezzo unico (monoraria)",
         "two_bands": "Due fasce: F1 e F23 (bioraria)",
-        "three_bands": "Tre fasce: F1, F2, F3 (trioraria)"
+        "three_bands": "Tre fasce: F1, F2, F3 (trioraria)",
+        "pun": "Indicizzato: PUN (o zona) + spread"
+      }
+    },
+    "zone": {
+      "options": {
+        "pun": "PUN Index GME",
+        "nord": "Nord",
+        "cnor": "Centro-Nord",
+        "csud": "Centro-Sud",
+        "sud": "Sud",
+        "cala": "Calabria",
+        "sici": "Sicilia",
+        "sard": "Sardegna"
       }
     }
   },
@@ -220,6 +251,9 @@
       },
       "cost_month": {
         "name": "Costo del mese"
+      },
+      "wholesale": {
+        "name": "Prezzo all'ingrosso ({zone})"
       }
     }
   }

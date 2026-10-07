@@ -148,7 +148,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **correzione**: voci nazionali svizzere verificate per gestore con ElCom (prima EKZ era gonfiato del 13% circa);
   - ✅ kit di lancio (`docs/LANCIO.md`);
   - 90 test.
-  - **In attesa dell'owner:** decisione sul PUN Index GME (vedi FONTI-DATI, "Regole per Corrente").
+  - ✅ **PUN** (decisione dell'owner nel pomeriggio: download GME come pun_sensor): contratti "PUN o zona + spread", prezzi al quarto d'ora di oggi e domani, un download al giorno; 102 test.
   - **Prossimi pezzi:**
     1. tariffe dinamiche svizzere (v0.2), con la stessa verifica delle voci nazionali;
     2. icona e logo per l'elenco ufficiale (repo `home-assistant/brands`);
