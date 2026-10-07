@@ -149,6 +149,61 @@ def _supported(tariff: Tariff) -> bool:
     return bool(tariff.energy)
 
 
+def _electricity_names(tariffs: list[Tariff], today) -> list[str]:
+    """Energy tariffs in force today that Corrente can price."""
+    return sorted({t.name for t in tariffs_on(tariffs, "electricity", today) if _supported(t)})
+
+
+def _grid_schema(tariffs: list[Tariff], electricity: str, today) -> vol.Schema:
+    """Grid tariff and regional fees, with the ones matching the energy tariff suggested."""
+    grids = [t for t in tariffs_on(tariffs, "grid", today) if _supported(t)]
+    regionals = tariffs_on(tariffs, "regional_fees", today)
+    suggested_grid = suggest_matching(electricity, grids)
+    suggested_regional = suggest_matching(electricity, regionals)
+    return vol.Schema(
+        {
+            vol.Required(
+                CONF_GRID_TARIFF,
+                default=suggested_grid.name if suggested_grid else vol.UNDEFINED,
+            ): SelectSelector(
+                SelectSelectorConfig(
+                    options=sorted({t.name for t in grids}), mode=SelectSelectorMode.DROPDOWN
+                )
+            ),
+            vol.Required(
+                CONF_REGIONAL_TARIFF,
+                default=suggested_regional.name if suggested_regional else _NO_REGIONAL,
+            ): SelectSelector(
+                SelectSelectorConfig(
+                    options=[*sorted({t.name for t in regionals}), _NO_REGIONAL],
+                    mode=SelectSelectorMode.DROPDOWN,
+                )
+            ),
+        }
+    )
+
+
+def _tariff_choice(
+    tariffs: list[Tariff], electricity: str, user_input: dict[str, Any], today
+) -> dict[str, Any]:
+    """The tariff part of a Swiss entry, from the grid step's answers."""
+    regional = next(
+        (
+            t
+            for t in tariffs_on(tariffs, "regional_fees", today)
+            if t.name == user_input[CONF_REGIONAL_TARIFF]
+        ),
+        None,
+    )
+    cantons = sorted(regional.canton_energy) if regional else []
+    return {
+        CONF_ELECTRICITY_TARIFF: electricity,
+        CONF_GRID_TARIFF: user_input[CONF_GRID_TARIFF],
+        CONF_REGIONAL_TARIFF: None if regional is None else regional.name,
+        CONF_CANTON: cantons[0] if cantons else None,
+    }
+
+
 class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
     """Set up Corrente from the UI."""
 
@@ -310,16 +365,15 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Choose the energy tariff."""
-        today = dt_util.now(SWISS_TZ).date()
-        names = sorted(
-            {t.name for t in tariffs_on(self._tariffs, "electricity", today) if _supported(t)}
-        )
         if user_input is not None:
             self._electricity = user_input[CONF_ELECTRICITY_TARIFF]
             return await self.async_step_ch_grid()
+        today = dt_util.now(SWISS_TZ).date()
         return self.async_show_form(
             step_id="ch_tariff",
-            data_schema=_select(names, key=CONF_ELECTRICITY_TARIFF),
+            data_schema=_select(
+                _electricity_names(self._tariffs, today), key=CONF_ELECTRICITY_TARIFF
+            ),
             description_placeholders={"operator": self._operator.operator_name},
         )
 
@@ -329,12 +383,7 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
         """Confirm the grid tariff and the regional fees that go with the energy tariff."""
         assert self._operator is not None and self._electricity is not None
         today = dt_util.now(SWISS_TZ).date()
-        grids = [t for t in tariffs_on(self._tariffs, "grid", today) if _supported(t)]
-        regionals = tariffs_on(self._tariffs, "regional_fees", today)
         if user_input is not None:
-            regional_name = user_input[CONF_REGIONAL_TARIFF]
-            regional = next((t for t in regionals if t.name == regional_name), None)
-            cantons = sorted(regional.canton_energy) if regional else []
             return self.async_create_entry(
                 title=f"Corrente — {self._operator.operator_name}",
                 data={
@@ -344,37 +393,12 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
                     CONF_OPERATOR_ID: self._operator.operator_id,
                     CONF_OPERATOR_NAME: self._operator.operator_name,
                     CONF_TARIFF_URL: self._tariff_url,
-                    CONF_ELECTRICITY_TARIFF: self._electricity,
-                    CONF_GRID_TARIFF: user_input[CONF_GRID_TARIFF],
-                    CONF_REGIONAL_TARIFF: None if regional is None else regional.name,
-                    CONF_CANTON: cantons[0] if cantons else None,
+                    **_tariff_choice(self._tariffs, self._electricity, user_input, today),
                 },
             )
-        grid_names = sorted({t.name for t in grids})
-        regional_names = sorted({t.name for t in regionals})
-        suggested_grid = suggest_matching(self._electricity, grids)
-        suggested_regional = suggest_matching(self._electricity, regionals)
-        schema = vol.Schema(
-            {
-                vol.Required(
-                    CONF_GRID_TARIFF,
-                    default=suggested_grid.name if suggested_grid else vol.UNDEFINED,
-                ): SelectSelector(
-                    SelectSelectorConfig(options=grid_names, mode=SelectSelectorMode.DROPDOWN)
-                ),
-                vol.Required(
-                    CONF_REGIONAL_TARIFF,
-                    default=suggested_regional.name if suggested_regional else _NO_REGIONAL,
-                ): SelectSelector(
-                    SelectSelectorConfig(
-                        options=[*regional_names, _NO_REGIONAL], mode=SelectSelectorMode.DROPDOWN
-                    )
-                ),
-            }
-        )
         return self.async_show_form(
             step_id="ch_grid",
-            data_schema=schema,
+            data_schema=_grid_schema(self._tariffs, self._electricity, today),
             description_placeholders={"electricity": self._electricity},
         )
 
@@ -386,16 +410,16 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
 
 
 class CorrenteOptionsFlow(OptionsFlow):
-    """Change the Italian contract after setup."""
+    """Change the contract (Italy) or the tariffs (Switzerland) after setup."""
 
     def __init__(self) -> None:
         self._contract_type: ItalyContractType | None = None
+        self._electricity: str | None = None
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
-        """Choose the shape of the contract."""
+        """Choose the shape of the contract, or the Swiss energy tariff."""
         if self.config_entry.data.get(CONF_COUNTRY) == COUNTRY_SWITZERLAND:
-            # Swiss tariffs follow the operator's file; to change them, add the entry again.
-            return self.async_abort(reason="switzerland_readd")
+            return await self.async_step_ch_tariff()
         current = {**self.config_entry.data, **self.config_entry.options}
         if user_input is not None:
             self._contract_type = ItalyContractType(user_input[CONF_CONTRACT_TYPE])
@@ -442,4 +466,49 @@ class CorrenteOptionsFlow(OptionsFlow):
             step_id=_step_id_for(self._contract_type),
             data_schema=_prices_schema(self._contract_type, defaults),
             description_placeholders=_PLACEHOLDERS,
+        )
+
+    # Switzerland ---------------------------------------------------------
+
+    def _swiss_tariffs(self) -> list[Tariff]:
+        coordinator = self.config_entry.runtime_data.switzerland
+        return coordinator.data.tariffs if coordinator and coordinator.data else []
+
+    async def async_step_ch_tariff(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Choose another energy tariff of the same operator."""
+        tariffs = self._swiss_tariffs()
+        if not tariffs:
+            return self.async_abort(reason="tariffs_unavailable")
+        if user_input is not None:
+            self._electricity = user_input[CONF_ELECTRICITY_TARIFF]
+            return await self.async_step_ch_grid()
+        today = dt_util.now(SWISS_TZ).date()
+        current = {**self.config_entry.data, **self.config_entry.options}
+        names = _electricity_names(tariffs, today)
+        default = current.get(CONF_ELECTRICITY_TARIFF)
+        return self.async_show_form(
+            step_id="ch_tariff",
+            data_schema=_select(
+                names, key=CONF_ELECTRICITY_TARIFF, default=default if default in names else None
+            ),
+            description_placeholders={"operator": self.config_entry.data[CONF_OPERATOR_NAME]},
+        )
+
+    async def async_step_ch_grid(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Confirm the grid tariff and regional fees."""
+        assert self._electricity is not None
+        tariffs = self._swiss_tariffs()
+        today = dt_util.now(SWISS_TZ).date()
+        if user_input is not None:
+            return self.async_create_entry(
+                data=_tariff_choice(tariffs, self._electricity, user_input, today)
+            )
+        return self.async_show_form(
+            step_id="ch_grid",
+            data_schema=_grid_schema(tariffs, self._electricity, today),
+            description_placeholders={"electricity": self._electricity},
         )

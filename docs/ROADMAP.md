@@ -13,7 +13,7 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [ ] Sensors: cost today / this month; choose the appliance duration (today fixed at 2 hours)
 - [x] UI-only setup (config flow), translations EN / IT / DE / FR
 - [x] Dashboard card: price now, next 24 h (cheap/dear colours), best time to start; loaded automatically by the integration, EN/IT/DE/FR, light and dark themes
-- [ ] Switzerland: change tariffs from the options (today: remove and add again)
+- [x] Switzerland: change tariffs from the options
 - [ ] "Suggest a change" link inside the integration and the card
 
 - [x] README with screenshots, installation, sensors, card and an automation example; Italian guide

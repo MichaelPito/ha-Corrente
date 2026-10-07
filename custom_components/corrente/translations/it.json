@@ -114,10 +114,25 @@
           "price_f2": "Prezzo F2",
           "price_f3": "Prezzo F3"
         }
+      },
+      "ch_tariff": {
+        "title": "La tua tariffa",
+        "description": "Scegli la tua tariffa dell'energia di {operator}. Le tariffe che non si possono calcolare dal file (per esempio quelle dinamiche) non sono ancora elencate.",
+        "data": {
+          "electricity_tariff": "Tariffa dell'energia"
+        }
+      },
+      "ch_grid": {
+        "title": "Rete e tributi",
+        "description": "Corrente propone la tariffa di rete e i tributi regionali che vanno con \"{electricity}\". Confrontali con la tua bolletta.",
+        "data": {
+          "grid_tariff": "Tariffa di rete",
+          "regional_tariff": "Tributi cantonali e comunali"
+        }
       }
     },
     "abort": {
-      "switzerland_readd": "Le tariffe svizzere seguono da sole il file del tuo gestore. Per scegliere altre tariffe, rimuovi Corrente e aggiungilo di nuovo."
+      "tariffs_unavailable": "Il file delle tariffe non è disponibile in questo momento. Riprova più tardi."
     }
   },
   "selector": {

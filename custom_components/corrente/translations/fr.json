@@ -114,10 +114,25 @@
           "price_f2": "Prix F2",
           "price_f3": "Prix F3"
         }
+      },
+      "ch_tariff": {
+        "title": "Votre tarif",
+        "description": "Choisissez votre tarif d'énergie de {operator}. Les tarifs qui ne peuvent pas être calculés à partir du fichier (par exemple dynamiques) ne sont pas encore affichés.",
+        "data": {
+          "electricity_tariff": "Tarif d'énergie"
+        }
+      },
+      "ch_grid": {
+        "title": "Réseau et redevances",
+        "description": "Corrente propose le tarif de réseau et les redevances régionales qui vont avec « {electricity} ». Comparez-les avec votre facture.",
+        "data": {
+          "grid_tariff": "Tarif de réseau",
+          "regional_tariff": "Redevances cantonales et communales"
+        }
       }
     },
     "abort": {
-      "switzerland_readd": "Les tarifs suisses suivent automatiquement le fichier de votre gestionnaire. Pour choisir d'autres tarifs, supprimez Corrente et ajoutez-le à nouveau."
+      "tariffs_unavailable": "Le fichier des tarifs n'est pas disponible pour le moment. Réessayez plus tard."
     }
   },
   "selector": {

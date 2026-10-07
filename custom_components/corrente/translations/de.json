@@ -114,10 +114,25 @@
           "price_f2": "Preis F2",
           "price_f3": "Preis F3"
         }
+      },
+      "ch_tariff": {
+        "title": "Ihr Tarif",
+        "description": "Wählen Sie Ihren Energietarif von {operator}. Tarife, die sich nicht aus der Datei berechnen lassen (z. B. dynamische), werden noch nicht angezeigt.",
+        "data": {
+          "electricity_tariff": "Energietarif"
+        }
+      },
+      "ch_grid": {
+        "title": "Netz und Abgaben",
+        "description": "Corrente schlägt den Netztarif und die regionalen Abgaben vor, die zu \"{electricity}\" gehören. Vergleichen Sie sie mit Ihrer Rechnung.",
+        "data": {
+          "grid_tariff": "Netztarif",
+          "regional_tariff": "Kantonale und kommunale Abgaben"
+        }
       }
     },
     "abort": {
-      "switzerland_readd": "Schweizer Tarife folgen automatisch der Datei Ihres Netzbetreibers. Um andere Tarife zu wählen, entfernen Sie Corrente und fügen es erneut hinzu."
+      "tariffs_unavailable": "Die Tarifdatei ist im Moment nicht verfügbar. Versuchen Sie es später erneut."
     }
   },
   "selector": {
