@@ -11,7 +11,7 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [x] Sensors: current price, current band, next band change, next band, next price
 - [x] Sensors: best time to start (cheapest 2 hours in the next 24), price schedule for the next 36 hours (attribute, used by the card)
 - [x] Sensors: cost today / this month from the user's energy meter, each kWh priced when used (options → energy meter); survives restarts; resets at local midnight
-- [ ] Choose the appliance duration for the best time to start (today fixed at 2 hours)
+- [x] Choose the appliance duration for the best time to start (options → appliance duration, 0.5–8 h)
 - [x] UI-only setup (config flow), translations EN / IT / DE / FR
 - [x] Dashboard card: price now, next 24 h (cheap/dear colours), best time to start; loaded automatically by the integration, EN/IT/DE/FR, light and dark themes
 - [x] Switzerland: change tariffs from the options
@@ -23,7 +23,8 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [ ] Swiss dynamic tariffs (EKZ, CKW, BKW / SmartGridready, Groupe E)
 - [ ] Cost per appliance
 - [ ] Guide: Chain2 / Open Meter (Italy) and Swiss smart-meter readout
-- [ ] Blueprints: run appliances in the cheapest window, use solar surplus, price alerts
+- [x] Blueprint: start an appliance at the best time ("ready" helper + switch, optional notification)
+- [ ] Blueprints: use solar surplus, price alerts
 
 ## Ideas from users
 _(empty — be the first: [suggest something](../../../issues/new/choose))_

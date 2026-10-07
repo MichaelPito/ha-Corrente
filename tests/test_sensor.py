@@ -75,3 +75,24 @@ async def test_unload(hass: HomeAssistant) -> None:
     entry = await _setup(hass)
     assert await hass.config_entries.async_unload(entry.entry_id)
     await hass.async_block_till_done()
+
+
+async def test_appliance_duration_from_options(
+    hass: HomeAssistant, freezer: FrozenDateTimeFactory
+) -> None:
+    freezer.move_to(datetime(2026, 10, 7, 18, 30, tzinfo=ITALY_TZ))
+    entry = await _setup(hass)
+    result = await hass.config_entries.options.async_init(entry.entry_id)
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {"next_step_id": "appliance"}
+    )
+    assert result["step_id"] == "appliance"
+    result = await hass.config_entries.options.async_configure(result["flow_id"], {"best_hours": 4})
+    await hass.async_block_till_done()
+    assert entry.options["best_hours"] == 4.0
+
+    best = hass.states.get(_entity_id(hass, entry, "best_start"))
+    assert best.attributes["duration_hours"] == 4.0
+    assert "4 h" in best.attributes["friendly_name"]
+    # Four hours of F3 from 23:00 (Wednesday night).
+    assert datetime.fromisoformat(best.state) == datetime(2026, 10, 7, 23, 0, tzinfo=ITALY_TZ)

@@ -133,7 +133,8 @@
       "init": {
         "menu_options": {
           "contract": "Vertrag oder Tarif",
-          "meter": "Stromzähler (für Kosten)"
+          "meter": "Stromzähler (für Kosten)",
+          "appliance": "Gerätedauer"
         }
       },
       "meter": {
@@ -141,6 +142,13 @@
         "description": "Wählen Sie den Sensor, der Ihren Verbrauch in kWh zählt (z. B. Ihren Smart Meter oder den Netzbezug aus dem Energie-Dashboard). Corrente bewertet jede kWh zum Zeitpunkt des Verbrauchs. Leer lassen, um die Kosten auszuschalten.",
         "data": {
           "energy_sensor": "Stromzähler"
+        }
+      },
+      "appliance": {
+        "title": "Gerätedauer",
+        "description": "Wie lange das Gerät, das zur günstigsten Zeit starten soll, normalerweise läuft (Geschirrspüler ca. 2 Std., Waschmaschine 1,5, Elektroauto 4).",
+        "data": {
+          "best_hours": "Dauer"
         }
       }
     },
@@ -205,7 +213,7 @@
         "name": "Fixkosten pro Monat"
       },
       "best_start": {
-        "name": "Beste Startzeit (2 Std.)"
+        "name": "Beste Startzeit ({hours} Std.)"
       },
       "cost_day": {
         "name": "Kosten heute"

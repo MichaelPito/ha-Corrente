@@ -133,7 +133,8 @@
       "init": {
         "menu_options": {
           "contract": "Contrat ou tarif",
-          "meter": "Compteur (pour les coûts)"
+          "meter": "Compteur (pour les coûts)",
+          "appliance": "Durée de l'appareil"
         }
       },
       "meter": {
@@ -141,6 +142,13 @@
         "description": "Choisissez le capteur qui compte votre consommation en kWh (par exemple votre compteur intelligent ou la consommation réseau du tableau de bord énergie). Corrente valorise chaque kWh au moment où il est consommé. Laissez vide pour désactiver les coûts.",
         "data": {
           "energy_sensor": "Compteur"
+        }
+      },
+      "appliance": {
+        "title": "Durée de l'appareil",
+        "description": "Durée habituelle de l'appareil à démarrer au moment le moins cher (lave-vaisselle environ 2 h, lave-linge 1,5 h, voiture électrique 4 h).",
+        "data": {
+          "best_hours": "Durée"
         }
       }
     },
@@ -205,7 +213,7 @@
         "name": "Frais fixes par mois"
       },
       "best_start": {
-        "name": "Meilleur moment pour démarrer (2 h)"
+        "name": "Meilleur moment pour démarrer ({hours} h)"
       },
       "cost_day": {
         "name": "Coût aujourd'hui"
