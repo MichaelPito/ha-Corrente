@@ -13,6 +13,8 @@ async def test_three_band_flow_creates_entry(hass: HomeAssistant) -> None:
     result = await hass.config_entries.flow.async_init(DOMAIN, context={"source": SOURCE_USER})
     assert result["type"] is FlowResultType.FORM
     assert result["step_id"] == "user"
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], {"country": "it"})
+    assert result["step_id"] == "italy"
 
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"], {"contract_type": "three_bands"}
@@ -34,6 +36,7 @@ async def test_three_band_flow_creates_entry(hass: HomeAssistant) -> None:
 
 async def test_single_price_flow_asks_one_price(hass: HomeAssistant) -> None:
     result = await hass.config_entries.flow.async_init(DOMAIN, context={"source": SOURCE_USER})
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], {"country": "it"})
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"], {"contract_type": "single"}
     )
@@ -43,6 +46,7 @@ async def test_single_price_flow_asks_one_price(hass: HomeAssistant) -> None:
 
 async def test_options_flow_changes_contract(hass: HomeAssistant) -> None:
     result = await hass.config_entries.flow.async_init(DOMAIN, context={"source": SOURCE_USER})
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], {"country": "it"})
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"], {"contract_type": "single"}
     )

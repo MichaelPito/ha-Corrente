@@ -2,8 +2,15 @@
   "config": {
     "step": {
       "user": {
+        "title": "Où habitez-vous ?",
+        "description": "Corrente calcule votre vrai prix de l'électricité et vous dit quand il vaut la peine d'allumer. Il manque quelque chose ? [Suggérer une modification]({issues_url}). Corrente est gratuit – [offrez-nous un café]({donate_url}) ☕",
+        "data": {
+          "country": "Pays"
+        }
+      },
+      "italy": {
         "title": "Votre contrat d'électricité",
-        "description": "Corrente calcule votre prix de l'électricité à partir de votre contrat et des plages horaires italiennes (F1, F2, F3).\n\nLa Suisse et les contrats indexés sur le PUN arrivent bientôt. Il manque quelque chose ? [Suggérer une modification]({issues_url}). Corrente est gratuit – [offrez-nous un café]({donate_url}) ☕",
+        "description": "Corrente calcule votre prix à partir de votre contrat et des plages horaires italiennes (F1, F2, F3). Les contrats indexés sur le PUN arrivent bientôt. [Suggérer une modification]({issues_url}).",
         "data": {
           "contract_type": "Type de contrat"
         }
@@ -31,14 +38,55 @@
           "price_f2": "Prix F2",
           "price_f3": "Prix F3"
         }
+      },
+      "ch_search": {
+        "title": "Votre commune",
+        "description": "Saisissez le nom de votre commune. Corrente cherche votre gestionnaire de réseau dans les données ouvertes de l'ElCom.",
+        "data": {
+          "municipality": "Commune"
+        }
+      },
+      "ch_operator": {
+        "title": "Choisissez votre gestionnaire de réseau",
+        "description": "Plusieurs résultats : choisissez votre commune et votre gestionnaire.",
+        "data": {
+          "operator_name": "Commune et gestionnaire"
+        }
+      },
+      "ch_url": {
+        "title": "Lien vers le fichier des tarifs",
+        "description": "{operator} n'a pas publié de fichier de tarifs lisible (l'ElCom indique : {elcom_url}). Collez le lien vers le fichier JSON des tarifs du gestionnaire si vous l'avez, ou [signalez-le-nous]({issues_url}).",
+        "data": {
+          "tariff_url": "Lien vers le fichier des tarifs"
+        }
+      },
+      "ch_tariff": {
+        "title": "Votre tarif",
+        "description": "Choisissez votre tarif d'énergie de {operator}. Les tarifs qui ne peuvent pas être calculés à partir du fichier (par exemple dynamiques) ne sont pas encore affichés.",
+        "data": {
+          "electricity_tariff": "Tarif d'énergie"
+        }
+      },
+      "ch_grid": {
+        "title": "Réseau et redevances",
+        "description": "Corrente propose le tarif de réseau et les redevances régionales qui vont avec « {electricity} ». Comparez-les avec votre facture.",
+        "data": {
+          "grid_tariff": "Tarif de réseau",
+          "regional_tariff": "Redevances cantonales et communales"
+        }
       }
+    },
+    "error": {
+      "cannot_connect": "L'ElCom ne répond pas. Réessayez dans quelques minutes.",
+      "no_match": "Aucune commune trouvée avec ce nom.",
+      "invalid_file": "Ce lien n'est pas un fichier de tarifs lisible."
     }
   },
   "options": {
     "step": {
       "init": {
         "title": "Modifier le contrat",
-        "description": "Corrente calcule votre prix de l'électricité à partir de votre contrat et des plages horaires italiennes (F1, F2, F3).\n\nLa Suisse et les contrats indexés sur le PUN arrivent bientôt. Il manque quelque chose ? [Suggérer une modification]({issues_url}). Corrente est gratuit – [offrez-nous un café]({donate_url}) ☕",
+        "description": "Corrente calcule votre prix à partir de votre contrat et des plages horaires italiennes (F1, F2, F3). Les contrats indexés sur le PUN arrivent bientôt. [Suggérer une modification]({issues_url}).",
         "data": {
           "contract_type": "Type de contrat"
         }
@@ -67,9 +115,18 @@
           "price_f3": "Prix F3"
         }
       }
+    },
+    "abort": {
+      "switzerland_readd": "Les tarifs suisses suivent automatiquement le fichier de votre gestionnaire. Pour choisir d'autres tarifs, supprimez Corrente et ajoutez-le à nouveau."
     }
   },
   "selector": {
+    "country": {
+      "options": {
+        "it": "Italie",
+        "ch": "Suisse"
+      }
+    },
     "contract_type": {
       "options": {
         "single": "Prix unique (monoraria)",
@@ -104,6 +161,20 @@
       },
       "next_price": {
         "name": "Prochain prix"
+      },
+      "period": {
+        "name": "Période tarifaire",
+        "state": {
+          "single": "Tarif unique",
+          "high": "Tarif haut",
+          "low": "Tarif bas"
+        }
+      },
+      "next_price_change": {
+        "name": "Prochain changement de prix"
+      },
+      "monthly_fixed": {
+        "name": "Frais fixes par mois"
       }
     }
   }

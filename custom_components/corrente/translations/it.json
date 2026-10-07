@@ -2,8 +2,15 @@
   "config": {
     "step": {
       "user": {
+        "title": "Dove abiti?",
+        "description": "Corrente calcola il tuo vero prezzo dell'elettricità e ti dice quando conviene accendere. Manca qualcosa? [Suggerisci una modifica]({issues_url}). Corrente è gratis: [offrici un caffè]({donate_url}) ☕",
+        "data": {
+          "country": "Paese"
+        }
+      },
+      "italy": {
         "title": "Il tuo contratto della luce",
-        "description": "Corrente calcola il prezzo dell'elettricità dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3).\n\nSvizzera e contratti indicizzati al PUN sono in arrivo. Manca qualcosa? [Suggerisci una modifica]({issues_url}). Corrente è gratis: [offrici un caffè]({donate_url}) ☕",
+        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3). I contratti indicizzati al PUN sono in arrivo. [Suggerisci una modifica]({issues_url}).",
         "data": {
           "contract_type": "Tipo di contratto"
         }
@@ -31,14 +38,55 @@
           "price_f2": "Prezzo F2",
           "price_f3": "Prezzo F3"
         }
+      },
+      "ch_search": {
+        "title": "Il tuo comune",
+        "description": "Scrivi il nome del tuo comune. Corrente cerca il tuo gestore di rete nei dati aperti di ElCom.",
+        "data": {
+          "municipality": "Comune"
+        }
+      },
+      "ch_operator": {
+        "title": "Scegli il gestore di rete",
+        "description": "Ci sono più risultati: scegli il tuo comune e il tuo gestore.",
+        "data": {
+          "operator_name": "Comune e gestore"
+        }
+      },
+      "ch_url": {
+        "title": "Link al file delle tariffe",
+        "description": "{operator} non ha pubblicato un file delle tariffe leggibile (ElCom indica: {elcom_url}). Se ce l'hai, incolla il link al file JSON delle tariffe del gestore, oppure [segnalacelo]({issues_url}) e lo aggiungiamo noi.",
+        "data": {
+          "tariff_url": "Link al file delle tariffe"
+        }
+      },
+      "ch_tariff": {
+        "title": "La tua tariffa",
+        "description": "Scegli la tua tariffa dell'energia di {operator}. Le tariffe che non si possono calcolare dal file (per esempio quelle dinamiche) non sono ancora elencate.",
+        "data": {
+          "electricity_tariff": "Tariffa dell'energia"
+        }
+      },
+      "ch_grid": {
+        "title": "Rete e tributi",
+        "description": "Corrente propone la tariffa di rete e i tributi regionali che vanno con \"{electricity}\". Confrontali con la tua bolletta.",
+        "data": {
+          "grid_tariff": "Tariffa di rete",
+          "regional_tariff": "Tributi cantonali e comunali"
+        }
       }
+    },
+    "error": {
+      "cannot_connect": "ElCom non risponde. Riprova tra qualche minuto.",
+      "no_match": "Nessun comune trovato con questo nome.",
+      "invalid_file": "Questo link non è un file delle tariffe leggibile."
     }
   },
   "options": {
     "step": {
       "init": {
         "title": "Modifica il contratto",
-        "description": "Corrente calcola il prezzo dell'elettricità dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3).\n\nSvizzera e contratti indicizzati al PUN sono in arrivo. Manca qualcosa? [Suggerisci una modifica]({issues_url}). Corrente è gratis: [offrici un caffè]({donate_url}) ☕",
+        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3). I contratti indicizzati al PUN sono in arrivo. [Suggerisci una modifica]({issues_url}).",
         "data": {
           "contract_type": "Tipo di contratto"
         }
@@ -67,9 +115,18 @@
           "price_f3": "Prezzo F3"
         }
       }
+    },
+    "abort": {
+      "switzerland_readd": "Le tariffe svizzere seguono da sole il file del tuo gestore. Per scegliere altre tariffe, rimuovi Corrente e aggiungilo di nuovo."
     }
   },
   "selector": {
+    "country": {
+      "options": {
+        "it": "Italia",
+        "ch": "Svizzera"
+      }
+    },
     "contract_type": {
       "options": {
         "single": "Prezzo unico (monoraria)",
@@ -104,6 +161,20 @@
       },
       "next_price": {
         "name": "Prossimo prezzo"
+      },
+      "period": {
+        "name": "Periodo tariffario",
+        "state": {
+          "single": "Tariffa unica",
+          "high": "Alta tariffa",
+          "low": "Bassa tariffa"
+        }
+      },
+      "next_price_change": {
+        "name": "Prossimo cambio di prezzo"
+      },
+      "monthly_fixed": {
+        "name": "Costi fissi al mese"
       }
     }
   }

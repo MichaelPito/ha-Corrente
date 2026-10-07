@@ -125,6 +125,19 @@ esperto. Le richieste diventano la roadmap pubblica.
 | **Feb 2027** | Se i numeri lo giustificano (§8): Corrente Pro e account pagamenti (Lemon Squeezy). | Owner: circa 45 min di account. Claude: il resto. |
 | **Fine mar 2027** | **Punto di decisione**: raddoppiare, correggere o chiudere. | Insieme |
 
+### Stato di avanzamento
+- **6 ottobre 2026** (in anticipo sul calendario):
+  - ✅ Italia: fasce F1/F2/F3 e contratti a prezzo fisso.
+  - ✅ Svizzera v0.1 completa: comune → gestore via ElCom → file tariffe del gestore, fasce, voci nazionali, IVA, ricerca a cascata del file, link manuale, sensori, cambio d'anno automatico. Provata dal vivo su Lugano, Mendrisio, Massagno e Zurigo.
+  - 68 test.
+  - **Prossimi pezzi, in ordine:**
+    1. card per la dashboard (prezzo ora, prossime 24 ore, momento migliore);
+    2. sensore "prossima finestra economica" per Italia e Svizzera;
+    3. guida di installazione e README completi con screenshot;
+    4. PUN Index GME (dopo conferma dell'owner sulle regole d'uso, vedi FONTI-DATI);
+    5. modifica delle tariffe svizzere dalle opzioni;
+    6. tariffe dinamiche svizzere (v0.2).
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
