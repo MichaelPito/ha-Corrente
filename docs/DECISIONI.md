@@ -2,6 +2,13 @@
 
 Formato: data — chi — decisione — perché. Le decisioni più recenti in alto.
 
+- **2026-10-07 — owner** — Prezzo PUN italiano: si usa il **download dal sito GME come pun_sensor** (opzione 1). Parole dell'owner: «1, vai con il download GME come pun_sensor». Regole vincolanti:
+  - ogni installazione scarica da sola i propri dati, 1–2 volte al giorno, con minuto casuale;
+  - nessun server o cache condivisi;
+  - "Fonte: GME" visibile nell'interfaccia;
+  - **nessuna funzione a pagamento basata sui dati GME** (le condizioni GME vietano l'uso commerciale).
+
+  *Rischio accettato:* GME può cambiare l'indirizzo senza preavviso.
 - **2026-10-07 — Claude (correzione tecnica)** — Le voci nazionali svizzere non si aggiungono più sempre: per ogni gestore si verifica con ElCom se sono già nel file. *Perché:* EKZ le include già, quindi il prezzo risultava gonfiato di circa il 13%; AIL ed ewb invece le escludono. Dettagli e limite noto in `FONTI-DATI.md`.
 - **2026-10-07 — Claude** — Ordine dei lavori: prima il momento migliore e l'andamento del prezzo, poi la card. *Perché:* la card ha bisogno di quei dati.
 - **2026-10-06 — owner** — Attivata una **sessione di lavoro automatica ogni giorno feriale alle 8:52** (ora svizzera; routine `trig_014xRbz8QHHxwJXknrBfbGtS`, "Corrente — sessione di lavoro quotidiana"). Parole dell'owner: «Il mio obiettivo è che vai avanti il più possibile da solo, non mi interessa che consumi tutti i crediti». Claude scrive all'owner solo quando serve una sua decisione o azione.
