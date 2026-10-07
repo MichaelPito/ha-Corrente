@@ -175,6 +175,9 @@
       },
       "monthly_fixed": {
         "name": "Fixed charges per month"
+      },
+      "best_start": {
+        "name": "Best time to start (2 h)"
       }
     }
   }

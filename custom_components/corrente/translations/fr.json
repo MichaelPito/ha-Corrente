@@ -175,6 +175,9 @@
       },
       "monthly_fixed": {
         "name": "Frais fixes par mois"
+      },
+      "best_start": {
+        "name": "Meilleur moment pour démarrer (2 h)"
       }
     }
   }

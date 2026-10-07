@@ -9,7 +9,8 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [x] Switzerland (core): find the grid operator(s) of a municipality through ElCom open data, with curated fixes for operators that registered a web page instead of the file
 - [x] Switzerland: UI setup (municipality → operator → tariff → grid and fees), manual link for operators without a readable file (SES, AEM), sensors (price, high/low period, next change, next price, fixed charges), refresh twice a day, automatic switch to the new year's file
 - [x] Sensors: current price, current band, next band change, next band, next price
-- [ ] Sensors: next cheap window, cost today / this month
+- [x] Sensors: best time to start (cheapest 2 hours in the next 24), price schedule for the next 36 hours (attribute, used by the card)
+- [ ] Sensors: cost today / this month; choose the appliance duration (today fixed at 2 hours)
 - [x] UI-only setup (config flow), translations EN / IT / DE / FR
 - [ ] Dashboard card: price now, next 24 h, best time to run
 - [ ] Switzerland: change tariffs from the options (today: remove and add again)

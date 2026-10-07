@@ -175,6 +175,9 @@
       },
       "monthly_fixed": {
         "name": "Fixkosten pro Monat"
+      },
+      "best_start": {
+        "name": "Beste Startzeit (2 Std.)"
       }
     }
   }

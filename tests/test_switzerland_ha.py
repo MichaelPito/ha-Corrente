@@ -157,6 +157,13 @@ async def test_swiss_sensors(
     assert next_change == datetime(2027, 3, 10, 22, 0, tzinfo=SWISS_TZ)
     assert float(state("monthly_fixed").state) == pytest.approx(8.55 * (1 + SWISS_VAT), abs=0.01)
 
+    best = state("best_start")
+    assert datetime.fromisoformat(best.state) == datetime(2027, 3, 10, 22, 0, tzinfo=SWISS_TZ)
+    assert best.attributes["average_price"] == pytest.approx(low, abs=1e-5)
+    schedule = state("price").attributes["schedule"]
+    assert schedule[0]["price"] == pytest.approx(high, abs=1e-5)
+    assert schedule[1]["price"] == pytest.approx(low, abs=1e-5)
+
     # At 22:00 the sensors switch to the low tariff on their own.
     freezer.move_to(datetime(2027, 3, 10, 22, 0, tzinfo=SWISS_TZ))
     async_fire_time_changed(hass)

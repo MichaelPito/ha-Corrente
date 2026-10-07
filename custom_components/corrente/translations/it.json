@@ -175,6 +175,9 @@
       },
       "monthly_fixed": {
         "name": "Costi fissi al mese"
+      },
+      "best_start": {
+        "name": "Momento migliore per avviare (2 ore)"
       }
     }
   }
