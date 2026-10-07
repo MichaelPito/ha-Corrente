@@ -63,6 +63,12 @@ type: custom:corrente-card
 entity: sensor.corrente_price_now
 ```
 
+## Blueprint: start an appliance at the cheapest time
+
+Load the dishwasher, turn on a "ready" helper, and Corrente starts it at the best time.
+
+[![Import blueprint](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fstart_at_best_time.yaml)
+
 ## Automation example
 
 Start the dishwasher at the best time (assuming a smart plug or a dishwasher integration):

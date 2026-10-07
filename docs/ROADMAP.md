@@ -23,7 +23,8 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [ ] Swiss dynamic tariffs (EKZ, CKW, BKW / SmartGridready, Groupe E)
 - [ ] Cost per appliance
 - [ ] Guide: Chain2 / Open Meter (Italy) and Swiss smart-meter readout
-- [ ] Blueprints: run appliances in the cheapest window, use solar surplus, price alerts
+- [x] Blueprint: start an appliance at the best time ("ready" helper + switch, optional notification)
+- [ ] Blueprints: use solar surplus, price alerts
 
 ## Ideas from users
 _(empty — be the first: [suggest something](../../../issues/new/choose))_

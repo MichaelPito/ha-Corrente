@@ -37,6 +37,10 @@ Il prezzo svizzero include IVA, supplemento di rete, riserva elettrica, servizi 
 
 Nelle **opzioni** di Corrente scegli **Contatore** e indica il sensore che conta i tuoi consumi in kWh (contatore intelligente, Shelly, consumo dalla rete della dashboard energia). Compaiono due sensori, **Costo di oggi** e **Costo del mese**: ogni kWh è pagato al prezzo del momento in cui l'hai consumato. In Italia il costo comprende solo la parte energia del contratto che hai inserito.
 
+## Avviare la lavastoviglie al momento giusto
+
+Importa il blueprint **"Corrente — start an appliance at the cheapest time"** (pulsante nel README). Crea un aiutante "pronta" (interruttore). Quando carichi la lavastoviglie lo accendi, e Corrente la fa partire da sola nel momento più economico, poi spegne l'aiutante.
+
 ## La card
 
 Nella dashboard: **Aggiungi scheda** → cerca **Corrente**. In YAML:
