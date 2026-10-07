@@ -1,7 +1,13 @@
 {
   "domain": "corrente",
   "name": "Corrente",
-  "codeowners": ["@MichaelPito"],
+  "after_dependencies": [
+    "frontend",
+    "http"
+  ],
+  "codeowners": [
+    "@MichaelPito"
+  ],
   "config_flow": true,
   "documentation": "https://github.com/MichaelPito/ha-corrente",
   "integration_type": "service",

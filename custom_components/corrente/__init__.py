@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
+from pathlib import Path
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
@@ -15,11 +17,34 @@ from .const import (
     CONF_PRICE_F2,
     CONF_PRICE_F3,
     COUNTRY_SWITZERLAND,
+    DOMAIN,
 )
 from .coordinator import SwissTariffCoordinator
 from .core.contract import ItalyContractType, ItalyFixedContract
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
+
+CARD_URL = "/corrente/corrente-card.js"
+_CARD_PATH = Path(__file__).parent / "frontend" / "corrente-card.js"
+_CARD_REGISTERED = f"{DOMAIN}_card_registered"
+
+
+async def _async_register_card(hass: HomeAssistant) -> None:
+    """Serve the dashboard card and load it in the frontend, once per Home Assistant run."""
+    if hass.data.get(_CARD_REGISTERED) or hass.http is None:
+        return
+    from homeassistant.components.frontend import add_extra_js_url
+    from homeassistant.components.http import StaticPathConfig
+
+    await hass.http.async_register_static_paths(
+        [StaticPathConfig(CARD_URL, str(_CARD_PATH), cache_headers=False)]
+    )
+    if "frontend" in hass.config.components:
+        manifest = await hass.async_add_executor_job(
+            (Path(__file__).parent / "manifest.json").read_text
+        )
+        add_extra_js_url(hass, f"{CARD_URL}?v={json.loads(manifest)['version']}")
+    hass.data[_CARD_REGISTERED] = True
 
 
 @dataclass(slots=True)
@@ -45,6 +70,7 @@ def contract_from_options(options: dict) -> ItalyFixedContract:
 
 async def async_setup_entry(hass: HomeAssistant, entry: CorrenteConfigEntry) -> bool:
     """Set up Corrente from a config entry."""
+    await _async_register_card(hass)
     if entry.data.get(CONF_COUNTRY) == COUNTRY_SWITZERLAND:
         coordinator = SwissTariffCoordinator(hass, entry)
         await coordinator.async_config_entry_first_refresh()

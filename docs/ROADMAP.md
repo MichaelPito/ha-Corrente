@@ -12,7 +12,7 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [x] Sensors: best time to start (cheapest 2 hours in the next 24), price schedule for the next 36 hours (attribute, used by the card)
 - [ ] Sensors: cost today / this month; choose the appliance duration (today fixed at 2 hours)
 - [x] UI-only setup (config flow), translations EN / IT / DE / FR
-- [ ] Dashboard card: price now, next 24 h, best time to run
+- [x] Dashboard card: price now, next 24 h (cheap/dear colours), best time to start; loaded automatically by the integration, EN/IT/DE/FR, light and dark themes
 - [ ] Switzerland: change tariffs from the options (today: remove and add again)
 - [ ] "Suggest a change" link inside the integration and the card
 

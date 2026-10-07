@@ -64,12 +64,21 @@ def _best_window(segments: list[Segment]) -> Window | None:
 
 
 def _schedule_attributes(segments: list[Segment]) -> dict[str, Any]:
-    """Attributes shared by both countries: the schedule the card draws."""
+    """Attributes of the price sensor in both countries: everything the card draws."""
+    window = None
+    if segments:
+        # Same 24-hour search as the best-start sensor, cut out of the 36-hour schedule.
+        limit = segments[0].start + BEST_WINDOW_HORIZON
+        window = _best_window(
+            [Segment(s.start, min(s.end, limit), s.price) for s in segments if s.start < limit]
+        )
     return {
         "schedule": [
             {"start": s.start.isoformat(), "end": s.end.isoformat(), "price": s.price}
             for s in segments
-        ]
+        ],
+        "best_start": None if window is None else window.start.isoformat(),
+        **{f"best_{key}": value for key, value in _best_window_attributes(window).items()},
     }
 
 
