@@ -27,6 +27,9 @@ CONF_GRID_TARIFF: Final = "grid_tariff"
 CONF_REGIONAL_TARIFF: Final = "regional_tariff"
 CONF_CANTON: Final = "canton"
 
+# Both countries
+CONF_ENERGY_SENSOR: Final = "energy_sensor"
+
 ISSUES_URL: Final = "https://github.com/MichaelPito/ha-corrente/issues/new/choose"
 DONATE_URL: Final = "https://buymeacoffee.com/michaelpito"
 

@@ -157,6 +157,13 @@ async def test_swiss_sensors(
     assert next_change == datetime(2027, 3, 10, 22, 0, tzinfo=SWISS_TZ)
     assert float(state("monthly_fixed").state) == pytest.approx(8.55 * (1 + SWISS_VAT), abs=0.01)
 
+    best = state("best_start")
+    assert datetime.fromisoformat(best.state) == datetime(2027, 3, 10, 22, 0, tzinfo=SWISS_TZ)
+    assert best.attributes["average_price"] == pytest.approx(low, abs=1e-5)
+    schedule = state("price").attributes["schedule"]
+    assert schedule[0]["price"] == pytest.approx(high, abs=1e-5)
+    assert schedule[1]["price"] == pytest.approx(low, abs=1e-5)
+
     # At 22:00 the sensors switch to the low tariff on their own.
     freezer.move_to(datetime(2027, 3, 10, 22, 0, tzinfo=SWISS_TZ))
     async_fire_time_changed(hass)
@@ -180,7 +187,7 @@ async def test_swiss_setup_retries_when_file_is_down(
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_swiss_options_ask_to_readd(
+async def test_swiss_options_change_tariff(
     hass: HomeAssistant, mock_ch: AiohttpClientMocker, freezer: FrozenDateTimeFactory
 ) -> None:
     freezer.move_to(WEDNESDAY_10AM)
@@ -188,9 +195,31 @@ async def test_swiss_options_ask_to_readd(
     entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
+
     result = await hass.config_entries.options.async_init(entry.entry_id)
-    assert result["type"] is FlowResultType.ABORT
-    assert result["reason"] == "switzerland_readd"
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {"next_step_id": "contract"}
+    )
+    assert result["step_id"] == "ch_tariff"
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {"electricity_tariff": "Casa & PMI 24h-electricity"}
+    )
+    assert result["step_id"] == "ch_grid"
+    defaults = {str(key): key.default() for key in result["data_schema"].schema}
+    assert defaults["grid_tariff"] == "Casa & PMI 24h-grid7"
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"],
+        {
+            "grid_tariff": "Casa & PMI 24h-grid7",
+            "regional_tariff": "Casa & PMI 24h-regional_fees",
+        },
+    )
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    await hass.async_block_till_done()
+
+    # The entry reloads with the flat tariff: no more high/low periods.
+    entity_id = er.async_get(hass).async_get_entity_id("sensor", DOMAIN, f"{entry.entry_id}_period")
+    assert hass.states.get(entity_id).state == "single"
 
 
 async def test_new_year_follows_the_new_file(

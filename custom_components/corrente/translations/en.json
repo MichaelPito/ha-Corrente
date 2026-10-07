@@ -84,13 +84,6 @@
   },
   "options": {
     "step": {
-      "init": {
-        "title": "Change your contract",
-        "description": "Corrente works out your price from your contract and the Italian time bands (F1, F2, F3). PUN-indexed contracts are coming soon. [Suggest a change]({issues_url}).",
-        "data": {
-          "contract_type": "Contract type"
-        }
-      },
       "prices_single": {
         "title": "Prices per kWh",
         "description": "Enter the energy prices from your bill, in €/kWh (for example 0.1250). Not sure where to find them? [Ask here]({issues_url}).",
@@ -114,10 +107,45 @@
           "price_f2": "Price F2",
           "price_f3": "Price F3"
         }
+      },
+      "ch_tariff": {
+        "title": "Your tariff",
+        "description": "Choose your energy tariff from {operator}. Tariffs that can't be calculated from the file (for example dynamic ones) are not listed yet.",
+        "data": {
+          "electricity_tariff": "Energy tariff"
+        }
+      },
+      "ch_grid": {
+        "title": "Grid and fees",
+        "description": "Corrente suggests the grid tariff and the regional fees that go with \"{electricity}\". Check them against your bill.",
+        "data": {
+          "grid_tariff": "Grid tariff",
+          "regional_tariff": "Regional and municipal fees"
+        }
+      },
+      "contract": {
+        "title": "Change your contract",
+        "description": "Corrente works out your price from your contract and the Italian time bands (F1, F2, F3). PUN-indexed contracts are coming soon. [Suggest a change]({issues_url}).",
+        "data": {
+          "contract_type": "Contract type"
+        }
+      },
+      "init": {
+        "menu_options": {
+          "contract": "Contract or tariff",
+          "meter": "Energy meter (for costs)"
+        }
+      },
+      "meter": {
+        "title": "Energy meter",
+        "description": "Choose the sensor that counts your consumption in kWh (for example your smart meter or the energy dashboard's grid consumption). Corrente prices every kWh at the moment it is used. Leave empty to turn costs off.",
+        "data": {
+          "energy_sensor": "Energy meter"
+        }
       }
     },
     "abort": {
-      "switzerland_readd": "Swiss tariffs follow your grid operator's file automatically. To choose different tariffs, remove Corrente and add it again."
+      "tariffs_unavailable": "The tariff file is not available right now. Try again later."
     }
   },
   "selector": {
@@ -175,6 +203,15 @@
       },
       "monthly_fixed": {
         "name": "Fixed charges per month"
+      },
+      "best_start": {
+        "name": "Best time to start (2 h)"
+      },
+      "cost_day": {
+        "name": "Cost today"
+      },
+      "cost_month": {
+        "name": "Cost this month"
       }
     }
   }

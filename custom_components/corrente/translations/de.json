@@ -84,13 +84,6 @@
   },
   "options": {
     "step": {
-      "init": {
-        "title": "Vertrag ändern",
-        "description": "Corrente berechnet Ihren Preis aus Ihrem Vertrag und den italienischen Zeitbändern (F1, F2, F3). PUN-indexierte Verträge folgen bald. [Änderung vorschlagen]({issues_url}).",
-        "data": {
-          "contract_type": "Vertragsart"
-        }
-      },
       "prices_single": {
         "title": "Preise pro kWh",
         "description": "Geben Sie die Energiepreise von Ihrer Rechnung in €/kWh ein (z. B. 0.1250). Unsicher, wo Sie sie finden? [Hier fragen]({issues_url}).",
@@ -114,10 +107,45 @@
           "price_f2": "Preis F2",
           "price_f3": "Preis F3"
         }
+      },
+      "ch_tariff": {
+        "title": "Ihr Tarif",
+        "description": "Wählen Sie Ihren Energietarif von {operator}. Tarife, die sich nicht aus der Datei berechnen lassen (z. B. dynamische), werden noch nicht angezeigt.",
+        "data": {
+          "electricity_tariff": "Energietarif"
+        }
+      },
+      "ch_grid": {
+        "title": "Netz und Abgaben",
+        "description": "Corrente schlägt den Netztarif und die regionalen Abgaben vor, die zu \"{electricity}\" gehören. Vergleichen Sie sie mit Ihrer Rechnung.",
+        "data": {
+          "grid_tariff": "Netztarif",
+          "regional_tariff": "Kantonale und kommunale Abgaben"
+        }
+      },
+      "contract": {
+        "title": "Vertrag ändern",
+        "description": "Corrente berechnet Ihren Preis aus Ihrem Vertrag und den italienischen Zeitbändern (F1, F2, F3). PUN-indexierte Verträge folgen bald. [Änderung vorschlagen]({issues_url}).",
+        "data": {
+          "contract_type": "Vertragsart"
+        }
+      },
+      "init": {
+        "menu_options": {
+          "contract": "Vertrag oder Tarif",
+          "meter": "Stromzähler (für Kosten)"
+        }
+      },
+      "meter": {
+        "title": "Stromzähler",
+        "description": "Wählen Sie den Sensor, der Ihren Verbrauch in kWh zählt (z. B. Ihren Smart Meter oder den Netzbezug aus dem Energie-Dashboard). Corrente bewertet jede kWh zum Zeitpunkt des Verbrauchs. Leer lassen, um die Kosten auszuschalten.",
+        "data": {
+          "energy_sensor": "Stromzähler"
+        }
       }
     },
     "abort": {
-      "switzerland_readd": "Schweizer Tarife folgen automatisch der Datei Ihres Netzbetreibers. Um andere Tarife zu wählen, entfernen Sie Corrente und fügen es erneut hinzu."
+      "tariffs_unavailable": "Die Tarifdatei ist im Moment nicht verfügbar. Versuchen Sie es später erneut."
     }
   },
   "selector": {
@@ -175,6 +203,15 @@
       },
       "monthly_fixed": {
         "name": "Fixkosten pro Monat"
+      },
+      "best_start": {
+        "name": "Beste Startzeit (2 Std.)"
+      },
+      "cost_day": {
+        "name": "Kosten heute"
+      },
+      "cost_month": {
+        "name": "Kosten diesen Monat"
       }
     }
   }

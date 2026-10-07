@@ -138,6 +138,20 @@ esperto. Le richieste diventano la roadmap pubblica.
     5. modifica delle tariffe svizzere dalle opzioni;
     6. tariffe dinamiche svizzere (v0.2).
 
+- **7 ottobre 2026** (prima sessione automatica):
+  - ✅ momento migliore per avviare (2 ore) e andamento del prezzo nelle prossime 36 ore;
+  - ✅ card per la dashboard, caricata da sola dall'integrazione, provata in Chromium (screenshot in `docs/images`);
+  - ✅ README completo e guida in italiano;
+  - ✅ cambio di tariffa svizzera dalle opzioni;
+  - ✅ costo di oggi e del mese dal contatore dell'utente;
+  - 82 test.
+  - **In attesa dell'owner:** decisione sul PUN Index GME (vedi FONTI-DATI, "Regole per Corrente").
+  - **Prossimi pezzi:**
+    1. durata scelta dall'utente per il momento migliore;
+    2. blueprint di automazione;
+    3. tariffe dinamiche svizzere (v0.2);
+    4. preparazione del lancio: icona/brand, descrizione e topic della repo, testi dei post.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

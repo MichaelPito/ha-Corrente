@@ -84,13 +84,6 @@
   },
   "options": {
     "step": {
-      "init": {
-        "title": "Modifica il contratto",
-        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3). I contratti indicizzati al PUN sono in arrivo. [Suggerisci una modifica]({issues_url}).",
-        "data": {
-          "contract_type": "Tipo di contratto"
-        }
-      },
       "prices_single": {
         "title": "Prezzi al kWh",
         "description": "Inserisci i prezzi dell'energia che trovi in bolletta, in €/kWh (per esempio 0,1250). Non sai dove trovarli? [Chiedi qui]({issues_url}).",
@@ -114,10 +107,45 @@
           "price_f2": "Prezzo F2",
           "price_f3": "Prezzo F3"
         }
+      },
+      "ch_tariff": {
+        "title": "La tua tariffa",
+        "description": "Scegli la tua tariffa dell'energia di {operator}. Le tariffe che non si possono calcolare dal file (per esempio quelle dinamiche) non sono ancora elencate.",
+        "data": {
+          "electricity_tariff": "Tariffa dell'energia"
+        }
+      },
+      "ch_grid": {
+        "title": "Rete e tributi",
+        "description": "Corrente propone la tariffa di rete e i tributi regionali che vanno con \"{electricity}\". Confrontali con la tua bolletta.",
+        "data": {
+          "grid_tariff": "Tariffa di rete",
+          "regional_tariff": "Tributi cantonali e comunali"
+        }
+      },
+      "contract": {
+        "title": "Modifica il contratto",
+        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3). I contratti indicizzati al PUN sono in arrivo. [Suggerisci una modifica]({issues_url}).",
+        "data": {
+          "contract_type": "Tipo di contratto"
+        }
+      },
+      "init": {
+        "menu_options": {
+          "contract": "Contratto o tariffa",
+          "meter": "Contatore (per i costi)"
+        }
+      },
+      "meter": {
+        "title": "Contatore",
+        "description": "Scegli il sensore che conta i tuoi consumi in kWh (per esempio il contatore intelligente o il consumo dalla rete della dashboard energia). Corrente prezza ogni kWh nel momento in cui lo consumi. Lascia vuoto per disattivare i costi.",
+        "data": {
+          "energy_sensor": "Contatore"
+        }
       }
     },
     "abort": {
-      "switzerland_readd": "Le tariffe svizzere seguono da sole il file del tuo gestore. Per scegliere altre tariffe, rimuovi Corrente e aggiungilo di nuovo."
+      "tariffs_unavailable": "Il file delle tariffe non è disponibile in questo momento. Riprova più tardi."
     }
   },
   "selector": {
@@ -175,6 +203,15 @@
       },
       "monthly_fixed": {
         "name": "Costi fissi al mese"
+      },
+      "best_start": {
+        "name": "Momento migliore per avviare (2 ore)"
+      },
+      "cost_day": {
+        "name": "Costo di oggi"
+      },
+      "cost_month": {
+        "name": "Costo del mese"
       }
     }
   }

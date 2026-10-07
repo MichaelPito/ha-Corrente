@@ -54,6 +54,13 @@ async def test_sensors_follow_the_bands(
     next_change = hass.states.get(_entity_id(hass, entry, "next_band_change")).state
     assert datetime.fromisoformat(next_change) == datetime(2026, 10, 7, 19, 0, tzinfo=ITALY_TZ)
 
+    # Cheapest 2 hours in the next 24: F3 from 23:00.
+    best = hass.states.get(_entity_id(hass, entry, "best_start"))
+    assert datetime.fromisoformat(best.state) == datetime(2026, 10, 7, 23, 0, tzinfo=ITALY_TZ)
+    assert best.attributes["average_price"] == 0.20
+    schedule = hass.states.get(_entity_id(hass, entry, "price")).attributes["schedule"]
+    assert [(item["price"]) for item in schedule[:3]] == [0.30, 0.25, 0.20]
+
     # At 19:00 the sensors refresh on their own.
     freezer.tick(timedelta(minutes=30))
     async_fire_time_changed(hass)
