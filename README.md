@@ -6,7 +6,7 @@
 
 <p>
   <img src="docs/images/card-lugano-it.png" width="340" alt="Corrente card for a day/night tariff in Lugano">
-  <img src="docs/images/card-italia-it.png" width="340" alt="Corrente card for an Italian three-band contract">
+  <img src="docs/images/card-pun-it.png" width="340" alt="Corrente card for an Italian PUN-indexed contract, quarter-hour prices">
 </p>
 
 ## What it does
