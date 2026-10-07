@@ -150,6 +150,7 @@ async def test_swiss_sensors(
     low = (0.086 + 0.061 + 0.0102 + 0.012 + 0.0285) * (1 + SWISS_VAT)
     assert float(state("price").state) == pytest.approx(high, abs=1e-5)
     assert state("price").attributes["grid_tariff"] == "Casa & PMI giorno-notte-grid7"
+    assert state("price").attributes["federal_charges_checked_with_elcom"] is True
     assert state("price").attributes["unit_of_measurement"] == "CHF/kWh"
     assert state("period").state == "high"
     assert float(state("next_price").state) == pytest.approx(low, abs=1e-5)

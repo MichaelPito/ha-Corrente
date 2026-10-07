@@ -34,6 +34,7 @@ from .core.switzerland import (
     SwissContract,
     Tariff,
     UnsupportedTariffError,
+    federal_addition,
     parse_tariffs,
     suggest_matching,
     tariffs_on,
@@ -51,9 +52,13 @@ class SwissTariffData:
     tariffs: list[Tariff]
     contract: SwissContract
     source_url: str
+    # True when the federal charges were checked against ElCom for this operator.
+    federal_checked: bool = False
 
 
-def select_contract(tariffs: list[Tariff], options: dict, day: date) -> SwissContract:
+def select_contract(
+    tariffs: list[Tariff], options: dict, day: date, federal_per_kwh: float | None = None
+) -> SwissContract:
     """Pick the user's tariffs that are in force on ``day``.
 
     Operators often rename tariffs from one year to the next ("… 2026" →
@@ -78,6 +83,7 @@ def select_contract(tariffs: list[Tariff], options: dict, day: date) -> SwissCon
         regional_fees=pick("regional_fees", options.get(CONF_REGIONAL_TARIFF)),
         canton=options.get(CONF_CANTON),
         municipality=options.get(CONF_MUNICIPALITY),
+        federal_per_kwh=federal_per_kwh,
     )
 
 
@@ -95,6 +101,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
             update_interval=UPDATE_INTERVAL,
         )
         self._url: str = entry.data[CONF_TARIFF_URL]
+        self._federal: dict[tuple[str, int, str], float | None] = {}
 
     async def _async_update_data(self) -> SwissTariffData:
         options = {**self.config_entry.data, **self.config_entry.options}
@@ -105,10 +112,46 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
             if tariffs is None:
                 # A new year, or the operator moved its file: ask ElCom again.
                 tariffs = await self._async_find_file(session, options, today)
-            contract = select_contract(tariffs, options, today)
+            federal = await self._async_federal(session, options, today, tariffs)
+            contract = select_contract(tariffs, options, today, federal)
         except (ElcomError, UnsupportedTariffError) as err:
             raise UpdateFailed(str(err)) from err
-        return SwissTariffData(tariffs=tariffs, contract=contract, source_url=self._url)
+        return SwissTariffData(
+            tariffs=tariffs,
+            contract=contract,
+            source_url=self._url,
+            federal_checked=federal is not None,
+        )
+
+    async def _async_federal(
+        self, session, options: dict, today: date, tariffs: list[Tariff]
+    ) -> float | None:
+        """Federal charges to add for this operator, checked with ElCom once per file and year."""
+        key = (self._url, today.year, options[CONF_GRID_TARIFF])
+        if key in self._federal:
+            return self._federal[key]
+        try:
+            operators = await async_operators_for(session, options[CONF_MUNICIPALITY], today.year)
+        except ElcomError:
+            return None  # try again at the next refresh; meanwhile add all charges
+        federal = None
+        options_contract = select_contract(tariffs, options, today)  # the user's grid tariff
+        for operator in operators:
+            if (
+                operator.operator_id == options[CONF_OPERATOR_ID]
+                and operator.grid_h4_rp is not None
+                and operator.aidfee_rp is not None
+            ):
+                federal = federal_addition(
+                    tariffs_on(tariffs, "grid", today),
+                    operator.grid_h4_rp,
+                    operator.aidfee_rp,
+                    today.year,
+                    chosen=options_contract.grid,
+                )
+                break
+        self._federal[key] = federal
+        return federal
 
     async def _async_load(self, session, url: str, today: date) -> list[Tariff] | None:
         """Tariffs from ``url`` if the file is readable and has tariffs in force today."""

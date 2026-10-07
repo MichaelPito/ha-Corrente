@@ -370,5 +370,6 @@ class SwissSensor(CoordinatorEntity[SwissTariffCoordinator], SensorEntity):
             "regional_fees": contract.regional_fees.name if contract.regional_fees else None,
             "schedule_gap_filled": gap,
             "source": self.coordinator.data.source_url,
+            "federal_charges_checked_with_elcom": self.coordinator.data.federal_checked,
             **_schedule_attributes(swiss_schedule(contract, now, SCHEDULE_HORIZON), self._duration),
         }

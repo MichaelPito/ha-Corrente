@@ -14,6 +14,7 @@ from custom_components.corrente.core.switzerland import (
     PriceWindow,
     SwissContract,
     UnsupportedTariffError,
+    federal_addition,
     national_charges,
     parse_tariffs,
     price_of_windows,
@@ -183,3 +184,66 @@ def test_naive_datetimes_are_rejected() -> None:
     )
     with pytest.raises(ValueError):
         contract.price_at(datetime(2027, 3, 10, 12, 0))
+
+
+def _flat_grid(price: float, monthly_base: float = 0.0):
+    """A flat grid tariff, as operators publish them."""
+    return parse_tariffs(
+        {
+            "tariffs": [
+                {
+                    "tariffName": "grid",
+                    "tariffType": "grid",
+                    "tariffForm": "constant",
+                    "startDate": "2027-01-01",
+                    "endDate": "2027-12-31",
+                    "prices": {
+                        "base": {"price": monthly_base, "priceUnit": "CHF/M"},
+                        "energy": [
+                            {"from": "00:00", "to": "00:00", "price": price, "priceUnit": "CHF/kWh"}
+                        ],
+                    },
+                }
+            ]
+        }
+    )
+
+
+def test_federal_addition_ail_leaves_charges_out() -> None:
+    """AIL 2027: grid 6.8 Rp + 8.55 CHF/month vs ElCom 9.628 + 2.3: all charges must be added."""
+    grids = tariffs_on(load("ail-2027.json"), "grid", DAY_2027)
+    assert federal_addition(grids, 9.628, 2.3, 2027) == pytest.approx(national_charges(2027))
+
+
+def test_federal_addition_ekz_includes_charges() -> None:
+    """EKZ 2027 "Netz 400F + SDL, Stromreserve, Solidarisierte Kosten": 10.2 Rp vs ElCom 7.9."""
+    assert federal_addition(_flat_grid(0.102), 7.9, 2.3, 2027) == 0.0
+
+
+def test_federal_addition_prefers_the_chosen_tariff() -> None:
+    """EKZ 2026: "400F" (households) includes the surcharge, "400LS" (businesses) matches
+    ElCom without it. The user's own tariff decides."""
+    household = _flat_grid(0.1053)[0]
+    business = _flat_grid(0.0823)[0]
+    grids = [household, business]
+    assert federal_addition(grids, 8.23, 2.3, 2026, chosen=household) == 0.0
+    assert federal_addition(grids, 8.23, 2.3, 2026, chosen=business) == pytest.approx(0.023)
+
+
+def test_federal_addition_surcharge_only() -> None:
+    assert federal_addition(_flat_grid(0.079), 7.9, 2.3, 2027) == pytest.approx(0.023)
+
+
+def test_federal_addition_without_flat_grid() -> None:
+    assert federal_addition([], 7.9, 2.3, 2027) is None
+
+
+def test_contract_uses_the_checked_federal_addition() -> None:
+    ail = load("ail-2027.json")
+    contract = SwissContract(
+        electricity=by_name(ail, "Casa & PMI 24h-electricity"),
+        grid=by_name(ail, "Casa & PMI 24h-grid7"),
+        federal_per_kwh=0.0,
+    )
+    price, _ = contract.price_at(zurich(2027, 3, 10, 12, 0))
+    assert price == pytest.approx((0.0975 + 0.068) * (1 + SWISS_VAT), abs=1e-5)

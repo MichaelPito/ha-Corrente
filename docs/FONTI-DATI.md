@@ -131,3 +131,17 @@ Ogni file viene accettato solo se contiene tariffe valide oggi.
 | Bellinzona | AMB | ❌ nessun file 2026: link manuale (dal 2027 c'è il file) |
 | Locarno | SES | ❌ nessun file: link manuale |
 
+### Voci nazionali: incluse o no? Dipende dal gestore (verificato il 7 ottobre 2026)
+Confronto tra i file dei gestori e i totali ElCom (profilo H4, 4500 kWh/anno; ElCom mette il supplemento di rete di 2,3 Rp a parte e le altre voci nella "rete"):
+
+| Gestore | Tariffa di rete nel file | Voci nazionali |
+|---|---|---|
+| AIL Lugano 2027 | 6,8 Rp + 8,55 CHF/mese = 9,08 | **escluse**: ElCom 9,628 = 9,08 + 0,55 (riserva, Swissgrid, costi solidali) |
+| ewb Berna 2027 | 12,9 | **escluse** (stessa differenza di 0,55) |
+| EKZ 2026, "400F" (case) | 10,53 | **incluse**: 7,95 lavoro + 0,27 Swissgrid + 2,3 supplemento (listino EKZ) |
+| EKZ 2026, "400LS" (aziende) | 8,23 | uguale a ElCom senza supplemento |
+
+Quindi Corrente **non** aggiunge più sempre le stesse voci. Per ogni gestore e anno confronta con ElCom tre ipotesi (nessuna inclusa / solo il supplemento da aggiungere / tutte incluse) e sceglie quella che torna. Usa in ordine: la tariffa di rete scelta dall'utente, la tariffa marcata standard dal gestore, tutte le tariffe a prezzo unico. Se ElCom non risponde aggiunge tutte le voci e lo segnala nell'attributo `federal_charges_checked_with_elcom`.
+
+**Limite noto:** per EKZ "400F" riserva elettrica e costi solidali (circa 0,46 Rp nel 2026) potrebbero non essere né nel file né aggiunti da Corrente: errore massimo stimato intorno all'1,5%. Prima della correzione il prezzo EKZ era gonfiato di circa il 13% (voci contate due volte).
+
