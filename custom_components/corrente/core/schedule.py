@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 
 PriceAt = Callable[[datetime], float]
 NextChange = Callable[[datetime], datetime | None]
@@ -36,15 +36,23 @@ class Window:
 def build_schedule(
     price_at: PriceAt, next_change: NextChange, start: datetime, horizon: timedelta
 ) -> list[Segment]:
-    """Cut ``[start, start + horizon)`` into segments of constant price."""
+    """Cut ``[start, start + horizon)`` into segments of constant price.
+
+    Everything is computed in UTC: Python subtracts and adds datetimes of the
+    same zone on the wall clock, which would be an hour off on the nights the
+    clocks change.
+    """
     if start.tzinfo is None:
         raise ValueError("start must be timezone-aware")
+    start = start.astimezone(UTC)
     end = start + horizon
     segments: list[Segment] = []
     cursor = start
     while cursor < end:
         price = price_at(cursor)
         change = next_change(cursor)
+        if change is not None:
+            change = change.astimezone(UTC)
         stop = end if change is None or change > end else change
         if stop <= cursor:  # defensive: never loop on a non-advancing change
             stop = end
@@ -75,6 +83,7 @@ def cheapest_window(segments: Sequence[Segment], duration: timedelta) -> Window 
     """
     if not segments or duration <= timedelta(0):
         return None
+    segments = [Segment(s.start.astimezone(UTC), s.end.astimezone(UTC), s.price) for s in segments]
     first, last = segments[0].start, segments[-1].end
     if last - first < duration:
         return None

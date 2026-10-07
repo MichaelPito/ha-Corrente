@@ -32,7 +32,7 @@ def italy_schedule(start: datetime, hours: int = 36) -> list[Segment]:
 
 def test_italian_schedule_on_a_weekday() -> None:
     segments = italy_schedule(rome(2026, 10, 7, 10, 30), hours=24)
-    assert [(s.start.hour, s.price) for s in segments] == [
+    assert [(s.start.astimezone(ITALY_TZ).hour, s.price) for s in segments] == [
         (10, 0.30),  # F1 until 19
         (19, 0.25),  # F2 until 23
         (23, 0.20),  # F3 until 7
@@ -53,7 +53,11 @@ def test_adjacent_equal_prices_are_merged() -> None:
     )
     # F2 and F3 both cost 0.22 in a two-band contract: one segment from 20:00 until
     # F1 starts at 08:00, which is also where the 12-hour horizon ends.
-    assert [(s.start.hour, s.end.hour, s.price) for s in segments] == [(20, 8, 0.22)]
+    local = [
+        (s.start.astimezone(ITALY_TZ).hour, s.end.astimezone(ITALY_TZ).hour, s.price)
+        for s in segments
+    ]
+    assert local == [(20, 8, 0.22)]
 
 
 def test_cheapest_window_waits_for_the_night() -> None:
@@ -94,3 +98,21 @@ def test_constant_price_schedule() -> None:
 def test_naive_start_is_rejected() -> None:
     with pytest.raises(ValueError):
         build_schedule(lambda m: 0.1, lambda m: None, datetime(2026, 1, 1), timedelta(hours=1))
+
+
+def test_window_across_the_clock_change_is_real_time() -> None:
+    """Night of 25 October 2026 (clocks go back): 2 hours means 2 real hours."""
+    segments = italy_schedule(rome(2026, 10, 24, 23, 30), hours=12)
+    window = cheapest_window(segments, timedelta(hours=2))
+    assert window.start == rome(2026, 10, 24, 23, 30)
+    assert window.end.timestamp() - window.start.timestamp() == 2 * 3600
+    # The clocks go back at 03:00, after the window: it ends at 01:30 summer time.
+    assert window.end == rome(2026, 10, 25, 1, 30)
+
+
+def test_window_through_the_repeated_hour() -> None:
+    """3 real hours from 01:30 summer time on 25 October 2026 end at 03:30 winter time."""
+    start = rome(2026, 10, 25, 1, 30)
+    segments = build_schedule(lambda m: 0.2, lambda m: None, start, timedelta(hours=6))
+    window = cheapest_window(segments, timedelta(hours=3))
+    assert window.end.astimezone(ITALY_TZ).strftime("%H:%M %Z") == "03:30 CET"
