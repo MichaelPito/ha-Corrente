@@ -16,6 +16,8 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [ ] Switzerland: change tariffs from the options (today: remove and add again)
 - [ ] "Suggest a change" link inside the integration and the card
 
+- [x] README with screenshots, installation, sensors, card and an automation example; Italian guide
+
 ## Next (December 2026 – January 2027)
 - [ ] Swiss dynamic tariffs (EKZ, CKW, BKW / SmartGridready, Groupe E)
 - [ ] Cost per appliance
