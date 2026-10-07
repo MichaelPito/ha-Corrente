@@ -2,6 +2,8 @@
 
 Formato: data — chi — decisione — perché. Le decisioni più recenti in alto.
 
+- **2026-10-07 — Claude (correzione tecnica)** — Le voci nazionali svizzere non si aggiungono più sempre: per ogni gestore si verifica con ElCom se sono già nel file. *Perché:* EKZ le include già, quindi il prezzo risultava gonfiato di circa il 13%; AIL ed ewb invece le escludono. Dettagli e limite noto in `FONTI-DATI.md`.
+- **2026-10-07 — Claude** — Ordine dei lavori: prima il momento migliore e l'andamento del prezzo, poi la card. *Perché:* la card ha bisogno di quei dati.
 - **2026-10-06 — owner** — Attivata una **sessione di lavoro automatica ogni giorno feriale alle 8:52** (ora svizzera; routine `trig_014xRbz8QHHxwJXknrBfbGtS`, "Corrente — sessione di lavoro quotidiana"). Parole dell'owner: «Il mio obiettivo è che vai avanti il più possibile da solo, non mi interessa che consumi tutti i crediti». Claude scrive all'owner solo quando serve una sua decisione o azione.
 - **2026-10-06 — owner** — Niente organizzazione GitHub: la repo sta sull'account personale **MichaelPito** (`MichaelPito/ha-corrente`). *Perché:* più semplice; il nome visibile non è un problema per l'owner. Se servirà, la repo si può trasferire in un'organizzazione più avanti (GitHub mantiene i reindirizzamenti). Sostituisce la decisione "marchio con organizzazione dedicata".
 - **2026-10-06 — owner** — Account donazioni: `buymeacoffee.com/michaelpito`. La pagina è condivisa con altri progetti dell'owner, quindi deve restare generica (vedi suggerimenti in chat del 6 ottobre).
