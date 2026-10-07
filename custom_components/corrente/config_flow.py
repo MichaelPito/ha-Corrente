@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 import voluptuous as vol
+from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
@@ -14,6 +15,8 @@ from homeassistant.config_entries import (
 from homeassistant.core import callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.selector import (
+    EntitySelector,
+    EntitySelectorConfig,
     NumberSelector,
     NumberSelectorConfig,
     NumberSelectorMode,
@@ -32,6 +35,7 @@ from .const import (
     CONF_CONTRACT_TYPE,
     CONF_COUNTRY,
     CONF_ELECTRICITY_TARIFF,
+    CONF_ENERGY_SENSOR,
     CONF_GRID_TARIFF,
     CONF_MUNICIPALITY,
     CONF_MUNICIPALITY_NAME,
@@ -417,6 +421,32 @@ class CorrenteOptionsFlow(OptionsFlow):
         self._electricity: str | None = None
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
+        """Change the contract or tariff, or the energy meter used for costs."""
+        return self.async_show_menu(step_id="init", menu_options=["contract", "meter"])
+
+    def _save(self, changes: dict[str, Any]) -> ConfigFlowResult:
+        """Keep the options that this step does not change."""
+        return self.async_create_entry(data={**self.config_entry.options, **changes})
+
+    async def async_step_meter(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
+        """Choose the energy meter whose kWh are priced into today's and this month's cost."""
+        if user_input is not None:
+            return self._save({CONF_ENERGY_SENSOR: user_input.get(CONF_ENERGY_SENSOR)})
+        schema = vol.Schema(
+            {
+                vol.Optional(CONF_ENERGY_SENSOR): EntitySelector(
+                    EntitySelectorConfig(domain="sensor", device_class=SensorDeviceClass.ENERGY)
+                )
+            }
+        )
+        current = {**self.config_entry.data, **self.config_entry.options}
+        return self.async_show_form(
+            step_id="meter", data_schema=self.add_suggested_values_to_schema(schema, current)
+        )
+
+    async def async_step_contract(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
         """Choose the shape of the contract, or the Swiss energy tariff."""
         if self.config_entry.data.get(CONF_COUNTRY) == COUNTRY_SWITZERLAND:
             return await self.async_step_ch_tariff()
@@ -425,7 +455,7 @@ class CorrenteOptionsFlow(OptionsFlow):
             self._contract_type = ItalyContractType(user_input[CONF_CONTRACT_TYPE])
             return await self._async_step_prices()
         return self.async_show_form(
-            step_id="init",
+            step_id="contract",
             data_schema=self.add_suggested_values_to_schema(_CONTRACT_SCHEMA, current),
             description_placeholders=_PLACEHOLDERS,
         )
@@ -453,9 +483,7 @@ class CorrenteOptionsFlow(OptionsFlow):
     ) -> ConfigFlowResult:
         assert self._contract_type is not None
         if user_input is not None:
-            return self.async_create_entry(
-                data={CONF_CONTRACT_TYPE: self._contract_type.value, **user_input}
-            )
+            return self._save({CONF_CONTRACT_TYPE: self._contract_type.value, **user_input})
         current = {**self.config_entry.data, **self.config_entry.options}
         defaults = {
             key: value
@@ -504,9 +532,7 @@ class CorrenteOptionsFlow(OptionsFlow):
         tariffs = self._swiss_tariffs()
         today = dt_util.now(SWISS_TZ).date()
         if user_input is not None:
-            return self.async_create_entry(
-                data=_tariff_choice(tariffs, self._electricity, user_input, today)
-            )
+            return self._save(_tariff_choice(tariffs, self._electricity, user_input, today))
         return self.async_show_form(
             step_id="ch_grid",
             data_schema=_grid_schema(tariffs, self._electricity, today),

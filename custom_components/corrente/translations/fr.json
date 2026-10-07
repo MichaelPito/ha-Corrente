@@ -84,13 +84,6 @@
   },
   "options": {
     "step": {
-      "init": {
-        "title": "Modifier le contrat",
-        "description": "Corrente calcule votre prix à partir de votre contrat et des plages horaires italiennes (F1, F2, F3). Les contrats indexés sur le PUN arrivent bientôt. [Suggérer une modification]({issues_url}).",
-        "data": {
-          "contract_type": "Type de contrat"
-        }
-      },
       "prices_single": {
         "title": "Prix par kWh",
         "description": "Saisissez les prix de l'énergie figurant sur votre facture, en €/kWh (par exemple 0,1250). Vous ne savez pas où les trouver ? [Demandez ici]({issues_url}).",
@@ -128,6 +121,26 @@
         "data": {
           "grid_tariff": "Tarif de réseau",
           "regional_tariff": "Redevances cantonales et communales"
+        }
+      },
+      "contract": {
+        "title": "Modifier le contrat",
+        "description": "Corrente calcule votre prix à partir de votre contrat et des plages horaires italiennes (F1, F2, F3). Les contrats indexés sur le PUN arrivent bientôt. [Suggérer une modification]({issues_url}).",
+        "data": {
+          "contract_type": "Type de contrat"
+        }
+      },
+      "init": {
+        "menu_options": {
+          "contract": "Contrat ou tarif",
+          "meter": "Compteur (pour les coûts)"
+        }
+      },
+      "meter": {
+        "title": "Compteur",
+        "description": "Choisissez le capteur qui compte votre consommation en kWh (par exemple votre compteur intelligent ou la consommation réseau du tableau de bord énergie). Corrente valorise chaque kWh au moment où il est consommé. Laissez vide pour désactiver les coûts.",
+        "data": {
+          "energy_sensor": "Compteur"
         }
       }
     },
@@ -193,6 +206,12 @@
       },
       "best_start": {
         "name": "Meilleur moment pour démarrer (2 h)"
+      },
+      "cost_day": {
+        "name": "Coût aujourd'hui"
+      },
+      "cost_month": {
+        "name": "Coût ce mois-ci"
       }
     }
   }

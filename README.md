@@ -48,6 +48,9 @@ Corrente will be in the default HACS store after the launch. Until then:
 | Next price | ✅ | ✅ |
 | Best time to start (2 h) | ✅ | ✅ |
 | Fixed charges per month | — | ✅ |
+| Cost today / Cost this month ¹ | € (energy part) | CHF incl. VAT |
+
+¹ Optional: in the integration's options choose your **energy meter** (any kWh sensor, e.g. your smart meter or the energy dashboard's grid consumption). Each kWh is priced at the moment it is used.
 
 The price sensor also carries the price **schedule** for the next 36 hours and the best window (`best_start`, `best_end`, `best_average_price`) as attributes.
 

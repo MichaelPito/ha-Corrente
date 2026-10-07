@@ -197,6 +197,9 @@ async def test_swiss_options_change_tariff(
     await hass.async_block_till_done()
 
     result = await hass.config_entries.options.async_init(entry.entry_id)
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {"next_step_id": "contract"}
+    )
     assert result["step_id"] == "ch_tariff"
     result = await hass.config_entries.options.async_configure(
         result["flow_id"], {"electricity_tariff": "Casa & PMI 24h-electricity"}

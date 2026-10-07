@@ -21,12 +21,13 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
 from . import CorrenteConfigEntry
-from .const import ATTRIBUTION_ELCOM, DOMAIN
+from .const import ATTRIBUTION_ELCOM, CONF_ENERGY_SENSOR, DOMAIN
 from .coordinator import SwissTariffCoordinator
 from .core.contract import ItalyFixedContract
-from .core.italy import Band, band_at, next_band_change
+from .core.italy import ITALY_TZ, Band, band_at, next_band_change
 from .core.schedule import Segment, Window, build_schedule, cheapest_window
-from .core.switzerland import SwissContract
+from .core.switzerland import SWISS_TZ, SwissContract
+from .cost import PERIOD_DAY, PERIOD_MONTH, CostSensor
 
 PARALLEL_UPDATES = 0
 
@@ -235,9 +236,31 @@ async def async_setup_entry(
     entities: list[SensorEntity]
     if data.switzerland is not None:
         entities = [SwissSensor(entry, data.switzerland, d) for d in SWISS_SENSORS]
+        coordinator = data.switzerland
+
+        def price_fn(now: datetime) -> float | None:
+            return coordinator.data.contract.price_at(now)[0] if coordinator.data else None
+
+        currency, tz = "CHF", SWISS_TZ
     else:
         entities = [ItalySensor(entry, d) for d in ITALY_SENSORS]
+        price_fn, currency, tz = data.italy.price_at, "EUR", ITALY_TZ
     async_add_entities(entities)
+
+    meter = {**entry.data, **entry.options}.get(CONF_ENERGY_SENSOR)
+    if meter:
+        async_add_entities(
+            CostSensor(
+                unique_id=f"{entry.entry_id}_cost_{period}",
+                device_info=_device_info(entry),
+                energy_entity=meter,
+                price_fn=price_fn,
+                currency=currency,
+                period=period,
+                tz=tz,
+            )
+            for period in (PERIOD_DAY, PERIOD_MONTH)
+        )
 
     @callback
     def _refresh(_now: datetime) -> None:

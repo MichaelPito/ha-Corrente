@@ -55,7 +55,11 @@ async def test_options_flow_changes_contract(hass: HomeAssistant) -> None:
     await hass.async_block_till_done()
 
     result = await hass.config_entries.options.async_init(entry.entry_id)
-    assert result["step_id"] == "init"
+    assert result["type"] is FlowResultType.MENU
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {"next_step_id": "contract"}
+    )
+    assert result["step_id"] == "contract"
     result = await hass.config_entries.options.async_configure(
         result["flow_id"], {"contract_type": "two_bands"}
     )
