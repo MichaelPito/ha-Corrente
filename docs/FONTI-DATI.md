@@ -10,7 +10,7 @@
 - **Festivi F3 (elenco chiuso):** 1/1, 6/1, Lunedì dell'Angelo, 25/4, 1/5, 2/6, 15/8, 1/11, 8/12, 25/12, 26/12.
 - **Il 4 ottobre (San Francesco, di nuovo festa nazionale dal 2026) NON è nell'elenco ARERA.** Non usare `holidays.IT()` della libreria python-holidays, che lo include: per le bollette conta la tabella ARERA. Nel 2026 il 4/10 è domenica; la differenza conta dal lunedì 4/10/2027. Da ricontrollare se ARERA aggiorna la tabella.
 
-### Prezzi all'ingrosso (PUN Index GME e prezzi zonali) — ⏳ da implementare
+### Prezzi all'ingrosso (PUN Index GME e prezzi zonali) — ✅ implementati (`core/gme.py`, decisione dell'owner del 7 ottobre)
 - Dal 1/1/2025 il riferimento è il **PUN Index GME**: media dei prezzi zonali ponderata per i volumi. Nei file XML è ancora nel tag `<PUN>`.
 - Dal 1/10/2025 il mercato del giorno prima (MGP) ha **risoluzione al quarto d'ora**. I file orari sono ancora pubblicati.
 - **Fonte A, download dal sito GME** (usata anche da pun_sensor, licenza MIT):
@@ -25,6 +25,11 @@
   - solo uso **personale, informativo, non commerciale**;
   - **citazione obbligatoria** "Fonte: Gestore dei Mercati Energetici S.p.A.";
   - vietato condividere credenziali.
+- **Implementazione (7 ottobre 2026):**
+  - stesse intestazioni del modulo di download del sito, ma User-Agent onesto "Corrente/0.1 (+link alla repo)": il server accetta;
+  - prezzi al quarto d'ora, con fallback orario;
+  - giorni di 92 e 100 quarti d'ora verificati sui file reali del 29 marzo 2026 e del 26 ottobre 2025;
+  - un download a mezzogiorno circa per oggi e domani, con minuto casuale per installazione dopo le 13:30; nuovo tentativo ogni 30 minuti solo finché domani manca.
 - **Regole per Corrente:**
   - ogni installazione scarica da sola i dati per la propria casa;
   - nessun server o cache condivisi;

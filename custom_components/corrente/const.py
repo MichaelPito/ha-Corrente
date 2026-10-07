@@ -15,6 +15,9 @@ CONF_CONTRACT_TYPE: Final = "contract_type"
 CONF_PRICE_F1: Final = "price_f1"
 CONF_PRICE_F2: Final = "price_f2"
 CONF_PRICE_F3: Final = "price_f3"
+CONF_SPREAD: Final = "spread"
+CONF_LOSSES: Final = "losses"
+CONF_ZONE: Final = "zone"
 
 # Switzerland
 CONF_MUNICIPALITY: Final = "municipality"

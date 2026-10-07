@@ -4,7 +4,7 @@ Ideas and requests from users are collected through the [request forms](../../..
 
 ## v0.1 — first public release (planned mid-November 2026)
 - [x] Italy: F1 / F2 / F3 bands with national holidays, fixed-price contracts (single, two bands, three bands)
-- [ ] Italy: PUN / zonal prices and PUN + spread contracts
+- [x] Italy: PUN Index GME / zonal prices (quarter hours, today and tomorrow) and PUN + spread contracts with optional grid losses
 - [x] Switzerland (core): reader for the VSE tariff files operators must publish, high/low windows, cantonal and municipal surcharges, federal charges, VAT — verified against ElCom totals
 - [x] Switzerland (core): find the grid operator(s) of a municipality through ElCom open data, with curated fixes for operators that registered a web page instead of the file
 - [x] Switzerland: UI setup (municipality → operator → tariff → grid and fees), manual link for operators without a readable file (SES, AEM), sensors (price, high/low period, next change, next price, fixed charges), refresh twice a day, automatic switch to the new year's file

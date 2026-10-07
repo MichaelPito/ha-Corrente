@@ -74,6 +74,15 @@
           "grid_tariff": "Grid tariff",
           "regional_tariff": "Regional and municipal fees"
         }
+      },
+      "prices_pun": {
+        "title": "PUN-indexed contract",
+        "description": "Your price is the GME wholesale price (PUN Index or your zone) plus the spread on your bill. Source: GME. [Ask here]({issues_url}) if unsure.",
+        "data": {
+          "spread": "Spread",
+          "losses": "Grid losses (if your contract applies them)",
+          "zone": "Reference price"
+        }
       }
     },
     "error": {
@@ -150,6 +159,15 @@
         "data": {
           "best_hours": "Duration"
         }
+      },
+      "prices_pun": {
+        "title": "PUN-indexed contract",
+        "description": "Your price is the GME wholesale price (PUN Index or your zone) plus the spread on your bill. Source: GME. [Ask here]({issues_url}) if unsure.",
+        "data": {
+          "spread": "Spread",
+          "losses": "Grid losses (if your contract applies them)",
+          "zone": "Reference price"
+        }
       }
     },
     "abort": {
@@ -167,7 +185,20 @@
       "options": {
         "single": "Single price (monoraria)",
         "two_bands": "Two bands: F1 and F23 (bioraria)",
-        "three_bands": "Three bands: F1, F2, F3 (trioraria)"
+        "three_bands": "Three bands: F1, F2, F3 (trioraria)",
+        "pun": "Indexed: PUN (or zone) + spread"
+      }
+    },
+    "zone": {
+      "options": {
+        "pun": "PUN Index GME",
+        "nord": "Nord",
+        "cnor": "Centro-Nord",
+        "csud": "Centro-Sud",
+        "sud": "Sud",
+        "cala": "Calabria",
+        "sici": "Sicilia",
+        "sard": "Sardegna"
       }
     }
   },
@@ -220,6 +251,9 @@
       },
       "cost_month": {
         "name": "Cost this month"
+      },
+      "wholesale": {
+        "name": "Wholesale price ({zone})"
       }
     }
   }
