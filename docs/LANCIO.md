@@ -13,7 +13,7 @@
 | 5 | Icona e logo: dentro l'integrazione (cartella `brand/`, letta da Home Assistant 2026.3 e successivi), nessuna richiesta esterna | Claude | ✅ 8 ottobre |
 | 6 | Richiesta di inserimento nello store HACS (`hacs/default`) | Claude prepara, **owner** approva | ⏳ |
 | 7 | Post nelle community (testi qui sotto) | **Owner**, copia e incolla, circa 10 min | ⏳ |
-| 8 | Modulo per chi non ha GitHub (Tally o simile) | Claude prepara, **owner** crea l'account se serve | ⏳ |
+| 8 | Modulo per chi non ha GitHub: Google Form creato da uno script (`docs/MODULO.md`), nessun account nuovo | Claude prepara ✅, **owner** esegue lo script una volta (circa 3 min) | ⏳ |
 
 **Descrizione della repo (punto 3):**
 > Your real electricity price in Home Assistant and the best time to switch things on — Italy (F1/F2/F3) and Switzerland (every grid operator via ElCom, Ticino included).

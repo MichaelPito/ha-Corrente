@@ -162,8 +162,9 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ link "Suggerisci una modifica" nelle opzioni e nella card, con la fonte dei dati in fondo alla card (per il GME è un obbligo); screenshot aggiornati;
   - ✅ icona e logo dentro l'integrazione (cartella `brand/`): da Home Assistant 2026.3 non serve più la richiesta al repo `home-assistant/brands`, quindi una azione in meno per l'owner;
   - 130 test.
+  - ✅ modulo per chi non ha GitHub preparato (Google Form da script, `docs/MODULO.md`); **serve l'owner** per eseguire lo script una volta;
   - **Prossimi pezzi:**
-    1. modulo per le richieste senza account GitHub;
+    1. collegare il modulo (README, guida, scelta delle richieste) appena esiste, e leggerne le risposte ogni giorno;
     2. versione v0.1.0 e note di rilascio;
     3. CKW: tipo `integrated` e file delle tariffe (oggi risponde 403).
 
