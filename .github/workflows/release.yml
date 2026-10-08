@@ -1,11 +1,16 @@
 name: Release
 
-# Pushing a tag "vX.Y.Z" publishes the GitHub release, with the notes of that
-# version from CHANGELOG.md and a zip of the integration for manual installs.
+# Publishes the GitHub release for the version in manifest.json, with the notes
+# of that version from CHANGELOG.md and a zip of the integration for manual
+# installs. Two ways to start it:
+# - push a tag "vX.Y.Z";
+# - Actions → Release → Run workflow (on main): the tag is created from the
+#   manifest version.
 on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -16,15 +21,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check that the tag matches the manifest
+      - name: Version from the manifest (and the tag, if any)
         run: |
-          version="${GITHUB_REF_NAME#v}"
           manifest=$(python3 -c "import json; print(json.load(open('custom_components/corrente/manifest.json'))['version'])")
-          if [ "$version" != "$manifest" ]; then
-            echo "Tag $GITHUB_REF_NAME does not match manifest version $manifest" >&2
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            if [ "${GITHUB_REF_NAME#v}" != "$manifest" ]; then
+              echo "Tag $GITHUB_REF_NAME does not match manifest version $manifest" >&2
+              exit 1
+            fi
+          elif [ "$GITHUB_REF_NAME" != "main" ]; then
+            echo "Run the release from main, not $GITHUB_REF_NAME" >&2
             exit 1
           fi
-          echo "VERSION=$version" >> "$GITHUB_ENV"
+          echo "VERSION=$manifest" >> "$GITHUB_ENV"
+          echo "TAG=v$manifest" >> "$GITHUB_ENV"
       - name: Release notes from CHANGELOG.md
         run: |
           python3 - <<'PY'
@@ -41,4 +51,9 @@ jobs:
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" corrente.zip --title "Corrente $VERSION" --notes-file notes.md --verify-tag
+        run: |
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            gh release create "$TAG" corrente.zip --title "Corrente $VERSION" --notes-file notes.md --verify-tag
+          else
+            gh release create "$TAG" corrente.zip --title "Corrente $VERSION" --notes-file notes.md --target "$GITHUB_SHA"
+          fi
