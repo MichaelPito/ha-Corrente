@@ -1,0 +1,4 @@
+# The oldest Home Assistant Corrente supports (hacs.json): 2025.10.
+pytest-homeassistant-custom-component==0.13.287
+# aiodns of that period breaks with pycares 5.
+pycares<5

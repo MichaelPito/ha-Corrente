@@ -6,7 +6,7 @@
 
 | # | Cosa | Chi | Stato |
 |---|---|---|---|
-| 1 | Versione v0.1.0 con note di rilascio | Claude | ⏳ |
+| 1 | Versione v0.1.0 con note di rilascio (`CHANGELOG.md`, release creata dal tag) | Claude | ✅ 8 ottobre; le correzioni dopo il test a casa escono come v0.1.x |
 | 2 | Repo da privata a **pubblica** (Settings → General → Danger zone → Change visibility) | **Owner**, 1 min | ⏳ |
 | 3 | Descrizione della repo e topic (`home-assistant`, `hacs`, `hacs-integration`, `energy`, `electricity-prices`, `switzerland`, `italy`, `ticino`) — Settings → General / About | **Owner**, 1 min (testo qui sotto) | ⏳ |
 | 4 | Il controllo HACS si riattiva da solo con la repo pubblica: verifica verde | Claude | ⏳ |

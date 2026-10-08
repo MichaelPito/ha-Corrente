@@ -24,8 +24,8 @@ import aiohttp
 from yarl import URL
 
 from .schedule import Segment
+from .version import USER_AGENT
 
-USER_AGENT = "Corrente/0.1 (+https://github.com/MichaelPito/ha-corrente)"
 _TIMEOUT = aiohttp.ClientTimeout(total=30)
 _PER_KWH = {"CHF_kWh", "CHF/kWh"}
 

@@ -1,0 +1,44 @@
+name: Release
+
+# Pushing a tag "vX.Y.Z" publishes the GitHub release, with the notes of that
+# version from CHANGELOG.md and a zip of the integration for manual installs.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Publish release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check that the tag matches the manifest
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          manifest=$(python3 -c "import json; print(json.load(open('custom_components/corrente/manifest.json'))['version'])")
+          if [ "$version" != "$manifest" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match manifest version $manifest" >&2
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+      - name: Release notes from CHANGELOG.md
+        run: |
+          python3 - <<'PY'
+          import os, re
+          version = os.environ["VERSION"]
+          text = open("CHANGELOG.md", encoding="utf-8").read()
+          match = re.search(rf"^## \[{re.escape(version)}\].*?$(.*?)(?=^## \[|^\[{re.escape(version)}\]:|\Z)", text, re.M | re.S)
+          if not match:
+              raise SystemExit(f"No section for {version} in CHANGELOG.md")
+          open("notes.md", "w", encoding="utf-8").write(match.group(1).strip() + "\n")
+          PY
+      - name: Zip the integration
+        run: cd custom_components/corrente && zip -r -q "$GITHUB_WORKSPACE/corrente.zip" . -x "__pycache__/*" "*/__pycache__/*"
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" corrente.zip --title "Corrente $VERSION" --notes-file notes.md --verify-tag

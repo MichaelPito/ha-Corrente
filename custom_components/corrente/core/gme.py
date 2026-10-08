@@ -21,6 +21,7 @@ import aiohttp
 
 from .italy import ITALY_TZ
 from .schedule import Segment
+from .version import USER_AGENT
 
 GME_URL = (
     "https://gme.mercatoelettrico.org/DesktopModules/GmeDownload/API/ExcelDownload/downloadzipfile"
@@ -31,7 +32,7 @@ GME_HEADERS = {
     "tabid": "1749",
     "userid": "-1",
     "referer": "https://gme.mercatoelettrico.org/en-us/Home/Results/Electricity/MGP/Download?valore=Prezzi",
-    "User-Agent": "Corrente/0.1 (+https://github.com/MichaelPito/ha-corrente)",
+    "User-Agent": USER_AGENT,
 }
 ATTRIBUTION = "Fonte: Gestore dei Mercati Energetici S.p.A. (GME)"
 

@@ -7,7 +7,7 @@
 
 **Your real electricity price in Home Assistant — and the best time to switch things on. Made for Italy 🇮🇹 and Switzerland 🇨🇭.**
 
-> 🚧 Pre-release. The first public version (v0.1) is planned for mid-November 2026.
+> **v0.1.0** — first release ([what's in it](CHANGELOG.md)). Requires Home Assistant 2025.10 or later.
 
 <p>
   <img src="docs/images/card-lugano-it.png" width="340" alt="Corrente card for a day/night tariff in Lugano">
@@ -41,6 +41,8 @@ Corrente will be in the default HACS store after the launch. Until then:
 1. HACS → ⋮ → **Custom repositories** → add `https://github.com/MichaelPito/ha-corrente`, category **Integration**.
 2. Install **Corrente** and restart Home Assistant.
 3. **Settings → Devices & services → Add integration → Corrente**, then follow the steps (country, then your contract or your municipality).
+
+Without HACS: download `corrente.zip` from the [latest release](../../releases/latest), unzip it into `config/custom_components/corrente/` and restart Home Assistant.
 
 ## Sensors
 
