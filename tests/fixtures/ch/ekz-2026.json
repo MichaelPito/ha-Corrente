@@ -1,0 +1,963 @@
+{
+ "dsoName": "EKZ",
+ "dsoNumber": 10153012345,
+ "tariffs": [
+  {
+   "tariffName": "EKZ Energie Erneuerbar",
+   "tariffType": "electricity",
+   "standardBasegroup": true,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Privat- und Geschäftskunden bis 100'000 kWh/a",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=electricity_standard",
+   "prices": {
+    "base": {
+     "price": 3.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.133,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.09,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.133,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "EKZ Energie Dynamisch",
+   "tariffType": "electricity",
+   "standardBasegroup": false,
+   "tariffForm": "dynamic",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Privat- und Geschäftskunden bis 100'000 kWh/a",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=electricity_dynamic",
+   "prices": {
+    "base": {
+     "price": 3.0,
+     "priceUnit": "CHF/M"
+    },
+    "dynamic": {
+     "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=electricity_dynamic"
+    }
+   }
+  },
+  {
+   "tariffName": "EKZ Energie Beleuchtung",
+   "tariffType": "electricity",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Öffentliche Beleuchtung von Staats- und Gemeindestrassen",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=electricity_lighting",
+   "prices": {
+    "base": {
+     "price": 0.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.133,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.09,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.133,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "EKZ Energie Business Erneuerbar",
+   "tariffType": "electricity",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Geschäftskunden ab 100'000 kWh/a",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=electricity_business",
+   "prices": {
+    "base": {
+     "price": 0.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.133,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.09,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.133,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "EKZ Netz 400ST + SDL, Stromreserve, Solidarisierte Kosten, Bundesabgaben",
+   "tariffType": "grid",
+   "standardBasegroup": true,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Privat- und Geschäftskunden bis 100'000 kWh/a",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=grid_400ST_inclFees",
+   "prices": {
+    "base": {
+     "price": 0.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "weekdays": [],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1098,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.1098,
+     "priceUnit": "CHF/kWh",
+     "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=refund_400ST"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "EKZ Netz 400F + SDL, Stromreserve, Solidarisierte Kosten, Bundesabgaben",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Privat- und Geschäftskunden bis 100'000 kWh/a",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=grid_400F_inclFees",
+   "prices": {
+    "base": {
+     "price": 0.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "weekdays": [],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1053,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.1053,
+     "priceUnit": "CHF/kWh",
+     "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=refund_400F"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "EKZ Netz 400WP + SDL, Stromreserve, Solidarisierte Kosten, Bundesabgaben",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Privat- und Geschäftskunden bis 100'000 kWh/a",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=grid_400WP_inclFees",
+   "prices": {
+    "base": {
+     "price": 0.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "weekdays": [],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0948,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0948,
+     "priceUnit": "CHF/kWh",
+     "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=refund_400WP"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "EKZ Netz 400D + SDL, Stromreserve, Solidarisierte Kosten, Bundesabgaben",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "dynamic",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Privat- und Geschäftskunden bis 100'000 kWh/a",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=grid_400D_inclFees",
+   "prices": {
+    "base": {
+     "price": 0.0,
+     "priceUnit": "CHF/M"
+    },
+    "refundStorage": {
+     "price": 0.1098,
+     "priceUnit": "CHF/kWh",
+     "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=refund_400D"
+    },
+    "dynamic": {
+     "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=grid_400D_inclFees"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "EKZ Netz 400B + SDL, Stromreserve, Solidarisierte Kosten, Bundesabgaben",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Öffentliche Beleuchtung von Staats- und Gemeindestrassen",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=grid_400B_inclFees",
+   "prices": {
+    "base": {
+     "price": 0.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "weekdays": [],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1078,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.1078,
+     "priceUnit": "CHF/kWh",
+     "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=refund_400B"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "EKZ Netz 400L + SDL, Stromreserve, Solidarisierte Kosten, Bundesabgaben",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt., die mehrbezogene Blindenergie ist erst bei Unterschreitung des Grenzwerts des Leistungsfaktors cos(phi) = 0.92 zu bezahlen",
+   "customerType": "Geschäftskunden ab 100'000 kWh/a",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=grid_400L_inclFees",
+   "prices": {
+    "base": {
+     "price": 0.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0503,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 12.1,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.041,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0503,
+     "priceUnit": "CHF/kWh",
+     "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=refund_400L"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "EKZ Netz 400LS + SDL, Stromreserve, Solidarisierte Kosten, Bundesabgaben",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt., die mehrbezogene Blindenergie ist erst bei Unterschreitung des Grenzwerts des Leistungsfaktors cos(phi) = 0.92 zu bezahlen",
+   "customerType": "Geschäftskunden ab 100'000 kWh/a",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=grid_400LS_inclFees",
+   "prices": {
+    "base": {
+     "price": 0.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0823,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 4.75,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.041,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0823,
+     "priceUnit": "CHF/kWh",
+     "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=refund_400LS"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "EKZ Netz 16L + SDL, Stromreserve, Solidarisierte Kosten, Bundesabgaben",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt., die mehrbezogene Blindenergie ist erst bei Unterschreitung des Grenzwerts des Leistungsfaktors cos(phi) = 0.92 zu bezahlen",
+   "customerType": "Geschäftskunden ab 100'000 kWh/a",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=grid_16L_inclFees",
+   "prices": {
+    "base": {
+     "price": 0.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0428,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 8.95,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.041,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0428,
+     "priceUnit": "CHF/kWh",
+     "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=refund_16L"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "EKZ Netz 16LS + SDL, Stromreserve, Solidarisierte Kosten, Bundesabgaben",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt., die mehrbezogene Blindenergie ist erst bei Unterschreitung des Grenzwerts des Leistungsfaktors cos(phi) = 0.92 zu bezahlen",
+   "customerType": "Geschäftskunden ab 100'000 kWh/a",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=grid_16LS_inclFees",
+   "prices": {
+    "base": {
+     "price": 0.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0653,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 3.8,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.041,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0653,
+     "priceUnit": "CHF/kWh",
+     "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=refund_16LS"
+    }
+   }
+  },
+  {
+   "tariffName": "Gemeinde- und Kantonalabgaben",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Privat- und Geschäftskunden, sofern zutreffend",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=regional_fees_lt500MWh_ZH",
+   "prices": {
+    "cantonalTaxes": [
+     {
+      "cantonName": "ZH",
+      "cantonEnergy": [
+       {
+        "weekdays": [],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0016,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Kantonale Abgaben ZH bis 500 MWh Jahresverbrauch"
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "Gemeinde- und Kantonalabgaben",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Privat- und Geschäftskunden, sofern zutreffend",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=regional_fees_Menzingen",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 12389,
+      "municipalityName": "Menzingen",
+      "municipalityEnergy": [
+       {
+        "weekdays": [],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0049,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Gemeindeabgabe Menzingen"
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "Gemeinde- und Kantonalabgaben",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Privat- und Geschäftskunden, sofern zutreffend",
+   "url": "https://api.tariffs.ekz.ch/v1/tariffs?tariff_name=regional_fees_gt500MWh_ZH",
+   "prices": {
+    "cantonalTaxes": [
+     {
+      "cantonName": "ZH",
+      "cantonBase": {
+       "price": 66.67,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "weekdays": [],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Kantonale Abgaben ZH ab 500 MWh Jahresverbrauch"
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -10,7 +10,7 @@
 | 2 | Repo da privata a **pubblica** (Settings → General → Danger zone → Change visibility) | **Owner**, 1 min | ⏳ |
 | 3 | Descrizione della repo e topic (`home-assistant`, `hacs`, `hacs-integration`, `energy`, `electricity-prices`, `switzerland`, `italy`, `ticino`) — Settings → General / About | **Owner**, 1 min (testo qui sotto) | ⏳ |
 | 4 | Il controllo HACS si riattiva da solo con la repo pubblica: verifica verde | Claude | ⏳ |
-| 5 | Icona e logo per l'elenco ufficiale (repo `home-assistant/brands`) | Claude prepara, **owner** approva la richiesta | ⏳ |
+| 5 | Icona e logo: dentro l'integrazione (cartella `brand/`, letta da Home Assistant 2026.3 e successivi), nessuna richiesta esterna | Claude | ✅ 8 ottobre |
 | 6 | Richiesta di inserimento nello store HACS (`hacs/default`) | Claude prepara, **owner** approva | ⏳ |
 | 7 | Post nelle community (testi qui sotto) | **Owner**, copia e incolla, circa 10 min | ⏳ |
 | 8 | Modulo per chi non ha GitHub (Tally o simile) | Claude prepara, **owner** crea l'account se serve | ⏳ |
@@ -26,9 +26,9 @@
 
 > Hi everyone! I'd like to share **Corrente**, a free and open-source integration that brings your *real* electricity price into Home Assistant.
 >
-> **Switzerland:** type your municipality, and Corrente finds your grid operator in ElCom's open data and reads the tariff file every operator must publish. High/low tariff windows, cantonal and municipal fees, federal charges and VAT are all included, and checked against ElCom's totals. It works for most operators, Ticino included.
+> **Switzerland:** type your municipality, and Corrente finds your grid operator in ElCom's open data and reads the tariff file every operator must publish. High/low tariff windows, cantonal and municipal fees, federal charges and VAT are all included, and checked against ElCom's totals. It works for most operators, Ticino included — and with **dynamic tariffs** (EKZ, Groupe E) it reads the quarter-hour prices from the operator's own API.
 >
-> **Italy:** F1/F2/F3 time bands following ARERA's rules (holidays included) and your contract (monoraria, bioraria, trioraria). PUN-indexed contracts are coming next.
+> **Italy:** F1/F2/F3 time bands following ARERA's rules (holidays included) and your contract (monoraria, bioraria, trioraria), or a **PUN-indexed** contract with the quarter-hour prices published by GME.
 >
 > What you get:
 > - price now, next change, next price;
@@ -52,7 +52,7 @@
 
 > Ciao a tutti! Ho pubblicato **Corrente**, un'integrazione gratuita per Home Assistant che porta il vero prezzo della luce in casa.
 >
-> 🇮🇹 **Italia:** fasce F1/F2/F3 secondo ARERA (festivi inclusi) e il tuo contratto (monoraria, bioraria, trioraria). Il PUN arriva a breve.
+> 🇮🇹 **Italia:** fasce F1/F2/F3 secondo ARERA (festivi inclusi) e il tuo contratto (monoraria, bioraria, trioraria), oppure un contratto **indicizzato al PUN** con i prezzi al quarto d'ora pubblicati dal GME.
 > 🇨🇭 **Svizzera / Ticino:** scrivi il tuo comune e Corrente trova il gestore (AIL, AIM, AEM…) e le sue tariffe ufficiali.
 >
 > Ti dice anche **quando conviene avviare** lavastoviglie o lavatrice, quanto hai **speso oggi e nel mese**, e c'è una card per la dashboard.

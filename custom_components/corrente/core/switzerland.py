@@ -9,12 +9,19 @@ Spec: https://tariffconverter.strom.ch/ch-electricity-tariffs-openapi.yml
 
 from __future__ import annotations
 
+import logging
+from bisect import bisect_right
 from collections.abc import Iterable, Mapping, Sequence
-from dataclasses import dataclass, field
-from datetime import date, datetime, time, timedelta
+from dataclasses import dataclass, field, replace
+from datetime import UTC, date, datetime, time, timedelta
 from difflib import SequenceMatcher
 from typing import Any
 from zoneinfo import ZoneInfo
+
+from .dynamic import is_api_url
+from .schedule import Segment
+
+_LOGGER = logging.getLogger(__name__)
 
 SWISS_TZ = ZoneInfo("Europe/Zurich")
 SWISS_VAT = 0.081
@@ -67,22 +74,32 @@ def federal_addition(
     tariff is available to compare.
 
     The comparison uses, in order: the user's own grid tariff if it is flat
-    (EKZ households: "400F"), the operator's flagged standard tariffs, then all
-    flat grid tariffs. An operator can have products that match different
-    hypotheses (EKZ "400LS" for businesses), so the user's tariff comes first.
+    (EKZ households: "400F"), the operator's flagged standard tariffs, flat
+    tariffs for the same customers as the user's (same customer group, else
+    same monthly fee), then all flat grid tariffs. An operator can have
+    products that match different hypotheses (EKZ "400LS" for businesses), so
+    the closest to the user's tariff comes first: with a dynamic or day/night
+    grid tariff, Groupe E's business tariffs once pointed to the wrong answer.
     """
     target = elcom_grid_rp + elcom_aidfee_rp  # what ElCom says grid costs, all charges in
 
     def is_flat(tariff: Tariff) -> bool:
         return bool(tariff.energy) and all(w.all_day for w in tariff.energy)
 
-    flat_standard = [t for t in grid_tariffs if t.standard and is_flat(t)]
-    if chosen is not None and is_flat(chosen):
-        flat = [chosen]
-    elif flat_standard:
-        flat = flat_standard
-    else:
-        flat = [t for t in grid_tariffs if is_flat(t)]
+    all_flat = [t for t in grid_tariffs if is_flat(t)]
+    choices = [[t for t in all_flat if t.standard]]
+    if chosen is not None:
+        choices = [
+            [chosen] if is_flat(chosen) else [],
+            *choices,
+            [
+                t
+                for t in all_flat
+                if chosen.customer_type and t.customer_type == chosen.customer_type
+            ],
+            [t for t in all_flat if t.monthly_base == chosen.monthly_base],
+        ]
+    flat = next((group for group in choices if group), all_flat)
     if not flat:
         return None
     candidates = (national_charges(year), elcom_aidfee_rp / 100, 0.0)
@@ -163,6 +180,11 @@ def _parse_window(raw: Mapping[str, Any]) -> PriceWindow | None:
     )
 
 
+def _parse_date(text: str) -> date:
+    """A tariff's start or end date; BKW writes "2027-01-01T00:00:00"."""
+    return date.fromisoformat(text[:10])
+
+
 def _windows(raws: Iterable[Mapping[str, Any]] | None) -> tuple[PriceWindow, ...]:
     windows = (_parse_window(raw) for raw in raws or ())
     return tuple(window for window in windows if window is not None)
@@ -200,10 +222,15 @@ class Tariff:
             windows.extend(self.municipality_energy.get(municipality, ()))
         return tuple(windows)
 
+    @property
+    def is_dynamic(self) -> bool:
+        """Priced per quarter hour by the operator's API (see core/dynamic.py)."""
+        return self.form == "dynamic"
+
     def check_supported(self) -> None:
-        """Raise if the tariff cannot be priced from the file alone."""
-        if self.form == "dynamic":
-            raise UnsupportedTariffError(f"{self.name}: dynamic tariff")
+        """Raise if the tariff cannot be priced from the file and the operator's API."""
+        if self.is_dynamic and not is_api_url(self.dynamic_url):
+            raise UnsupportedTariffError(f"{self.name}: dynamic tariff without an API")
         # Several whole-day prices for a tiered tariff means the daily windows
         # were not encoded (seen in AMB "Dinamica" 2027).
         if (
@@ -215,38 +242,48 @@ class Tariff:
 
 
 def parse_tariffs(document: Mapping[str, Any]) -> list[Tariff]:
-    """Parse a VSE tariff document."""
+    """Parse a VSE tariff document, skipping entries that cannot be read.
+
+    Real files have broken entries (BKW 2026: municipality "#N/A"); one bad
+    entry must not hide the operator's other tariffs.
+    """
     tariffs = []
     for raw in document.get("tariffs", ()):
-        prices = raw.get("prices") or {}
-        canton_energy: dict[str, list[PriceWindow]] = {}
-        for tax in prices.get("cantonalTaxes") or ():
-            canton_energy.setdefault(tax["cantonName"], []).extend(
-                _windows(tax.get("cantonEnergy"))
-            )
-        municipality_energy: dict[int, list[PriceWindow]] = {}
-        for tax in prices.get("municipalityTaxes") or ():
-            municipality_energy.setdefault(int(tax["municipalityNumber"]), []).extend(
-                _windows(tax.get("municipalityEnergy"))
-            )
-        base = prices.get("base") or {}
-        tariffs.append(
-            Tariff(
-                name=raw["tariffName"],
-                tariff_type=raw["tariffType"],
-                form=raw.get("tariffForm", "constant"),
-                start_date=date.fromisoformat(raw["startDate"]),
-                end_date=date.fromisoformat(raw["endDate"]),
-                customer_type=raw.get("customerType", ""),
-                energy=_windows(prices.get("energy")),
-                monthly_base=float(base.get("price", 0)) if base.get("priceUnit") == "CHF/M" else 0,
-                canton_energy={k: tuple(v) for k, v in canton_energy.items()},
-                municipality_energy={k: tuple(v) for k, v in municipality_energy.items()},
-                dynamic_url=(prices.get("dynamic") or {}).get("url"),
-                standard=bool(raw.get("standardBasegroup")),
-            )
-        )
+        try:
+            tariffs.append(_parse_tariff(raw))
+        except (KeyError, TypeError, ValueError) as err:
+            _LOGGER.debug("Skipping unreadable tariff %s: %s", raw.get("tariffName"), err)
     return tariffs
+
+
+def _parse_tariff(raw: Mapping[str, Any]) -> Tariff:
+    prices = raw.get("prices") or {}
+    canton_energy: dict[str, list[PriceWindow]] = {}
+    for tax in prices.get("cantonalTaxes") or ():
+        canton_energy.setdefault(tax["cantonName"], []).extend(_windows(tax.get("cantonEnergy")))
+    municipality_energy: dict[int, list[PriceWindow]] = {}
+    for tax in prices.get("municipalityTaxes") or ():
+        number = str(tax.get("municipalityNumber", ""))
+        if not number.isdigit():
+            continue  # "#N/A" in BKW's file
+        municipality_energy.setdefault(int(number), []).extend(
+            _windows(tax.get("municipalityEnergy"))
+        )
+    base = prices.get("base") or {}
+    return Tariff(
+        name=raw["tariffName"],
+        tariff_type=raw["tariffType"],
+        form=raw.get("tariffForm", "constant"),
+        start_date=_parse_date(raw["startDate"]),
+        end_date=_parse_date(raw["endDate"]),
+        customer_type=raw.get("customerType", ""),
+        energy=_windows(prices.get("energy")),
+        monthly_base=float(base.get("price", 0)) if base.get("priceUnit") == "CHF/M" else 0,
+        canton_energy={k: tuple(v) for k, v in canton_energy.items()},
+        municipality_energy={k: tuple(v) for k, v in municipality_energy.items()},
+        dynamic_url=(prices.get("dynamic") or {}).get("url"),
+        standard=bool(raw.get("standardBasegroup")),
+    )
 
 
 def price_of_windows(windows: Sequence[PriceWindow], local: datetime) -> tuple[float, bool]:
@@ -269,6 +306,10 @@ def price_of_windows(windows: Sequence[PriceWindow], local: datetime) -> tuple[f
     return whole_day + min(w.price for w in timed), True
 
 
+class PriceNotPublishedError(LookupError):
+    """A dynamic tariff has no published price for that moment (yet)."""
+
+
 @dataclass(frozen=True, slots=True)
 class SwissContract:
     """The tariffs that make up a household's per-kWh price."""
@@ -280,10 +321,19 @@ class SwissContract:
     municipality: int | None = None
     # Federal charges to add per kWh; None: all of them (see federal_addition).
     federal_per_kwh: float | None = None
+    # Published per-kWh prices of the dynamic tariffs (CHF without VAT, UTC),
+    # by tariff type ("electricity", "grid"); see core/dynamic.py.
+    dynamic: Mapping[str, tuple[Segment, ...]] = field(default_factory=dict)
+    _starts: Mapping[str, list[datetime]] = field(init=False, repr=False, compare=False)
 
     def __post_init__(self) -> None:
         for tariff in self._tariffs():
             tariff.check_supported()
+        object.__setattr__(
+            self,
+            "_starts",
+            {kind: [s.start for s in segments] for kind, segments in self.dynamic.items()},
+        )
 
     def _tariffs(self) -> list[Tariff]:
         tariffs = [self.electricity, self.grid]
@@ -298,8 +348,46 @@ class SwissContract:
             for window in tariff.windows_for(self.canton, self.municipality)
         )
 
+    @property
+    def dynamic_tariffs(self) -> list[Tariff]:
+        """The tariffs whose price comes from the operator's API."""
+        return [tariff for tariff in self._tariffs() if tariff.is_dynamic]
+
+    def with_dynamic_prices(self, prices: Mapping[str, Sequence[Segment]]) -> SwissContract:
+        """The same contract with newly downloaded dynamic prices."""
+        return replace(
+            self,
+            dynamic={
+                kind: tuple(sorted(segments, key=lambda s: s.start))
+                for kind, segments in prices.items()
+            },
+        )
+
+    @property
+    def known_until(self) -> datetime | None:
+        """When the published dynamic prices end; None without dynamic tariffs."""
+        if not self.dynamic_tariffs:
+            return None
+        ends = []
+        for tariff in self.dynamic_tariffs:
+            segments = self.dynamic.get(tariff.tariff_type)
+            if not segments:
+                return datetime.min.replace(tzinfo=UTC)
+            ends.append(segments[-1].end)
+        return min(ends)
+
+    def _dynamic_price(self, tariff: Tariff, moment: datetime) -> float:
+        segments = self.dynamic.get(tariff.tariff_type, ())
+        index = bisect_right(self._starts.get(tariff.tariff_type, []), moment) - 1
+        if index < 0 or not segments[index].start <= moment < segments[index].end:
+            raise PriceNotPublishedError(f"{tariff.name}: no price for {moment.isoformat()}")
+        return segments[index].price
+
     def price_at(self, moment: datetime) -> tuple[float, bool]:
-        """Price per kWh including VAT at a moment, and whether a gap was filled."""
+        """Price per kWh including VAT at a moment, and whether a gap was filled.
+
+        Raises PriceNotPublishedError when a dynamic tariff has no price then.
+        """
         if moment.tzinfo is None:
             raise ValueError("moment must be timezone-aware")
         local = moment.astimezone(SWISS_TZ)
@@ -310,38 +398,91 @@ class SwissContract:
         # Each tariff has its own schedule: price them separately, then add up.
         for tariff in self._tariffs():
             price, gap = price_of_windows(tariff.windows_for(self.canton, self.municipality), local)
+            if tariff.is_dynamic:
+                price += self._dynamic_price(tariff, moment)
             total += price
             any_gap = any_gap or gap
         return round(total * (1 + SWISS_VAT), 6), any_gap
 
+    def price_or_none(self, moment: datetime) -> float | None:
+        """Price per kWh including VAT, or None when it is not published yet."""
+        try:
+            return self.price_at(moment)[0]
+        except PriceNotPublishedError:
+            return None
+
     def is_time_dependent(self) -> bool:
         """True when the price changes during the day or week."""
-        return any(not window.all_day for window in self._windows())
+        return bool(self.dynamic_tariffs) or any(not w.all_day for w in self._windows())
+
+    def _change_points(self, start: datetime, end: datetime) -> list[datetime]:
+        """Moments in ``(start, end)`` where the price may change, in UTC."""
+        times = sorted({t for w in self._windows() for t in w.boundaries()} | {time(0, 0)})
+        first = start.astimezone(SWISS_TZ).date()
+        days = (end.astimezone(SWISS_TZ).date() - first).days
+        points = {
+            datetime.combine(first + timedelta(days=offset), boundary, SWISS_TZ).astimezone(UTC)
+            for offset in range(days + 1)
+            for boundary in times
+        }
+        for segments in self.dynamic.values():
+            for segment in segments:
+                points.update((segment.start, segment.end))
+        return sorted(point for point in points if start < point < end)
+
+    def schedule(self, start: datetime, end: datetime) -> list[Segment]:
+        """Constant-price segments in ``[start, end)``, in UTC, merged when equal.
+
+        For dynamic tariffs the schedule stops where the published prices end.
+        """
+        if start.tzinfo is None or end.tzinfo is None:
+            raise ValueError("start and end must be timezone-aware")
+        start, end = start.astimezone(UTC), end.astimezone(UTC)
+        if (known := self.known_until) is not None:
+            end = min(end, known)
+        segments: list[Segment] = []
+        if end <= start:
+            return segments
+        points = [start, *self._change_points(start, end), end]
+        for left, right in zip(points, points[1:], strict=False):
+            try:
+                price = self.price_at(left)[0]
+            except PriceNotPublishedError:
+                break
+            if segments and segments[-1].price == price and segments[-1].end == left:
+                segments[-1] = Segment(segments[-1].start, right, price)
+            else:
+                segments.append(Segment(left, right, price))
+        return segments
 
     def next_change(self, moment: datetime) -> tuple[datetime, float] | None:
         """Return the next moment the price changes and the new price (8 days ahead)."""
         if moment.tzinfo is None:
             raise ValueError("moment must be timezone-aware")
-        local = moment.astimezone(SWISS_TZ)
-        current, _ = self.price_at(local)
-        times = sorted({t for w in self._windows() for t in w.boundaries()} | {time(0, 0)})
-        for offset in range(9):
-            day = local.date() + timedelta(days=offset)
-            for boundary in times:
-                candidate = datetime.combine(day, boundary, SWISS_TZ)
-                if candidate <= local:
-                    continue
-                price, _ = self.price_at(candidate)
-                if price != current:
-                    return candidate, price
-        return None
+        segments = self.schedule(moment, moment + timedelta(days=8))
+        if len(segments) < 2:
+            return None
+        return segments[1].start.astimezone(SWISS_TZ), segments[1].price
 
-    def period_at(self, moment: datetime) -> str:
-        """Return "single", "high" or "low" for the price in force at a moment."""
+    def period_at(self, moment: datetime) -> str | None:
+        """Return "single", "high" or "low" for the price in force at a moment.
+
+        For dynamic tariffs "high" means above the day's average price.
+        """
         if not self.is_time_dependent():
             return "single"
         local = moment.astimezone(SWISS_TZ)
-        current, _ = self.price_at(local)
+        current = self.price_or_none(local)
+        if current is None:
+            return None
+        if self.dynamic_tariffs:
+            midnight = datetime.combine(local.date(), time(0, 0), SWISS_TZ)
+            day = self.schedule(
+                midnight, datetime.combine(local.date() + timedelta(days=1), time(0, 0), SWISS_TZ)
+            )
+            seconds = sum((s.end - s.start).total_seconds() for s in day)
+            average = sum(s.price * (s.end - s.start).total_seconds() for s in day) / seconds
+            return "high" if current > average else "low"
         times = sorted({t for w in self._windows() for t in w.boundaries()} | {time(0, 0)})
         levels = {current}
         for offset in range(7):

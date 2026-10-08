@@ -10,7 +10,7 @@
       },
       "italy": {
         "title": "Il tuo contratto della luce",
-        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3). I contratti indicizzati al PUN sono in arrivo. [Suggerisci una modifica]({issues_url}).",
+        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3), oppure dal PUN Index GME più il tuo spread. [Suggerisci una modifica]({issues_url}).",
         "data": {
           "contract_type": "Tipo di contratto"
         }
@@ -62,7 +62,7 @@
       },
       "ch_tariff": {
         "title": "La tua tariffa",
-        "description": "Scegli la tua tariffa dell'energia di {operator}. Le tariffe che non si possono calcolare dal file (per esempio quelle dinamiche) non sono ancora elencate.",
+        "description": "Scegli la tua tariffa dell'energia di {operator}. Le tariffe dinamiche compaiono se il gestore pubblica i prezzi con l'API standard (per esempio EKZ, Groupe E); le tariffe che non si possono calcolare non sono elencate.",
         "data": {
           "electricity_tariff": "Tariffa dell'energia"
         }
@@ -88,7 +88,8 @@
     "error": {
       "cannot_connect": "ElCom non risponde. Riprova tra qualche minuto.",
       "no_match": "Nessun comune trovato con questo nome.",
-      "invalid_file": "Questo link non è un file delle tariffe leggibile."
+      "invalid_file": "Questo link non è un file delle tariffe leggibile.",
+      "dynamic_unavailable": "Non è stato possibile scaricare i prezzi dinamici del gestore. Riprova più tardi o scegli un'altra tariffa."
     }
   },
   "options": {
@@ -119,7 +120,7 @@
       },
       "ch_tariff": {
         "title": "La tua tariffa",
-        "description": "Scegli la tua tariffa dell'energia di {operator}. Le tariffe che non si possono calcolare dal file (per esempio quelle dinamiche) non sono ancora elencate.",
+        "description": "Scegli la tua tariffa dell'energia di {operator}. Le tariffe dinamiche compaiono se il gestore pubblica i prezzi con l'API standard (per esempio EKZ, Groupe E); le tariffe che non si possono calcolare non sono elencate.",
         "data": {
           "electricity_tariff": "Tariffa dell'energia"
         }
@@ -134,12 +135,13 @@
       },
       "contract": {
         "title": "Modifica il contratto",
-        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3). I contratti indicizzati al PUN sono in arrivo. [Suggerisci una modifica]({issues_url}).",
+        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3), oppure dal PUN Index GME più il tuo spread. [Suggerisci una modifica]({issues_url}).",
         "data": {
           "contract_type": "Tipo di contratto"
         }
       },
       "init": {
+        "description": "Cosa vuoi cambiare? Manca qualcosa o hai trovato un errore? [Suggerisci una modifica]({issues_url}).",
         "menu_options": {
           "contract": "Contratto o tariffa",
           "meter": "Contatore (per i costi)",
@@ -172,6 +174,9 @@
     },
     "abort": {
       "tariffs_unavailable": "Il file delle tariffe non è disponibile in questo momento. Riprova più tardi."
+    },
+    "error": {
+      "dynamic_unavailable": "Non è stato possibile scaricare i prezzi dinamici del gestore. Riprova più tardi o scegli un'altra tariffa."
     }
   },
   "selector": {

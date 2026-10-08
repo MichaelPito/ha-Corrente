@@ -6,7 +6,7 @@ from homeassistant.config_entries import SOURCE_USER
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 
-from custom_components.corrente.const import DOMAIN
+from custom_components.corrente.const import DOMAIN, ISSUES_URL
 
 
 async def test_three_band_flow_creates_entry(hass: HomeAssistant) -> None:
@@ -56,6 +56,8 @@ async def test_options_flow_changes_contract(hass: HomeAssistant) -> None:
 
     result = await hass.config_entries.options.async_init(entry.entry_id)
     assert result["type"] is FlowResultType.MENU
+    # The menu carries the "Suggest a change" link.
+    assert result["description_placeholders"]["issues_url"] == ISSUES_URL
     result = await hass.config_entries.options.async_configure(
         result["flow_id"], {"next_step_id": "contract"}
     )

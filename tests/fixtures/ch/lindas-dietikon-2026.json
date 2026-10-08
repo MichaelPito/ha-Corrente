@@ -1,0 +1,55 @@
+{
+ "head": {
+  "vars": [
+   "muni",
+   "muniName",
+   "op",
+   "opName",
+   "url",
+   "total",
+   "gridusage",
+   "aidfee"
+  ]
+ },
+ "results": {
+  "bindings": [
+   {
+    "muni": {
+     "type": "uri",
+     "value": "https://ld.admin.ch/municipality/243"
+    },
+    "muniName": {
+     "type": "literal",
+     "value": "Dietikon"
+    },
+    "op": {
+     "type": "uri",
+     "value": "https://energy.ld.admin.ch/elcom/electricityprice/operator/486"
+    },
+    "opName": {
+     "type": "literal",
+     "value": "Elektrizitätswerke des Kantons Zürich (EKZ)"
+    },
+    "url": {
+     "type": "literal",
+     "value": "https://www.ekz.ch/dam/ekz/privatkunden/strom/tarife-und-agb/Tarifbersicht_EKZ_2026.json"
+    },
+    "total": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "24.136"
+    },
+    "gridusage": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "8.230"
+    },
+    "aidfee": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+     "type": "literal",
+     "value": "2.300"
+    }
+   }
+  ]
+ }
+}

@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="custom_components/corrente/brand/dark_logo.png">
+  <img src="custom_components/corrente/brand/logo.png" height="64" alt="Corrente">
+</picture>
+
 # Corrente ⚡
 
 **Your real electricity price in Home Assistant — and the best time to switch things on. Made for Italy 🇮🇹 and Switzerland 🇨🇭.**
@@ -7,6 +12,7 @@
 <p>
   <img src="docs/images/card-lugano-it.png" width="340" alt="Corrente card for a day/night tariff in Lugano">
   <img src="docs/images/card-pun-it.png" width="340" alt="Corrente card for an Italian PUN-indexed contract, quarter-hour prices">
+  <img src="docs/images/card-ekz-dynamic-de.png" width="340" alt="Corrente card for EKZ's dynamic tariff, quarter-hour prices">
 </p>
 
 ## What it does
@@ -26,7 +32,7 @@
 - High/low tariff windows, cantonal and municipal surcharges, federal charges (grid surcharge, electricity reserve, Swissgrid system services) and VAT — checked against ElCom's published totals.
 - Follows your operator into the new year by itself.
 - Works for most operators, Ticino included (AIL Lugano, AIM Mendrisio, AEM Massagno…). If your operator has not published a readable file, you can paste the link — or [tell us](../../issues/new/choose) and we add it.
-- Coming next: dynamic tariffs (EKZ, CKW, Groupe E, BKW).
+- **Dynamic tariffs** with prices per quarter hour, read from the operator's own API when its tariff file names one (VSE / SmartGridready standard): EKZ *Energie Dynamisch* and *Netz 400D*, Groupe E *Vario*, and any other operator using the standard. Today's prices, and tomorrow's as soon as the operator publishes them.
 
 ## Installation
 
@@ -41,7 +47,7 @@ Corrente will be in the default HACS store after the launch. Until then:
 | Sensor | Italy | Switzerland |
 |---|---|---|
 | Price now | €/kWh | CHF/kWh incl. VAT |
-| Time band / Tariff period | F1, F2, F3 | single, high, low |
+| Time band / Tariff period | F1, F2, F3 | single, high, low ² |
 | Next band change / Next price change | ✅ | ✅ |
 | Next band | ✅ (fixed contracts) | — |
 | Wholesale price (PUN / zone) | ✅ (PUN contracts) | — |
@@ -49,6 +55,8 @@ Corrente will be in the default HACS store after the launch. Until then:
 | Best time to start | ✅ | ✅ |
 | Fixed charges per month | — | ✅ |
 | Cost today / Cost this month ¹ | € (energy part) | CHF incl. VAT |
+
+² With a dynamic tariff, *high* means above the day's average price.
 
 ¹ Optional: in the integration's options choose your **energy meter** (any kWh sensor, e.g. your smart meter or the energy dashboard's grid consumption). Each kWh is priced at the moment it is used.
 
@@ -62,6 +70,8 @@ The card is installed with the integration. Add it from the dashboard editor (se
 type: custom:corrente-card
 entity: sensor.corrente_price_now
 ```
+
+Options: `title` (default "Corrente", empty to hide) and `feedback: false` to hide the "Suggest a change" link. The data source (ElCom, GME) is shown at the bottom.
 
 ## Blueprint: start an appliance at the cheapest time
 
@@ -87,7 +97,7 @@ automation:
 
 ## Data sources
 
-- **Switzerland:** ElCom open data (LINDAS, Open-Use licence) and the tariff files published by grid operators. Federal charges per year are documented in [`docs/FONTI-DATI.md`](docs/FONTI-DATI.md).
+- **Switzerland:** ElCom open data (LINDAS, Open-Use licence), the tariff files published by grid operators and, for dynamic tariffs, the operators' public price APIs. Federal charges per year are documented in [`docs/FONTI-DATI.md`](docs/FONTI-DATI.md).
 - **Italy:** ARERA time-band definitions (TIV, Tabella 6). Wholesale prices: *Fonte: Gestore dei Mercati Energetici S.p.A. (GME)* — downloaded by your own Home Assistant once or twice a day, for personal, non-commercial use, as GME's terms require. Nothing is shared or cached centrally, and no paid feature will ever be based on GME data.
 
 ## Suggestions and requests

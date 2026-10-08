@@ -78,7 +78,7 @@
 | AEM (Massagno) | ❌ link 2027 rotto (404) | — | Serve l'inserimento manuale |
 | Stabio, Ascona, Airolo, Bedretto, Faido, Moesano | ✅ pubblicano il JSON | — | — |
 
-### Tariffe dinamiche — ✅ verificato, ⏳ v0.2
+### Tariffe dinamiche — ✅ implementato l'8 ottobre 2026
 - Standard comune **SmartGridready / VSE "Dynamic Tariff"** (OpenAPI, licenza BSD-3): https://github.com/SmartGridready/SGrSpecifications/tree/master/DynamicTariff
   - V1 per il 2026, V2 per il 2027.
   - `GET /tariffs?tariff_type=&tariff_name=&start_timestamp=&end_timestamp=`, pubblico.
@@ -89,6 +89,19 @@
   - **Groupe E:** `https://api.tariffs.groupe-e.ch/v2/tariffs` (la v1 è dismessa)
   - **BKW**, rimunerazione per l'immissione: `https://api.bkw.ch/api/dyntariffs/v1/Tariffs/energyreturn`
 - Scoperta automatica: il JSON statico del gestore indica l'URL dinamico in `prices.dynamic.url`.
+- **Come le legge Corrente (8 ottobre 2026):**
+  - una tariffa del file con `tariffForm: "dynamic"` è proposta solo se `prices.dynamic.url` è un indirizzo `https` (AEW scrive `www.aew.ch/dynamic`, una pagina web: esclusa);
+  - si chiama quell'URL aggiungendo `tariff_type` (il tipo della tariffa: `electricity` o `grid`), `start_timestamp` e `end_timestamp`; i parametri già presenti nel link (EKZ: `tariff_name=…`) restano;
+  - due formati: 2026 = lista `[{"unit": "CHF_kWh", "value": …}]`, 2027 = oggetto con `energy: {"unit": "CHF/kWh", …}`; si legge solo la parte al kWh. La quota mensile (EKZ `CHF_m` 3.–) viene dal file statico; prezzi **senza IVA**;
+  - EKZ restituisce anche l'intervallo dopo la fine richiesta, con la sola quota mensile: ignorato;
+  - nella configurazione Corrente prova l'API una volta prima di salvare;
+  - aggiornamento: oggi subito; domani da mezzogiorno più un minuto fisso per installazione, al massimo ogni 30 minuti finché non arriva (CKW lo pubblica verso le 11:20, Groupe E verso le 14:50, EKZ verso le 17:50).
+- **Prova dal vivo dell'8 ottobre 2026:**
+  - EKZ Dietikon, energia dinamica + rete 400D: media del giorno **24,23 Rp/kWh senza IVA** contro il totale ElCom H4 di **24,14 Rp**;
+  - Groupe E Bulle, energia BASIC/STAR + rete Vario: rete Vario in media 9,4 Rp contro 11,7 Rp della tariffa unica;
+  - CKW: l'API funziona (192 quarti d'ora, oggi e domani), ma il file statico delle tariffe risponde **403** al download automatico, quindi la tariffa non si può ancora scegliere. Inoltre CKW pubblica solo il tipo `integrated` (energia + rete + voci), che il modello di Corrente non gestisce ancora;
+  - BKW: "Sonne Scheint" è dinamica solo dal 2027 e l'URL indicato oggi non accetta parametri: da riprovare a gennaio.
+- **Voci nazionali con una rete dinamica o a due fasce:** il confronto con ElCom non può usare la tariffa scelta (non è a prezzo unico). Prima si usavano tutte le tariffe a prezzo unico del gestore, e per Groupe E una tariffa per aziende ("BT DUO") portava ad aggiungere di nuovo il supplemento di 2,3 Rp. Ora l'ordine è: la tariffa scelta se a prezzo unico, le tariffe standard, quelle della **stessa clientela** (stesso `customerType`, altrimenti stessa quota mensile), poi tutte. Groupe E: voci **incluse**.
 - **AIL e AMB:** tariffe dinamiche senza API. Leggerle dall'HTML è fragile e di dubbia legittimità: **fuori programma**. Chiederemo loro di pubblicare un'API SGR.
 
 ### Rimunerazione per l'immissione
@@ -105,6 +118,8 @@
 
 ### Stranezze dei file reali — da gestire nel lettore (v0.1)
 Estratti reali in `tests/fixtures/ch/`.
+
+0. **Una voce rotta non deve far perdere il file intero** (BKW, 8 ottobre 2026): date scritte come `2027-01-01T00:00:00` e comuni con numero `#N/A`. Il lettore prende solo la data e salta le voci illeggibili.
 
 1. **Più voci sempre valide (00:00–00:00) si sommano.** In AIL "tìacqua" l'energia è 0,0975 più un supplemento verde di 0,006 CHF/kWh. Quando le voci sono fasce orarie distinte, ne vale una sola alla volta.
 2. **AMB "Dinamica"** ha tre voci tutte 00:00–00:00 (codifica sbagliata delle fasce giornaliere). Sommarle sarebbe sbagliato: per Corrente è una tariffa **non supportata** finché AMB non pubblica le fasce.
