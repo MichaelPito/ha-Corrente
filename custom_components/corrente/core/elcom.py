@@ -14,8 +14,9 @@ from typing import Any
 
 import aiohttp
 
+from .version import USER_AGENT
+
 LINDAS_ENDPOINT = "https://lindas.admin.ch/query"
-USER_AGENT = "Corrente/0.1 (+https://github.com/MichaelPito/ha-corrente)"
 _TIMEOUT = aiohttp.ClientTimeout(total=30)
 
 # Operators whose link registered with ElCom is a web page rather than the

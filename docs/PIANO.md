@@ -163,8 +163,10 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ icona e logo dentro l'integrazione (cartella `brand/`): da Home Assistant 2026.3 non serve più la richiesta al repo `home-assistant/brands`, quindi una azione in meno per l'owner;
   - 130 test.
   - ✅ modulo per chi non ha GitHub: creato dall'owner con lo script, collegato a README, guida e scelta delle richieste; le risposte si leggono ogni giorno (`docs/MODULO.md`);
+  - ✅ **v0.1.0**: versione unica nel codice (test che la confronta con il manifest e il changelog), note di rilascio, release automatica dal tag con lo zip; test anche su Home Assistant 2025.10 (il minimo dichiarato), ora anche su GitHub;
+  - 132 test.
   - **Prossimi pezzi:**
-    1. versione v0.1.0 e note di rilascio;
+    1. preparare il test a casa dell'owner (inizio novembre): guida passo passo per Home Assistant in macchina virtuale, cosa controllare;
     2. CKW: tipo `integrated` e file delle tariffe (oggi risponde 403).
 
 ## 8. Numeri di controllo
