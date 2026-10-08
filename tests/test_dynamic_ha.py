@@ -180,3 +180,23 @@ async def test_flow_reports_unreachable_dynamic_prices(
     )
     assert result["type"] is FlowResultType.FORM
     assert result["errors"] == {"base": "dynamic_unavailable"}
+
+
+async def test_flow_explains_a_web_page_instead_of_prices(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker, freezer: FrozenDateTimeFactory
+) -> None:
+    """AIL links its dynamic tariff to a web page: say so, instead of "try later"."""
+    freezer.move_to(NOON)
+    aioclient_mock.post(
+        LINDAS_ENDPOINT, text=(FIXTURES / "lindas-dietikon-2026.json").read_text("utf-8")
+    )
+    for url in (EKZ_FILE, EKZ_FILE_2026):
+        aioclient_mock.get(url, content=(FIXTURES / "ekz-2026.json").read_bytes())
+    for url in (ENERGY_API, GRID_API):
+        aioclient_mock.get(url, text="<!doctype html><html><body>Tariffa dinamica</body></html>")
+    result = await _flow_to_grid_step(hass)
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {"grid_tariff": GRID, "regional_tariff": "none"}
+    )
+    assert result["errors"] == {"base": "dynamic_not_api"}
+    assert "issues_url" in result["description_placeholders"]

@@ -89,7 +89,8 @@
       "cannot_connect": "ElCom ist nicht erreichbar. Versuchen Sie es in ein paar Minuten erneut.",
       "no_match": "Keine Gemeinde mit diesem Namen gefunden.",
       "invalid_file": "Dieser Link ist keine lesbare Tarifdatei.",
-      "dynamic_unavailable": "Die dynamischen Preise des Netzbetreibers konnten nicht abgerufen werden. Versuchen Sie es später erneut oder wählen Sie einen anderen Tarif."
+      "dynamic_unavailable": "Die dynamischen Preise des Netzbetreibers konnten nicht abgerufen werden. Versuchen Sie es später erneut oder wählen Sie einen anderen Tarif.",
+      "dynamic_not_api": "Dieser Netzbetreiber veröffentlicht seine dynamischen Preise nur auf seiner Website, nicht im Standardformat, das Corrente lesen kann. Wählen Sie einen anderen Tarif oder [geben Sie uns Bescheid]({issues_url}), dann fragen wir beim Netzbetreiber nach."
     }
   },
   "options": {
@@ -176,7 +177,8 @@
       "tariffs_unavailable": "Die Tarifdatei ist im Moment nicht verfügbar. Versuchen Sie es später erneut."
     },
     "error": {
-      "dynamic_unavailable": "Die dynamischen Preise des Netzbetreibers konnten nicht abgerufen werden. Versuchen Sie es später erneut oder wählen Sie einen anderen Tarif."
+      "dynamic_unavailable": "Die dynamischen Preise des Netzbetreibers konnten nicht abgerufen werden. Versuchen Sie es später erneut oder wählen Sie einen anderen Tarif.",
+      "dynamic_not_api": "Dieser Netzbetreiber veröffentlicht seine dynamischen Preise nur auf seiner Website, nicht im Standardformat, das Corrente lesen kann. Wählen Sie einen anderen Tarif oder [geben Sie uns Bescheid]({issues_url}), dann fragen wir beim Netzbetreiber nach."
     }
   },
   "selector": {

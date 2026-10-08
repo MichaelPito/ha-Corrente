@@ -102,6 +102,7 @@
   - CKW: l'API funziona (192 quarti d'ora, oggi e domani), ma il file statico delle tariffe risponde **403** al download automatico, quindi la tariffa non si può ancora scegliere. Inoltre CKW pubblica solo il tipo `integrated` (energia + rete + voci), che il modello di Corrente non gestisce ancora;
   - BKW: "Sonne Scheint" è dinamica solo dal 2027 e l'URL indicato oggi non accetta parametri: da riprovare a gennaio.
 - **Voci nazionali con una rete dinamica o a due fasce:** il confronto con ElCom non può usare la tariffa scelta (non è a prezzo unico). Prima si usavano tutte le tariffe a prezzo unico del gestore, e per Groupe E una tariffa per aziende ("BT DUO") portava ad aggiungere di nuovo il supplemento di 2,3 Rp. Ora l'ordine è: la tariffa scelta se a prezzo unico, le tariffe standard, quelle della **stessa clientela** (stesso `customerType`, altrimenti stessa quota mensile), poi tutte. Groupe E: voci **incluse**.
+- **AIL (verificato l'8 ottobre 2026 su Home Assistant vero):** il file dichiara "Casa & PMI dinamica" come dinamica, con link a una pagina web (`ail.ch/…/tariffa-dinamica.html`) e un prezzo fisso indicativo di 8,35 Rp. Corrente la elenca, ma alla scelta spiega che i prezzi sono solo sul sito (errore `dynamic_not_api`); il prezzo fisso del file non viene mai sommato a quello di un'API.
 - **AIL e AMB:** tariffe dinamiche senza API. Leggerle dall'HTML è fragile e di dubbia legittimità: **fuori programma**. Chiederemo loro di pubblicare un'API SGR.
 
 ### Rimunerazione per l'immissione

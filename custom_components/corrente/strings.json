@@ -89,7 +89,8 @@
       "cannot_connect": "Could not reach ElCom. Try again in a few minutes.",
       "no_match": "No municipality found with this name.",
       "invalid_file": "This link is not a readable tariff file.",
-      "dynamic_unavailable": "The operator's dynamic prices could not be downloaded. Try again later or choose another tariff."
+      "dynamic_unavailable": "The operator's dynamic prices could not be downloaded. Try again later or choose another tariff.",
+      "dynamic_not_api": "This operator publishes its dynamic prices only on its website, not in the standard format Corrente can read. Choose another tariff, or [let us know]({issues_url}) and we will ask the operator."
     }
   },
   "options": {
@@ -176,7 +177,8 @@
       "tariffs_unavailable": "The tariff file is not available right now. Try again later."
     },
     "error": {
-      "dynamic_unavailable": "The operator's dynamic prices could not be downloaded. Try again later or choose another tariff."
+      "dynamic_unavailable": "The operator's dynamic prices could not be downloaded. Try again later or choose another tariff.",
+      "dynamic_not_api": "This operator publishes its dynamic prices only on its website, not in the standard format Corrente can read. Choose another tariff, or [let us know]({issues_url}) and we will ask the operator."
     }
   },
   "selector": {

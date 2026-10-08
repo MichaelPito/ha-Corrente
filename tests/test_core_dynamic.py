@@ -284,3 +284,20 @@ def test_ekz_federal_charges_with_dynamic_grid() -> None:
     tariff = next(t for t in grids if t.name == GRID_DYNAMIC)
     # ElCom 2026, Dietikon: grid usage 8.23 Rp + grid surcharge 2.3 Rp.
     assert federal_addition(grids, 8.23, 2.3, 2026, chosen=tariff) == 0.0
+
+
+def test_file_price_of_a_dynamic_tariff_is_not_added() -> None:
+    """AIL writes an indicative 8.35 Rp on its dynamic tariff: only the API price counts."""
+    document = load("ekz-2026.json")
+    raw = next(t for t in document["tariffs"] if t["tariffName"] == ENERGY_DYNAMIC)
+    raw["prices"]["energy"] = [
+        {"price": 0.0835, "priceUnit": "CHF/kWh", "from": "00:00", "to": "00:00"}
+    ]
+    (energy,) = parse_tariffs({"tariffs": [raw]})
+    contract = SwissContract(
+        electricity=energy, grid=ekz_tariff("grid", GRID_FLAT), federal_per_kwh=0.0
+    ).with_dynamic_prices(
+        {"electricity": parse_prices(load("ekz-electricity-dynamic-20261008.json"), "electricity")}
+    )
+    price, _ = contract.price_at(zurich(2026, 10, 8, 0, 0))
+    assert price == pytest.approx((0.11514 + 0.1053) * (1 + SWISS_VAT), abs=1e-6)

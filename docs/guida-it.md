@@ -51,9 +51,11 @@ Importa il blueprint **"Corrente — start an appliance at the cheapest time"** 
 
 Nella dashboard: **Aggiungi scheda** → cerca **Corrente**. In YAML:
 
+Il nome del sensore dipende dalla lingua e dal comune (per esempio `sensor.corrente_lugano_prezzo_attuale`): se aggiungi la card dall'editor, lo trova da sola.
+
 ```yaml
 type: custom:corrente-card
-entity: sensor.corrente_price_now
+entity: sensor.corrente_prezzo_attuale
 ```
 
 La card mostra il prezzo adesso, le prossime 24 ore a colori (verde più economico, rosso più caro) e il momento migliore per avviare un apparecchio di 2 ore. In basso trovi la fonte dei dati e il link **Suggerisci una modifica**; per nasconderlo aggiungi `feedback: false`.

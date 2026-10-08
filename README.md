@@ -73,6 +73,8 @@ type: custom:corrente-card
 entity: sensor.corrente_price_now
 ```
 
+Entity names follow your Home Assistant language and setup (for example `sensor.corrente_lugano_prezzo_attuale` in Italian, for Lugano): the card editor finds the right one by itself.
+
 Options: `title` (default "Corrente", empty to hide) and `feedback: false` to hide the "Suggest a change" link. The data source (ElCom, GME) is shown at the bottom.
 
 ## Blueprint: start an appliance at the cheapest time
