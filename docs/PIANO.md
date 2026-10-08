@@ -165,8 +165,13 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ modulo per chi non ha GitHub: creato dall'owner con lo script, collegato a README, guida e scelta delle richieste; le risposte si leggono ogni giorno (`docs/MODULO.md`);
   - ✅ **v0.1.0 pubblicata** (release su GitHub con note e `corrente.zip`, avviata da Claude con il pulsante "Run workflow" su richiesta dell'owner: «sì, avviala tu»): versione unica nel codice (test che la confronta con il manifest e il changelog), note di rilascio, release automatica dal tag con lo zip; test anche su Home Assistant 2025.10 (il minimo dichiarato), ora anche su GitHub;
   - 132 test.
+  - ✅ **test a casa preparato** (`docs/TEST-A-CASA.md`: VirtualBox, copia di Corrente con Samba, domande, blueprint facoltativo) e **prova generale** di Claude su un Home Assistant vero con interfaccia web e dati reali (Lugano, AIL dinamica, Italia bioraria, PUN). Corretti:
+    - la tariffa "dinamica" di AIL rimanda a una pagina web: ora il messaggio dice proprio questo, invece di "riprova più tardi";
+    - il prezzo fisso che AIL scrive sulla tariffa dinamica non si somma più a quello dell'API;
+    - nomi più corti: "Corrente Lugano" invece della ragione sociale del gestore (`sensor.corrente_lugano_prezzo_attuale`);
+  - 134 test.
   - **Prossimi pezzi:**
-    1. preparare il test a casa dell'owner (inizio novembre): guida passo passo per Home Assistant in macchina virtuale, cosa controllare;
+    1. versione v0.1.1 con queste correzioni, prima del test a casa;
     2. CKW: tipo `integrated` e file delle tariffe (oggi risponde 403).
 
 ## 8. Numeri di controllo

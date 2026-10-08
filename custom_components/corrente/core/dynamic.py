@@ -16,6 +16,7 @@ Pure Python, no Home Assistant imports.
 
 from __future__ import annotations
 
+import json
 from collections.abc import Mapping
 from datetime import UTC, datetime
 from typing import Any
@@ -32,6 +33,14 @@ _PER_KWH = {"CHF_kWh", "CHF/kWh"}
 
 class DynamicTariffError(Exception):
     """The operator's dynamic tariff API could not be read."""
+
+
+class NotAnApiError(DynamicTariffError):
+    """The operator's link answers, but with a web page instead of prices.
+
+    AIL (2026) links its dynamic tariff to a page of its website: Corrente
+    cannot read those prices until the operator publishes them in the standard.
+    """
 
 
 def is_api_url(url: str | None) -> bool:
@@ -103,9 +112,13 @@ async def async_fetch_prices(
             timeout=_TIMEOUT,
         ) as response:
             response.raise_for_status()
-            document = await response.json(content_type=None)
-    except (aiohttp.ClientError, TimeoutError, ValueError) as err:
+            raw = await response.read()
+    except (aiohttp.ClientError, TimeoutError) as err:
         raise DynamicTariffError(str(err)) from err
-    if not isinstance(document, Mapping):
-        raise DynamicTariffError("the answer is not a price list")
+    try:
+        document = json.loads(raw)
+    except ValueError as err:  # a web page, not prices
+        raise NotAnApiError("the link is a web page, not a price list") from err
+    if not isinstance(document, Mapping) or "prices" not in document:
+        raise NotAnApiError("the answer is not a price list")
     return [s for s in parse_prices(document, tariff_type) if s.end > start and s.start < end]

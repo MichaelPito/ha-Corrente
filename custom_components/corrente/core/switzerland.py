@@ -397,7 +397,12 @@ class SwissContract:
         total, any_gap = federal, False
         # Each tariff has its own schedule: price them separately, then add up.
         for tariff in self._tariffs():
-            price, gap = price_of_windows(tariff.windows_for(self.canton, self.municipality), local)
+            windows = tariff.windows_for(self.canton, self.municipality)
+            if tariff.is_dynamic:
+                # The API gives the tariff's own price; the file's fixed price for a
+                # dynamic tariff (AIL "dinamica": 8.35 Rp) is only indicative.
+                windows = windows[len(tariff.energy) :]
+            price, gap = price_of_windows(windows, local)
             if tariff.is_dynamic:
                 price += self._dynamic_price(tariff, moment)
             total += price

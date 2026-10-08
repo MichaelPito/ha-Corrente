@@ -2,6 +2,15 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+- Switzerland: a dynamic tariff whose link is a web page (AIL "dinamica") now says so, instead of "try again later".
+- Switzerland: the indicative fixed price that a tariff file may give for a dynamic tariff is no longer added to the price from the operator's API.
+
+### Changed
+- Swiss entries are named after the municipality ("Corrente Lugano"), so entity ids are short: `sensor.corrente_lugano_price_now`. Existing entries keep their name.
+
 ## [0.1.0] — 2026-10-08
 
 First release. The repository opens to the public with the launch, planned for mid-November 2026.

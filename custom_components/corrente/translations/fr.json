@@ -89,7 +89,8 @@
       "cannot_connect": "L'ElCom ne répond pas. Réessayez dans quelques minutes.",
       "no_match": "Aucune commune trouvée avec ce nom.",
       "invalid_file": "Ce lien n'est pas un fichier de tarifs lisible.",
-      "dynamic_unavailable": "Les prix dynamiques du gestionnaire n'ont pas pu être téléchargés. Réessayez plus tard ou choisissez un autre tarif."
+      "dynamic_unavailable": "Les prix dynamiques du gestionnaire n'ont pas pu être téléchargés. Réessayez plus tard ou choisissez un autre tarif.",
+      "dynamic_not_api": "Ce gestionnaire publie ses prix dynamiques uniquement sur son site, pas dans le format standard que Corrente sait lire. Choisissez un autre tarif ou [faites-le-nous savoir]({issues_url}) et nous le demanderons au gestionnaire."
     }
   },
   "options": {
@@ -176,7 +177,8 @@
       "tariffs_unavailable": "Le fichier des tarifs n'est pas disponible pour le moment. Réessayez plus tard."
     },
     "error": {
-      "dynamic_unavailable": "Les prix dynamiques du gestionnaire n'ont pas pu être téléchargés. Réessayez plus tard ou choisissez un autre tarif."
+      "dynamic_unavailable": "Les prix dynamiques du gestionnaire n'ont pas pu être téléchargés. Réessayez plus tard ou choisissez un autre tarif.",
+      "dynamic_not_api": "Ce gestionnaire publie ses prix dynamiques uniquement sur son site, pas dans le format standard que Corrente sait lire. Choisissez un autre tarif ou [faites-le-nous savoir]({issues_url}) et nous le demanderons au gestionnaire."
     }
   },
   "selector": {

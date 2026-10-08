@@ -58,7 +58,7 @@ from .const import (
     ISSUES_URL,
 )
 from .core.contract import ItalyContractType
-from .core.dynamic import DynamicTariffError, async_fetch_prices
+from .core.dynamic import DynamicTariffError, NotAnApiError, async_fetch_prices
 from .core.elcom import (
     ElcomError,
     OperatorInMunicipality,
@@ -193,10 +193,13 @@ def _supported(tariff: Tariff) -> bool:
     return bool(tariff.energy) or tariff.is_dynamic
 
 
-async def _dynamic_prices_reachable(
+async def _dynamic_prices_error(
     hass: HomeAssistant, tariffs: list[Tariff], choice: dict[str, Any], today
-) -> bool:
-    """Try the operator's API once for each dynamic tariff the user picked."""
+) -> str | None:
+    """Try the operator's API once for each dynamic tariff the user picked.
+
+    Returns the error key to show, or None when every dynamic price could be read.
+    """
     picked = [
         t
         for kind, key in (("electricity", CONF_ELECTRICITY_TARIFF), ("grid", CONF_GRID_TARIFF))
@@ -213,11 +216,13 @@ async def _dynamic_prices_reachable(
                 start,
                 start + timedelta(days=1),
             )
+        except NotAnApiError:
+            return "dynamic_not_api"
         except DynamicTariffError:
-            return False
+            return "dynamic_unavailable"
         if not prices:
-            return False
-    return True
+            return "dynamic_unavailable"
+    return None
 
 
 def _electricity_names(tariffs: list[Tariff], today) -> list[str]:
@@ -463,9 +468,10 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
         if user_input is not None:
             choice = _tariff_choice(self._tariffs, self._electricity, user_input, today)
-            if await _dynamic_prices_reachable(self.hass, self._tariffs, choice, today):
+            if not (error := await _dynamic_prices_error(self.hass, self._tariffs, choice, today)):
                 return self.async_create_entry(
-                    title=f"Corrente — {self._operator.operator_name}",
+                    # Short, so entity ids stay readable: "sensor.corrente_lugano_price_now".
+                    title=f"Corrente {self._operator.municipality_name}",
                     data={
                         CONF_COUNTRY: COUNTRY_SWITZERLAND,
                         CONF_MUNICIPALITY: self._operator.municipality,
@@ -476,11 +482,11 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
                         **choice,
                     },
                 )
-            errors["base"] = "dynamic_unavailable"
+            errors["base"] = error
         return self.async_show_form(
             step_id="ch_grid",
             data_schema=_grid_schema(self._tariffs, self._electricity, today),
-            description_placeholders={"electricity": self._electricity},
+            description_placeholders={**_PLACEHOLDERS, "electricity": self._electricity},
             errors=errors,
         )
 
@@ -648,12 +654,12 @@ class CorrenteOptionsFlow(OptionsFlow):
         errors: dict[str, str] = {}
         if user_input is not None:
             choice = _tariff_choice(tariffs, self._electricity, user_input, today)
-            if await _dynamic_prices_reachable(self.hass, tariffs, choice, today):
+            if not (error := await _dynamic_prices_error(self.hass, tariffs, choice, today)):
                 return self._save(choice)
-            errors["base"] = "dynamic_unavailable"
+            errors["base"] = error
         return self.async_show_form(
             step_id="ch_grid",
             data_schema=_grid_schema(tariffs, self._electricity, today),
-            description_placeholders={"electricity": self._electricity},
+            description_placeholders={**_PLACEHOLDERS, "electricity": self._electricity},
             errors=errors,
         )

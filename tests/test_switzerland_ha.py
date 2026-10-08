@@ -83,7 +83,7 @@ async def test_flow_lugano(
         },
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == "Corrente — Aziende Industriali di Lugano (AIL) SA"
+    assert result["title"] == "Corrente Lugano"
     assert result["data"] == AIL_DAY_NIGHT
 
 
