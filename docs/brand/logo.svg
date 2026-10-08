@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#1b5e20"/>
+      <stop offset="1" stop-color="#2e9d4a"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- price bars: cheap, mid, dear -->
+  <rect x="64" y="330" width="56" height="118" rx="14" fill="#a5d6a7"/>
+  <rect x="392" y="250" width="56" height="198" rx="14" fill="#ffcc80"/>
+  <!-- lightning bolt -->
+  <path d="M292 52 L150 292 H246 L214 460 L366 206 H268 Z" fill="#ffffff" stroke="#ffffff" stroke-width="10" stroke-linejoin="round"/>
+  <text x="580" y="372" font-family="Liberation Sans, Arial, sans-serif" font-weight="700" font-size="300" fill="#1f2a1f" letter-spacing="-6">Corrente</text>
+</svg>

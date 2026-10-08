@@ -10,7 +10,7 @@
 | 2 | Repo da privata a **pubblica** (Settings → General → Danger zone → Change visibility) | **Owner**, 1 min | ⏳ |
 | 3 | Descrizione della repo e topic (`home-assistant`, `hacs`, `hacs-integration`, `energy`, `electricity-prices`, `switzerland`, `italy`, `ticino`) — Settings → General / About | **Owner**, 1 min (testo qui sotto) | ⏳ |
 | 4 | Il controllo HACS si riattiva da solo con la repo pubblica: verifica verde | Claude | ⏳ |
-| 5 | Icona e logo per l'elenco ufficiale (repo `home-assistant/brands`) | Claude prepara, **owner** approva la richiesta | ⏳ |
+| 5 | Icona e logo: dentro l'integrazione (cartella `brand/`, letta da Home Assistant 2026.3 e successivi), nessuna richiesta esterna | Claude | ✅ 8 ottobre |
 | 6 | Richiesta di inserimento nello store HACS (`hacs/default`) | Claude prepara, **owner** approva | ⏳ |
 | 7 | Post nelle community (testi qui sotto) | **Owner**, copia e incolla, circa 10 min | ⏳ |
 | 8 | Modulo per chi non ha GitHub (Tally o simile) | Claude prepara, **owner** crea l'account se serve | ⏳ |

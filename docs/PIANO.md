@@ -160,12 +160,12 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **correzione**: voci nazionali per Groupe E con rete dinamica o a due fasce (prima +2,3 Rp di troppo);
   - ✅ **correzione**: il file BKW (date con l'ora, comuni "#N/A") faceva fallire la lettura di tutte le tariffe BKW;
   - ✅ link "Suggerisci una modifica" nelle opzioni e nella card, con la fonte dei dati in fondo alla card (per il GME è un obbligo); screenshot aggiornati;
-  - 124 test.
+  - ✅ icona e logo dentro l'integrazione (cartella `brand/`): da Home Assistant 2026.3 non serve più la richiesta al repo `home-assistant/brands`, quindi una azione in meno per l'owner;
+  - 130 test.
   - **Prossimi pezzi:**
-    1. icona e logo per l'elenco ufficiale (repo `home-assistant/brands`);
-    2. modulo per le richieste senza account GitHub;
-    3. versione v0.1.0 e note di rilascio;
-    4. CKW: tipo `integrated` e file delle tariffe (oggi risponde 403).
+    1. modulo per le richieste senza account GitHub;
+    2. versione v0.1.0 e note di rilascio;
+    3. CKW: tipo `integrated` e file delle tariffe (oggi risponde 403).
 
 ## 8. Numeri di controllo
 

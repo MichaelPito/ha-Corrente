@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="custom_components/corrente/brand/dark_logo.png">
+  <img src="custom_components/corrente/brand/logo.png" height="64" alt="Corrente">
+</picture>
+
 # Corrente ⚡
 
 **Your real electricity price in Home Assistant — and the best time to switch things on. Made for Italy 🇮🇹 and Switzerland 🇨🇭.**
