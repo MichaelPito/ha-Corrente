@@ -23,5 +23,6 @@ Il progetto dello script si può cancellare dopo l'esecuzione: modulo e foglio r
 - Nessuna risposta privata: chi compila il modulo segue la richiesta pubblica su GitHub, come dice il messaggio finale del modulo.
 
 ## Stato
-- Modulo: ⏳ da creare (owner, passi qui sopra).
-- Ultima risposta trattata: —
+- Modulo: ✅ creato dall'owner l'8 ottobre 2026, pubblico e senza accesso obbligatorio (verificato). Link per le persone: <https://docs.google.com/forms/d/e/1FAIpQLSce_vFvHpz3Qav3o05DvoJhpIuM2zXWmvpgBHWRS1gJsEF6yQ/viewform>. Foglio delle risposte: "Corrente — requests (answers)" nel Drive dell'owner (privato).
+- Collegato da: scelta delle richieste su GitHub (`.github/ISSUE_TEMPLATE/config.yml`), README, guida italiana; la card e le opzioni portano alla scelta delle richieste.
+- Ultima risposta trattata: — (nessuna risposta al 8 ottobre 2026)

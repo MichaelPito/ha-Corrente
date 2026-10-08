@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: "📝 No GitHub account? / Senza account GitHub?"
+    url: https://docs.google.com/forms/d/e/1FAIpQLSce_vFvHpz3Qav3o05DvoJhpIuM2zXWmvpgBHWRS1gJsEF6yQ/viewform
+    about: "Send a request with a short form, no account needed. We publish it here without personal data. / Invia una richiesta con un breve modulo, senza account: la pubblichiamo qui senza dati personali."
   - name: "❓ Questions and help / Domande e aiuto"
     url: https://github.com/MichaelPito/ha-corrente/discussions
     about: "Ask how to set something up. / Chiedi come configurare qualcosa."
