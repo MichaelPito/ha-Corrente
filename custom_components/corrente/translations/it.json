@@ -10,7 +10,7 @@
       },
       "italy": {
         "title": "Il tuo contratto della luce",
-        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3). I contratti indicizzati al PUN sono in arrivo. [Suggerisci una modifica]({issues_url}).",
+        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3), oppure dal PUN Index GME più il tuo spread. [Suggerisci una modifica]({issues_url}).",
         "data": {
           "contract_type": "Tipo di contratto"
         }
@@ -135,12 +135,13 @@
       },
       "contract": {
         "title": "Modifica il contratto",
-        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3). I contratti indicizzati al PUN sono in arrivo. [Suggerisci una modifica]({issues_url}).",
+        "description": "Corrente calcola il prezzo dal tuo contratto e dalle fasce orarie italiane (F1, F2, F3), oppure dal PUN Index GME più il tuo spread. [Suggerisci una modifica]({issues_url}).",
         "data": {
           "contract_type": "Tipo di contratto"
         }
       },
       "init": {
+        "description": "Cosa vuoi cambiare? Manca qualcosa o hai trovato un errore? [Suggerisci una modifica]({issues_url}).",
         "menu_options": {
           "contract": "Contratto o tariffa",
           "meter": "Contatore (per i costi)",

@@ -10,7 +10,7 @@
       },
       "italy": {
         "title": "Ihr Stromvertrag",
-        "description": "Corrente berechnet Ihren Preis aus Ihrem Vertrag und den italienischen Zeitbändern (F1, F2, F3). PUN-indexierte Verträge folgen bald. [Änderung vorschlagen]({issues_url}).",
+        "description": "Corrente berechnet Ihren Preis aus Ihrem Vertrag und den italienischen Zeitbändern (F1, F2, F3) oder aus dem PUN Index GME plus Ihrem Aufschlag. [Änderung vorschlagen]({issues_url}).",
         "data": {
           "contract_type": "Vertragsart"
         }
@@ -135,12 +135,13 @@
       },
       "contract": {
         "title": "Vertrag ändern",
-        "description": "Corrente berechnet Ihren Preis aus Ihrem Vertrag und den italienischen Zeitbändern (F1, F2, F3). PUN-indexierte Verträge folgen bald. [Änderung vorschlagen]({issues_url}).",
+        "description": "Corrente berechnet Ihren Preis aus Ihrem Vertrag und den italienischen Zeitbändern (F1, F2, F3) oder aus dem PUN Index GME plus Ihrem Aufschlag. [Änderung vorschlagen]({issues_url}).",
         "data": {
           "contract_type": "Vertragsart"
         }
       },
       "init": {
+        "description": "Was möchten Sie ändern? Fehlt etwas oder haben Sie einen Fehler gefunden? [Änderung vorschlagen]({issues_url}).",
         "menu_options": {
           "contract": "Vertrag oder Tarif",
           "meter": "Stromzähler (für Kosten)",

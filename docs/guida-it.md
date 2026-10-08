@@ -56,7 +56,7 @@ type: custom:corrente-card
 entity: sensor.corrente_price_now
 ```
 
-La card mostra il prezzo adesso, le prossime 24 ore a colori (verde più economico, rosso più caro) e il momento migliore per avviare un apparecchio di 2 ore.
+La card mostra il prezzo adesso, le prossime 24 ore a colori (verde più economico, rosso più caro) e il momento migliore per avviare un apparecchio di 2 ore. In basso trovi la fonte dei dati e il link **Suggerisci una modifica**; per nasconderlo aggiungi `feedback: false`.
 
 ## Hai un'idea o un problema?
 

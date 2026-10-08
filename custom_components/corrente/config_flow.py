@@ -500,7 +500,11 @@ class CorrenteOptionsFlow(OptionsFlow):
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Change the contract or tariff, or the energy meter used for costs."""
-        return self.async_show_menu(step_id="init", menu_options=["contract", "meter", "appliance"])
+        return self.async_show_menu(
+            step_id="init",
+            menu_options=["contract", "meter", "appliance"],
+            description_placeholders=_PLACEHOLDERS,
+        )
 
     def _save(self, changes: dict[str, Any]) -> ConfigFlowResult:
         """Keep the options that this step does not change."""

@@ -159,13 +159,13 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **tariffe dinamiche svizzere** (in anticipo: erano previste per dicembre) dalle API dei gestori, formati 2026 e 2027; provate dal vivo con EKZ (media del giorno a 0,1 Rp dal totale ElCom) e Groupe E;
   - ✅ **correzione**: voci nazionali per Groupe E con rete dinamica o a due fasce (prima +2,3 Rp di troppo);
   - ✅ **correzione**: il file BKW (date con l'ora, comuni "#N/A") faceva fallire la lettura di tutte le tariffe BKW;
+  - ✅ link "Suggerisci una modifica" nelle opzioni e nella card, con la fonte dei dati in fondo alla card (per il GME è un obbligo); screenshot aggiornati;
   - 124 test.
   - **Prossimi pezzi:**
-    1. link "Suggerisci una modifica" nell'integrazione e nella card (ultimo punto aperto della v0.1);
-    2. icona e logo per l'elenco ufficiale (repo `home-assistant/brands`);
-    3. modulo per le richieste senza account GitHub;
-    4. versione v0.1.0 e note di rilascio;
-    5. CKW: tipo `integrated` e file delle tariffe (oggi risponde 403).
+    1. icona e logo per l'elenco ufficiale (repo `home-assistant/brands`);
+    2. modulo per le richieste senza account GitHub;
+    3. versione v0.1.0 e note di rilascio;
+    4. CKW: tipo `integrated` e file delle tariffe (oggi risponde 403).
 
 ## 8. Numeri di controllo
 

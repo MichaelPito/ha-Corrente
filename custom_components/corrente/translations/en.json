@@ -10,7 +10,7 @@
       },
       "italy": {
         "title": "Your electricity contract",
-        "description": "Corrente works out your price from your contract and the Italian time bands (F1, F2, F3). PUN-indexed contracts are coming soon. [Suggest a change]({issues_url}).",
+        "description": "Corrente works out your price from your contract and the Italian time bands (F1, F2, F3), or from GME's PUN Index plus your spread. [Suggest a change]({issues_url}).",
         "data": {
           "contract_type": "Contract type"
         }
@@ -135,12 +135,13 @@
       },
       "contract": {
         "title": "Change your contract",
-        "description": "Corrente works out your price from your contract and the Italian time bands (F1, F2, F3). PUN-indexed contracts are coming soon. [Suggest a change]({issues_url}).",
+        "description": "Corrente works out your price from your contract and the Italian time bands (F1, F2, F3), or from GME's PUN Index plus your spread. [Suggest a change]({issues_url}).",
         "data": {
           "contract_type": "Contract type"
         }
       },
       "init": {
+        "description": "What do you want to change? Missing something or found a mistake? [Suggest a change]({issues_url}).",
         "menu_options": {
           "contract": "Contract or tariff",
           "meter": "Energy meter (for costs)",

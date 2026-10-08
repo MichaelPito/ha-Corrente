@@ -10,7 +10,7 @@
       },
       "italy": {
         "title": "Votre contrat d'électricité",
-        "description": "Corrente calcule votre prix à partir de votre contrat et des plages horaires italiennes (F1, F2, F3). Les contrats indexés sur le PUN arrivent bientôt. [Suggérer une modification]({issues_url}).",
+        "description": "Corrente calcule votre prix à partir de votre contrat et des plages horaires italiennes (F1, F2, F3), ou du PUN Index GME plus votre marge. [Suggérer une modification]({issues_url}).",
         "data": {
           "contract_type": "Type de contrat"
         }
@@ -135,12 +135,13 @@
       },
       "contract": {
         "title": "Modifier le contrat",
-        "description": "Corrente calcule votre prix à partir de votre contrat et des plages horaires italiennes (F1, F2, F3). Les contrats indexés sur le PUN arrivent bientôt. [Suggérer une modification]({issues_url}).",
+        "description": "Corrente calcule votre prix à partir de votre contrat et des plages horaires italiennes (F1, F2, F3), ou du PUN Index GME plus votre marge. [Suggérer une modification]({issues_url}).",
         "data": {
           "contract_type": "Type de contrat"
         }
       },
       "init": {
+        "description": "Que voulez-vous modifier ? Il manque quelque chose ou vous avez trouvé une erreur ? [Suggérer une modification]({issues_url}).",
         "menu_options": {
           "contract": "Contrat ou tarif",
           "meter": "Compteur (pour les coûts)",

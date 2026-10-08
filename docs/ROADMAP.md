@@ -15,7 +15,7 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [x] UI-only setup (config flow), translations EN / IT / DE / FR
 - [x] Dashboard card: price now, next 24 h (cheap/dear colours), best time to start; loaded automatically by the integration, EN/IT/DE/FR, light and dark themes
 - [x] Switzerland: change tariffs from the options
-- [ ] "Suggest a change" link inside the integration and the card
+- [x] "Suggest a change" link inside the integration (setup and options) and the card, with the data source shown on the card
 
 - [x] README with screenshots, installation, sensors, card and an automation example; Italian guide
 

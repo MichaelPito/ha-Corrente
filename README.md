@@ -7,6 +7,7 @@
 <p>
   <img src="docs/images/card-lugano-it.png" width="340" alt="Corrente card for a day/night tariff in Lugano">
   <img src="docs/images/card-pun-it.png" width="340" alt="Corrente card for an Italian PUN-indexed contract, quarter-hour prices">
+  <img src="docs/images/card-ekz-dynamic-de.png" width="340" alt="Corrente card for EKZ's dynamic tariff, quarter-hour prices">
 </p>
 
 ## What it does
@@ -64,6 +65,8 @@ The card is installed with the integration. Add it from the dashboard editor (se
 type: custom:corrente-card
 entity: sensor.corrente_price_now
 ```
+
+Options: `title` (default "Corrente", empty to hide) and `feedback: false` to hide the "Suggest a change" link. The data source (ElCom, GME) is shown at the bottom.
 
 ## Blueprint: start an appliance at the cheapest time
 
