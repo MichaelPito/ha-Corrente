@@ -62,7 +62,7 @@
       },
       "ch_tariff": {
         "title": "Your tariff",
-        "description": "Choose your energy tariff from {operator}. Tariffs that can't be calculated from the file (for example dynamic ones) are not listed yet.",
+        "description": "Choose your energy tariff from {operator}. Dynamic tariffs are listed when the operator publishes their prices through the standard API (for example EKZ, Groupe E); tariffs that can't be calculated are not listed.",
         "data": {
           "electricity_tariff": "Energy tariff"
         }
@@ -88,7 +88,8 @@
     "error": {
       "cannot_connect": "Could not reach ElCom. Try again in a few minutes.",
       "no_match": "No municipality found with this name.",
-      "invalid_file": "This link is not a readable tariff file."
+      "invalid_file": "This link is not a readable tariff file.",
+      "dynamic_unavailable": "The operator's dynamic prices could not be downloaded. Try again later or choose another tariff."
     }
   },
   "options": {
@@ -119,7 +120,7 @@
       },
       "ch_tariff": {
         "title": "Your tariff",
-        "description": "Choose your energy tariff from {operator}. Tariffs that can't be calculated from the file (for example dynamic ones) are not listed yet.",
+        "description": "Choose your energy tariff from {operator}. Dynamic tariffs are listed when the operator publishes their prices through the standard API (for example EKZ, Groupe E); tariffs that can't be calculated are not listed.",
         "data": {
           "electricity_tariff": "Energy tariff"
         }
@@ -172,6 +173,9 @@
     },
     "abort": {
       "tariffs_unavailable": "The tariff file is not available right now. Try again later."
+    },
+    "error": {
+      "dynamic_unavailable": "The operator's dynamic prices could not be downloaded. Try again later or choose another tariff."
     }
   },
   "selector": {

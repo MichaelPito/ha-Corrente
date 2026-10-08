@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import datetime, time, timedelta
 from typing import Any
 
 import voluptuous as vol
@@ -12,7 +13,7 @@ from homeassistant.config_entries import (
     ConfigFlowResult,
     OptionsFlow,
 )
-from homeassistant.core import callback
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.selector import (
     EntitySelector,
@@ -57,6 +58,7 @@ from .const import (
     ISSUES_URL,
 )
 from .core.contract import ItalyContractType
+from .core.dynamic import DynamicTariffError, async_fetch_prices
 from .core.elcom import (
     ElcomError,
     OperatorInMunicipality,
@@ -188,7 +190,34 @@ def _supported(tariff: Tariff) -> bool:
         tariff.check_supported()
     except UnsupportedTariffError:
         return False
-    return bool(tariff.energy)
+    return bool(tariff.energy) or tariff.is_dynamic
+
+
+async def _dynamic_prices_reachable(
+    hass: HomeAssistant, tariffs: list[Tariff], choice: dict[str, Any], today
+) -> bool:
+    """Try the operator's API once for each dynamic tariff the user picked."""
+    picked = [
+        t
+        for kind, key in (("electricity", CONF_ELECTRICITY_TARIFF), ("grid", CONF_GRID_TARIFF))
+        for t in tariffs_on(tariffs, kind, today)
+        if t.name == choice[key] and t.is_dynamic and t.dynamic_url
+    ]
+    start = datetime.combine(today, time(0, 0), SWISS_TZ)
+    for tariff in picked:
+        try:
+            prices = await async_fetch_prices(
+                async_get_clientsession(hass),
+                tariff.dynamic_url,
+                tariff.tariff_type,
+                start,
+                start + timedelta(days=1),
+            )
+        except DynamicTariffError:
+            return False
+        if not prices:
+            return False
+    return True
 
 
 def _electricity_names(tariffs: list[Tariff], today) -> list[str]:
@@ -431,23 +460,28 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
         """Confirm the grid tariff and the regional fees that go with the energy tariff."""
         assert self._operator is not None and self._electricity is not None
         today = dt_util.now(SWISS_TZ).date()
+        errors: dict[str, str] = {}
         if user_input is not None:
-            return self.async_create_entry(
-                title=f"Corrente — {self._operator.operator_name}",
-                data={
-                    CONF_COUNTRY: COUNTRY_SWITZERLAND,
-                    CONF_MUNICIPALITY: self._operator.municipality,
-                    CONF_MUNICIPALITY_NAME: self._operator.municipality_name,
-                    CONF_OPERATOR_ID: self._operator.operator_id,
-                    CONF_OPERATOR_NAME: self._operator.operator_name,
-                    CONF_TARIFF_URL: self._tariff_url,
-                    **_tariff_choice(self._tariffs, self._electricity, user_input, today),
-                },
-            )
+            choice = _tariff_choice(self._tariffs, self._electricity, user_input, today)
+            if await _dynamic_prices_reachable(self.hass, self._tariffs, choice, today):
+                return self.async_create_entry(
+                    title=f"Corrente — {self._operator.operator_name}",
+                    data={
+                        CONF_COUNTRY: COUNTRY_SWITZERLAND,
+                        CONF_MUNICIPALITY: self._operator.municipality,
+                        CONF_MUNICIPALITY_NAME: self._operator.municipality_name,
+                        CONF_OPERATOR_ID: self._operator.operator_id,
+                        CONF_OPERATOR_NAME: self._operator.operator_name,
+                        CONF_TARIFF_URL: self._tariff_url,
+                        **choice,
+                    },
+                )
+            errors["base"] = "dynamic_unavailable"
         return self.async_show_form(
             step_id="ch_grid",
             data_schema=_grid_schema(self._tariffs, self._electricity, today),
             description_placeholders={"electricity": self._electricity},
+            errors=errors,
         )
 
     @staticmethod
@@ -607,10 +641,15 @@ class CorrenteOptionsFlow(OptionsFlow):
         assert self._electricity is not None
         tariffs = self._swiss_tariffs()
         today = dt_util.now(SWISS_TZ).date()
+        errors: dict[str, str] = {}
         if user_input is not None:
-            return self._save(_tariff_choice(tariffs, self._electricity, user_input, today))
+            choice = _tariff_choice(tariffs, self._electricity, user_input, today)
+            if await _dynamic_prices_reachable(self.hass, tariffs, choice, today):
+                return self._save(choice)
+            errors["base"] = "dynamic_unavailable"
         return self.async_show_form(
             step_id="ch_grid",
             data_schema=_grid_schema(tariffs, self._electricity, today),
             description_placeholders={"electricity": self._electricity},
+            errors=errors,
         )

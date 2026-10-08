@@ -2,6 +2,9 @@
 
 Formato: data — chi — decisione — perché. Le decisioni più recenti in alto.
 
+- **2026-10-08 — owner** — Claude usa git normalmente sulla repo `ha-corrente` (la verifica di sicurezza aveva bloccato i comandi git dopo un cambio di indirizzo della repo). Parole dell'owner: «ok, usa git normalmente sulla repo ha-corrente». L'indirizzo resta `MichaelPito/ha-corrente`.
+- **2026-10-08 — Claude** — Tariffe dinamiche svizzere: solo dalle **API pubbliche indicate dal gestore** nel suo file (standard VSE / SmartGridready), chiamate da ogni installazione; niente lettura di pagine web (AIL, AMB, AEW restano fuori finché non pubblicano un'API). *Perché:* fonte ufficiale e stabile, coerente con la regola sulle fonti di `CLAUDE.md`.
+- **2026-10-08 — Claude (correzione tecnica)** — Verifica delle voci nazionali: con una tariffa di rete dinamica o a due fasce si confronta con le tariffe a prezzo unico **della stessa clientela**, non con tutte. *Perché:* per Groupe E una tariffa per aziende faceva aggiungere di nuovo il supplemento di rete (2,3 Rp, circa +2,5 Rp IVA inclusa). Dettagli in `FONTI-DATI.md`.
 - **2026-10-07 — owner** — Prezzo PUN italiano: si usa il **download dal sito GME come pun_sensor** (opzione 1). Parole dell'owner: «1, vai con il download GME come pun_sensor». Regole vincolanti:
   - ogni installazione scarica da sola i propri dati, 1–2 volte al giorno, con minuto casuale;
   - nessun server o cache condivisi;

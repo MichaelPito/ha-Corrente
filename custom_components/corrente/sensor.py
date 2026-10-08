@@ -28,7 +28,7 @@ from .core.contract import ItalyFixedContract, ItalyIndexedContract
 from .core.gme import ATTRIBUTION as GME_ATTRIBUTION
 from .core.italy import ITALY_TZ, Band, band_at, next_band_change
 from .core.schedule import Segment, Window, build_schedule, cheapest_window
-from .core.switzerland import SWISS_TZ, SwissContract
+from .core.switzerland import SWISS_TZ, PriceNotPublishedError, SwissContract
 from .cost import PERIOD_DAY, PERIOD_MONTH, CostSensor
 
 PARALLEL_UPDATES = 0
@@ -59,13 +59,8 @@ def italy_schedule(
 
 
 def swiss_schedule(contract: SwissContract, now: datetime, horizon: timedelta) -> list[Segment]:
-    """Price segments of a Swiss contract."""
-
-    def next_change(moment: datetime) -> datetime | None:
-        change = contract.next_change(moment)
-        return None if change is None else change[0]
-
-    return build_schedule(lambda m: contract.price_at(m)[0], next_change, now, horizon)
+    """Price segments of a Swiss contract (dynamic ones: as far as published)."""
+    return contract.schedule(now, now + horizon)
 
 
 def _best_window(segments: list[Segment], duration: timedelta) -> Window | None:
@@ -194,7 +189,7 @@ SWISS_SENSORS: tuple[SwissSensorDescription, ...] = (
         native_unit_of_measurement="CHF/kWh",
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=4,
-        value_fn=lambda contract, now, _d: contract.price_at(now)[0],
+        value_fn=lambda contract, now, _d: contract.price_or_none(now),
     ),
     SwissSensorDescription(
         key="period",
@@ -351,7 +346,7 @@ async def async_setup_entry(
         coordinator = data.switzerland
 
         def price_fn(now: datetime) -> float | None:
-            return coordinator.data.contract.price_at(now)[0] if coordinator.data else None
+            return coordinator.data.contract.price_or_none(now) if coordinator.data else None
 
         currency, tz = "CHF", SWISS_TZ
     elif data.gme is not None:
@@ -465,11 +460,17 @@ class SwissSensor(CoordinatorEntity[SwissTariffCoordinator], SensorEntity):
             )
         if self.entity_description.key != "price":
             return None
-        _, gap = contract.price_at(now)
+        try:
+            _, gap = contract.price_at(now)
+        except PriceNotPublishedError:
+            gap = False
         return {
             "energy_tariff": contract.electricity.name,
             "grid_tariff": contract.grid.name,
             "regional_fees": contract.regional_fees.name if contract.regional_fees else None,
+            "dynamic_prices_until": (
+                None if contract.known_until is None else contract.known_until.isoformat()
+            ),
             "schedule_gap_filled": gap,
             "source": self.coordinator.data.source_url,
             "federal_charges_checked_with_elcom": self.coordinator.data.federal_checked,

@@ -20,7 +20,8 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [x] README with screenshots, installation, sensors, card and an automation example; Italian guide
 
 ## Next (December 2026 – January 2027)
-- [ ] Swiss dynamic tariffs (EKZ, CKW, BKW / SmartGridready, Groupe E)
+- [x] Swiss dynamic tariffs from the operator's API (VSE / SmartGridready standard, 2026 and 2027 formats): EKZ and Groupe E verified live
+- [ ] Swiss dynamic tariffs: CKW (its tariff file cannot be downloaded yet), BKW (from 2027), operators without an API (AIL, AMB, AEW)
 - [ ] Cost per appliance
 - [ ] Guide: Chain2 / Open Meter (Italy) and Swiss smart-meter readout
 - [x] Blueprint: start an appliance at the best time ("ready" helper + switch, optional notification)

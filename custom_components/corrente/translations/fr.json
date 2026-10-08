@@ -62,7 +62,7 @@
       },
       "ch_tariff": {
         "title": "Votre tarif",
-        "description": "Choisissez votre tarif d'énergie de {operator}. Les tarifs qui ne peuvent pas être calculés à partir du fichier (par exemple dynamiques) ne sont pas encore affichés.",
+        "description": "Choisissez votre tarif d'énergie de {operator}. Les tarifs dynamiques sont affichés lorsque le gestionnaire publie ses prix via l'API standard (par exemple EKZ, Groupe E) ; les tarifs qui ne peuvent pas être calculés ne sont pas affichés.",
         "data": {
           "electricity_tariff": "Tarif d'énergie"
         }
@@ -88,7 +88,8 @@
     "error": {
       "cannot_connect": "L'ElCom ne répond pas. Réessayez dans quelques minutes.",
       "no_match": "Aucune commune trouvée avec ce nom.",
-      "invalid_file": "Ce lien n'est pas un fichier de tarifs lisible."
+      "invalid_file": "Ce lien n'est pas un fichier de tarifs lisible.",
+      "dynamic_unavailable": "Les prix dynamiques du gestionnaire n'ont pas pu être téléchargés. Réessayez plus tard ou choisissez un autre tarif."
     }
   },
   "options": {
@@ -119,7 +120,7 @@
       },
       "ch_tariff": {
         "title": "Votre tarif",
-        "description": "Choisissez votre tarif d'énergie de {operator}. Les tarifs qui ne peuvent pas être calculés à partir du fichier (par exemple dynamiques) ne sont pas encore affichés.",
+        "description": "Choisissez votre tarif d'énergie de {operator}. Les tarifs dynamiques sont affichés lorsque le gestionnaire publie ses prix via l'API standard (par exemple EKZ, Groupe E) ; les tarifs qui ne peuvent pas être calculés ne sont pas affichés.",
         "data": {
           "electricity_tariff": "Tarif d'énergie"
         }
@@ -172,6 +173,9 @@
     },
     "abort": {
       "tariffs_unavailable": "Le fichier des tarifs n'est pas disponible pour le moment. Réessayez plus tard."
+    },
+    "error": {
+      "dynamic_unavailable": "Les prix dynamiques du gestionnaire n'ont pas pu être téléchargés. Réessayez plus tard ou choisissez un autre tarif."
     }
   },
   "selector": {

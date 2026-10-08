@@ -1,0 +1,633 @@
+{
+ "dsoName": "Groupe E",
+ "dsoNumber": 10063012345,
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tarif unitaire réseau / Einheitstarif Netz",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Consommateurs BT <100 MWh/an",
+   "prices": {
+    "base": {
+     "price": 3,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1167,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0864,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tarif unitaire BASIC énergie / Einheitstarif BASIC Energie",
+   "tariffType": "electricity",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Consommateurs BT <100 MWh/an",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1535,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tarif double BASIC énergie / Doppeltarif BASIC Energie",
+   "tariffType": "electricity",
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Consommateurs BT <100 MWh/an",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "07:00",
+      "to": "12:00",
+      "price": 0.1585,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "12:00",
+      "to": "17:00",
+      "price": 0.1155,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "17:00",
+      "to": "23:00",
+      "price": 0.1585,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "23:00",
+      "to": "07:00",
+      "price": 0.1155,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tarif double réseau / Doppeltarif Netz",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Consommateurs BT <100 MWh/an",
+   "prices": {
+    "base": {
+     "price": 3,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "07:00",
+      "to": "12:00",
+      "price": 0.1267,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "12:00",
+      "to": "17:00",
+      "price": 0.0732,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "17:00",
+      "to": "23:00",
+      "price": 0.1267,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "23:00",
+      "to": "07:00",
+      "price": 0.0732,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0429,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tarif EP réseau / Tarif OEB Netz",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Consommateurs BT <100 MWh/an",
+   "prices": {
+    "base": {
+     "price": 3,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0917,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0614,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tarif BT simple réseau pour éligible / Einheitstarif NS Netz für Kunden mit >100MWh/Jahr ",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Pour clients éligibles > 100MWh/an",
+   "prices": {
+    "base": {
+     "price": 62.5,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1387,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.1084,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tarif BT DUO réseau / Tarif NS DUO Netz",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Tarif de puissance facturé sur la puissance maximale mesurée les dernières 12 mois",
+   "customerType": ">100 MWh/an",
+   "prices": {
+    "base": {
+     "price": 9.5,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0612,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 7.8,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0309,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 3,
+   "tariffName": "Tarif HT DUO réseau / Tarif HS DUO Netz",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Tarif de puissance facturé sur la puissance maximale mesurée les dernières 12 mois",
+   "customerType": "Raccordé en haut tension",
+   "prices": {
+    "base": {
+     "price": 9.5,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0532,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 4.4,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0229,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "Tarif MT simple réseau / Einheitstarif MS Netz",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Installations qui bénéficie de ce tarif au 31.12.2013",
+   "prices": {
+    "base": {
+     "price": 94,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0778,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0475,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "Tarif MT DUO réseau / Tarif MS DUO Netz",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Tarif puissance facturé sur la base de la puissance maximale mesurée les dernières 12 mois",
+   "customerType": "Installations qui bénéficie de ce tarif au 31.12.2013",
+   "prices": {
+    "base": {
+     "price": 9.5,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0492,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 5.1,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0189,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tarif Vario réseau / Tarif Vario Netz",
+   "tariffType": "grid",
+   "tariffForm": "dynamic",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Tarif dynamique",
+   "customerType": "< 100 MWh/an",
+   "prices": {
+    "base": {
+     "price": 3,
+     "priceUnit": "CHF/M"
+    },
+    "refundStorage": {
+     "price": 0.0429,
+     "priceUnit": "CHF/kWh"
+    },
+    "dynamic": {
+     "url": "https://api.tariffs.groupe-e.ch/v2/tariffs"
+    }
+   }
+  }
+ ]
+}

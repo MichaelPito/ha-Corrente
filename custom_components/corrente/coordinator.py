@@ -1,10 +1,11 @@
-"""Keeps a Swiss operator's tariff file up to date."""
+"""Keeps a Swiss operator's tariff file, and its dynamic prices, up to date."""
 
 from __future__ import annotations
 
 import logging
+import zlib
 from dataclasses import dataclass
-from datetime import date, timedelta
+from datetime import UTC, date, datetime, time, timedelta
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -22,6 +23,7 @@ from .const import (
     CONF_TARIFF_URL,
     DOMAIN,
 )
+from .core.dynamic import DynamicTariffError, async_fetch_prices
 from .core.elcom import (
     ElcomError,
     TariffFileError,
@@ -29,6 +31,7 @@ from .core.elcom import (
     async_operators_for,
     async_tariff_url_candidates,
 )
+from .core.schedule import Segment
 from .core.switzerland import (
     SWISS_TZ,
     SwissContract,
@@ -42,7 +45,13 @@ from .core.switzerland import (
 
 _LOGGER = logging.getLogger(__name__)
 
-UPDATE_INTERVAL = timedelta(hours=12)
+# The tariff file is read twice a day. Dynamic prices for tomorrow come out
+# between late morning and early evening (CKW about 11:20, Groupe E 14:50, EKZ
+# 17:50), so from noon plus a minute of its own each installation checks every
+# half hour until they are there; usually that is a few calls a day.
+FILE_MAX_AGE = timedelta(hours=12)
+UPDATE_INTERVAL = timedelta(minutes=30)
+_TOMORROW_FROM = time(12, 0)
 
 
 @dataclass(frozen=True, slots=True)
@@ -102,26 +111,79 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
         )
         self._url: str = entry.data[CONF_TARIFF_URL]
         self._federal: dict[tuple[str, int, str], float | None] = {}
+        self._file: tuple[list[Tariff], datetime, date] | None = None
+        self._dynamic: dict[tuple[str, str], list[Segment]] = {}
+        self._dynamic_attempt: dict[tuple[str, str], datetime] = {}
+        # A stable minute per installation, 0-59, so not everyone calls at once.
+        self._minute = zlib.crc32(entry.entry_id.encode()) % 60
 
     async def _async_update_data(self) -> SwissTariffData:
         options = {**self.config_entry.data, **self.config_entry.options}
-        today = dt_util.now(SWISS_TZ).date()
+        now = dt_util.utcnow()
+        today = now.astimezone(SWISS_TZ).date()
         session = async_get_clientsession(self.hass)
         try:
-            tariffs = await self._async_load(session, self._url, today)
-            if tariffs is None:
-                # A new year, or the operator moved its file: ask ElCom again.
-                tariffs = await self._async_find_file(session, options, today)
+            if self._file is None or now - self._file[1] >= FILE_MAX_AGE or self._file[2] != today:
+                tariffs = await self._async_load(session, self._url, today)
+                if tariffs is None:
+                    # A new year, or the operator moved its file: ask ElCom again.
+                    tariffs = await self._async_find_file(session, options, today)
+                self._file = (tariffs, now, today)
+            tariffs = self._file[0]
             federal = await self._async_federal(session, options, today, tariffs)
             contract = select_contract(tariffs, options, today, federal)
         except (ElcomError, UnsupportedTariffError) as err:
             raise UpdateFailed(str(err)) from err
+        if contract.dynamic_tariffs:
+            contract = contract.with_dynamic_prices(
+                await self._async_dynamic(session, contract, now)
+            )
         return SwissTariffData(
             tariffs=tariffs,
             contract=contract,
             source_url=self._url,
             federal_checked=federal is not None,
         )
+
+    async def _async_dynamic(
+        self, session, contract: SwissContract, now: datetime
+    ) -> dict[str, list[Segment]]:
+        """Today's and, once published, tomorrow's prices of the dynamic tariffs."""
+        local = now.astimezone(SWISS_TZ)
+        midnight = datetime.combine(local.date(), time(0, 0), SWISS_TZ)
+        day_after = datetime.combine(local.date() + timedelta(days=2), time(0, 0), SWISS_TZ)
+        tomorrow_noon = datetime.combine(
+            local.date() + timedelta(days=1), time(12, 0), SWISS_TZ
+        ).astimezone(UTC)
+        tomorrow_due = local >= datetime.combine(
+            local.date(), _TOMORROW_FROM, SWISS_TZ
+        ) + timedelta(minutes=self._minute)
+        prices: dict[str, list[Segment]] = {}
+        for tariff in contract.dynamic_tariffs:
+            assert tariff.dynamic_url is not None  # checked by check_supported
+            key = (tariff.dynamic_url, tariff.tariff_type)
+            known = [s for s in self._dynamic.get(key, []) if s.end > midnight]
+            need_today = not _covers(known, now)
+            need_tomorrow = tomorrow_due and not _covers(known, tomorrow_noon)
+            last = self._dynamic_attempt.get(key)
+            if need_today or (need_tomorrow and (last is None or now - last >= UPDATE_INTERVAL)):
+                self._dynamic_attempt[key] = now
+                try:
+                    fresh = await async_fetch_prices(
+                        session, tariff.dynamic_url, tariff.tariff_type, midnight, day_after
+                    )
+                except DynamicTariffError as err:
+                    if need_today:
+                        raise UpdateFailed(f"{tariff.name}: dynamic prices: {err}") from err
+                    _LOGGER.debug("Tomorrow's prices of %s not available yet: %s", tariff.name, err)
+                else:
+                    by_start = {s.start: s for s in known} | {s.start: s for s in fresh}
+                    known = [by_start[start] for start in sorted(by_start)]
+            if not _covers(known, now):
+                raise UpdateFailed(f"{tariff.name}: no dynamic price published for now")
+            self._dynamic[key] = known
+            prices[tariff.tariff_type] = known
+        return prices
 
     async def _async_federal(
         self, session, options: dict, today: date, tariffs: list[Tariff]
@@ -177,3 +239,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
                 self._url = url
                 return tariffs
         raise UpdateFailed(f"no tariff file in force on {today} found for this operator")
+
+
+def _covers(segments: list[Segment], moment: datetime) -> bool:
+    return any(s.start <= moment < s.end for s in segments)

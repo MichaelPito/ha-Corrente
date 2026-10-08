@@ -62,7 +62,7 @@
       },
       "ch_tariff": {
         "title": "Ihr Tarif",
-        "description": "Wählen Sie Ihren Energietarif von {operator}. Tarife, die sich nicht aus der Datei berechnen lassen (z. B. dynamische), werden noch nicht angezeigt.",
+        "description": "Wählen Sie Ihren Energietarif von {operator}. Dynamische Tarife werden angezeigt, wenn der Netzbetreiber die Preise über die Standard-API veröffentlicht (z. B. EKZ, Groupe E); Tarife, die sich nicht berechnen lassen, werden nicht angezeigt.",
         "data": {
           "electricity_tariff": "Energietarif"
         }
@@ -88,7 +88,8 @@
     "error": {
       "cannot_connect": "ElCom ist nicht erreichbar. Versuchen Sie es in ein paar Minuten erneut.",
       "no_match": "Keine Gemeinde mit diesem Namen gefunden.",
-      "invalid_file": "Dieser Link ist keine lesbare Tarifdatei."
+      "invalid_file": "Dieser Link ist keine lesbare Tarifdatei.",
+      "dynamic_unavailable": "Die dynamischen Preise des Netzbetreibers konnten nicht abgerufen werden. Versuchen Sie es später erneut oder wählen Sie einen anderen Tarif."
     }
   },
   "options": {
@@ -119,7 +120,7 @@
       },
       "ch_tariff": {
         "title": "Ihr Tarif",
-        "description": "Wählen Sie Ihren Energietarif von {operator}. Tarife, die sich nicht aus der Datei berechnen lassen (z. B. dynamische), werden noch nicht angezeigt.",
+        "description": "Wählen Sie Ihren Energietarif von {operator}. Dynamische Tarife werden angezeigt, wenn der Netzbetreiber die Preise über die Standard-API veröffentlicht (z. B. EKZ, Groupe E); Tarife, die sich nicht berechnen lassen, werden nicht angezeigt.",
         "data": {
           "electricity_tariff": "Energietarif"
         }
@@ -172,6 +173,9 @@
     },
     "abort": {
       "tariffs_unavailable": "Die Tarifdatei ist im Moment nicht verfügbar. Versuchen Sie es später erneut."
+    },
+    "error": {
+      "dynamic_unavailable": "Die dynamischen Preise des Netzbetreibers konnten nicht abgerufen werden. Versuchen Sie es später erneut oder wählen Sie einen anderen Tarif."
     }
   },
   "selector": {

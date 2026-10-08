@@ -62,7 +62,7 @@
       },
       "ch_tariff": {
         "title": "La tua tariffa",
-        "description": "Scegli la tua tariffa dell'energia di {operator}. Le tariffe che non si possono calcolare dal file (per esempio quelle dinamiche) non sono ancora elencate.",
+        "description": "Scegli la tua tariffa dell'energia di {operator}. Le tariffe dinamiche compaiono se il gestore pubblica i prezzi con l'API standard (per esempio EKZ, Groupe E); le tariffe che non si possono calcolare non sono elencate.",
         "data": {
           "electricity_tariff": "Tariffa dell'energia"
         }
@@ -88,7 +88,8 @@
     "error": {
       "cannot_connect": "ElCom non risponde. Riprova tra qualche minuto.",
       "no_match": "Nessun comune trovato con questo nome.",
-      "invalid_file": "Questo link non è un file delle tariffe leggibile."
+      "invalid_file": "Questo link non è un file delle tariffe leggibile.",
+      "dynamic_unavailable": "Non è stato possibile scaricare i prezzi dinamici del gestore. Riprova più tardi o scegli un'altra tariffa."
     }
   },
   "options": {
@@ -119,7 +120,7 @@
       },
       "ch_tariff": {
         "title": "La tua tariffa",
-        "description": "Scegli la tua tariffa dell'energia di {operator}. Le tariffe che non si possono calcolare dal file (per esempio quelle dinamiche) non sono ancora elencate.",
+        "description": "Scegli la tua tariffa dell'energia di {operator}. Le tariffe dinamiche compaiono se il gestore pubblica i prezzi con l'API standard (per esempio EKZ, Groupe E); le tariffe che non si possono calcolare non sono elencate.",
         "data": {
           "electricity_tariff": "Tariffa dell'energia"
         }
@@ -172,6 +173,9 @@
     },
     "abort": {
       "tariffs_unavailable": "Il file delle tariffe non è disponibile in questo momento. Riprova più tardi."
+    },
+    "error": {
+      "dynamic_unavailable": "Non è stato possibile scaricare i prezzi dinamici del gestore. Riprova più tardi o scegli un'altra tariffa."
     }
   },
   "selector": {

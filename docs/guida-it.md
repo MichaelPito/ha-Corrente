@@ -34,7 +34,8 @@ Le fasce seguono le regole ARERA:
 1. Scegli **Svizzera** e scrivi il nome del tuo **comune**.
 2. Corrente trova il tuo **gestore di rete** nei dati aperti di ElCom e legge il suo file delle tariffe.
 3. Scegli la tua **tariffa dell'energia**, per esempio "Casa & PMI giorno-notte". Corrente propone la tariffa di rete e i tributi che vanno con quella scelta: confrontali con la bolletta e conferma.
-4. Se il gestore non ha pubblicato un file leggibile (succede per esempio con SES e, nel 2026, con AMB), puoi incollare il link al file, oppure [segnalarcelo](https://github.com/MichaelPito/ha-corrente/issues/new/choose) e lo aggiungiamo noi.
+4. **Tariffe dinamiche** (prezzo diverso ogni quarto d'ora): se il gestore le pubblica con l'API standard, compaiono nell'elenco e Corrente scarica da sola i prezzi di oggi e, appena escono, quelli di domani. Oggi funziona con EKZ (*Energie Dynamisch*, *Netz 400D*) e Groupe E (*Vario*). AIL e AMB per ora pubblicano i prezzi dinamici solo sul loro sito: non sono ancora supportati.
+5. Se il gestore non ha pubblicato un file leggibile (succede per esempio con SES e, nel 2026, con AMB), puoi incollare il link al file, oppure [segnalarcelo](https://github.com/MichaelPito/ha-corrente/issues/new/choose) e lo aggiungiamo noi.
 
 Il prezzo svizzero include IVA, supplemento di rete, riserva elettrica, servizi di sistema Swissgrid e tributi cantonali e comunali. Le quote fisse mensili sono in un sensore a parte.
 
