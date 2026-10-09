@@ -2,7 +2,9 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.1.1] — 2026-10-09
+
+Fixes from a full trial run on a real Home Assistant, a new blueprint and a guide.
 
 ### Added
 - Guide: how to get your consumption into Home Assistant (clamp, Italian Open Meter / Chain 2, Swiss smart-meter interface), for the cost sensors.
@@ -46,4 +48,5 @@ Works with Home Assistant 2025.10 and later (tested on 2025.10 and 2026.2).
 - Every Home Assistant downloads its own data: ElCom open data and operators' tariff files and APIs (Switzerland), GME's daily prices (Italy). No Corrente server, no account, no telemetry.
 - GME data is for personal, non-commercial use; the source is shown on the sensors and the card.
 
+[0.1.1]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.1.1
 [0.1.0]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.1.0
