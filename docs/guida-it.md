@@ -47,6 +47,12 @@ Nelle **opzioni** di Corrente scegli **Contatore** e indica il sensore che conta
 
 Importa il blueprint **"Corrente — start an appliance at the cheapest time"** (pulsante nel README). Crea un aiutante "pronta" (interruttore). Quando carichi la lavastoviglie lo accendi, e Corrente la fa partire da sola nel momento più economico, poi spegne l'aiutante.
 
+## Avviso sul prezzo
+
+Importa il blueprint **"Corrente — price alert"** (pulsante qui sotto): scegli il sensore del prezzo, "sotto" o "sopra", la soglia (per esempio 0,20) e cosa fare, per esempio **Notifiche → Invia una notifica** al telefono. Scatta una volta ogni volta che il prezzo passa la soglia; nel testo puoi usare `{{ price }}` e `{{ unit }}`.
+
+[![Import blueprint](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fprice_alert.yaml)
+
 ## La card
 
 Nella dashboard: **Aggiungi scheda** → cerca **Corrente**. In YAML:

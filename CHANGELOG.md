@@ -4,6 +4,9 @@ All notable changes to Corrente. Versions follow [Semantic Versioning](https://s
 
 ## [Unreleased]
 
+### Added
+- Blueprint "price alert": do something (a notification, a switch…) when the price goes below or above a threshold.
+
 ### Fixed
 - Switzerland: a dynamic tariff whose link is a web page (AIL "dinamica") now says so, instead of "try again later".
 - Switzerland: the indicative fixed price that a tariff file may give for a dynamic tariff is no longer added to the price from the operator's API.

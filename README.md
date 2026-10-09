@@ -77,11 +77,19 @@ Entity names follow your Home Assistant language and setup (for example `sensor.
 
 Options: `title` (default "Corrente", empty to hide) and `feedback: false` to hide the "Suggest a change" link. The data source (ElCom, GME) is shown at the bottom.
 
-## Blueprint: start an appliance at the cheapest time
+## Blueprints
+
+### Start an appliance at the cheapest time
 
 Load the dishwasher, turn on a "ready" helper, and Corrente starts it at the best time.
 
 [![Import blueprint](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fstart_at_best_time.yaml)
+
+### Price alert
+
+Get a notification (or turn something on) when the price goes below or above a threshold. It runs once each time the price crosses it; in your actions `{{ price }}` and `{{ unit }}` hold the new price.
+
+[![Import blueprint](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fprice_alert.yaml)
 
 ## Automation example
 
