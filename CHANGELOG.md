@@ -5,6 +5,7 @@ All notable changes to Corrente. Versions follow [Semantic Versioning](https://s
 ## [Unreleased]
 
 ### Added
+- Guide: how to get your consumption into Home Assistant (clamp, Italian Open Meter / Chain 2, Swiss smart-meter interface), for the cost sensors.
 - Blueprint "price alert": do something (a notification, a switch…) when the price goes below or above a threshold.
 
 ### Fixed

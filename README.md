@@ -60,7 +60,7 @@ Without HACS: download `corrente.zip` from the [latest release](../../releases/l
 
 ² With a dynamic tariff, *high* means above the day's average price.
 
-¹ Optional: in the integration's options choose your **energy meter** (any kWh sensor, e.g. your smart meter or the energy dashboard's grid consumption). Each kWh is priced at the moment it is used.
+¹ Optional: in the integration's options choose your **energy meter** (any kWh sensor, e.g. your smart meter or the energy dashboard's grid consumption). Each kWh is priced at the moment it is used. No such sensor yet? [How to read your consumption](docs/meter.md) (clamp, Italian Open Meter / Chain 2, Swiss smart-meter interface).
 
 The price sensor also carries the price **schedule** for the next 36 hours and the best window (`best_start`, `best_end`, `best_average_price`) as attributes.
 

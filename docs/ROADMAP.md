@@ -24,7 +24,7 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [x] Swiss dynamic tariffs from the operator's API (VSE / SmartGridready standard, 2026 and 2027 formats): EKZ and Groupe E verified live
 - [ ] Swiss dynamic tariffs: CKW (its tariff file cannot be downloaded yet), BKW (from 2027), operators without an API (AIL, AMB, AEW)
 - [ ] Cost per appliance
-- [ ] Guide: Chain2 / Open Meter (Italy) and Swiss smart-meter readout
+- [x] Guide: reading your consumption — clamp, Chain 2 / Open Meter (Italy), smart-meter customer interface (Switzerland): [docs/meter.md](meter.md)
 - [x] Blueprint: start an appliance at the best time ("ready" helper + switch, optional notification)
 - [x] Blueprint: price alert (below or above a threshold, any action)
 - [ ] Blueprint: use solar surplus
