@@ -182,7 +182,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ card: la riga della fonte ElCom nella lingua di chi guarda (quella del GME resta com'è, la chiedono le sue condizioni);
   - 137 test.
   - **Prossimi pezzi:**
-    1. v0.1.1 (appena l'owner dà l'ok);
+    1. ✅ v0.1.1 pubblicata il 9 ottobre (ok dell'owner: «sì, pubblica la 0.1.1»);
     2. blueprint "usa il surplus del fotovoltaico";
     3. costo per apparecchio (v0.3).
 
