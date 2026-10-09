@@ -8,16 +8,16 @@
 const STRINGS = {
   en: { now: "Now", best: "Best time to start", for: "for", hours: "h", avg: "avg",
         next: "Next hours", cheap: "cheaper", dear: "dearer", unavailable: "Corrente: sensor not found",
-        startNow: "now", tomorrow: "tomorrow", suggest: "Suggest a change" },
+        startNow: "now", tomorrow: "tomorrow", suggest: "Suggest a change", elcom: "Tariffs: grid operator files via ElCom open data" },
   it: { now: "Adesso", best: "Momento migliore per avviare", for: "per", hours: "h", avg: "media",
         next: "Prossime ore", cheap: "più economico", dear: "più caro", unavailable: "Corrente: sensore non trovato",
-        startNow: "adesso", tomorrow: "domani", suggest: "Suggerisci una modifica" },
+        startNow: "adesso", tomorrow: "domani", suggest: "Suggerisci una modifica", elcom: "Tariffe: file dei gestori di rete tramite i dati aperti ElCom" },
   de: { now: "Jetzt", best: "Beste Startzeit", for: "für", hours: "Std.", avg: "Ø",
         next: "Nächste Stunden", cheap: "günstiger", dear: "teurer", unavailable: "Corrente: Sensor nicht gefunden",
-        startNow: "jetzt", tomorrow: "morgen", suggest: "Änderung vorschlagen" },
+        startNow: "jetzt", tomorrow: "morgen", suggest: "Änderung vorschlagen", elcom: "Tarife: Dateien der Netzbetreiber über die offenen Daten der ElCom" },
   fr: { now: "Maintenant", best: "Meilleur moment pour démarrer", for: "pendant", hours: "h", avg: "moy.",
         next: "Prochaines heures", cheap: "moins cher", dear: "plus cher", unavailable: "Corrente : capteur introuvable",
-        startNow: "maintenant", tomorrow: "demain", suggest: "Suggérer une modification" },
+        startNow: "maintenant", tomorrow: "demain", suggest: "Suggérer une modification", elcom: "Tarifs : fichiers des gestionnaires de réseau via les données ouvertes de l'ElCom" },
 };
 
 const HOURS_SHOWN = 24;
@@ -147,7 +147,10 @@ class CorrenteCard extends HTMLElement {
     const title = this._config.title !== undefined ? this._config.title : "Corrente";
     // The data source (e.g. "Fonte: GME", required by its terms) and a link for
     // requests; "feedback: false" in the card's YAML hides the link.
-    const source = a.attribution ? `<span>${escapeHtml(a.attribution)}</span>` : "<span></span>";
+    // Home Assistant does not translate attributions: the ElCom one is shown in the
+    // viewer's language; GME's stays as GME's terms require ("Fonte: GME").
+    const attribution = a.attribution && a.attribution.includes("ElCom") ? t.elcom : a.attribution;
+    const source = attribution ? `<span>${escapeHtml(attribution)}</span>` : "<span></span>";
     const suggest = this._config.feedback === false ? "" :
       `<a href="${SUGGEST_URL}" target="_blank" rel="noopener">${t.suggest}</a>`;
     const footHtml = a.attribution || suggest ? `<div class="foot">${source}${suggest}</div>` : "";
