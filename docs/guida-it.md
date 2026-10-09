@@ -43,6 +43,13 @@ Il prezzo svizzero include IVA, supplemento di rete, riserva elettrica, servizi 
 
 Nelle **opzioni** di Corrente scegli **Contatore** e indica il sensore che conta i tuoi consumi in kWh (contatore intelligente, Shelly, consumo dalla rete della dashboard energia). Compaiono due sensori, **Costo di oggi** e **Costo del mese**: ogni kWh è pagato al prezzo del momento in cui l'hai consumato. In Italia il costo comprende solo la parte energia del contratto che hai inserito.
 
+**Non hai ancora un sensore dei consumi?** Le strade, dalla più semplice:
+- **una pinza o un contatore nel quadro elettrico** (per esempio Shelly EM / Pro 3EM), installati da un elettricista: funzionano ovunque;
+- **Italia, contatore Open Meter 2G ("Chain 2")**: serve un "Dispositivo Utente" certificato, che registra sul tuo contatore l'azienda che te lo vende; prima di comprarlo chiedi se funziona con Home Assistant in locale, senza abbonamento. Elenco delle aziende nelle [FAQ di E-Distribuzione](https://www.e-distribuzione.it/open-meter/chain-2/faq---esercizio-chain-2.html);
+- **Svizzera, contatore intelligente**: chiedi al gestore di attivare l'interfaccia cliente (di solito DSMR P1) e collega un lettore P1 (per esempio gPlug o whatwatt Go) o l'integrazione [DSMR](https://www.home-assistant.io/integrations/dsmr/).
+
+Tutti i dettagli (in inglese): [docs/meter.md](meter.md).
+
 ## Avviare la lavastoviglie al momento giusto
 
 Importa il blueprint **"Corrente — start an appliance at the cheapest time"** (pulsante nel README). Crea un aiutante "pronta" (interruttore). Quando carichi la lavastoviglie lo accendi, e Corrente la fa partire da sola nel momento più economico, poi spegne l'aiutante.

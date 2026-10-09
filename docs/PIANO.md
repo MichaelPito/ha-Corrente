@@ -178,12 +178,13 @@ esperto. Le richieste diventano la roadmap pubblica.
   - nessuna richiesta nuova (GitHub e modulo);
   - CKW: il 403 è la verifica anti-bot di Cloudflare; non la aggiriamo (`FONTI-DATI.md`), CKW resta fuori finché non lascia libero il file;
   - ✅ **blueprint "avviso sul prezzo"** (sotto o sopra una soglia, qualsiasi azione), provato in Home Assistant nei test;
+  - ✅ **guida "i tuoi consumi in Home Assistant"** (`docs/meter.md`, riassunto nella guida italiana): pinza, Chain 2 / Open Meter, interfaccia cliente svizzera; solo fatti verificati su fonti ufficiali (affermazioni su CKW e Areti tolte perché non verificabili);
   - ✅ card: la riga della fonte ElCom nella lingua di chi guarda (quella del GME resta com'è, la chiedono le sue condizioni);
   - 137 test.
   - **Prossimi pezzi:**
     1. v0.1.1 (appena l'owner dà l'ok);
-    2. guida Chain2 / Open Meter (Italia) e lettura del contatore svizzero;
-    3. blueprint "usa il surplus del fotovoltaico".
+    2. blueprint "usa il surplus del fotovoltaico";
+    3. costo per apparecchio (v0.3).
 
 ## 8. Numeri di controllo
 
