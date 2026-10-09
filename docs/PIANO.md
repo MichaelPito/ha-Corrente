@@ -181,6 +181,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **guida "i tuoi consumi in Home Assistant"** (`docs/meter.md`, riassunto nella guida italiana): pinza, Chain 2 / Open Meter, interfaccia cliente svizzera; solo fatti verificati su fonti ufficiali (affermazioni su CKW e Areti tolte perché non verificabili);
   - ✅ card: la riga della fonte ElCom nella lingua di chi guarda (quella del GME resta com'è, la chiedono le sue condizioni);
   - 137 test.
+  - ✅ **pagina di stato** per l'owner: <https://claude.ai/artifact/9nKRSNAPchwgitzGPuEMp8> (aggiornata alla fine di ogni sessione);
   - **Prossimi pezzi:**
     1. ✅ v0.1.1 pubblicata il 9 ottobre (ok dell'owner: «sì, pubblica la 0.1.1»);
     2. blueprint "usa il surplus del fotovoltaico";
