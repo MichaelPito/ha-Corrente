@@ -1,0 +1,66 @@
+blueprint:
+  name: Corrente — price alert
+  description: >-
+    Do something when the electricity price goes below (or above) a threshold: send a
+    notification, turn on the boiler, charge the car. It runs once each time the price
+    crosses the threshold. In your actions, {{ price }} is the new price and {{ unit }}
+    its unit (for example "0.1234" and "CHF/kWh").
+
+    Italiano: fa qualcosa quando il prezzo scende sotto (o sale sopra) una soglia, per
+    esempio ti manda una notifica o accende il boiler. Si attiva una volta a ogni
+    passaggio della soglia. Nelle azioni puoi usare {{ price }} e {{ unit }}.
+  domain: automation
+  source_url: https://github.com/MichaelPito/ha-corrente/blob/main/blueprints/automation/corrente/price_alert.yaml
+  author: Corrente
+  input:
+    price_sensor:
+      name: Corrente "price now" sensor
+      selector:
+        entity:
+          filter:
+            - integration: corrente
+              domain: sensor
+    direction:
+      name: When the price is
+      default: below
+      selector:
+        select:
+          options:
+            - label: below the threshold / sotto la soglia
+              value: below
+            - label: above the threshold / sopra la soglia
+              value: above
+    threshold:
+      name: Threshold (price per kWh, e.g. 0.20)
+      selector:
+        number:
+          min: 0
+          max: 2
+          step: 0.001
+          mode: box
+    actions:
+      name: Actions
+      description: What to do, for example "Notifications → Send a notification".
+      selector:
+        action: {}
+
+mode: single
+
+trigger_variables:
+  price_sensor: !input price_sensor
+  direction: !input direction
+  threshold: !input threshold
+
+triggers:
+  - trigger: template
+    value_template: >-
+      {% set p = states(price_sensor) | float(none) %}
+      {% if p is none %}false
+      {% elif direction == 'below' %}{{ p < threshold }}
+      {% else %}{{ p > threshold }}{% endif %}
+
+variables:
+  price: "{{ states(price_sensor) }}"
+  unit: "{{ state_attr(price_sensor, 'unit_of_measurement') }}"
+
+actions: !input actions

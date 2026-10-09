@@ -81,5 +81,5 @@ Puoi lasciare la macchina virtuale accesa qualche giorno per vedere i cambi di f
 
 ### Note per Claude
 - **Prova generale fatta l'8 ottobre 2026** su un Home Assistant 2026.2.3 vero (con interfaccia web), con dati reali: Lugano/AIL giorno-notte, AIL "dinamica", Italia bioraria, PUN dal GME. Funziona tutto; nessun avviso nel registro. Trovati e corretti tre problemi (vedi `PIANO.md`, 8 ottobre). All'owner restano solo le cose che non posso vedere da qui: la sua tariffa reale, la sua rete, il suo computer, la sua impressione.
-- Limite noto: la riga della fonte svizzera sulla card è in inglese (Home Assistant non traduce l'attribuzione).
+- La riga della fonte svizzera sulla card ora è nella lingua di chi guarda (9 ottobre).
 - Dopo il test: ogni problema diventa una richiesta su GitHub; le correzioni escono come v0.1.1.

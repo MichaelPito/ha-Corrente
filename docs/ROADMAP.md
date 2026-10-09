@@ -26,7 +26,8 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [ ] Cost per appliance
 - [ ] Guide: Chain2 / Open Meter (Italy) and Swiss smart-meter readout
 - [x] Blueprint: start an appliance at the best time ("ready" helper + switch, optional notification)
-- [ ] Blueprints: use solar surplus, price alerts
+- [x] Blueprint: price alert (below or above a threshold, any action)
+- [ ] Blueprint: use solar surplus
 
 ## Ideas from users
 _(empty — be the first: [suggest something](../../../issues/new/choose))_

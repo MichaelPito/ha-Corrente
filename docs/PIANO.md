@@ -171,8 +171,19 @@ esperto. Le richieste diventano la roadmap pubblica.
     - nomi più corti: "Corrente Lugano" invece della ragione sociale del gestore (`sensor.corrente_lugano_prezzo_attuale`);
   - 134 test.
   - **Prossimi pezzi:**
-    1. versione v0.1.1 con queste correzioni, prima del test a casa;
+    1. versione v0.1.1 con queste correzioni, prima del test a casa (in attesa dell'ok dell'owner, chiesto l'8 ottobre);
     2. CKW: tipo `integrated` e file delle tariffe (oggi risponde 403).
+
+- **9 ottobre 2026** (sessione automatica):
+  - nessuna richiesta nuova (GitHub e modulo);
+  - CKW: il 403 è la verifica anti-bot di Cloudflare; non la aggiriamo (`FONTI-DATI.md`), CKW resta fuori finché non lascia libero il file;
+  - ✅ **blueprint "avviso sul prezzo"** (sotto o sopra una soglia, qualsiasi azione), provato in Home Assistant nei test;
+  - ✅ card: la riga della fonte ElCom nella lingua di chi guarda (quella del GME resta com'è, la chiedono le sue condizioni);
+  - 137 test.
+  - **Prossimi pezzi:**
+    1. v0.1.1 (appena l'owner dà l'ok);
+    2. guida Chain2 / Open Meter (Italia) e lettura del contatore svizzero;
+    3. blueprint "usa il surplus del fotovoltaico".
 
 ## 8. Numeri di controllo
 
