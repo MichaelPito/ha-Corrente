@@ -146,6 +146,7 @@
         "menu_options": {
           "contract": "Contratto o tariffa",
           "meter": "Contatore (per i costi)",
+          "appliances": "Costo per apparecchio",
           "appliance": "Durata dell'apparecchio"
         }
       },
@@ -170,6 +171,13 @@
           "spread": "Spread",
           "losses": "Perdite di rete (se il contratto le applica)",
           "zone": "Prezzo di riferimento"
+        }
+      },
+      "appliances": {
+        "title": "Costo per apparecchio",
+        "description": "Scegli i sensori di energia (kWh) degli apparecchi che hanno un contatore proprio, per esempio una presa intelligente sotto la lavatrice o la lavastoviglie. Per ognuno Corrente aggiunge \"Costo di oggi\" e \"Costo del mese\", con ogni kWh pagato al prezzo del momento in cui è stato consumato. Togli un apparecchio dall'elenco per togliere i suoi sensori.",
+        "data": {
+          "appliance_sensors": "Contatori degli apparecchi"
         }
       }
     },
@@ -261,6 +269,12 @@
       },
       "wholesale": {
         "name": "Prezzo all'ingrosso ({zone})"
+      },
+      "appliance_cost_day": {
+        "name": "Costo di oggi — {appliance}"
+      },
+      "appliance_cost_month": {
+        "name": "Costo del mese — {appliance}"
       }
     }
   }

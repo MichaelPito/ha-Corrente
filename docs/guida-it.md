@@ -50,6 +50,8 @@ Nelle **opzioni** di Corrente scegli **Contatore** e indica il sensore che conta
 
 Tutti i dettagli (in inglese): [docs/meter.md](meter.md).
 
+**Quanto costa la lavatrice?** Se un apparecchio ha un contatore suo (per esempio una presa intelligente che misura i kWh), nelle opzioni di Corrente scegli **Costo per apparecchio** e indica i suoi sensori di energia. Per ognuno compaiono **Costo di oggi — nome** e **Costo del mese — nome**, con ogni kWh pagato al prezzo del momento. Il nome è quello della presa (per esempio "Lavastoviglie"). Per toglierli, togli l'apparecchio dall'elenco.
+
 ## Avviare la lavastoviglie al momento giusto
 
 Importa il blueprint **"Corrente — start an appliance at the cheapest time"** (pulsante nel README). Crea un aiutante "pronta" (interruttore). Quando carichi la lavastoviglie lo accendi, e Corrente la fa partire da sola nel momento più economico, poi spegne l'aiutante.

@@ -8,6 +8,7 @@ import pytest
 from freezegun.api import FrozenDateTimeFactory
 from homeassistant.core import HomeAssistant, State
 from homeassistant.data_entry_flow import FlowResultType
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
 from pytest_homeassistant_custom_component.common import (
     MockConfigEntry,
@@ -154,3 +155,68 @@ async def test_meter_is_chosen_from_the_options(hass: HomeAssistant) -> None:
     await hass.async_block_till_done()
     assert entry.options["energy_sensor"] == METER
     assert _cost(hass, entry, "day") is not None
+
+
+PLUG = "sensor.plug_dishwasher_energy"
+
+
+async def test_cost_per_appliance(hass: HomeAssistant, freezer: FrozenDateTimeFactory) -> None:
+    """A smart plug gets its own cost sensors, named after the plug; removing it removes them."""
+    freezer.move_to(rome(2026, 10, 7, 20, 0))  # F2, 0.25 €/kWh
+    plug_entry = MockConfigEntry(domain="shelly")
+    plug_entry.add_to_hass(hass)
+    device = dr.async_get(hass).async_get_or_create(
+        config_entry_id=plug_entry.entry_id, identifiers={("shelly", "plug1")}, name="Lavastoviglie"
+    )
+    er.async_get(hass).async_get_or_create(
+        "sensor",
+        "shelly",
+        "plug1-energy",
+        suggested_object_id="plug_dishwasher_energy",
+        device_id=device.id,
+    )
+    entry = await _setup(hass, options={})
+
+    result = await hass.config_entries.options.async_init(entry.entry_id)
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {"next_step_id": "appliances"}
+    )
+    assert result["step_id"] == "appliances"
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {"appliance_sensors": [PLUG]}
+    )
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    await hass.async_block_till_done()
+
+    registry = er.async_get(hass)
+    day_id = registry.async_get_entity_id(
+        "sensor", DOMAIN, f"{entry.entry_id}_appliance_day_{PLUG}"
+    )
+    month_id = registry.async_get_entity_id(
+        "sensor", DOMAIN, f"{entry.entry_id}_appliance_month_{PLUG}"
+    )
+    assert day_id and month_id
+    assert hass.states.get(day_id).name == "Corrente Cost today — Lavastoviglie"
+    assert _cost(hass, entry, "day") is None  # no home meter configured: no home cost
+
+    hass.states.async_set(PLUG, "10.0", {"unit_of_measurement": "kWh"})
+    await hass.async_block_till_done()
+    hass.states.async_set(PLUG, "11.2", {"unit_of_measurement": "kWh"})  # 1.2 kWh at 0.25
+    await hass.async_block_till_done()
+    assert float(hass.states.get(day_id).state) == pytest.approx(0.30)
+    assert float(hass.states.get(month_id).state) == pytest.approx(0.30)
+    assert hass.states.get(day_id).attributes["meter"] == PLUG
+
+    # Taken out of the options: its sensors go away.
+    result = await hass.config_entries.options.async_init(entry.entry_id)
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {"next_step_id": "appliances"}
+    )
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {"appliance_sensors": []}
+    )
+    await hass.async_block_till_done()
+    assert (
+        registry.async_get_entity_id("sensor", DOMAIN, f"{entry.entry_id}_appliance_day_{PLUG}")
+        is None
+    )

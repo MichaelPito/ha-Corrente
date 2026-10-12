@@ -69,10 +69,15 @@ class CostSensor(RestoreSensor):
         currency: str,
         period: str,
         tz: tzinfo,
+        appliance: str | None = None,
     ) -> None:
         self._attr_unique_id = unique_id
         self._attr_device_info = device_info
-        self._attr_translation_key = f"cost_{period}"
+        if appliance is None:
+            self._attr_translation_key = f"cost_{period}"
+        else:  # one appliance's own meter (a smart plug): "Cost today — Dishwasher"
+            self._attr_translation_key = f"appliance_cost_{period}"
+            self._attr_translation_placeholders = {"appliance": appliance}
         self._attr_native_unit_of_measurement = currency
         self._energy_entity = energy_entity
         self._price_fn = price_fn

@@ -32,6 +32,7 @@ from homeassistant.helpers.selector import (
 from homeassistant.util import dt as dt_util
 
 from .const import (
+    CONF_APPLIANCE_SENSORS,
     CONF_BEST_HOURS,
     CONF_CANTON,
     CONF_CONTRACT_TYPE,
@@ -508,7 +509,7 @@ class CorrenteOptionsFlow(OptionsFlow):
         """Change the contract or tariff, or the energy meter used for costs."""
         return self.async_show_menu(
             step_id="init",
-            menu_options=["contract", "meter", "appliance"],
+            menu_options=["contract", "meter", "appliances", "appliance"],
             description_placeholders=_PLACEHOLDERS,
         )
 
@@ -530,6 +531,27 @@ class CorrenteOptionsFlow(OptionsFlow):
         current = {**self.config_entry.data, **self.config_entry.options}
         return self.async_show_form(
             step_id="meter", data_schema=self.add_suggested_values_to_schema(schema, current)
+        )
+
+    async def async_step_appliances(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Appliances with their own meter (smart plugs): each gets its own cost sensors."""
+        if user_input is not None:
+            return self._save({CONF_APPLIANCE_SENSORS: user_input.get(CONF_APPLIANCE_SENSORS, [])})
+        schema = vol.Schema(
+            {
+                vol.Optional(CONF_APPLIANCE_SENSORS): EntitySelector(
+                    EntitySelectorConfig(
+                        domain="sensor", device_class=SensorDeviceClass.ENERGY, multiple=True
+                    )
+                )
+            }
+        )
+        current = {**self.config_entry.data, **self.config_entry.options}
+        return self.async_show_form(
+            step_id="appliances",
+            data_schema=self.add_suggested_values_to_schema(schema, current),
         )
 
     async def async_step_appliance(

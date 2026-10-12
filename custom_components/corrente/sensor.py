@@ -14,6 +14,8 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.event import async_track_time_change
@@ -21,7 +23,13 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
 from . import CorrenteConfigEntry
-from .const import ATTRIBUTION_ELCOM, CONF_BEST_HOURS, CONF_ENERGY_SENSOR, DOMAIN
+from .const import (
+    ATTRIBUTION_ELCOM,
+    CONF_APPLIANCE_SENSORS,
+    CONF_BEST_HOURS,
+    CONF_ENERGY_SENSOR,
+    DOMAIN,
+)
 from .coordinator import SwissTariffCoordinator
 from .coordinator_gme import GmePriceCoordinator
 from .core.contract import ItalyFixedContract, ItalyIndexedContract
@@ -324,6 +332,19 @@ def _hours_label(duration: timedelta) -> str:
     return f"{hours:g}"
 
 
+def _appliance_name(hass: HomeAssistant, energy_sensor: str) -> str:
+    """What people call the appliance: its device's name (the smart plug), else the sensor's."""
+    entity = er.async_get(hass).async_get(energy_sensor)
+    if entity is not None and entity.device_id is not None:
+        device = dr.async_get(hass).async_get(entity.device_id)
+        if device is not None and (device.name_by_user or device.name):
+            return device.name_by_user or device.name
+    state = hass.states.get(energy_sensor)
+    if state is not None and state.name:
+        return state.name
+    return energy_sensor
+
+
 def _device_info(entry: CorrenteConfigEntry) -> DeviceInfo:
     return DeviceInfo(
         identifiers={(DOMAIN, entry.entry_id)},
@@ -376,6 +397,32 @@ async def async_setup_entry(
             )
             for period in (PERIOD_DAY, PERIOD_MONTH)
         )
+
+    # Cost per appliance: one pair of sensors for each appliance meter in the options.
+    appliances = {**entry.data, **entry.options}.get(CONF_APPLIANCE_SENSORS) or []
+    wanted = {
+        f"{entry.entry_id}_appliance_{period}_{sensor}"
+        for sensor in appliances
+        for period in (PERIOD_DAY, PERIOD_MONTH)
+    }
+    registry = er.async_get(hass)
+    for old in er.async_entries_for_config_entry(registry, entry.entry_id):
+        if old.unique_id.startswith(f"{entry.entry_id}_appliance_") and old.unique_id not in wanted:
+            registry.async_remove(old.entity_id)  # the appliance was taken out of the options
+    async_add_entities(
+        CostSensor(
+            unique_id=f"{entry.entry_id}_appliance_{period}_{sensor}",
+            device_info=_device_info(entry),
+            energy_entity=sensor,
+            price_fn=price_fn,
+            currency=currency,
+            period=period,
+            tz=tz,
+            appliance=_appliance_name(hass, sensor),
+        )
+        for sensor in appliances
+        for period in (PERIOD_DAY, PERIOD_MONTH)
+    )
 
     @callback
     def _refresh(_now: datetime) -> None:
