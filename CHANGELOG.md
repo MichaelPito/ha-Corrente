@@ -5,6 +5,7 @@ All notable changes to Corrente. Versions follow [Semantic Versioning](https://s
 ## [Unreleased]
 
 ### Added
+- Cost per appliance: pick the energy sensors of appliances with their own meter (smart plugs) and get *Cost today* and *Cost this month* for each, named after the appliance.
 - Blueprint "use solar surplus": switch an appliance on when the panels export enough power and off when the home buys power again, with a delay against clouds; optionally also during cheap-price hours.
 
 ## [0.1.1] — 2026-10-09

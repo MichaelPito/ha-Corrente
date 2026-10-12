@@ -57,10 +57,13 @@ Without HACS: download `corrente.zip` from the [latest release](../../releases/l
 | Best time to start | ✅ | ✅ |
 | Fixed charges per month | — | ✅ |
 | Cost today / Cost this month ¹ | € (energy part) | CHF incl. VAT |
+| Cost per appliance ³ | € (energy part) | CHF incl. VAT |
 
 ² With a dynamic tariff, *high* means above the day's average price.
 
 ¹ Optional: in the integration's options choose your **energy meter** (any kWh sensor, e.g. your smart meter or the energy dashboard's grid consumption). Each kWh is priced at the moment it is used. No such sensor yet? [How to read your consumption](docs/meter.md) (clamp, Italian Open Meter / Chain 2, Swiss smart-meter interface).
+
+³ Optional: in the options choose **Cost per appliance** and pick the energy sensors of appliances with their own meter (for example a smart plug under the washing machine). Each one gets *Cost today — name* and *Cost this month — name*.
 
 The price sensor also carries the price **schedule** for the next 36 hours and the best window (`best_start`, `best_end`, `best_average_price`) as attributes.
 

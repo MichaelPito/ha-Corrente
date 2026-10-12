@@ -146,6 +146,7 @@
         "menu_options": {
           "contract": "Contrat ou tarif",
           "meter": "Compteur (pour les coûts)",
+          "appliances": "Coût par appareil",
           "appliance": "Durée de l'appareil"
         }
       },
@@ -170,6 +171,13 @@
           "spread": "Spread",
           "losses": "Pertes de réseau (si votre contrat les applique)",
           "zone": "Prix de référence"
+        }
+      },
+      "appliances": {
+        "title": "Coût par appareil",
+        "description": "Choisissez les capteurs d'énergie (kWh) des appareils qui ont leur propre compteur, par exemple une prise connectée sous le lave-linge ou le lave-vaisselle. Pour chacun, Corrente ajoute « Coût aujourd'hui » et « Coût ce mois-ci », en comptant chaque kWh au prix du moment où il a été consommé. Retirez un appareil de la liste pour retirer ses capteurs.",
+        "data": {
+          "appliance_sensors": "Compteurs des appareils"
         }
       }
     },
@@ -261,6 +269,12 @@
       },
       "wholesale": {
         "name": "Prix de gros ({zone})"
+      },
+      "appliance_cost_day": {
+        "name": "Coût aujourd'hui — {appliance}"
+      },
+      "appliance_cost_month": {
+        "name": "Coût ce mois-ci — {appliance}"
       }
     }
   }

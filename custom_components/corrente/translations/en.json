@@ -146,6 +146,7 @@
         "menu_options": {
           "contract": "Contract or tariff",
           "meter": "Energy meter (for costs)",
+          "appliances": "Cost per appliance",
           "appliance": "Appliance duration"
         }
       },
@@ -170,6 +171,13 @@
           "spread": "Spread",
           "losses": "Grid losses (if your contract applies them)",
           "zone": "Reference price"
+        }
+      },
+      "appliances": {
+        "title": "Cost per appliance",
+        "description": "Choose the energy sensors (kWh) of appliances that have their own meter, for example a smart plug on the washing machine or the dishwasher. For each one Corrente adds \"Cost today\" and \"Cost this month\", pricing every kWh at the moment it is used. Remove an appliance from the list to remove its sensors.",
+        "data": {
+          "appliance_sensors": "Appliance meters"
         }
       }
     },
@@ -261,6 +269,12 @@
       },
       "wholesale": {
         "name": "Wholesale price ({zone})"
+      },
+      "appliance_cost_day": {
+        "name": "Cost today — {appliance}"
+      },
+      "appliance_cost_month": {
+        "name": "Cost this month — {appliance}"
       }
     }
   }

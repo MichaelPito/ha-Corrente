@@ -146,6 +146,7 @@
         "menu_options": {
           "contract": "Vertrag oder Tarif",
           "meter": "Stromzähler (für Kosten)",
+          "appliances": "Kosten pro Gerät",
           "appliance": "Gerätedauer"
         }
       },
@@ -170,6 +171,13 @@
           "spread": "Spread",
           "losses": "Netzverluste (falls Ihr Vertrag sie anwendet)",
           "zone": "Referenzpreis"
+        }
+      },
+      "appliances": {
+        "title": "Kosten pro Gerät",
+        "description": "Wählen Sie die Energiesensoren (kWh) von Geräten mit eigenem Zähler, zum Beispiel eine smarte Steckdose an der Waschmaschine oder am Geschirrspüler. Für jedes Gerät fügt Corrente „Kosten heute“ und „Kosten diesen Monat“ hinzu und bewertet jede kWh zum Preis des Moments, in dem sie verbraucht wurde. Entfernen Sie ein Gerät aus der Liste, um seine Sensoren zu entfernen.",
+        "data": {
+          "appliance_sensors": "Zähler der Geräte"
         }
       }
     },
@@ -261,6 +269,12 @@
       },
       "wholesale": {
         "name": "Großhandelspreis ({zone})"
+      },
+      "appliance_cost_day": {
+        "name": "Kosten heute — {appliance}"
+      },
+      "appliance_cost_month": {
+        "name": "Kosten diesen Monat — {appliance}"
       }
     }
   }
