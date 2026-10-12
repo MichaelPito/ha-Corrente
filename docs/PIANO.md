@@ -192,8 +192,10 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **costo per apparecchio** (su richiesta dell'owner: «ok, vai avanti con il costo per apparecchio»): nelle opzioni si scelgono i sensori di energia degli apparecchi con un contatore proprio (prese intelligenti); per ognuno "Costo di oggi — nome" e "Costo del mese — nome", nome preso dalla presa; togliendo l'apparecchio dall'elenco i sensori spariscono. EN/IT/DE/FR;
   - 142 test, anche su Home Assistant 2025.10.
   - **Prossimi pezzi:**
-    1. preparare i testi e le richieste per il lancio di metà novembre (aggiornare `LANCIO.md` con le novità);
-    2. ✅ v0.2.0 pubblicata il 12 ottobre (ok dell'owner: «sì, pubblica la 0.2.0»).
+    1. ✅ testi e lista di controllo del lancio aggiornati (`LANCIO.md`): versione 0.2.0, data 17 novembre, post EN/IT con tariffe dinamiche, tre blueprint, costo per apparecchio e modulo;
+    2. ✅ v0.2.0 pubblicata il 12 ottobre (ok dell'owner: «sì, pubblica la 0.2.0»);
+    3. screenshot della card in inglese per i post (prima del lancio);
+    4. test a casa dell'owner a inizio novembre (`TEST-A-CASA.md`), correzioni come v0.2.x.
 
 ## 8. Numeri di controllo
 

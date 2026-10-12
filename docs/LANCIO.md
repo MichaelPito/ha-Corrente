@@ -1,22 +1,27 @@
 # Kit di lancio (bozza — metà novembre 2026)
 
 > Preparato da Claude. L'owner deve solo **copiare e incollare** i post nel giorno indicato. Tutto il resto lo fa Claude.
+>
+> **Versione da lanciare:** la 0.2.0 (12 ottobre), oppure la 0.2.x con le correzioni del test a casa di inizio novembre.
+> **Data:** martedì 17 novembre 2026 (finestra 17–20). Testi aggiornati il 12 ottobre con le novità della 0.1.1 e della 0.2.0.
 
 ## Lista di controllo per il giorno del lancio
 
 | # | Cosa | Chi | Stato |
 |---|---|---|---|
-| 1 | Versione v0.1.0 con note di rilascio (`CHANGELOG.md`, release creata dal tag) | Claude | ✅ 8 ottobre; le correzioni dopo il test a casa escono come v0.1.x |
+| 0 | Test a casa dell'owner con la sua tariffa (`docs/TEST-A-CASA.md`), inizio novembre | **Owner**, circa 45 min | ⏳ |
+| 1 | Versione con note di rilascio (`CHANGELOG.md`, release da GitHub Actions) | Claude | ✅ v0.1.0 l'8 ottobre, v0.1.1 il 9, v0.2.0 il 12; le correzioni del test a casa escono come v0.2.x |
 | 2 | Repo da privata a **pubblica** (Settings → General → Danger zone → Change visibility) | **Owner**, 1 min | ⏳ |
 | 3 | Descrizione della repo e topic (`home-assistant`, `hacs`, `hacs-integration`, `energy`, `electricity-prices`, `switzerland`, `italy`, `ticino`) — Settings → General / About | **Owner**, 1 min (testo qui sotto) | ⏳ |
 | 4 | Il controllo HACS si riattiva da solo con la repo pubblica: verifica verde | Claude | ⏳ |
 | 5 | Icona e logo: dentro l'integrazione (cartella `brand/`, letta da Home Assistant 2026.3 e successivi), nessuna richiesta esterna | Claude | ✅ 8 ottobre |
-| 6 | Richiesta di inserimento nello store HACS (`hacs/default`) | Claude prepara, **owner** approva | ⏳ |
-| 7 | Post nelle community (testi qui sotto) | **Owner**, copia e incolla, circa 10 min | ⏳ |
+| 6 | Richiesta di inserimento nello store HACS (`hacs/default`): una riga `MichaelPito/ha-corrente` nel file `integration`, in ordine alfabetico; serve la repo pubblica con release, descrizione e topic | Claude prepara, **owner** approva | ⏳ |
+| 7 | Post nelle community (testi qui sotto), con uno screenshot da `docs/images/` (`prova-dashboard-it.png` per i post in italiano; per quelli in inglese Claude ne prepara uno in inglese prima del lancio) | **Owner**, copia e incolla, circa 10 min | ⏳ |
 | 8 | Modulo per chi non ha GitHub: Google Form creato da uno script (`docs/MODULO.md`), nessun account nuovo | Claude prepara ✅, **owner** esegue lo script una volta (circa 3 min) | ✅ 8 ottobre |
+| 9 | Il giorno del lancio: README, guida italiana e link del modulo ricontrollati sulla repo pubblica; nessuna richiesta aperta senza risposta | Claude | ⏳ |
 
 **Descrizione della repo (punto 3):**
-> Your real electricity price in Home Assistant and the best time to switch things on — Italy (F1/F2/F3) and Switzerland (every grid operator via ElCom, Ticino included).
+> Your real electricity price in Home Assistant and the best time to switch things on — Italy (F1/F2/F3) and Switzerland (your grid operator found via ElCom's open data, Ticino included).
 
 ## Post 1 — Forum ufficiale di Home Assistant (categoria "Share your Projects!", in inglese)
 
@@ -33,12 +38,13 @@
 > What you get:
 > - price now, next change, next price;
 > - **best time to start** an appliance (you choose how long it runs);
-> - **cost today / this month** from your energy meter, each kWh priced when it was used;
-> - a dashboard card (screenshot) and a blueprint to start the dishwasher at the cheapest time.
+> - **cost today / this month** from your energy meter, each kWh priced when it was used — and **per appliance**, if it has its own meter (smart plug);
+> - a dashboard card (screenshot);
+> - three blueprints: start the dishwasher at the cheapest time, a **price alert** (below or above a threshold), and **use your solar surplus** (switch the boiler or the car charger on when the panels export enough power, off when the home buys from the grid again).
 >
-> Everything is set up from the UI, no YAML, and computed locally.
+> Everything is set up from the UI, no YAML. Every Home Assistant downloads its own data from the official sources (ElCom, the operators, GME): no Corrente server, no account, no telemetry.
 >
-> **Transparency:** Corrente is developed with the help of AI (Claude) and tested against real tariff files. Feedback is very welcome — there's a form for requests, including "add my operator / tariff".
+> **Transparency:** Corrente is developed with the help of AI (Claude) and tested against real tariff files. Feedback is very welcome: open an issue on GitHub, or use the form if you don't have a GitHub account (e.g. "add my operator / tariff"): https://docs.google.com/forms/d/e/1FAIpQLSce_vFvHpz3Qav3o05DvoJhpIuM2zXWmvpgBHWRS1gJsEF6yQ/viewform
 >
 > GitHub: https://github.com/MichaelPito/ha-corrente
 
@@ -46,20 +52,30 @@
 
 **Titolo:** I made a free integration that shows your real Swiss/Italian electricity price and when it's cheapest to run the dishwasher
 
-**Testo:** versione breve del post 1, più la GIF o lo screenshot della card. Dichiarare subito che è sviluppato con l'AI.
+**Testo:** (con lo screenshot della card)
+
+> Corrente is a free, open-source Home Assistant integration (HACS) for Switzerland and Italy. Swiss users type their municipality and get their grid operator's real tariff (high/low windows, fees, federal charges, VAT; dynamic quarter-hour prices for EKZ and Groupe E). Italian users get the F1/F2/F3 bands or PUN-indexed prices from GME.
+>
+> It shows the price now and the next change, the best time to start an appliance, what you spent today and this month (also per appliance), and comes with blueprints for cheap-hour starts, price alerts and solar surplus.
+>
+> Upfront: it's developed with the help of AI (Claude), and tested against real tariff files. Feedback welcome!
+>
+> https://github.com/MichaelPito/ha-corrente
 
 ## Post 3 — Telegram inDomus e forum.fibra.click (in italiano)
 
 > Ciao a tutti! Ho pubblicato **Corrente**, un'integrazione gratuita per Home Assistant che porta il vero prezzo della luce in casa.
 >
 > 🇮🇹 **Italia:** fasce F1/F2/F3 secondo ARERA (festivi inclusi) e il tuo contratto (monoraria, bioraria, trioraria), oppure un contratto **indicizzato al PUN** con i prezzi al quarto d'ora pubblicati dal GME.
-> 🇨🇭 **Svizzera / Ticino:** scrivi il tuo comune e Corrente trova il gestore (AIL, AIM, AEM…) e le sue tariffe ufficiali.
+> 🇨🇭 **Svizzera / Ticino:** scrivi il tuo comune e Corrente trova il gestore (AIL, AIM, AEM…) e le sue tariffe ufficiali, con tasse e IVA.
 >
-> Ti dice anche **quando conviene avviare** lavastoviglie o lavatrice, quanto hai **speso oggi e nel mese**, e c'è una card per la dashboard.
-> Si configura tutto dall'interfaccia, senza YAML. Guida in italiano: https://github.com/MichaelPito/ha-corrente/blob/main/docs/guida-it.md
+> Ti dice anche **quando conviene avviare** lavastoviglie o lavatrice, quanto hai **speso oggi e nel mese** (anche per singolo apparecchio, se ha una presa intelligente), e c'è una card per la dashboard.
+> Ci sono tre blueprint pronti: avvio all'ora più economica, **avviso sul prezzo** e **uso del surplus del fotovoltaico** (accende boiler o auto quando i pannelli mandano corrente in rete).
+> Si configura tutto dall'interfaccia, senza YAML, e i dati arrivano direttamente dalle fonti ufficiali: nessun server, nessun account. Guida in italiano: https://github.com/MichaelPito/ha-corrente/blob/main/docs/guida-it.md
 >
-> È sviluppato con l'aiuto dell'AI e ogni suggerimento è benvenuto!
+> È sviluppato con l'aiuto dell'AI e ogni suggerimento è benvenuto! Chi non ha un account GitHub può scrivere qui: https://docs.google.com/forms/d/e/1FAIpQLSce_vFvHpz3Qav3o05DvoJhpIuM2zXWmvpgBHWRS1gJsEF6yQ/viewform
 
 ## Dopo il lancio
-- Claude risponde alle richieste su GitHub ogni giorno (sessione automatica delle 8:52).
+- Claude risponde alle richieste su GitHub e del modulo ogni giorno feriale (sessione automatica delle 8:52); le risposte pubbliche portano la firma di Claude Code.
+- La prima settimana: le correzioni urgenti escono subito come v0.2.x (sempre con l'ok dell'owner per ogni versione).
 - Dopo 8 settimane: controllo dei numeri (PIANO §8).
