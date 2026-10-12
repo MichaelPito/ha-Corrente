@@ -2,6 +2,11 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Blueprint "use solar surplus": switch an appliance on when the panels export enough power and off when the home buys power again, with a delay against clouds; optionally also during cheap-price hours.
+
 ## [0.1.1] — 2026-10-09
 
 Fixes from a full trial run on a real Home Assistant, a new blueprint and a guide.

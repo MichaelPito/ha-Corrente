@@ -91,6 +91,12 @@ Get a notification (or turn something on) when the price goes below or above a t
 
 [![Import blueprint](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fprice_alert.yaml)
 
+### Use solar surplus
+
+Switch on the boiler, heat pump or car charger when your panels send at least as much power to the grid as the appliance uses, and off again when the home starts buying power. Each change waits a few minutes, so clouds do not flip it on and off. Works with grid sensors in W or kW, negative or positive when exporting. Optionally it also runs when Corrente's price is below a threshold (night tariff, cheap PUN hours).
+
+[![Import blueprint](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fsolar_surplus.yaml)
+
 ## Automation example
 
 Start the dishwasher at the best time (assuming a smart plug or a dishwasher integration):

@@ -184,8 +184,16 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **pagina di stato** per l'owner: <https://claude.ai/artifact/9nKRSNAPchwgitzGPuEMp8> (aggiornata alla fine di ogni sessione);
   - **Prossimi pezzi:**
     1. ✅ v0.1.1 pubblicata il 9 ottobre (ok dell'owner: «sì, pubblica la 0.1.1»);
-    2. blueprint "usa il surplus del fotovoltaico";
+    2. ✅ blueprint "usa il surplus del fotovoltaico" (12 ottobre, su richiesta dell'owner: «ok, vai avanti con il blueprint del fotovoltaico»);
     3. costo per apparecchio (v0.3).
+
+- **12 ottobre 2026**:
+  - ✅ **blueprint "usa il surplus del fotovoltaico"**: acceso quando i pannelli mandano in rete almeno la potenza dell'apparecchio, spento quando la casa torna a comprare; attesa contro le nuvole; sensore in W o kW, con entrambi i segni; facoltativo anche nelle ore a prezzo basso, senza spegnersi per mancanza di sole. Provato in Home Assistant nei test (nuvola passeggera, kW positivi, ore economiche);
+  - 141 test, anche su Home Assistant 2025.10.
+  - **Prossimi pezzi:**
+    1. costo per apparecchio (v0.3);
+    2. preparare i testi e le richieste per il lancio di metà novembre (aggiornare `LANCIO.md` con le novità);
+    3. v0.1.2 con il blueprint del fotovoltaico, prima del test a casa (serve l'ok dell'owner).
 
 ## 8. Numeri di controllo
 
