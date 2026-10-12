@@ -1,0 +1,169 @@
+blueprint:
+  name: Corrente — use solar surplus
+  description: >-
+    Switch on an appliance (boiler, heat pump, car charger plug) when your solar panels
+    send at least as much power to the grid as the appliance uses, and switch it off when
+    the home starts buying power from the grid again. Each change waits a few minutes, so a
+    passing cloud does not flip it on and off. Optionally it also runs when Corrente's
+    price is below a threshold you choose (night tariff, cheap PUN hours), and then it is
+    not switched off for lack of sun.
+
+    Italiano: accende un apparecchio (boiler, pompa di calore, presa dell'auto) quando i
+    pannelli mandano in rete almeno la potenza che l'apparecchio consuma, e lo spegne
+    quando la casa torna a prendere corrente dalla rete. Ogni cambio aspetta qualche
+    minuto. Facoltativo: lo accende anche quando il prezzo di Corrente è sotto una soglia.
+  domain: automation
+  source_url: https://github.com/MichaelPito/ha-corrente/blob/main/blueprints/automation/corrente/solar_surplus.yaml
+  author: Corrente
+  input:
+    grid_power:
+      name: Grid power sensor (W or kW)
+      description: The power exchanged with the grid, from your meter or inverter.
+      selector:
+        entity:
+          filter:
+            - domain: sensor
+              device_class: power
+    exporting_is:
+      name: When you send power to the grid, the sensor is
+      default: negative
+      selector:
+        select:
+          options:
+            - label: negative (most meters) / negativo
+              value: negative
+            - label: positive / positivo
+              value: positive
+    appliance:
+      name: Appliance switch
+      selector:
+        entity:
+          filter:
+            - domain: switch
+    appliance_power:
+      name: Power the appliance uses (W)
+      default: 2000
+      selector:
+        number:
+          min: 50
+          max: 22000
+          step: 50
+          unit_of_measurement: W
+          mode: box
+    max_import:
+      name: Switch off when buying more than (W)
+      description: With the appliance on, how much power the home may still take from the grid before it is switched off.
+      default: 200
+      selector:
+        number:
+          min: 0
+          max: 5000
+          step: 50
+          unit_of_measurement: W
+          mode: box
+    delay:
+      name: Wait before each change (minutes)
+      default: 5
+      selector:
+        number:
+          min: 1
+          max: 60
+          unit_of_measurement: min
+    price_sensor:
+      name: Corrente "price now" sensor (optional)
+      default: ""
+      selector:
+        entity:
+          filter:
+            - integration: corrente
+              domain: sensor
+    cheap_price:
+      name: Also run when the price is below (optional, per kWh)
+      description: Leave 0 to use only the sun.
+      default: 0
+      selector:
+        number:
+          min: 0
+          max: 2
+          step: 0.001
+          mode: box
+
+mode: queued
+max: 4
+
+trigger_variables:
+  grid_power: !input grid_power
+  exporting_is: !input exporting_is
+  appliance_power: !input appliance_power
+  max_import: !input max_import
+  price_sensor: !input price_sensor
+  cheap_price: !input cheap_price
+
+triggers:
+  - trigger: template
+    id: surplus
+    value_template: >-
+      {% set g = states(grid_power) | float(none) %}
+      {% if g is none %}false{% else %}
+      {% set w = g * 1000 if state_attr(grid_power, 'unit_of_measurement') == 'kW' else g %}
+      {% set export = -w if exporting_is == 'negative' else w %}
+      {{ export >= appliance_power }}{% endif %}
+    for:
+      minutes: !input delay
+  - trigger: template
+    id: deficit
+    value_template: >-
+      {% set g = states(grid_power) | float(none) %}
+      {% if g is none %}false{% else %}
+      {% set w = g * 1000 if state_attr(grid_power, 'unit_of_measurement') == 'kW' else g %}
+      {% set export = -w if exporting_is == 'negative' else w %}
+      {{ -export > max_import }}{% endif %}
+    for:
+      minutes: !input delay
+  - trigger: template
+    id: cheap
+    value_template: >-
+      {{ price_sensor != '' and cheap_price > 0
+         and states(price_sensor) | float(none) is not none
+         and states(price_sensor) | float < cheap_price }}
+  - trigger: template
+    id: price_up
+    value_template: >-
+      {{ price_sensor != '' and cheap_price > 0
+         and states(price_sensor) | float(none) is not none
+         and states(price_sensor) | float >= cheap_price }}
+
+variables:
+  appliance: !input appliance
+  cheap_now: >-
+    {{ price_sensor != '' and cheap_price > 0
+       and states(price_sensor) | float(none) is not none
+       and states(price_sensor) | float < cheap_price }}
+  buying_w: >-
+    {% set g = states(grid_power) | float(0) %}
+    {% set w = g * 1000 if state_attr(grid_power, 'unit_of_measurement') == 'kW' else g %}
+    {{ w if exporting_is == 'negative' else -w }}
+
+actions:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id in ['surplus', 'cheap'] and is_state(appliance, 'off') }}"
+        sequence:
+          - action: switch.turn_on
+            target:
+              entity_id: !input appliance
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == 'deficit' and not cheap_now and is_state(appliance, 'on') }}"
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: !input appliance
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == 'price_up' and buying_w > max_import and is_state(appliance, 'on') }}"
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: !input appliance

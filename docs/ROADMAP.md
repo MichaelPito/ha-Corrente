@@ -27,7 +27,7 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [x] Guide: reading your consumption — clamp, Chain 2 / Open Meter (Italy), smart-meter customer interface (Switzerland): [docs/meter.md](meter.md)
 - [x] Blueprint: start an appliance at the best time ("ready" helper + switch, optional notification)
 - [x] Blueprint: price alert (below or above a threshold, any action)
-- [ ] Blueprint: use solar surplus
+- [x] Blueprint: use solar surplus (W or kW, either sign, optional cheap-price hours)
 
 ## Ideas from users
 _(empty — be the first: [suggest something](../../../issues/new/choose))_

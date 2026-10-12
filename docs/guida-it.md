@@ -60,6 +60,12 @@ Importa il blueprint **"Corrente — price alert"** (pulsante qui sotto): scegli
 
 [![Import blueprint](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fprice_alert.yaml)
 
+## Usare il surplus del fotovoltaico
+
+Importa il blueprint **"Corrente — use solar surplus"** (pulsante qui sotto). Scegli il sensore della potenza scambiata con la rete (W o kW; di solito è **negativo** quando mandi in rete), l'interruttore dell'apparecchio (boiler, pompa di calore, presa dell'auto) e quanta potenza consuma. Si accende quando i pannelli mandano in rete almeno quella potenza e si spegne quando la casa torna a comprare corrente; ogni cambio aspetta qualche minuto, così una nuvola non lo accende e spegne di continuo. Facoltativo: scegli il sensore del prezzo di Corrente e una soglia, e l'apparecchio parte anche nelle ore economiche (per esempio la notte), senza spegnersi per mancanza di sole.
+
+[![Import blueprint](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fsolar_surplus.yaml)
+
 ## La card
 
 Nella dashboard: **Aggiungi scheda** → cerca **Corrente**. In YAML:
