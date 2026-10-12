@@ -2,7 +2,9 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.2.0] — 2026-10-12
+
+Two new features: use your solar surplus, and see what each appliance costs.
 
 ### Added
 - Cost per appliance: pick the energy sensors of appliances with their own meter (smart plugs) and get *Cost today* and *Cost this month* for each, named after the appliance.
@@ -54,5 +56,6 @@ Works with Home Assistant 2025.10 and later (tested on 2025.10 and 2026.2).
 - Every Home Assistant downloads its own data: ElCom open data and operators' tariff files and APIs (Switzerland), GME's daily prices (Italy). No Corrente server, no account, no telemetry.
 - GME data is for personal, non-commercial use; the source is shown on the sensors and the card.
 
+[0.2.0]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.2.0
 [0.1.1]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.1.1
 [0.1.0]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.1.0
