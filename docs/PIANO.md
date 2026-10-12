@@ -193,7 +193,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - 142 test, anche su Home Assistant 2025.10.
   - **Prossimi pezzi:**
     1. preparare i testi e le richieste per il lancio di metà novembre (aggiornare `LANCIO.md` con le novità);
-    2. v0.2.0 con il blueprint del fotovoltaico e il costo per apparecchio, prima del test a casa (serve l'ok dell'owner).
+    2. ✅ v0.2.0 pubblicata il 12 ottobre (ok dell'owner: «sì, pubblica la 0.2.0»).
 
 ## 8. Numeri di controllo
 
