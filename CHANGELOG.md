@@ -2,6 +2,14 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.2.1] — not released yet
+
+### Fixed
+- With two or more Corrente entries (for example a Swiss and an Italian contract), after a restart only one of them started and the others showed "Failed to set up". Since 0.1.0.
+
+### Changed
+- Tested on Home Assistant 2026.10 (and still on 2025.10, the oldest supported version).
+
 ## [0.2.0] — 2026-10-12
 
 Two new features: use your solar surplus, and see what each appliance costs.
@@ -56,6 +64,7 @@ Works with Home Assistant 2025.10 and later (tested on 2025.10 and 2026.2).
 - Every Home Assistant downloads its own data: ElCom open data and operators' tariff files and APIs (Switzerland), GME's daily prices (Italy). No Corrente server, no account, no telemetry.
 - GME data is for personal, non-commercial use; the source is shown on the sensors and the card.
 
+[0.2.1]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.2.1
 [0.2.0]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.2.0
 [0.1.1]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.1.1
 [0.1.0]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.1.0

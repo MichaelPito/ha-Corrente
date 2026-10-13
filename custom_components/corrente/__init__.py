@@ -37,6 +37,9 @@ async def _async_register_card(hass: HomeAssistant) -> None:
     """Serve the dashboard card and load it in the frontend, once per Home Assistant run."""
     if hass.data.get(_CARD_REGISTERED) or hass.http is None:
         return
+    # Claimed before the first await: at startup every entry is set up at the same time,
+    # and a second registration of the same path fails the entry.
+    hass.data[_CARD_REGISTERED] = True
     from homeassistant.components.frontend import add_extra_js_url
     from homeassistant.components.http import StaticPathConfig
 
@@ -48,7 +51,6 @@ async def _async_register_card(hass: HomeAssistant) -> None:
             (Path(__file__).parent / "manifest.json").read_text
         )
         add_extra_js_url(hass, f"{CARD_URL}?v={json.loads(manifest)['version']}")
-    hass.data[_CARD_REGISTERED] = True
 
 
 @dataclass(slots=True)

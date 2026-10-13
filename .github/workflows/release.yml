@@ -44,6 +44,9 @@ jobs:
           match = re.search(rf"^## \[{re.escape(version)}\].*?$(.*?)(?=^## \[|^\[{re.escape(version)}\]:|\Z)", text, re.M | re.S)
           if not match:
               raise SystemExit(f"No section for {version} in CHANGELOG.md")
+          heading = text[match.start():text.index("\n", match.start())]
+          if "not released" in heading:
+              raise SystemExit(f"Put the release date in CHANGELOG.md first: {heading}")
           open("notes.md", "w", encoding="utf-8").write(match.group(1).strip() + "\n")
           PY
       - name: Zip the integration

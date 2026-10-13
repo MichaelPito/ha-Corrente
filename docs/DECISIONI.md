@@ -2,6 +2,7 @@
 
 Formato: data — chi — decisione — perché. Le decisioni più recenti in alto.
 
+- **2026-10-13 — Claude** — I controlli automatici provano Corrente sull'**ultima versione di Home Assistant** (oggi 2026.10.1, con Python 3.14) e sulla più vecchia supportata (2025.10). Il passaggio a ogni nuova versione si fa appena esce, con una prova vera con interfaccia web. *Perché:* chi installa Home Assistant oggi (anche l'owner per il test a casa) ha l'ultima versione; la prova vera del 13 ottobre ha trovato un errore che i test non vedevano.
 - **2026-10-12 — owner** — Pubblicare la **v0.2.0** (blueprint del fotovoltaico, costo per apparecchio). Parole dell'owner: «sì, pubblica la 0.2.0». Claude avvia il workflow di release.
 - **2026-10-09 — owner** — **Pagina di stato** privata su claude.ai: <https://claude.ai/artifact/9nKRSNAPchwgitzGPuEMp8>. Parole dell'owner: «sì, fai la pagina di stato». Mostra cosa aspetta l'owner, versione, tappe, ultima sessione, prossimi pezzi e diario. I dati stanno nel database della pagina (`status/current`, `log/<data>`), li scrive solo Claude per conto dell'owner alla fine di ogni sessione (passo 5 della routine). La fonte di verità resta questa repo.
 - **2026-10-09 — owner** — Pubblicare la **v0.1.1** (correzioni della prova generale, blueprint avviso sul prezzo, guida ai consumi). Parole dell'owner: «sì, pubblica la 0.1.1». Claude avvia il workflow di release come per la 0.1.0.

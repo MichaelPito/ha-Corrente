@@ -197,6 +197,16 @@ esperto. Le richieste diventano la roadmap pubblica.
     3. ✅ screenshot della card in inglese per i post (13 ottobre: `card-ekz-dynamic-en.png`, `card-lugano-en.png`, fatti con la card attuale);
     4. test a casa dell'owner a inizio novembre (`TEST-A-CASA.md`), correzioni come v0.2.x.
 
+- **13 ottobre 2026** (sessione automatica):
+  - nessuna richiesta nuova (GitHub e modulo);
+  - ✅ screenshot della card in inglese per i post del lancio;
+  - ✅ **Home Assistant 2026.10.1** (uscito questo mese, richiede Python 3.14): tutti i test passano, e una prova vera con interfaccia web e dati reali (Lugano, Italia bioraria, PUN) funziona; da oggi GitHub prova ogni modifica su 2026.10 oltre che su 2025.10;
+  - ✅ **correzione importante**, trovata nella prova vera: con due o più configurazioni di Corrente (per esempio Svizzera e Italia), dopo un riavvio ne partiva solo una e le altre davano "Impostazione non riuscita". C'era dalla 0.1.0; nessun test lo copriva perché i test aggiungevano una configurazione alla volta. Corretto e coperto da un test nuovo;
+  - 143 test, su Home Assistant 2025.10, 2026.2 e 2026.10.
+  - **Prossimi pezzi:**
+    1. versione v0.2.1 con la correzione, prima del test a casa (la guida suggerisce proprio di aggiungere una seconda configurazione): **serve l'ok dell'owner**;
+    2. test a casa dell'owner a inizio novembre (`TEST-A-CASA.md`).
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
