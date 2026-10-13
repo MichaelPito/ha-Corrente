@@ -2,7 +2,7 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
-## [0.2.1] — not released yet
+## [0.2.1] — 2026-10-13
 
 ### Fixed
 - With two or more Corrente entries (for example a Swiss and an Italian contract), after a restart only one of them started and the others showed "Failed to set up". Since 0.1.0.

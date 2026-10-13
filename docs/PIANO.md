@@ -204,7 +204,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **correzione importante**, trovata nella prova vera: con due o più configurazioni di Corrente (per esempio Svizzera e Italia), dopo un riavvio ne partiva solo una e le altre davano "Impostazione non riuscita". C'era dalla 0.1.0; nessun test lo copriva perché i test aggiungevano una configurazione alla volta. Corretto e coperto da un test nuovo;
   - 143 test, su Home Assistant 2025.10, 2026.2 e 2026.10.
   - **Prossimi pezzi:**
-    1. versione v0.2.1 con la correzione, prima del test a casa (la guida suggerisce proprio di aggiungere una seconda configurazione): **serve l'ok dell'owner**;
+    1. ✅ v0.2.1 pubblicata il 13 ottobre (ok dell'owner: «sì, pubblica la 0.2.1»);
     2. test a casa dell'owner a inizio novembre (`TEST-A-CASA.md`).
 
 ## 8. Numeri di controllo
