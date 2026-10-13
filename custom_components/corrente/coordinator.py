@@ -37,8 +37,10 @@ from .core.switzerland import (
     SwissContract,
     Tariff,
     UnsupportedTariffError,
+    combine_fees,
     federal_addition,
     parse_tariffs,
+    regional_names,
     suggest_matching,
     tariffs_on,
 )
@@ -82,6 +84,11 @@ def select_contract(
         exact = [t for t in candidates if t.name == name]
         return exact[0] if exact else suggest_matching(name, candidates)
 
+    fees: list[Tariff] = []
+    for name in regional_names(options.get(CONF_REGIONAL_TARIFF)):
+        fee = pick("regional_fees", name)
+        if fee is not None and fee not in fees:  # two old names can lead to one fee
+            fees.append(fee)
     electricity = pick("electricity", options[CONF_ELECTRICITY_TARIFF])
     grid = pick("grid", options[CONF_GRID_TARIFF])
     if electricity is None or grid is None:
@@ -89,7 +96,7 @@ def select_contract(
     return SwissContract(
         electricity=electricity,
         grid=grid,
-        regional_fees=pick("regional_fees", options.get(CONF_REGIONAL_TARIFF)),
+        regional_fees=combine_fees(fees),
         canton=options.get(CONF_CANTON),
         municipality=options.get(CONF_MUNICIPALITY),
         federal_per_kwh=federal_per_kwh,

@@ -73,18 +73,22 @@ async def test_flow_lugano(
     # The matching grid tariff and regional fees are suggested.
     defaults = {str(key): key.default() for key in result["data_schema"].schema}
     assert defaults["grid_tariff"] == "Casa & PMI giorno-notte-grid7"
-    assert defaults["regional_tariff"] == "Casa & PMI giorno-notte-regional_fees"
+    assert defaults["regional_tariff"] == ["Casa & PMI giorno-notte-regional_fees"]
 
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"],
         {
             "grid_tariff": "Casa & PMI giorno-notte-grid7",
-            "regional_tariff": "Casa & PMI giorno-notte-regional_fees",
+            "regional_tariff": ["Casa & PMI giorno-notte-regional_fees"],
         },
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
     assert result["title"] == "Corrente Lugano"
-    assert result["data"] == AIL_DAY_NIGHT
+    # Entries made before 0.2.2 (AIL_DAY_NIGHT, used by the other tests) keep one name.
+    assert result["data"] == {
+        **AIL_DAY_NIGHT,
+        "regional_tariff": ["Casa & PMI giorno-notte-regional_fees"],
+    }
 
 
 async def test_flow_unknown_municipality(
@@ -212,7 +216,7 @@ async def test_swiss_options_change_tariff(
         result["flow_id"],
         {
             "grid_tariff": "Casa & PMI 24h-grid7",
-            "regional_tariff": "Casa & PMI 24h-regional_fees",
+            "regional_tariff": ["Casa & PMI 24h-regional_fees"],
         },
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY

@@ -1,0 +1,1441 @@
+{
+ "dsoName": "St. Galler Stadtwerke",
+ "dsoNumber": 10199012345,
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Netztarif K",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Grundpreis pro Monat",
+   "customerType": "Haushalte & Kleingewerbe (<50 MWh/Jahr)",
+   "prices": {
+    "base": {
+     "price": 3.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.1373,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.1373,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.1183,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1183,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.1183,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.1183,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1183,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.1313,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Netztarif K",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Abgaben und Leistungen an Gemeinwesen",
+   "customerType": "Haushalte & Kleingewerbe (<50 MWh/Jahr)",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 3203,
+      "municipalityName": "St. Gallen",
+      "municipalityEnergy": [
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "23:59",
+        "price": 0.0176,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "0.88 Rp Energiefonds + 0.88 Rp Nutzung öffentlicher Grund"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Netztarif G",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Grundpreis pro Monat",
+   "customerType": "Gewerbe & Industrie (<100 MWh/Jahr)",
+   "prices": {
+    "base": {
+     "price": 3.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.1153,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.1153,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.1153,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.1153,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.1043,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.1043,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.1033,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1033,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.1033,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.1033,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1033,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 6.95,
+      "priceUnit": "CHF/kW"
+     },
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 6.95,
+      "priceUnit": "CHF/kW"
+     },
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 7.85,
+      "priceUnit": "CHF/kW"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Netztarif G",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Abgaben und Leistungen an Gemeinwesen",
+   "customerType": "Gewerbe & Industrie (<100 MWh/Jahr)",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 3203,
+      "municipalityName": "St. Gallen",
+      "municipalityEnergy": [
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "23:59",
+        "price": 0.0176,
+        "priceUnit": "CHF/kWh"
+       },
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "23:59",
+        "price": 0.0176,
+        "priceUnit": "CHF/kWh"
+       },
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "23:59",
+        "price": 0.0176,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "0.88 Rp Energiefonds + 0.88 Rp Nutzung öffentlicher Grund"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Netztarif G Blindenergiepreis",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Hochtarif",
+   "customerType": "Gewerbe & Industrie",
+   "prices": {
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.037,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.037,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "Netztarif M",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Grundpreis pro Monat",
+   "customerType": "Kunden Mittelspannung (<3700 h)",
+   "prices": {
+    "base": {
+     "price": 4.5,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.0673,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.0673,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.0603,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.0603,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.0603,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0603,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.0603,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.0503,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.0503,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.0463,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.0463,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.0463,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0463,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.0463,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 5.55,
+      "priceUnit": "CHF/kW"
+     },
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 10.65,
+      "priceUnit": "CHF/kW"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Netztarif M",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Abgaben und Leistungen an Gemeinwesen",
+   "customerType": "Kunden Mittelspannung (<3700 h)",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 3203,
+      "municipalityName": "St. Gallen",
+      "municipalityEnergy": [
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "23:59",
+        "price": 0.0176,
+        "priceUnit": "CHF/kWh"
+       },
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "23:59",
+        "price": 0.0176,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "0.88 Rp Energiefonds + 0.88 Rp Nutzung öffentlicher Grund"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "Netztarif M Blindenergiepreis",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Hochtarif",
+   "customerType": "Kunden Mittelspannung",
+   "prices": {
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.037,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.037,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Netztarif U",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Grundpreis pro Monat",
+   "customerType": "Unterbr. Versorgung (<50 MWh)",
+   "prices": {
+    "base": {
+     "price": 3.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.1213,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.1213,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.1213,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1213,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.1213,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.1213,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1213,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.1153,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.1153,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.1153,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.1153,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.1093,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Netztarif U",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Abgaben und Leistungen an Gemeinwesen",
+   "customerType": "Unterbr. Versorgung (<50 MWh)",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 3203,
+      "municipalityName": "St. Gallen",
+      "municipalityEnergy": [
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "23:59",
+        "price": 0.0176,
+        "priceUnit": "CHF/kWh"
+       },
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "23:59",
+        "price": 0.0176,
+        "priceUnit": "CHF/kWh"
+       },
+       {
+        "months": [],
+        "weekdays": [],
+        "from": "00:00",
+        "to": "23:59",
+        "price": 0.0176,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "0.88 Rp Energiefonds + 0.88 Rp Nutzung öffentlicher Grund"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Netztarif U Blindenergiepreis",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Hochtarif",
+   "customerType": "Unterbr. Versorgung",
+   "prices": {
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.037,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.037,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.0278,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "St.Galler Strom Basis <50 MWh/a",
+   "tariffType": "electricity",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Hochtarif",
+   "customerType": "<50 MWh/a",
+   "prices": {
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "07:00",
+      "to": "20:00",
+      "price": 0.15,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "07:00",
+      "to": "13:00",
+      "price": 0.15,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "20:00",
+      "to": "23:59",
+      "price": 0.111,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.111,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Sa"
+      ],
+      "from": "13:00",
+      "to": "23:59",
+      "price": 0.111,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.111,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [],
+      "weekdays": [
+       "Mo"
+      ],
+      "from": "00:00",
+      "to": "07:00",
+      "price": 0.111,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "St.Galler Strom Basis Einfachtarif",
+   "tariffType": "electricity",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Einfachtarif",
+   "customerType": "Alle Kundinnen und Kunden",
+   "prices": {
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.135,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  }
+ ]
+}
