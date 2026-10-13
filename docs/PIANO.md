@@ -214,11 +214,12 @@ esperto. Le richieste diventano la roadmap pubblica.
     3. la tariffa notturna partiva un minuto prima (ewz scrive "06:00–21:59");
     4. i **suggerimenti nella configurazione**: a Zurigo venivano proposti rete e tributi di un villaggio dei Grigioni, a EKZ una rete per aziende (e non la rete dinamica con l'energia dinamica). Ora la proposta usa i dati del file (dinamica, clientela, comune o cantone, tariffa standard) e i tributi del proprio comune;
   - controllato che AIL, AIM, AMB e Groupe E restano come prima (stessi suggerimenti, stessi prezzi);
+  - ✅ **prova con i gestori delle città più grandi** (ewz, EKZ, SIG, SiL, ewb, San Gallo, Winterthur, OIKEN, Viteos, Groupe E), confrontando il prezzo con il totale ElCom: ora tutti entro circa ±1,5 Rp. Corretti: San Gallo (rete contata due volte), Losanna (5 tributi su 6 mancanti), suggerimenti controllati con i dati ElCom; i tributi possono essere più d'uno. Limite noto: Losanna tariffa DUO (vedi `FONTI-DATI.md`);
   - ✅ **EKZ**: la tariffa standard per le case ("Erneuerbar", prezzo d'inverno e d'estate) non si poteva scegliere ("mancano le finestre orarie"), dalla 0.1.0: un controllo pensato per un file AMB difettoso la scartava. Corretto;
   - 167 test, su Home Assistant 2025.10, 2026.2 e 2026.10.
   - **Prossimi pezzi:**
     1. versione v0.2.2 con queste correzioni: **serve l'ok dell'owner** (non tocca il test a casa in Ticino, ma Zurigo è il comune più grande);
-    2. stessa prova con altri grandi gestori (BKW Berna, IWB Basilea, SIG Ginevra, Romande Energie, CKW appena possibile): ogni gestore nuovo finora ha mostrato qualcosa;
+    2. stessa prova con altri gestori (BKW, Romande Energie, Groupe E per comune, CKW e IWB appena il file è leggibile);
     3. GIF della configurazione per README e post.
 
 ## 8. Numeri di controllo

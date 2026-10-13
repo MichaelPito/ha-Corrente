@@ -65,6 +65,7 @@ from .core.elcom import (
     OperatorInMunicipality,
     TariffFileError,
     async_fetch_tariff_document,
+    async_operators_for,
     async_search_municipalities,
     async_tariff_url_candidates,
 )
@@ -73,14 +74,15 @@ from .core.switzerland import (
     SWISS_TZ,
     Tariff,
     UnsupportedTariffError,
+    canton_of,
     parse_tariffs,
+    regional_names,
     suggest_grid,
     suggest_regional_fees,
     tariffs_on,
 )
 
 _PLACEHOLDERS = {"issues_url": ISSUES_URL, "donate_url": DONATE_URL}
-_NO_REGIONAL = "none"
 
 _PRICE_SELECTOR = NumberSelector(
     NumberSelectorConfig(
@@ -233,22 +235,35 @@ def _electricity_names(tariffs: list[Tariff], today) -> list[str]:
 
 
 def _grid_schema(
-    tariffs: list[Tariff],
-    electricity: str,
-    today,
-    municipality: int | None,
-    municipality_name: str | None,
+    tariffs: list[Tariff], electricity: str, today, place: OperatorInMunicipality | None
 ) -> vol.Schema:
-    """Grid tariff and regional fees, with the ones for this energy tariff and place suggested."""
+    """Grid tariff and regional fees, with the ones for this energy tariff and place suggested.
+
+    With ElCom's household figures for the place, the suggestions are checked
+    against them (see suggest_grid and suggest_regional_fees).
+    """
     grids = [t for t in tariffs_on(tariffs, "grid", today) if _supported(t)]
     regionals = tariffs_on(tariffs, "regional_fees", today)
     energy = next(
         (t for t in tariffs_on(tariffs, "electricity", today) if t.name == electricity), None
     )
-    suggested_grid = suggested_regional = None
+    municipality = place.municipality if place else None
+    elcom = None
+    if place and place.grid_h4_rp is not None and place.aidfee_rp is not None:
+        elcom = (place.grid_h4_rp, place.aidfee_rp, today.year)
+    suggested_grid, suggested_fees = None, []
     if energy is not None:
-        suggested_grid = suggest_grid(energy, grids, municipality, municipality_name)
-        suggested_regional = suggest_regional_fees(energy, regionals, municipality)
+        suggested_grid = suggest_grid(
+            energy, grids, municipality, place.municipality_name if place else None, elcom
+        )
+        suggested_fees = suggest_regional_fees(
+            energy,
+            regionals,
+            municipality,
+            place.charge_rp if place else None,
+            today.year,
+            suggested_grid,
+        )
     return vol.Schema(
         {
             vol.Required(
@@ -259,12 +274,13 @@ def _grid_schema(
                     options=sorted({t.name for t in grids}), mode=SelectSelectorMode.DROPDOWN
                 )
             ),
-            vol.Required(
-                CONF_REGIONAL_TARIFF,
-                default=suggested_regional.name if suggested_regional else _NO_REGIONAL,
+            # Several: some operators publish each fee on its own (Lausanne).
+            vol.Optional(
+                CONF_REGIONAL_TARIFF, default=[t.name for t in suggested_fees]
             ): SelectSelector(
                 SelectSelectorConfig(
-                    options=[*sorted({t.name for t in regionals}), _NO_REGIONAL],
+                    options=sorted({t.name for t in regionals}),
+                    multiple=True,
                     mode=SelectSelectorMode.DROPDOWN,
                 )
             ),
@@ -273,24 +289,34 @@ def _grid_schema(
 
 
 def _tariff_choice(
-    tariffs: list[Tariff], electricity: str, user_input: dict[str, Any], today
+    tariffs: list[Tariff],
+    electricity: str,
+    user_input: dict[str, Any],
+    today,
+    municipality: int | None,
 ) -> dict[str, Any]:
     """The tariff part of a Swiss entry, from the grid step's answers."""
-    regional = next(
-        (
-            t
-            for t in tariffs_on(tariffs, "regional_fees", today)
-            if t.name == user_input[CONF_REGIONAL_TARIFF]
-        ),
-        None,
-    )
-    cantons = sorted(regional.canton_energy) if regional else []
+    names = regional_names(user_input.get(CONF_REGIONAL_TARIFF))
+    fees = [t for t in tariffs_on(tariffs, "regional_fees", today) if t.name in names]
+    cantons = sorted({canton for fee in fees for canton in fee.canton_energy})
+    canton = canton_of(municipality)
     return {
         CONF_ELECTRICITY_TARIFF: electricity,
         CONF_GRID_TARIFF: user_input[CONF_GRID_TARIFF],
-        CONF_REGIONAL_TARIFF: None if regional is None else regional.name,
-        CONF_CANTON: cantons[0] if cantons else None,
+        CONF_REGIONAL_TARIFF: [fee.name for fee in fees],
+        CONF_CANTON: canton if canton in cantons else (cantons[0] if cantons else None),
     }
+
+
+async def _elcom_place(
+    hass: HomeAssistant, municipality: int, operator_id: str, year: int
+) -> OperatorInMunicipality | None:
+    """ElCom's figures for an operator in a municipality, None if ElCom does not answer."""
+    try:
+        operators = await async_operators_for(async_get_clientsession(hass), municipality, year)
+    except ElcomError:
+        return None
+    return next((o for o in operators if o.operator_id == operator_id), None)
 
 
 class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -480,7 +506,9 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
         today = dt_util.now(SWISS_TZ).date()
         errors: dict[str, str] = {}
         if user_input is not None:
-            choice = _tariff_choice(self._tariffs, self._electricity, user_input, today)
+            choice = _tariff_choice(
+                self._tariffs, self._electricity, user_input, today, self._operator.municipality
+            )
             if not (error := await _dynamic_prices_error(self.hass, self._tariffs, choice, today)):
                 return self.async_create_entry(
                     # Short, so entity ids stay readable: "sensor.corrente_lugano_price_now".
@@ -498,13 +526,7 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
             errors["base"] = error
         return self.async_show_form(
             step_id="ch_grid",
-            data_schema=_grid_schema(
-                self._tariffs,
-                self._electricity,
-                today,
-                self._operator.municipality,
-                self._operator.municipality_name,
-            ),
+            data_schema=_grid_schema(self._tariffs, self._electricity, today, self._operator),
             description_placeholders={**_PLACEHOLDERS, "electricity": self._electricity},
             errors=errors,
         )
@@ -691,9 +713,10 @@ class CorrenteOptionsFlow(OptionsFlow):
         assert self._electricity is not None
         tariffs = self._swiss_tariffs()
         today = dt_util.now(SWISS_TZ).date()
+        municipality = self.config_entry.data[CONF_MUNICIPALITY]
         errors: dict[str, str] = {}
         if user_input is not None:
-            choice = _tariff_choice(tariffs, self._electricity, user_input, today)
+            choice = _tariff_choice(tariffs, self._electricity, user_input, today, municipality)
             if not (error := await _dynamic_prices_error(self.hass, tariffs, choice, today)):
                 return self._save(choice)
             errors["base"] = error
@@ -703,8 +726,9 @@ class CorrenteOptionsFlow(OptionsFlow):
                 tariffs,
                 self._electricity,
                 today,
-                self.config_entry.data.get(CONF_MUNICIPALITY),
-                self.config_entry.data.get(CONF_MUNICIPALITY_NAME),
+                await _elcom_place(
+                    self.hass, municipality, self.config_entry.data[CONF_OPERATOR_ID], today.year
+                ),
             ),
             description_placeholders={**_PLACEHOLDERS, "electricity": self._electricity},
             errors=errors,

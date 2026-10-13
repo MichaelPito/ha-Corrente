@@ -12,6 +12,11 @@ Switzerland: checked against ewz's file (city of Zürich and villages in Graubü
 - Sundays were priced too high where a tariff gives Sunday as a whole day of its own (ewz): Sunday's price was added on top of the night price.
 - The night price started one minute early with operators that write "06:00–21:59" (ewz).
 - Setup suggests the right grid tariff and fees for where you live: ewz proposed a Graubünden village's to people in Zürich, EKZ a business grid tariff to households (and now the dynamic grid tariff with the dynamic energy tariff).
+- St. Gallen: the grid price was doubled. St. Gallen's grid tariff holds both the day/night prices and the single-rate price, and they were added up.
+- Lausanne: only one of the six cantonal and municipal fees was counted (about 4 Rp/kWh missing). Fees can now be several, and setup picks them.
+
+### Changed
+- Setup checks its suggestions against ElCom's figures for a household in your municipality: the grid tariff whose price is closest (St. Gallen suggested a reactive-energy price, Geneva its separate "réserve d'électricité"), and the fees that add up to ElCom's (one set per product, as at AIL, or all of them, as in Lausanne).
 
 ## [0.2.1] — 2026-10-13
 

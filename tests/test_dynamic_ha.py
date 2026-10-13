@@ -162,7 +162,7 @@ async def test_flow_with_dynamic_tariffs(
     mock_ekz(aioclient_mock)
     result = await _flow_to_grid_step(hass)
     result = await hass.config_entries.flow.async_configure(
-        result["flow_id"], {"grid_tariff": GRID, "regional_tariff": "none"}
+        result["flow_id"], {"grid_tariff": GRID, "regional_tariff": []}
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
     assert result["data"]["electricity_tariff"] == ENERGY
@@ -176,7 +176,7 @@ async def test_flow_reports_unreachable_dynamic_prices(
     mock_ekz(aioclient_mock, api_status=500)
     result = await _flow_to_grid_step(hass)
     result = await hass.config_entries.flow.async_configure(
-        result["flow_id"], {"grid_tariff": GRID, "regional_tariff": "none"}
+        result["flow_id"], {"grid_tariff": GRID, "regional_tariff": []}
     )
     assert result["type"] is FlowResultType.FORM
     assert result["errors"] == {"base": "dynamic_unavailable"}
@@ -196,7 +196,7 @@ async def test_flow_explains_a_web_page_instead_of_prices(
         aioclient_mock.get(url, text="<!doctype html><html><body>Tariffa dinamica</body></html>")
     result = await _flow_to_grid_step(hass)
     result = await hass.config_entries.flow.async_configure(
-        result["flow_id"], {"grid_tariff": GRID, "regional_tariff": "none"}
+        result["flow_id"], {"grid_tariff": GRID, "regional_tariff": []}
     )
     assert result["errors"] == {"base": "dynamic_not_api"}
     assert "issues_url" in result["description_placeholders"]

@@ -1,0 +1,762 @@
+{
+ "dsoName": "Services Industriels Lausanne - SIL",
+ "dsoNumber": 10085012345,
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "nativa - Energie - SIMPLE - 2026",
+   "tariffType": "electricity",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Particuliers",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0988,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "nativa - Utilisation du réseau - SIMPLE - 2026",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Particuliers",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.121,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kW/Y"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.04,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.121,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "nativa - Energie - DUO - 2026",
+   "tariffType": "electricity",
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Particuliers",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "08:00",
+      "to": "22:00",
+      "price": 0.104,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "22:00",
+      "to": "08:00",
+      "price": 0.0832,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0832,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "nativa - Utilisation du réseau - DUO - 2026",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Particuliers",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "08:00",
+      "to": "22:00",
+      "price": 0.1345,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "22:00",
+      "to": "08:00",
+      "price": 0.0897,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0897,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.1084,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "nativa - Energie - PROVISOIRE - 2026",
+   "tariffType": "electricity",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Particuliers",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0988,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "nativa - Utilisation du réseau - PROVISOIRE - 2026",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Particuliers",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1414,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kW/Y"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.04,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.121,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "nativa - Energie - EP",
+   "tariffType": "electricity",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Eclairage publique",
+   "customerType": "Particuliers",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0888,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "nativa - Utilisation du réseau - EP - 2026",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Eclairage publique",
+   "customerType": "Particuliers",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1414,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kW/Y"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.04,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.121,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Emolument pour l'usage du sol  - 2026 - 2027",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Tous",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 5586,
+      "municipalityName": "Lausanne",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.007,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     },
+     {
+      "municipalityNumber": 5589,
+      "municipalityName": "Prilly",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.007,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     },
+     {
+      "municipalityNumber": 5584,
+      "municipalityName": "Epalinges",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.007,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     },
+     {
+      "municipalityNumber": 5587,
+      "municipalityName": "Le Mont-sur-Lausanne",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.007,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     },
+     {
+      "municipalityNumber": 5648,
+      "municipalityName": "Saint-Sulpice (VD)",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.007,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     },
+     {
+      "municipalityNumber": 6211,
+      "municipalityName": "Collonges",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.007,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Emolument pour fonctionnement de la Commission cantonale- 2026 - 2027",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Tous",
+   "prices": {
+    "cantonalTaxes": [
+     {
+      "cantonName": "VD",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.00024,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Taxe pour l'éclairage public - 2026 - 2027",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Tous",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 5586,
+      "municipalityName": "Lausanne",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.01,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Taxe pour l'efficacité énergétique  - 2026 - 2027",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Tous",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 5586,
+      "municipalityName": "Lausanne",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.013,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     },
+     {
+      "municipalityNumber": 5584,
+      "municipalityName": "Epalinges",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.012,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Taxe pour le développement durable  - 2026",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Tous",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 5586,
+      "municipalityName": "Lausanne",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.013,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     },
+     {
+      "municipalityNumber": 5589,
+      "municipalityName": "Prilly",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.002,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     },
+     {
+      "municipalityNumber": 5587,
+      "municipalityName": "Le Mont-sur-Lausanne",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.012,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     },
+     {
+      "municipalityNumber": 5648,
+      "municipalityName": "Saint-Sulpice (VD)",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.01,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Taxe pour les énergies renouvelables  - 2026 - 2027",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Tous",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 5589,
+      "municipalityName": "Prilly",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.006,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ],
+    "cantonalTaxes": [
+     {
+      "cantonName": "VD",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.006,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": ""
+     }
+    ]
+   }
+  }
+ ]
+}

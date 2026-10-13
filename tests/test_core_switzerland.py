@@ -15,6 +15,7 @@ from custom_components.corrente.core.switzerland import (
     SwissContract,
     UnsupportedTariffError,
     canton_of,
+    combine_fees,
     federal_addition,
     national_charges,
     parse_tariffs,
@@ -241,7 +242,81 @@ def test_suggest_regional_fees_for_the_municipality(municipality: int, expected:
     fees = suggest_regional_fees(
         electricity, tariffs_on(tariffs, "regional_fees", day), municipality
     )
-    assert fees.name == expected
+    assert [fee.name for fee in fees] == [expected]
+
+
+def test_single_rate_price_inside_a_day_night_tariff_is_not_added() -> None:
+    """St. Gallen "Netztarif K" 2026: day 13.73, night 11.83 and, in the same tariff, the
+    single-rate 13.13 as an all-day price. Added up, the grid would cost twice as much."""
+    sgsw = load("sgsw-2026.json")
+    contract = SwissContract(
+        electricity=by_name(sgsw, "St.Galler Strom Basis <50 MWh/a"),
+        grid=next(t for t in sgsw if t.tariff_type == "grid" and t.name == "Netztarif K"),
+        federal_per_kwh=0.0,
+    )
+    price, _ = contract.price_at(zurich(2026, 10, 13, 10, 0))  # Tuesday, day
+    assert price == pytest.approx((0.15 + 0.1373) * (1 + SWISS_VAT), abs=1e-5)
+
+
+def test_grid_suggestion_checked_with_elcom() -> None:
+    """St. Gallen: energy and grid describe their customers differently, and reactive
+    energy prices are grid tariffs too. ElCom's household grid figure (11.25 Rp. + 2.3)
+    points to the household tariff."""
+    sgsw = load("sgsw-2026.json")
+    day = EWZ_DAY
+    electricity = by_name(sgsw, "St.Galler Strom Basis <50 MWh/a")
+    grids = tariffs_on(sgsw, "grid", day)
+    grid = suggest_grid(electricity, grids, 3203, "St. Gallen", (11.25, 2.3, 2026))
+    assert grid.name == "Netztarif K"
+    fees = suggest_regional_fees(
+        electricity, tariffs_on(sgsw, "regional_fees", day), 3203, 1.76, 2026, grid
+    )
+    assert [fee.name for fee in fees] == ["Netztarif K"]
+
+
+def test_geneva_grid_is_not_the_separate_reserve() -> None:
+    """SIG publishes the "réserve d'électricité" (0.46 Rp.) as a grid tariff of its own."""
+    sig = load("sig-2026.json")
+    electricity = next(t for t in sig if t.tariff_type == "electricity")
+    grid = suggest_grid(
+        electricity, tariffs_on(sig, "grid", EWZ_DAY), 6621, "Genève", (9.877, 2.3, 2026)
+    )
+    assert grid.name == "Utilisation du réseau - Profil Simple"
+
+
+def test_lausanne_fees_add_up() -> None:
+    """Lausanne publishes each fee on its own; ElCom's household fees are 4.924 Rp."""
+    sil = load("sil-2026.json")
+    electricity = by_name(sil, "nativa - Energie - SIMPLE - 2026")
+    regionals = tariffs_on(sil, "regional_fees", EWZ_DAY)
+    fees = suggest_regional_fees(electricity, regionals, 5586, 4.924, 2026)
+    assert len(fees) == len(regionals) == 6
+    contract = SwissContract(
+        electricity=electricity,
+        grid=by_name(sil, "nativa - Utilisation du réseau - SIMPLE - 2026"),
+        regional_fees=combine_fees(fees),
+        canton="VD",
+        municipality=5586,
+        federal_per_kwh=0.0,
+    )
+    alone = SwissContract(
+        electricity=electricity,
+        grid=by_name(sil, "nativa - Utilisation du réseau - SIMPLE - 2026"),
+        federal_per_kwh=0.0,
+    )
+    moment = zurich(2026, 10, 13, 12, 0)
+    fees_rp = 100 * (contract.price_at(moment)[0] - alone.price_at(moment)[0]) / (1 + SWISS_VAT)
+    assert fees_rp == pytest.approx(4.924, abs=0.1)
+
+
+def test_one_set_of_fees_per_product_is_not_added_up() -> None:
+    """AIL publishes one set of fees per product: ElCom's 2.22 Rp. means one of them."""
+    ail = load("ail-2027.json")
+    electricity = by_name(ail, "Casa & PMI 24h-electricity")
+    fees = suggest_regional_fees(
+        electricity, tariffs_on(ail, "regional_fees", DAY_2027), 5192, 2.22, 2027
+    )
+    assert [fee.name for fee in fees] == ["Casa & PMI 24h-regional_fees"]
 
 
 def test_place_is_a_whole_word() -> None:

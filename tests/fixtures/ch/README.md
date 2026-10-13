@@ -21,3 +21,7 @@ Added on 2026-10-13 for the setup suggestions:
 
 - `ewz-2026.json` — ewz, city of Zürich and villages in Graubünden (`tarif-ewz-maschinenlesbar.json`,
   trimmed to two energy tariffs and the grid tariffs and fees of both areas)
+- `sgsw-2026.json` — St. Galler Stadtwerke (grid tariffs with the single-rate price inside the
+  day/night tariff, reactive-energy prices as grid tariffs)
+- `sil-2026.json` — Services Industriels de Lausanne, household tariffs (each fee a tariff of its own)
+- `sig-2026.json` — SIG, Geneva, household tariffs ("réserve d'électricité" as a separate grid tariff)
