@@ -16,3 +16,8 @@ API answers saved as downloaded):
 - `groupe-e-grid-20261008.json` — Groupe E's API, grid part, 8 October 2026
 - `ckw-integrated-20261008-09.json` — CKW's API, 8–9 October 2026 (timestamps without seconds)
 - `lindas-dietikon-2026.json` — ElCom (LINDAS) answer for Dietikon, 2026
+
+Added on 2026-10-13 for the setup suggestions:
+
+- `ewz-2026.json` — ewz, city of Zürich and villages in Graubünden (`tarif-ewz-maschinenlesbar.json`,
+  trimmed to two energy tariffs and the grid tariffs and fees of both areas)

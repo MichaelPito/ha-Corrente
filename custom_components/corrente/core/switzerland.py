@@ -10,6 +10,7 @@ Spec: https://tariffconverter.strom.ch/ch-electricity-tariffs-openapi.yml
 from __future__ import annotations
 
 import logging
+import re
 from bisect import bisect_right
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field, replace
@@ -80,39 +81,57 @@ def federal_addition(
     products that match different hypotheses (EKZ "400LS" for businesses), so
     the closest to the user's tariff comes first: with a dynamic or day/night
     grid tariff, Groupe E's business tariffs once pointed to the wrong answer.
+
+    Some operators have only day/night grid tariffs (ewz, which includes the
+    charges): then the same order applies to those, each priced at its average
+    over the year, every hour counting the same. ElCom's household uses more by
+    day, so that average is a little low; the three hypotheses are 2-3 Rp.
+    apart, much more than that difference.
     """
     target = elcom_grid_rp + elcom_aidfee_rp  # what ElCom says grid costs, all charges in
 
     def is_flat(tariff: Tariff) -> bool:
-        return bool(tariff.energy) and all(w.all_day for w in tariff.energy)
+        return bool(tariff.energy) and all(w.every_day for w in tariff.energy)
 
-    all_flat = [t for t in grid_tariffs if is_flat(t)]
-    choices = [[t for t in all_flat if t.standard]]
+    def is_priced(tariff: Tariff) -> bool:
+        return bool(tariff.energy) and not tariff.is_dynamic
+
+    pool = [t for t in grid_tariffs if is_flat(t)] or [t for t in grid_tariffs if is_priced(t)]
+    choices = [[t for t in pool if t.standard]]
     if chosen is not None:
         choices = [
-            [chosen] if is_flat(chosen) else [],
+            [chosen] if chosen in pool else [],
             *choices,
-            [
-                t
-                for t in all_flat
-                if chosen.customer_type and t.customer_type == chosen.customer_type
-            ],
-            [t for t in all_flat if t.monthly_base == chosen.monthly_base],
+            [t for t in pool if chosen.customer_type and t.customer_type == chosen.customer_type],
+            [t for t in pool if t.monthly_base == chosen.monthly_base],
         ]
-    flat = next((group for group in choices if group), all_flat)
-    if not flat:
+    compared = next((group for group in choices if group), pool)
+    if not compared:
         return None
+    grid_rp = []
+    for tariff in compared:
+        try:
+            average = _average_price(tariff.energy, year)
+        except UnsupportedTariffError:
+            continue
+        grid_rp.append(100 * (average + tariff.monthly_base * 12 / _H4_KWH_PER_YEAR))
     candidates = (national_charges(year), elcom_aidfee_rp / 100, 0.0)
     best_addition, best_error = None, None
     for addition in candidates:
-        for tariff in flat:
-            grid_rp = 100 * (
-                sum(w.price for w in tariff.energy) + tariff.monthly_base * 12 / _H4_KWH_PER_YEAR
-            )
-            error = abs(grid_rp + 100 * addition - target)
+        for rp in grid_rp:
+            error = abs(rp + 100 * addition - target)
             if best_error is None or error < best_error:
                 best_addition, best_error = addition, error
     return best_addition
+
+
+def _average_price(windows: Sequence[PriceWindow], year: int) -> float:
+    """Average price per kWh over a year, every hour counting the same."""
+    if all(w.every_day and w.months is None for w in windows):
+        return sum(w.price for w in windows)  # flat: no need to walk the year
+    start = datetime(year, 1, 1, 0, 30)
+    hours = [start + timedelta(hours=n) for n in range(365 * 24)]
+    return sum(price_of_windows(windows, moment)[0] for moment in hours) / len(hours)
 
 
 def national_charges(year: int) -> float:
@@ -136,6 +155,17 @@ class PriceWindow:
     def all_day(self) -> bool:
         """True when the window covers whole days."""
         return self.start == time(0, 0) and self.end is None
+
+    @property
+    def every_day(self) -> bool:
+        """True for a price that applies all day on every day of the week.
+
+        Such prices add up with the others (a surcharge on top of the energy
+        price). A whole day on some weekdays only is one of the alternatives:
+        ewz's grid tariff is 06:00-22:00 and 22:00-06:00 Monday to Saturday, and
+        the whole of Sunday.
+        """
+        return self.all_day and self.weekdays is None
 
     def covers(self, local: datetime) -> bool:
         """Return whether the window applies at a Swiss local time."""
@@ -175,9 +205,14 @@ def _parse_window(raw: Mapping[str, Any]) -> PriceWindow | None:
         # "23:59" and "00:00" as end times mean the end of the day, so
         # "00:00"-"00:00" is a whole day. "22:00"-"06:00" wraps past midnight.
         end=None if end in (_END_OF_DAY, time(0, 0)) else end,
-        months=frozenset(_MONTHS[m] for m in months) if months else None,
-        weekdays=frozenset(_WEEKDAYS[d] for d in weekdays) if weekdays else None,
+        # All twelve months or all seven days (EKZ lists them) is no restriction.
+        months=_restriction({_MONTHS[m] for m in months} if months else None, 12),
+        weekdays=_restriction({_WEEKDAYS[d] for d in weekdays} if weekdays else None, 7),
     )
+
+
+def _restriction(values: set[int] | None, every: int) -> frozenset[int] | None:
+    return None if values is None or len(values) == every else frozenset(values)
 
 
 def _parse_date(text: str) -> date:
@@ -186,8 +221,21 @@ def _parse_date(text: str) -> date:
 
 
 def _windows(raws: Iterable[Mapping[str, Any]] | None) -> tuple[PriceWindow, ...]:
-    windows = (_parse_window(raw) for raw in raws or ())
-    return tuple(window for window in windows if window is not None)
+    windows = [w for w in (_parse_window(raw) for raw in raws or ()) if w is not None]
+    # Some operators give the last minute included: ewz writes "06:00"-"21:59" and
+    # "22:00"-"05:59". Read as up to 22:00 and 06:00, unless a window starts at :59.
+    starts = {window.start for window in windows}
+    return tuple(
+        replace(window, end=_next_minute(window.end))
+        if window.end is not None and window.end.minute == 59 and window.end not in starts
+        else window
+        for window in windows
+    )
+
+
+def _next_minute(value: time) -> time | None:
+    following = (datetime.combine(date(2000, 1, 1), value) + timedelta(minutes=1)).time()
+    return None if following == time(0, 0) else following
 
 
 @dataclass(frozen=True, slots=True)
@@ -231,14 +279,30 @@ class Tariff:
         """Raise if the tariff cannot be priced from the file and the operator's API."""
         if self.is_dynamic and not is_api_url(self.dynamic_url):
             raise UnsupportedTariffError(f"{self.name}: dynamic tariff without an API")
-        # Several whole-day prices for a tiered tariff means the daily windows
-        # were not encoded (seen in AMB "Dinamica" 2027).
+        # Several whole-day prices at the same time for a tiered tariff means the
+        # daily windows were not encoded (seen in AMB "Dinamica" 2027). Whole-day
+        # prices for different months are fine: EKZ "Erneuerbar" 2026 has a winter
+        # and a summer price.
         if (
             self.form == "multilevel"
             and len(self.energy) > 1
             and all(window.all_day for window in self.energy)
+            and any(
+                _same_days(first, second)
+                for n, first in enumerate(self.energy)
+                for second in self.energy[n + 1 :]
+            )
         ):
             raise UnsupportedTariffError(f"{self.name}: time windows missing")
+
+
+def _same_days(first: PriceWindow, second: PriceWindow) -> bool:
+    """True when two windows apply on some of the same days."""
+
+    def meet(a: frozenset[int] | None, b: frozenset[int] | None) -> bool:
+        return a is None or b is None or bool(a & b)
+
+    return meet(first.months, second.months) and meet(first.weekdays, second.weekdays)
 
 
 def parse_tariffs(document: Mapping[str, Any]) -> list[Tariff]:
@@ -294,8 +358,8 @@ def price_of_windows(windows: Sequence[PriceWindow], local: datetime) -> tuple[f
     gap, the cheapest timed price is used (in Swiss high/low tariffs uncovered
     hours are the night) and the gap is reported so the UI can flag it.
     """
-    whole_day = sum(w.price for w in windows if w.all_day and w.covers(local))
-    timed = [w for w in windows if not w.all_day]
+    whole_day = sum(w.price for w in windows if w.every_day and w.covers(local))
+    timed = [w for w in windows if not w.every_day]
     if not timed:
         return whole_day, False
     matching = [w for w in timed if w.covers(local)]
@@ -418,7 +482,7 @@ class SwissContract:
 
     def is_time_dependent(self) -> bool:
         """True when the price changes during the day or week."""
-        return bool(self.dynamic_tariffs) or any(not w.all_day for w in self._windows())
+        return bool(self.dynamic_tariffs) or any(not w.every_day for w in self._windows())
 
     def _change_points(self, start: datetime, end: datetime) -> list[datetime]:
         """Moments in ``(start, end)`` where the price may change, in UTC."""
@@ -518,6 +582,87 @@ def suggest_matching(name: str, candidates: Sequence[Tariff]) -> Tariff | None:
         candidates,
         key=lambda tariff: SequenceMatcher(None, name.lower(), tariff.name.lower()).ratio(),
     )
+
+
+# First municipality number (BFS) of each canton: the numbers are given out in one
+# block per canton. Checked against the federal list on LINDAS (13 October 2026);
+# numbers from 9000 are lakes.
+_CANTON_BLOCKS = (
+    (1, "ZH"), (301, "BE"), (1001, "LU"), (1201, "UR"), (1301, "SZ"), (1401, "OW"),
+    (1501, "NW"), (1601, "GL"), (1701, "ZG"), (2001, "FR"), (2401, "SO"), (2701, "BS"),
+    (2761, "BL"), (2901, "SH"), (3001, "AR"), (3101, "AI"), (3201, "SG"), (3501, "GR"),
+    (4001, "AG"), (4401, "TG"), (5001, "TI"), (5401, "VD"), (6001, "VS"), (6401, "NE"),
+    (6601, "GE"), (6701, "JU"),
+)  # fmt: skip
+
+
+def canton_of(municipality: int | None) -> str | None:
+    """The canton of a municipality, from its BFS number."""
+    if municipality is None or not 1 <= municipality < 9000:
+        return None
+    index = bisect_right([start for start, _ in _CANTON_BLOCKS], municipality) - 1
+    return _CANTON_BLOCKS[index][1]
+
+
+def _by_time_of_day(tariff: Tariff) -> bool:
+    """True for a dynamic tariff or one whose price changes during the day."""
+    return tariff.is_dynamic or any(not window.every_day for window in tariff.energy)
+
+
+def _names_place(tariff: Tariff, municipality_name: str, canton: str | None) -> bool:
+    """True when the tariff says it is for this municipality or canton ("NNA_GR")."""
+    text = f"{tariff.name} {tariff.customer_type}"
+    # Whole words only: a municipality is called "Au", and that is in "Haushalt".
+    if municipality_name and re.search(
+        rf"(?<!\w){re.escape(municipality_name)}(?!\w)", text, re.IGNORECASE
+    ):
+        return True
+    return (
+        bool(canton) and re.search(rf"(?<![A-Za-z]){canton}(?![A-Za-z])", tariff.name) is not None
+    )
+
+
+def suggest_grid(
+    electricity: Tariff,
+    grids: Sequence[Tariff],
+    municipality: int | None = None,
+    municipality_name: str | None = None,
+) -> Tariff | None:
+    """The grid tariff that most likely goes with an energy tariff.
+
+    Names alone mislead: ewz serves the city of Zürich and some villages in
+    Graubünden ("NNA_ZH", "NNA_GR"), EKZ has nine grid tariffs for three kinds of
+    customer. So the signals in the file come first, strongest first: dynamic with
+    dynamic, the same kind of customer, the user's municipality or canton named in
+    the tariff, the operator's standard tariff, a day/night tariff with a day/night
+    tariff. The name decides only between otherwise equal tariffs.
+    """
+    customer = electricity.customer_type.strip().casefold()
+    canton = canton_of(municipality)
+
+    def score(grid: Tariff) -> tuple[bool, bool, bool, bool, bool, float]:
+        return (
+            grid.is_dynamic == electricity.is_dynamic,
+            bool(customer) and grid.customer_type.strip().casefold() == customer,
+            _names_place(grid, municipality_name or "", canton),
+            grid.standard,
+            _by_time_of_day(grid) == _by_time_of_day(electricity),
+            SequenceMatcher(None, electricity.name.lower(), grid.name.lower()).ratio(),
+        )
+
+    return max(grids, key=score, default=None)
+
+
+def suggest_regional_fees(
+    electricity: Tariff, regionals: Sequence[Tariff], municipality: int | None = None
+) -> Tariff | None:
+    """The cantonal and municipal fees for the user's municipality.
+
+    Fees list the municipalities they apply to, so those come first (ewz has fees
+    for the city of Zürich and for eight villages in Graubünden); then the name.
+    """
+    here = [t for t in regionals if municipality in t.municipality_energy]
+    return suggest_matching(electricity.name, here or regionals)
 
 
 def tariffs_on(tariffs: Iterable[Tariff], tariff_type: str, day: date) -> list[Tariff]:

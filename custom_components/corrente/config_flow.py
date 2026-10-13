@@ -74,7 +74,8 @@ from .core.switzerland import (
     Tariff,
     UnsupportedTariffError,
     parse_tariffs,
-    suggest_matching,
+    suggest_grid,
+    suggest_regional_fees,
     tariffs_on,
 )
 
@@ -231,12 +232,23 @@ def _electricity_names(tariffs: list[Tariff], today) -> list[str]:
     return sorted({t.name for t in tariffs_on(tariffs, "electricity", today) if _supported(t)})
 
 
-def _grid_schema(tariffs: list[Tariff], electricity: str, today) -> vol.Schema:
-    """Grid tariff and regional fees, with the ones matching the energy tariff suggested."""
+def _grid_schema(
+    tariffs: list[Tariff],
+    electricity: str,
+    today,
+    municipality: int | None,
+    municipality_name: str | None,
+) -> vol.Schema:
+    """Grid tariff and regional fees, with the ones for this energy tariff and place suggested."""
     grids = [t for t in tariffs_on(tariffs, "grid", today) if _supported(t)]
     regionals = tariffs_on(tariffs, "regional_fees", today)
-    suggested_grid = suggest_matching(electricity, grids)
-    suggested_regional = suggest_matching(electricity, regionals)
+    energy = next(
+        (t for t in tariffs_on(tariffs, "electricity", today) if t.name == electricity), None
+    )
+    suggested_grid = suggested_regional = None
+    if energy is not None:
+        suggested_grid = suggest_grid(energy, grids, municipality, municipality_name)
+        suggested_regional = suggest_regional_fees(energy, regionals, municipality)
     return vol.Schema(
         {
             vol.Required(
@@ -486,7 +498,13 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
             errors["base"] = error
         return self.async_show_form(
             step_id="ch_grid",
-            data_schema=_grid_schema(self._tariffs, self._electricity, today),
+            data_schema=_grid_schema(
+                self._tariffs,
+                self._electricity,
+                today,
+                self._operator.municipality,
+                self._operator.municipality_name,
+            ),
             description_placeholders={**_PLACEHOLDERS, "electricity": self._electricity},
             errors=errors,
         )
@@ -681,7 +699,13 @@ class CorrenteOptionsFlow(OptionsFlow):
             errors["base"] = error
         return self.async_show_form(
             step_id="ch_grid",
-            data_schema=_grid_schema(tariffs, self._electricity, today),
+            data_schema=_grid_schema(
+                tariffs,
+                self._electricity,
+                today,
+                self.config_entry.data.get(CONF_MUNICIPALITY),
+                self.config_entry.data.get(CONF_MUNICIPALITY_NAME),
+            ),
             description_placeholders={**_PLACEHOLDERS, "electricity": self._electricity},
             errors=errors,
         )

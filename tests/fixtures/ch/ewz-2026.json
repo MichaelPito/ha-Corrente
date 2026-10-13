@@ -1,0 +1,1287 @@
+{
+ "dsoName": "Elektrizitätswerk der Stadt Zürich",
+ "dsoNumber": 10100012345,
+ "tariffs": [
+  {
+   "tariffName": "ewz.pronatur",
+   "tariffType": "electricity",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": " Energie aus in der Schweiz stehenden naturemade  star zertifizierten Produktionsanlagen (z.B. Wasserkraftwerke, Solar-, Wind- oder Biomasseanlagen)",
+   "customerType": "Grundversorgung",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.114,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.07,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.07,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "05:59",
+      "price": 0.07,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "ewz.natur",
+   "tariffType": "electricity",
+   "standardBasegroup": true,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Mix aus 100% erneuerbaren Energien, z.B. aus   Wasserkraftwerken oder aus Wind- oder Solar-  anlagen aus dem Produktionsportfolio von ewz",
+   "customerType": "Grundversorgung",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.093,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.049,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.049,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "05:59",
+      "price": 0.049,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "NNA_ZH",
+   "tariffType": "grid",
+   "standardBasegroup": true,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": " Kund*innen in Niederspannung bis 60’000 kWh in der Stadt Zürich ",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.1495,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.09,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.09,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "05:59",
+      "price": 0.09,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "reactivePower": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.04,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.144,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "NNB_ZH",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": " Kund*innen in Niederspannung ab 60’000 kWh in der Stadt Zürich",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.0965,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.0635,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0635,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "05:59",
+      "price": 0.0635,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 13,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.04,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.1024,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 3,
+   "tariffName": "NNGFN3",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Nachlieger Spannungsebene 3",
+   "prices": {
+    "base": {
+     "price": 6000,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.018,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.009,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.009,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "05:59",
+      "price": 0.009,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 9.1,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.04,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "tariffName": "MNS",
+   "tariffType": "metering",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Messtarif wird pro Messpunkt und Monat erhoben. ",
+   "customerType": "Messung in Niederspannung (MNS)",
+   "prices": {
+    "base": {
+     "price": 6.9,
+     "priceUnit": "CHF/M"
+    }
+   }
+  },
+  {
+   "tariffName": "MMS",
+   "tariffType": "metering",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Messtarif wird pro Messpunkt und Monat erhoben. ",
+   "customerType": " Messung in Mittelspannung (MMS)",
+   "prices": {
+    "base": {
+     "price": 58.5,
+     "priceUnit": "CHF/M"
+    }
+   }
+  },
+  {
+   "tariffName": "MHS",
+   "tariffType": "metering",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Messtarif wird pro Messpunkt und Monat erhoben. ",
+   "customerType": " Messung in Hochspannung (MHS)",
+   "prices": {
+    "base": {
+     "price": 210,
+     "priceUnit": "CHF/M"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "NNA_GR",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": " Kund*innen in Niederspannung bis 60’000 kWh in Graubünden",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.1495,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.09,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.09,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "05:59",
+      "price": 0.09,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "reactivePower": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.04,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.1395,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "NNB_GR",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": " Kund*innen in Niederspannung ab 60’000 kWh in Graubünden",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.0965,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.0635,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0635,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "00:00",
+      "to": "05:59",
+      "price": 0.0635,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 13,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa"
+      ],
+      "from": "06:00",
+      "to": "21:59",
+      "price": 0.04,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0979,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "tariffName": "A&L Stadt Zürich",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Endkund*innen in der Stadt Zürich",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 261,
+      "municipalityName": "Zürich",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.02,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "A&L Cazis",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Endkund*innen in Cazis",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 3661,
+      "municipalityName": "Cazis",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0155,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "A&L Fürstenau",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Endkund*innen in Fürstenau",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 3633,
+      "municipalityName": "Fürstenau",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0155,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  }
+ ]
+}

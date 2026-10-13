@@ -2,6 +2,17 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.2.2] — not released yet
+
+Switzerland: checked against ewz's file (city of Zürich and villages in Graubünden) and EKZ's.
+
+### Fixed
+- EKZ (canton of Zürich): the standard household energy tariff "Erneuerbar", with a winter and a summer price, could not be chosen ("time windows missing"). Since 0.1.0.
+- City of Zürich (ewz): prices were about 3 Rp/kWh too high. ewz's grid tariff already includes the federal charges, and Corrente added them again; the check with ElCom now also works for operators that only have day/night grid tariffs.
+- Sundays were priced too high where a tariff gives Sunday as a whole day of its own (ewz): Sunday's price was added on top of the night price.
+- The night price started one minute early with operators that write "06:00–21:59" (ewz).
+- Setup suggests the right grid tariff and fees for where you live: ewz proposed a Graubünden village's to people in Zürich, EKZ a business grid tariff to households (and now the dynamic grid tariff with the dynamic energy tariff).
+
 ## [0.2.1] — 2026-10-13
 
 ### Fixed
@@ -64,6 +75,7 @@ Works with Home Assistant 2025.10 and later (tested on 2025.10 and 2026.2).
 - Every Home Assistant downloads its own data: ElCom open data and operators' tariff files and APIs (Switzerland), GME's daily prices (Italy). No Corrente server, no account, no telemetry.
 - GME data is for personal, non-commercial use; the source is shown on the sensors and the card.
 
+[0.2.2]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.2.2
 [0.2.1]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.2.1
 [0.2.0]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.2.0
 [0.1.1]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.1.1

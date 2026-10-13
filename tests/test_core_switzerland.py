@@ -14,16 +14,20 @@ from custom_components.corrente.core.switzerland import (
     PriceWindow,
     SwissContract,
     UnsupportedTariffError,
+    canton_of,
     federal_addition,
     national_charges,
     parse_tariffs,
     price_of_windows,
+    suggest_grid,
     suggest_matching,
+    suggest_regional_fees,
     tariffs_on,
 )
 
 FIXTURES = Path(__file__).parent / "fixtures" / "ch"
 DAY_2027 = date(2027, 3, 10)  # a Wednesday
+EWZ_DAY = date(2026, 10, 13)
 
 
 def load(name: str):
@@ -149,6 +153,21 @@ def test_amb_bom_and_flat_tariff() -> None:
     assert price == pytest.approx((0.098 + 0.068 + 0.0285) * (1 + SWISS_VAT), abs=1e-5)
 
 
+def test_ekz_seasonal_prices_are_supported() -> None:
+    """EKZ "Erneuerbar" 2026, the standard household tariff: 13.3 Rp in winter, 9 in summer,
+    each as a whole-day price. It was rejected as "time windows missing" up to 0.2.1."""
+    ekz = load("ekz-2026.json")
+    contract = SwissContract(
+        electricity=by_name(ekz, "EKZ Energie Erneuerbar"),
+        grid=next(t for t in ekz if t.name.startswith("EKZ Netz 400ST")),
+        federal_per_kwh=0.0,
+    )
+    winter, _ = contract.price_at(zurich(2026, 10, 13, 12, 0))
+    summer, _ = contract.price_at(zurich(2026, 7, 14, 12, 0))
+    assert winter - summer == pytest.approx((0.133 - 0.09) * (1 + SWISS_VAT), abs=1e-6)
+    assert contract.period_at(zurich(2026, 10, 13, 12, 0)) == "single"
+
+
 def test_amb_dynamic_without_windows_is_unsupported() -> None:
     amb = load("amb-2027.json")
     electricity = next(t for t in amb if t.tariff_type == "electricity" and t.name == "Dinamica")
@@ -174,6 +193,73 @@ def test_suggest_matching_grid(fixture: str, electricity_name: str, expected_gri
     tariffs = load(fixture)
     grids = tariffs_on(tariffs, "grid", DAY_2027)
     assert suggest_matching(electricity_name, grids).name == expected_grid
+
+
+@pytest.mark.parametrize(
+    ("fixture", "day", "municipality", "place", "electricity_name", "expected_grid"),
+    [
+        # Unchanged from the name-only suggestion.
+        ("ail-2027.json", DAY_2027, 5192, "Lugano", "Casa & PMI giorno-notte-electricity",
+         "Casa & PMI giorno-notte-grid7"),
+        ("ail-2027.json", DAY_2027, 5192, "Lugano", "Casa & PMI 24h tìacqua-electricity",
+         "Casa & PMI 24h tìacqua-grid7"),
+        ("amb-2027.json", DAY_2027, 5002, "Bellinzona", "Casa", "Casa"),
+        ("groupe-e-2026.json", date(2026, 10, 13), 2196, "Fribourg",
+         "Tarif double BASIC énergie / Doppeltarif BASIC Energie",
+         "Tarif double réseau / Doppeltarif Netz"),
+        # EKZ: the standard household grid, and the dynamic grid for the dynamic energy.
+        ("ekz-2026.json", date(2026, 10, 13), 243, "Dietikon", "EKZ Energie Erneuerbar",
+         "EKZ Netz 400ST + SDL, Stromreserve, Solidarisierte Kosten, Bundesabgaben"),
+        ("ekz-2026.json", date(2026, 10, 13), 243, "Dietikon", "EKZ Energie Dynamisch",
+         "EKZ Netz 400D + SDL, Stromreserve, Solidarisierte Kosten, Bundesabgaben"),
+        # ewz: the city of Zürich or Graubünden, from where the user lives.
+        ("ewz-2026.json", date(2026, 10, 13), 261, "Zürich", "ewz.natur", "NNA_ZH"),
+        ("ewz-2026.json", date(2026, 10, 13), 3661, "Cazis", "ewz.natur", "NNA_GR"),
+    ],
+)  # fmt: skip
+def test_suggest_grid(
+    fixture: str,
+    day: date,
+    municipality: int,
+    place: str,
+    electricity_name: str,
+    expected_grid: str,
+) -> None:
+    tariffs = load(fixture)
+    electricity = by_name(tariffs_on(tariffs, "electricity", day), electricity_name)
+    grid = suggest_grid(electricity, tariffs_on(tariffs, "grid", day), municipality, place)
+    assert grid.name == expected_grid
+
+
+@pytest.mark.parametrize(
+    ("municipality", "expected"), [(261, "A&L Stadt Zürich"), (3661, "A&L Cazis")]
+)
+def test_suggest_regional_fees_for_the_municipality(municipality: int, expected: str) -> None:
+    tariffs = load("ewz-2026.json")
+    day = date(2026, 10, 13)
+    electricity = by_name(tariffs, "ewz.natur")
+    fees = suggest_regional_fees(
+        electricity, tariffs_on(tariffs, "regional_fees", day), municipality
+    )
+    assert fees.name == expected
+
+
+def test_place_is_a_whole_word() -> None:
+    # A municipality called "Au" is not named in "Haushalt": the standard grid stays first.
+    tariffs = load("ewz-2026.json")
+    day = date(2026, 10, 13)
+    electricity = by_name(tariffs, "ewz.natur")
+    grid = suggest_grid(electricity, tariffs_on(tariffs, "grid", day), None, "Au")
+    assert grid.name == "NNA_ZH"
+
+
+@pytest.mark.parametrize(
+    ("municipality", "canton"),
+    [(1, "ZH"), (261, "ZH"), (351, "BE"), (2196, "FR"), (3661, "GR"), (5192, "TI"),
+     (6621, "GE"), (6831, "JU"), (9051, None), (0, None), (None, None)],
+)  # fmt: skip
+def test_canton_of(municipality: int | None, canton: str | None) -> None:
+    assert canton_of(municipality) == canton
 
 
 def test_naive_datetimes_are_rejected() -> None:
@@ -236,6 +322,48 @@ def test_federal_addition_surcharge_only() -> None:
 
 def test_federal_addition_without_flat_grid() -> None:
     assert federal_addition([], 7.9, 2.3, 2027) is None
+
+
+def test_federal_addition_with_day_night_grids_only() -> None:
+    """ewz 2026, city of Zürich: all grid tariffs are day/night. "NNA_ZH" (14.95 / 9 Rp)
+    averages about 12.4 Rp against ElCom's 10.735 + 2.3: the charges are included."""
+    grids = tariffs_on(load("ewz-2026.json"), "grid", EWZ_DAY)
+    chosen = by_name(grids, "NNA_ZH")
+    assert federal_addition(grids, 10.735, 2.3, 2026, chosen=chosen) == 0.0
+
+
+def _ewz_zurich() -> SwissContract:
+    ewz = load("ewz-2026.json")
+    return SwissContract(
+        electricity=by_name(ewz, "ewz.natur"),
+        grid=by_name(ewz, "NNA_ZH"),
+        regional_fees=by_name(ewz, "A&L Stadt Zürich"),
+        municipality=261,
+        federal_per_kwh=0.0,
+    )
+
+
+def test_ewz_day_night_and_sunday() -> None:
+    """Monday to Saturday 06:00-22:00 is high; nights and the whole of Sunday are low.
+
+    ewz writes the windows as "06:00"-"21:59" and gives Sunday as a whole day on its
+    own: Sunday's price must not be added on top of the night price.
+    """
+    contract = _ewz_zurich()
+    high = (0.093 + 0.1495 + 0.02) * (1 + SWISS_VAT)
+    low = (0.049 + 0.09 + 0.02) * (1 + SWISS_VAT)
+    tuesday = zurich(2026, 10, 13, 16, 20)
+    assert contract.price_at(tuesday) == (pytest.approx(high, abs=1e-5), False)
+    assert contract.price_at(zurich(2026, 10, 13, 21, 59, 30)) == (
+        pytest.approx(high, abs=1e-5),
+        False,
+    )
+    assert contract.price_at(zurich(2026, 10, 18, 12, 0)) == (pytest.approx(low, abs=1e-5), False)
+    assert contract.period_at(tuesday) == "high"
+    assert contract.period_at(zurich(2026, 10, 13, 23, 0)) == "low"
+    change, price = contract.next_change(tuesday)
+    assert change == zurich(2026, 10, 13, 22, 0)
+    assert price == pytest.approx(low, abs=1e-5)
 
 
 def test_contract_uses_the_checked_federal_addition() -> None:

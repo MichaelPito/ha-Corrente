@@ -161,8 +161,14 @@ Confronto tra i file dei gestori e i totali ElCom (profilo H4, 4500 kWh/anno; El
 | ewb Berna 2027 | 12,9 | **escluse** (stessa differenza di 0,55) |
 | EKZ 2026, "400F" (case) | 10,53 | **incluse**: 7,95 lavoro + 0,27 Swissgrid + 2,3 supplemento (listino EKZ) |
 | EKZ 2026, "400LS" (aziende) | 8,23 | uguale a ElCom senza supplemento |
+| ewz città di Zurigo 2026, "NNA_ZH" (solo tariffe giorno/notte) | 14,95 / 9 Rp, media dell'anno 12,4 | **incluse**: ElCom 10,735 + 2,3 = 13,04 (verificato il 13 ottobre) |
 
-Quindi Corrente **non** aggiunge più sempre le stesse voci. Per ogni gestore e anno confronta con ElCom tre ipotesi (nessuna inclusa / solo il supplemento da aggiungere / tutte incluse) e sceglie quella che torna. Usa in ordine: la tariffa di rete scelta dall'utente, la tariffa marcata standard dal gestore, tutte le tariffe a prezzo unico. Se ElCom non risponde aggiunge tutte le voci e lo segnala nell'attributo `federal_charges_checked_with_elcom`.
+Quindi Corrente **non** aggiunge più sempre le stesse voci. Per ogni gestore e anno confronta con ElCom tre ipotesi (nessuna inclusa / solo il supplemento da aggiungere / tutte incluse) e sceglie quella che torna. Usa in ordine: la tariffa di rete scelta dall'utente, la tariffa marcata standard dal gestore, tutte le tariffe a prezzo unico. Se il gestore ha solo tariffe di rete giorno/notte (ewz) si confronta la loro media dell'anno, ogni ora con lo stesso peso (dal 13 ottobre; prima Corrente aggiungeva tutte le voci e il prezzo di Zurigo città era di circa 3,3 Rp troppo alto). Se ElCom non risponde aggiunge tutte le voci e lo segnala nell'attributo `federal_charges_checked_with_elcom`.
+
+### Come si leggono le finestre orarie (13 ottobre 2026, da ewz)
+- Un prezzo "tutto il giorno" valido **ogni giorno** si somma agli altri (supplemento, come il tìacqua di AIL). Se vale solo **alcuni giorni** (ewz: la domenica intera) è un'alternativa alle altre finestre, non si somma: prima a Zurigo la domenica la rete si contava due volte.
+- Una fine "21:59" o "05:59" vuol dire fino alle 22:00 e alle 06:00 (ultimo minuto incluso), a meno che un'altra finestra cominci proprio a quel minuto.
+- **Suggerimenti nella configurazione:** la tariffa di rete proposta si sceglie con i dati del file, in quest'ordine: dinamica con dinamica, stessa clientela, comune o cantone nominato nella tariffa ("NNA_GR"; il cantone si ricava dal numero UST del comune, a blocchi per cantone, verificato su LINDAS), tariffa standard del gestore, giorno/notte con giorno/notte; il nome conta solo a parità. I tributi proposti sono quelli che elencano il comune dell'utente. Prima ewz proponeva a Zurigo la rete e i tributi di un villaggio dei Grigioni, ed EKZ una rete per aziende.
 
 **Limite noto:** per EKZ "400F" riserva elettrica e costi solidali (circa 0,46 Rp nel 2026) potrebbero non essere né nel file né aggiunti da Corrente: errore massimo stimato intorno all'1,5%. Prima della correzione il prezzo EKZ era gonfiato di circa il 13% (voci contate due volte).
 
