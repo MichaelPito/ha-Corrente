@@ -7,6 +7,7 @@ All notable changes to Corrente. Versions follow [Semantic Versioning](https://s
 Switzerland: checked against ewz's file (city of Zürich and villages in Graubünden) and EKZ's.
 
 ### Fixed
+- EKZ (canton of Zürich): the standard household energy tariff "Erneuerbar", with a winter and a summer price, could not be chosen ("time windows missing"). Since 0.1.0.
 - City of Zürich (ewz): prices were about 3 Rp/kWh too high. ewz's grid tariff already includes the federal charges, and Corrente added them again; the check with ElCom now also works for operators that only have day/night grid tariffs.
 - Sundays were priced too high where a tariff gives Sunday as a whole day of its own (ewz): Sunday's price was added on top of the night price.
 - The night price started one minute early with operators that write "06:00–21:59" (ewz).

@@ -205,9 +205,14 @@ def _parse_window(raw: Mapping[str, Any]) -> PriceWindow | None:
         # "23:59" and "00:00" as end times mean the end of the day, so
         # "00:00"-"00:00" is a whole day. "22:00"-"06:00" wraps past midnight.
         end=None if end in (_END_OF_DAY, time(0, 0)) else end,
-        months=frozenset(_MONTHS[m] for m in months) if months else None,
-        weekdays=frozenset(_WEEKDAYS[d] for d in weekdays) if weekdays else None,
+        # All twelve months or all seven days (EKZ lists them) is no restriction.
+        months=_restriction({_MONTHS[m] for m in months} if months else None, 12),
+        weekdays=_restriction({_WEEKDAYS[d] for d in weekdays} if weekdays else None, 7),
     )
+
+
+def _restriction(values: set[int] | None, every: int) -> frozenset[int] | None:
+    return None if values is None or len(values) == every else frozenset(values)
 
 
 def _parse_date(text: str) -> date:
@@ -274,14 +279,30 @@ class Tariff:
         """Raise if the tariff cannot be priced from the file and the operator's API."""
         if self.is_dynamic and not is_api_url(self.dynamic_url):
             raise UnsupportedTariffError(f"{self.name}: dynamic tariff without an API")
-        # Several whole-day prices for a tiered tariff means the daily windows
-        # were not encoded (seen in AMB "Dinamica" 2027).
+        # Several whole-day prices at the same time for a tiered tariff means the
+        # daily windows were not encoded (seen in AMB "Dinamica" 2027). Whole-day
+        # prices for different months are fine: EKZ "Erneuerbar" 2026 has a winter
+        # and a summer price.
         if (
             self.form == "multilevel"
             and len(self.energy) > 1
             and all(window.all_day for window in self.energy)
+            and any(
+                _same_days(first, second)
+                for n, first in enumerate(self.energy)
+                for second in self.energy[n + 1 :]
+            )
         ):
             raise UnsupportedTariffError(f"{self.name}: time windows missing")
+
+
+def _same_days(first: PriceWindow, second: PriceWindow) -> bool:
+    """True when two windows apply on some of the same days."""
+
+    def meet(a: frozenset[int] | None, b: frozenset[int] | None) -> bool:
+        return a is None or b is None or bool(a & b)
+
+    return meet(first.months, second.months) and meet(first.weekdays, second.weekdays)
 
 
 def parse_tariffs(document: Mapping[str, Any]) -> list[Tariff]:

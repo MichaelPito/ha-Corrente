@@ -153,6 +153,21 @@ def test_amb_bom_and_flat_tariff() -> None:
     assert price == pytest.approx((0.098 + 0.068 + 0.0285) * (1 + SWISS_VAT), abs=1e-5)
 
 
+def test_ekz_seasonal_prices_are_supported() -> None:
+    """EKZ "Erneuerbar" 2026, the standard household tariff: 13.3 Rp in winter, 9 in summer,
+    each as a whole-day price. It was rejected as "time windows missing" up to 0.2.1."""
+    ekz = load("ekz-2026.json")
+    contract = SwissContract(
+        electricity=by_name(ekz, "EKZ Energie Erneuerbar"),
+        grid=next(t for t in ekz if t.name.startswith("EKZ Netz 400ST")),
+        federal_per_kwh=0.0,
+    )
+    winter, _ = contract.price_at(zurich(2026, 10, 13, 12, 0))
+    summer, _ = contract.price_at(zurich(2026, 7, 14, 12, 0))
+    assert winter - summer == pytest.approx((0.133 - 0.09) * (1 + SWISS_VAT), abs=1e-6)
+    assert contract.period_at(zurich(2026, 10, 13, 12, 0)) == "single"
+
+
 def test_amb_dynamic_without_windows_is_unsupported() -> None:
     amb = load("amb-2027.json")
     electricity = next(t for t in amb if t.tariff_type == "electricity" and t.name == "Dinamica")
