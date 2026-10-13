@@ -16,7 +16,7 @@
 | 4 | Il controllo HACS si riattiva da solo con la repo pubblica: verifica verde | Claude | ⏳ |
 | 5 | Icona e logo: dentro l'integrazione (cartella `brand/`, letta da Home Assistant 2026.3 e successivi), nessuna richiesta esterna | Claude | ✅ 8 ottobre |
 | 6 | Richiesta di inserimento nello store HACS (`hacs/default`): una riga `MichaelPito/ha-corrente` nel file `integration`, in ordine alfabetico; serve la repo pubblica con release, descrizione e topic | Claude prepara, **owner** approva | ⏳ |
-| 7 | Post nelle community (testi qui sotto), con uno screenshot da `docs/images/` (`prova-dashboard-it.png` per i post in italiano; per quelli in inglese Claude ne prepara uno in inglese prima del lancio) | **Owner**, copia e incolla, circa 10 min | ⏳ |
+| 7 | Post nelle community (testi qui sotto), con uno screenshot da `docs/images/`: `prova-dashboard-it.png` per i post in italiano, `card-ekz-dynamic-en.png` (tariffa dinamica EKZ, in inglese) per quelli in inglese; in alternativa `card-lugano-en.png` | **Owner**, copia e incolla, circa 10 min | ⏳ |
 | 8 | Modulo per chi non ha GitHub: Google Form creato da uno script (`docs/MODULO.md`), nessun account nuovo | Claude prepara ✅, **owner** esegue lo script una volta (circa 3 min) | ✅ 8 ottobre |
 | 9 | Il giorno del lancio: README, guida italiana e link del modulo ricontrollati sulla repo pubblica; nessuna richiesta aperta senza risposta | Claude | ⏳ |
 
