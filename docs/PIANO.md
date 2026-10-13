@@ -194,7 +194,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - **Prossimi pezzi:**
     1. ✅ testi e lista di controllo del lancio aggiornati (`LANCIO.md`): versione 0.2.0, data 17 novembre, post EN/IT con tariffe dinamiche, tre blueprint, costo per apparecchio e modulo;
     2. ✅ v0.2.0 pubblicata il 12 ottobre (ok dell'owner: «sì, pubblica la 0.2.0»);
-    3. screenshot della card in inglese per i post (prima del lancio);
+    3. ✅ screenshot della card in inglese per i post (13 ottobre: `card-ekz-dynamic-en.png`, `card-lugano-en.png`, fatti con la card attuale);
     4. test a casa dell'owner a inizio novembre (`TEST-A-CASA.md`), correzioni come v0.2.x.
 
 ## 8. Numeri di controllo
