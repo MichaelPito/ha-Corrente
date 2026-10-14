@@ -263,6 +263,7 @@ def _grid_schema(
             place.charge_rp if place else None,
             today.year,
             suggested_grid,
+            place.municipality_name if place else None,
         )
     return vol.Schema(
         {
@@ -276,7 +277,7 @@ def _grid_schema(
             ),
             # Several: some operators publish each fee on its own (Lausanne).
             vol.Optional(
-                CONF_REGIONAL_TARIFF, default=[t.name for t in suggested_fees]
+                CONF_REGIONAL_TARIFF, default=list(dict.fromkeys(t.name for t in suggested_fees))
             ): SelectSelector(
                 SelectSelectorConfig(
                     options=sorted({t.name for t in regionals}),
@@ -296,15 +297,17 @@ def _tariff_choice(
     municipality: int | None,
 ) -> dict[str, Any]:
     """The tariff part of a Swiss entry, from the grid step's answers."""
-    names = regional_names(user_input.get(CONF_REGIONAL_TARIFF))
+    names = list(dict.fromkeys(regional_names(user_input.get(CONF_REGIONAL_TARIFF))))
     fees = [t for t in tariffs_on(tariffs, "regional_fees", today) if t.name in names]
     cantons = sorted({canton for fee in fees for canton in fee.canton_energy})
     canton = canton_of(municipality)
     return {
         CONF_ELECTRICITY_TARIFF: electricity,
         CONF_GRID_TARIFF: user_input[CONF_GRID_TARIFF],
-        CONF_REGIONAL_TARIFF: [fee.name for fee in fees],
-        CONF_CANTON: canton if canton in cantons else (cantons[0] if cantons else None),
+        # By name, once each: BKW gives every municipality's fees the same name.
+        CONF_REGIONAL_TARIFF: [name for name in names if any(fee.name == name for fee in fees)],
+        # The fees' own spelling of the canton if they name one, else the municipality's.
+        CONF_CANTON: canton if canton in cantons or not cantons else cantons[0],
     }
 
 

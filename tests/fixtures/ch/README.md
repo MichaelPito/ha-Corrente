@@ -25,3 +25,12 @@ Added on 2026-10-13 for the setup suggestions:
   day/night tariff, reactive-energy prices as grid tariffs)
 - `sil-2026.json` — Services Industriels de Lausanne, household tariffs (each fee a tariff of its own)
 - `sig-2026.json` — SIG, Geneva, household tariffs ("réserve d'électricité" as a separate grid tariff)
+
+Added on 2026-10-14, from the comparison with ElCom (`docs/FONTI-DATI.md`), trimmed:
+
+- `bkw-2026.json` — BKW: fees numbered BKW's own way ("15040 Ittigen"), all with the same name
+- `energie-thun-2026.json` — Energie Thun: federal charges written as cantonal fees
+- `yverdon-2026.json` — Yverdon-les-Bains: the 2 Rp. municipal fee written as 2 CHF/kWh
+- `ewo-2026.json` — EWO, Obwalden: fees for the whole canton ("6 Obwalden")
+- `ebs-2026.json` — ebs, Schwyz: no flat household grid tariff, a flat one for building sites
+- `winterthur-2026.json` — Stadtwerk Winterthur, fees only: a tier for consumption above 100'000 kWh

@@ -2,11 +2,17 @@
 
 from __future__ import annotations
 
+import json
+from datetime import date
+from pathlib import Path
+
 from homeassistant.config_entries import SOURCE_USER
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 
+from custom_components.corrente.config_flow import _tariff_choice
 from custom_components.corrente.const import DOMAIN, ISSUES_URL
+from custom_components.corrente.core.switzerland import parse_tariffs
 
 
 async def test_three_band_flow_creates_entry(hass: HomeAssistant) -> None:
@@ -72,3 +78,19 @@ async def test_options_flow_changes_contract(hass: HomeAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
     await hass.async_block_till_done()
     assert entry.options == {"contract_type": "two_bands", "price_f1": 0.31, "price_f2": 0.21}
+
+
+def test_fees_with_one_name_for_every_municipality_are_stored_once() -> None:
+    """BKW names every municipality's fees the same: the entry keeps the name once."""
+    document = (Path(__file__).parent / "fixtures" / "ch" / "bkw-2026.json").read_text("utf-8")
+    tariffs = parse_tariffs(json.loads(document))
+    name = "Konzessionsabgabe/Redevance de concession"
+    choice = _tariff_choice(
+        tariffs,
+        "Energy Blue",
+        {"grid_tariff": "Einheitstarif // Tarif unique", "regional_tariff": [name, name]},
+        date(2026, 10, 14),
+        362,
+    )
+    assert choice["regional_tariff"] == [name]
+    assert choice["canton"] == "BE"

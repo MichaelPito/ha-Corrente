@@ -16,6 +16,7 @@ from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field, replace
 from datetime import UTC, date, datetime, time, timedelta
 from difflib import SequenceMatcher
+from itertools import combinations
 from typing import Any
 from zoneinfo import ZoneInfo
 
@@ -55,6 +56,9 @@ class UnsupportedTariffError(ValueError):
 # ElCom's "grid usage" component includes the federal charges except the grid
 # surcharge, which ElCom lists separately ("aidfee").
 _H4_KWH_PER_YEAR = 4500
+_MAX_FEES_COMBINED = 8  # beyond, only one fee or all of them are tried
+# The federal-charge hypotheses are 0.73 and 2.3 Rp. apart: within this, one clearly fits.
+_CLEAR_FIT_RP = 0.6
 
 
 def federal_addition(
@@ -89,6 +93,19 @@ def federal_addition(
     apart, much more than that difference.
     """
     target = elcom_grid_rp + elcom_aidfee_rp  # what ElCom says grid costs, all charges in
+    candidates = (national_charges(year), elcom_aidfee_rp / 100, 0.0)
+
+    # The user's own tariff first, day/night too, when one hypothesis clearly fits:
+    # ebs (Schwyz) and AIM (Mendrisio) have no flat household grid tariff, only
+    # flat ones for building sites, which pointed to the wrong hypothesis.
+    if chosen is not None:
+        fits = [
+            (abs(rp + 100 * addition - target), addition)
+            for rp in _grid_rp(chosen, year)
+            for addition in candidates
+        ]
+        if fits and min(fits)[0] <= _CLEAR_FIT_RP:
+            return min(fits)[1]
 
     def is_flat(tariff: Tariff) -> bool:
         return bool(tariff.energy) and all(w.every_day for w in tariff.energy)
@@ -108,14 +125,7 @@ def federal_addition(
     compared = next((group for group in choices if group), pool)
     if not compared:
         return None
-    grid_rp = []
-    for tariff in compared:
-        try:
-            average = _average_price(tariff.energy, year)
-        except UnsupportedTariffError:
-            continue
-        grid_rp.append(100 * (average + tariff.monthly_base * 12 / _H4_KWH_PER_YEAR))
-    candidates = (national_charges(year), elcom_aidfee_rp / 100, 0.0)
+    grid_rp = [rp for tariff in compared for rp in _grid_rp(tariff, year)]
     best_addition, best_error = None, None
     for addition in candidates:
         for rp in grid_rp:
@@ -123,6 +133,17 @@ def federal_addition(
             if best_error is None or error < best_error:
                 best_addition, best_error = addition, error
     return best_addition
+
+
+def _grid_rp(tariff: Tariff, year: int) -> list[float]:
+    """A grid tariff's average price with its monthly fee, in Rp./kWh; empty if unpriced."""
+    if not tariff.energy or tariff.is_dynamic:
+        return []
+    try:
+        average = _average_price(tariff.energy, year)
+    except UnsupportedTariffError:
+        return []
+    return [100 * (average + tariff.monthly_base * 12 / _H4_KWH_PER_YEAR)]
 
 
 def _average_price(windows: Sequence[PriceWindow], year: int) -> float:
@@ -148,16 +169,10 @@ def h4_grid_error(
     The best of the three federal-charge hypotheses (see federal_addition); None
     for a tariff that cannot be priced from the file.
     """
-    if not grid.energy or grid.is_dynamic:
-        return None
-    try:
-        average = _average_price(grid.energy, year)
-    except UnsupportedTariffError:
-        return None
-    grid_rp = 100 * (average + grid.monthly_base * 12 / _H4_KWH_PER_YEAR)
     target = elcom_grid_rp + elcom_aidfee_rp
     additions = (100 * national_charges(year), elcom_aidfee_rp, 0.0)
-    return min(abs(grid_rp + addition - target) for addition in additions)
+    errors = [abs(rp + addition - target) for rp in _grid_rp(grid, year) for addition in additions]
+    return min(errors, default=None)
 
 
 def national_charges(year: int) -> float:
@@ -294,6 +309,9 @@ class Tariff:
     monthly_base: float
     canton_energy: Mapping[str, tuple[PriceWindow, ...]] = field(default_factory=dict)
     municipality_energy: Mapping[int, tuple[PriceWindow, ...]] = field(default_factory=dict)
+    # BKW numbers municipalities its own way ("15040 Ittigen", federal number 362),
+    # so fees are also found by the municipality's name.
+    municipality_names: Mapping[str, int] = field(default_factory=dict)
     dynamic_url: str | None = None
     standard: bool = False  # the operator's flagged standard tariff (standardBasegroup)
 
@@ -302,15 +320,36 @@ class Tariff:
         return self.start_date <= day <= self.end_date
 
     def windows_for(
-        self, canton: str | None = None, municipality: int | None = None
+        self,
+        canton: str | None = None,
+        municipality: int | None = None,
+        municipality_name: str | None = None,
     ) -> tuple[PriceWindow, ...]:
         """Per-kWh windows, including the canton's and municipality's surcharges."""
         windows = list(self.energy)
         if canton is not None:
             windows.extend(self.canton_energy.get(canton, ()))
-        if municipality is not None:
-            windows.extend(self.municipality_energy.get(municipality, ()))
+        key = self.municipality_key(municipality, municipality_name, canton)
+        if key is not None:
+            windows.extend(self.municipality_energy[key])
         return tuple(windows)
+
+    def municipality_key(
+        self, number: int | None, name: str | None = None, canton: str | None = None
+    ) -> int | None:
+        """The key of a municipality's surcharges: its number, else its name, else its
+        canton's number and name (EWO lists "6 Obwalden" for the whole canton); None if
+        absent."""
+        if number in self.municipality_energy:
+            return number
+        if name and (key := self.municipality_names.get(name.casefold())) is not None:
+            return key
+        whole_canton = canton_number(canton)
+        if whole_canton is not None:
+            for listed, key in self.municipality_names.items():
+                if key == whole_canton and listed in _CANTON_NAMES.get(canton or "", ()):
+                    return key
+        return None
 
     @property
     def is_dynamic(self) -> bool:
@@ -362,19 +401,81 @@ def parse_tariffs(document: Mapping[str, Any]) -> list[Tariff]:
     return tariffs
 
 
+# Federal charges, as operators name them in their comments (de, fr, it).
+_FEDERAL_CHARGE = re.compile(
+    r"netzzuschlag|systemdienstleistung|stromreserve|solidarisierte"
+    r"|suppl[ée]ment (de )?r[ée]seau|services? syst[èe]me|r[ée]serve d.[ée]lectricit[ée]"
+    r"|co[ûu]ts solidaris|supplemento (di )?rete|servizi di sistema|riserva di energia"
+    r"|costi solidali",
+    re.IGNORECASE,
+)
+
+
+def _fee_windows(raws: Iterable[Mapping[str, Any]] | None) -> tuple[PriceWindow, ...]:
+    """A fee's windows. A fee of 1 CHF/kWh or more is a price in Rp. written as CHF:
+    Yverdon's file gives its 2 Rp. municipal fee as 2 CHF/kWh (ElCom: 2 Rp.)."""
+    return tuple(
+        replace(window, price=window.price / 100) if window.price >= 1 else window
+        for window in _windows(raws)
+    )
+
+
+# A fee for consumption above a threshold: "ab 101'000 kWh", "dès 100 MWh", "oltre ...".
+_LARGE_CONSUMER = re.compile(
+    r"\b(ab|über|uber|dès|des|plus de|au-delà de|oltre|da|sopra)\s*[\d'’ .,]+\s*[km]wh",
+    re.IGNORECASE,
+)
+
+
+_SMALL_CONSUMER = re.compile(r"\b(bis|jusqu.?à|fino a|up to)\s*[\d'’ .,]+\s*[km]wh", re.IGNORECASE)
+
+
+def _is_large_consumer(comment: object) -> bool:
+    """True for a fee tier for large consumers only; a household is in the first tier.
+
+    Winterthur gives its municipal fee as 0.9 Rp. "bis 100'000 kWh" and 0.6 Rp.
+    "ab 101'000 kWh": both would otherwise add up. A comment describing both tiers
+    of one price (AIM: "fino a 500 MWh ... oltre 500 MWh") is the household's.
+    """
+    return (
+        isinstance(comment, str)
+        and _LARGE_CONSUMER.search(comment) is not None
+        and _SMALL_CONSUMER.search(comment) is None
+    )
+
+
+def _is_federal_charge(comment: object) -> bool:
+    """True for a fee that is a federal charge (Energie Thun lists them as cantonal fees).
+
+    Corrente adds the federal charges itself, checked with ElCom (federal_addition),
+    so such a fee would count them twice.
+    """
+    return isinstance(comment, str) and _FEDERAL_CHARGE.search(comment) is not None
+
+
 def _parse_tariff(raw: Mapping[str, Any]) -> Tariff:
     prices = raw.get("prices") or {}
     canton_energy: dict[str, list[PriceWindow]] = {}
     for tax in prices.get("cantonalTaxes") or ():
-        canton_energy.setdefault(tax["cantonName"], []).extend(_windows(tax.get("cantonEnergy")))
+        if _is_federal_charge(tax.get("cantonComment")) or _is_large_consumer(
+            tax.get("cantonComment")
+        ):
+            continue
+        canton_energy.setdefault(tax["cantonName"], []).extend(
+            _fee_windows(tax.get("cantonEnergy"))
+        )
     municipality_energy: dict[int, list[PriceWindow]] = {}
+    municipality_names: dict[str, int] = {}
     for tax in prices.get("municipalityTaxes") or ():
         number = str(tax.get("municipalityNumber", ""))
-        if not number.isdigit():
+        comment = tax.get("municipalityComment")
+        if not number.isdigit() or _is_federal_charge(comment) or _is_large_consumer(comment):
             continue  # "#N/A" in BKW's file
         municipality_energy.setdefault(int(number), []).extend(
-            _windows(tax.get("municipalityEnergy"))
+            _fee_windows(tax.get("municipalityEnergy"))
         )
+        if name := str(tax.get("municipalityName") or "").strip():
+            municipality_names.setdefault(name.casefold(), int(number))
     base = prices.get("base") or {}
     return Tariff(
         name=raw["tariffName"],
@@ -387,6 +488,7 @@ def _parse_tariff(raw: Mapping[str, Any]) -> Tariff:
         monthly_base=float(base.get("price", 0)) if base.get("priceUnit") == "CHF/M" else 0,
         canton_energy={k: tuple(v) for k, v in canton_energy.items()},
         municipality_energy={k: tuple(v) for k, v in municipality_energy.items()},
+        municipality_names=municipality_names,
         dynamic_url=(prices.get("dynamic") or {}).get("url"),
         standard=bool(raw.get("standardBasegroup")),
     )
@@ -425,6 +527,7 @@ class SwissContract:
     regional_fees: Tariff | None = None
     canton: str | None = None
     municipality: int | None = None
+    municipality_name: str | None = None
     # Federal charges to add per kWh; None: all of them (see federal_addition).
     federal_per_kwh: float | None = None
     # Published per-kWh prices of the dynamic tariffs (CHF without VAT, UTC),
@@ -451,7 +554,7 @@ class SwissContract:
         return tuple(
             window
             for tariff in self._tariffs()
-            for window in tariff.windows_for(self.canton, self.municipality)
+            for window in tariff.windows_for(self.canton, self.municipality, self.municipality_name)
         )
 
     @property
@@ -503,7 +606,7 @@ class SwissContract:
         total, any_gap = federal, False
         # Each tariff has its own schedule: price them separately, then add up.
         for tariff in self._tariffs():
-            windows = tariff.windows_for(self.canton, self.municipality)
+            windows = tariff.windows_for(self.canton, self.municipality, self.municipality_name)
             if tariff.is_dynamic:
                 # The API gives the tariff's own price; the file's fixed price for a
                 # dynamic tariff (AIL "dinamica": 8.35 Rp) is only indicative.
@@ -638,6 +741,33 @@ _CANTON_BLOCKS = (
 )  # fmt: skip
 
 
+# Canton names as operators may write them (de, fr, it), for fees given for a whole
+# canton under its federal canton number (EWO: "6 Obwalden").
+_CANTON_NAMES = {
+    "ZH": ("zürich", "zurich", "zurigo"), "BE": ("bern", "berne", "berna"),
+    "LU": ("luzern", "lucerne", "lucerna"), "UR": ("uri",), "SZ": ("schwyz", "svitto"),
+    "OW": ("obwalden", "obwald", "obvaldo"), "NW": ("nidwalden", "nidwald", "nidvaldo"),
+    "GL": ("glarus", "glaris", "glarona"), "ZG": ("zug", "zoug", "zugo"),
+    "FR": ("freiburg", "fribourg", "friburgo"), "SO": ("solothurn", "soleure", "soletta"),
+    "BS": ("basel-stadt", "bâle-ville", "basilea città"),
+    "BL": ("basel-landschaft", "bâle-campagne", "basilea campagna"),
+    "SH": ("schaffhausen", "schaffhouse", "sciaffusa"),
+    "AR": ("appenzell ausserrhoden", "appenzell rhodes-extérieures", "appenzello esterno"),
+    "AI": ("appenzell innerrhoden", "appenzell rhodes-intérieures", "appenzello interno"),
+    "SG": ("st. gallen", "sankt gallen", "saint-gall", "san gallo"),
+    "GR": ("graubünden", "grisons", "grigioni"), "AG": ("aargau", "argovie", "argovia"),
+    "TG": ("thurgau", "thurgovie", "turgovia"), "TI": ("ticino", "tessin"),
+    "VD": ("vaud", "waadt"), "VS": ("valais", "wallis", "vallese"),
+    "NE": ("neuchâtel", "neuenburg"), "GE": ("genève", "genf", "ginevra"), "JU": ("jura",),
+}  # fmt: skip
+
+
+def canton_number(canton: str | None) -> int | None:
+    """The federal number of a canton (ZH 1 ... JU 26), the order of _CANTON_BLOCKS."""
+    codes = [code for _, code in _CANTON_BLOCKS]
+    return codes.index(canton) + 1 if canton in codes else None
+
+
 def canton_of(municipality: int | None) -> str | None:
     """The canton of a municipality, from its BFS number."""
     if municipality is None or not 1 <= municipality < 9000:
@@ -714,6 +844,7 @@ def suggest_regional_fees(
     elcom_charge_rp: float | None = None,
     year: int | None = None,
     grid: Tariff | None = None,
+    municipality_name: str | None = None,
 ) -> list[Tariff]:
     """The cantonal and municipal fees for the user's municipality.
 
@@ -722,20 +853,27 @@ def suggest_regional_fees(
     publish either one set of fees per product, to choose from (AIL), or each fee
     on its own, to add up (Lausanne: public lighting, energy efficiency...). The
     file does not say which: with ElCom's household fees (``elcom_charge_rp``) the
-    closer of "the one with the most similar name" and "all of them" wins;
-    without, the name. Fees are often named after the grid tariff (St. Gallen
-    "Netztarif K", Geneva "Profil Simple"), so its name counts as well.
+    combination closest to them wins; without, the most similar name. Fees are
+    often named after the grid tariff (St. Gallen "Netztarif K", Geneva "Profil
+    Simple"), so its name counts as well. BKW numbers municipalities its own way:
+    with ``municipality_name`` its fees are found by name.
     """
     canton = canton_of(municipality)
     here = [
-        t for t in regionals if municipality in t.municipality_energy or canton in t.canton_energy
-    ] or list(regionals)
+        t
+        for t in regionals
+        if t.municipality_key(municipality, municipality_name, canton) is not None
+        or canton in t.canton_energy
+    ]
+    # Fees for no place in particular apply everywhere; fees for other places do not
+    # (Groupe E lists fees for Vaud and Neuchâtel municipalities, none for Fribourg).
+    here = here or [t for t in regionals if not t.municipality_energy and not t.canton_energy]
     names = [electricity.name.lower()] + ([grid.name.lower()] if grid else [])
-    best = max(
-        here,
-        key=lambda fee: max(SequenceMatcher(None, n, fee.name.lower()).ratio() for n in names),
-        default=None,
-    )
+
+    def likeness(fee: Tariff) -> float:
+        return max(SequenceMatcher(None, n, fee.name.lower()).ratio() for n in names)
+
+    best = max(here, key=likeness, default=None)
     if best is None:
         return []
     if elcom_charge_rp is None or len(here) == 1:
@@ -744,16 +882,33 @@ def suggest_regional_fees(
     def fees_rp(fees: Sequence[Tariff]) -> float | None:
         try:
             return 100 * sum(
-                _average_price(t.windows_for(canton, municipality), year or date.today().year)
+                _average_price(
+                    t.windows_for(canton, municipality, municipality_name),
+                    year or date.today().year,
+                )
                 for t in fees
             )
         except UnsupportedTariffError:
             return None
 
-    one, everything = fees_rp([best]), fees_rp(here)
-    if one is None or everything is None:
+    # The combination closest to ElCom's figure: one fee (AIL), all (Lausanne), or
+    # some (Neuchâtel: cantonal and low-voltage municipal fees, not medium-voltage).
+    # Among equally close ones, the one with the most similar names.
+    if len(here) <= _MAX_FEES_COMBINED:
+        groups = [
+            list(group) for size in range(1, len(here) + 1) for group in combinations(here, size)
+        ]
+    else:
+        groups = [[best], here]
+    scored = []
+    for group in groups:
+        total = fees_rp(group)
+        if total is not None:
+            error = round(abs(total - elcom_charge_rp), 2)
+            scored.append((error, -sum(likeness(fee) for fee in group) / len(group), group))
+    if not scored:
         return [best]
-    return here if abs(everything - elcom_charge_rp) < abs(one - elcom_charge_rp) else [best]
+    return min(scored, key=lambda item: item[:2])[2]
 
 
 def regional_names(value: str | Sequence[str] | None) -> list[str]:
@@ -771,7 +926,10 @@ def combine_fees(fees: Sequence[Tariff]) -> Tariff | None:
         return fees[0]
     canton_energy: dict[str, tuple[PriceWindow, ...]] = {}
     municipality_energy: dict[int, tuple[PriceWindow, ...]] = {}
+    municipality_names: dict[str, int] = {}
     for fee in fees:
+        for name, number in fee.municipality_names.items():
+            municipality_names.setdefault(name, number)
         for canton, windows in fee.canton_energy.items():
             canton_energy[canton] = canton_energy.get(canton, ()) + tuple(windows)
         for number, windows in fee.municipality_energy.items():
@@ -783,6 +941,7 @@ def combine_fees(fees: Sequence[Tariff]) -> Tariff | None:
         monthly_base=sum(fee.monthly_base for fee in fees),
         canton_energy=canton_energy,
         municipality_energy=municipality_energy,
+        municipality_names=municipality_names,
     )
 
 

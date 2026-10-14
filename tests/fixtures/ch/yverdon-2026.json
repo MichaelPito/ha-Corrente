@@ -1,0 +1,124 @@
+{
+ "dsoName": "Service des Energies, Commune d'Yverdon-les-Bains",
+ "dsoNumber": 10082012345,
+ "tariffs": [
+  {
+   "tariffName": "BT Simple - Énergie",
+   "tariffType": "electricity",
+   "standardBasegroup": true,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Tarif de fourniture d'énergie pour clients à basse tension (BT) sans mesure de puissance",
+   "customerType": "Recommandé pour Ménage",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1439,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "BT Simple - Réseau",
+   "tariffType": "grid",
+   "standardBasegroup": true,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Tarif d'acheminement pour clients à basse tension (BT) sans mesure de puissance",
+   "customerType": "Recommandé pour Ménage",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1447,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "tariffName": "Taxes",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Tarif pour clients à basse tension (BT) sans mesure de puissance",
+   "customerType": "Recommandé pour Ménage",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 1400,
+      "municipalityName": "Yverdon-les-Bains",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 2,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ],
+    "cantonalTaxes": [
+     {
+      "cantonName": "VD",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.00624,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": ""
+     }
+    ]
+   }
+  }
+ ]
+}

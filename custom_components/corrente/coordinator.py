@@ -18,6 +18,7 @@ from .const import (
     CONF_ELECTRICITY_TARIFF,
     CONF_GRID_TARIFF,
     CONF_MUNICIPALITY,
+    CONF_MUNICIPALITY_NAME,
     CONF_OPERATOR_ID,
     CONF_REGIONAL_TARIFF,
     CONF_TARIFF_URL,
@@ -37,6 +38,7 @@ from .core.switzerland import (
     SwissContract,
     Tariff,
     UnsupportedTariffError,
+    canton_of,
     combine_fees,
     federal_addition,
     parse_tariffs,
@@ -84,9 +86,19 @@ def select_contract(
         exact = [t for t in candidates if t.name == name]
         return exact[0] if exact else suggest_matching(name, candidates)
 
+    municipality = options.get(CONF_MUNICIPALITY)
+    municipality_name = options.get(CONF_MUNICIPALITY_NAME)
     fees: list[Tariff] = []
     for name in regional_names(options.get(CONF_REGIONAL_TARIFF)):
-        fee = pick("regional_fees", name)
+        # BKW gives the fees of each municipality the same name: take the user's.
+        here = [
+            t
+            for t in tariffs_on(tariffs, "regional_fees", day)
+            if t.name == name
+            and t.municipality_key(municipality, municipality_name, canton_of(municipality))
+            is not None
+        ]
+        fee = here[0] if here else pick("regional_fees", name)
         if fee is not None and fee not in fees:  # two old names can lead to one fee
             fees.append(fee)
     electricity = pick("electricity", options[CONF_ELECTRICITY_TARIFF])
@@ -97,8 +109,9 @@ def select_contract(
         electricity=electricity,
         grid=grid,
         regional_fees=combine_fees(fees),
-        canton=options.get(CONF_CANTON),
-        municipality=options.get(CONF_MUNICIPALITY),
+        canton=options.get(CONF_CANTON) or canton_of(municipality),
+        municipality=municipality,
+        municipality_name=municipality_name,
         federal_per_kwh=federal_per_kwh,
     )
 
