@@ -263,6 +263,7 @@ def _grid_schema(
             place.charge_rp if place else None,
             today.year,
             suggested_grid,
+            place.municipality_name if place else None,
         )
     return vol.Schema(
         {
@@ -304,7 +305,8 @@ def _tariff_choice(
         CONF_ELECTRICITY_TARIFF: electricity,
         CONF_GRID_TARIFF: user_input[CONF_GRID_TARIFF],
         CONF_REGIONAL_TARIFF: [fee.name for fee in fees],
-        CONF_CANTON: canton if canton in cantons else (cantons[0] if cantons else None),
+        # The fees' own spelling of the canton if they name one, else the municipality's.
+        CONF_CANTON: canton if canton in cantons or not cantons else cantons[0],
     }
 
 

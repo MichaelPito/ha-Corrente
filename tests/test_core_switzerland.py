@@ -14,6 +14,7 @@ from custom_components.corrente.core.switzerland import (
     PriceWindow,
     SwissContract,
     UnsupportedTariffError,
+    _is_large_consumer,
     canton_of,
     combine_fees,
     federal_addition,
@@ -317,6 +318,79 @@ def test_one_set_of_fees_per_product_is_not_added_up() -> None:
         electricity, tariffs_on(ail, "regional_fees", DAY_2027), 5192, 2.22, 2027
     )
     assert [fee.name for fee in fees] == ["Casa & PMI 24h-regional_fees"]
+
+
+def _fees_rp(fees, canton: str | None, municipality: int, name: str | None = None) -> float:
+    windows = combine_fees(fees).windows_for(canton, municipality, name) if fees else ()
+    return 100 * sum(w.price for w in windows if w.every_day)
+
+
+def test_bkw_fees_by_municipality_name() -> None:
+    """BKW numbers municipalities its own way ("15040 Ittigen"; federal number 362) and
+    gives every municipality's fees the same name. ElCom: 1.5 Rp. for Ittigen."""
+    bkw = load("bkw-2026.json")
+    electricity = by_name(bkw, "Energy Blue")
+    regionals = tariffs_on(bkw, "regional_fees", EWZ_DAY)
+    fees = suggest_regional_fees(electricity, regionals, 362, 1.5, 2026, None, "Ittigen")
+    assert _fees_rp(fees, "BE", 362, "Ittigen") == pytest.approx(1.5)
+
+
+def test_federal_charges_listed_as_fees_are_left_out() -> None:
+    """Energie Thun lists the federal charges (Netzzuschlag...) as cantonal fees; Corrente
+    adds them itself, so only the city's 2.8 Rp. remain (ElCom: 2.8)."""
+    thun = load("energie-thun-2026.json")
+    fee = tariffs_on(thun, "regional_fees", EWZ_DAY)[0]
+    assert fee.canton_energy == {}
+    assert _fees_rp([fee], "BE", 942) == pytest.approx(2.8)
+
+
+def test_fee_written_in_chf_instead_of_rp() -> None:
+    """Yverdon gives its 2 Rp. fee as 2 CHF/kWh (and its postal code as the number)."""
+    yverdon = load("yverdon-2026.json")
+    fee = tariffs_on(yverdon, "regional_fees", EWZ_DAY)[0]
+    assert _fees_rp([fee], "VD", 5938, "Yverdon-les-Bains") == pytest.approx(2.624)
+
+
+def test_large_consumer_fee_tier_is_left_out() -> None:
+    """Winterthur: 0.9 Rp. up to 100'000 kWh and 0.6 Rp. above, as two entries (ElCom 0.9)."""
+    fee = tariffs_on(load("winterthur-2026.json"), "regional_fees", EWZ_DAY)[0]
+    assert _fees_rp([fee], "ZH", 230) == pytest.approx(0.9)
+
+
+@pytest.mark.parametrize(
+    ("comment", "large"),
+    [
+        ("ab 101'000 kWh", True),  # Winterthur's second tier
+        ("bis 100'000 kWh", False),
+        # AIM: one entry describing both tiers of the household's fee.
+        ("FER FINO A 500 MWh/anno : 1.20 cts/kWh ; eccedenza oltre 500 MWh/anno : 0.00", False),
+        ("Abgaben und Leistungen an die Stadt Thun", False),
+    ],
+)
+def test_large_consumer_comments(comment: str, large: bool) -> None:
+    assert _is_large_consumer(comment) is large
+
+
+def test_fees_for_the_whole_canton() -> None:
+    """EWO lists its fees under "6 Obwalden", the canton. ElCom for Sarnen: 1.4 Rp."""
+    ewo = load("ewo-2026.json")
+    electricity = by_name(ewo, "EWO NaturStrom Basis")
+    grid = by_name(ewo, "EWO Basis Netz")
+    fees = suggest_regional_fees(
+        electricity, tariffs_on(ewo, "regional_fees", EWZ_DAY), 1407, 1.4, 2026, grid, "Sarnen"
+    )
+    assert _fees_rp(fees, "OW", 1407, "Sarnen") == pytest.approx(1.4)
+    # A municipality called like a canton is not that canton: Zürich city is not ZH.
+    assert fees[0].municipality_key(261, "Zürich", "ZH") is None
+
+
+def test_federal_addition_from_the_users_day_night_tariff() -> None:
+    """ebs (Schwyz): the household grid "N-Casa" is day/night; the only flat one is for
+    building sites and pointed to "charges included". N-Casa + 3.03 fits ElCom's 13.03."""
+    ebs = load("ebs-2026.json")
+    grids = tariffs_on(ebs, "grid", EWZ_DAY)
+    chosen = by_name(grids, "N-Casa")
+    assert federal_addition(grids, 10.729, 2.3, 2026, chosen=chosen) == pytest.approx(0.0303)
 
 
 def test_place_is_a_whole_word() -> None:

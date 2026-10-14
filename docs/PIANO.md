@@ -222,6 +222,15 @@ esperto. Le richieste diventano la roadmap pubblica.
     2. stessa prova con altri gestori (BKW, Romande Energie, Groupe E per comune, CKW e IWB appena il file è leggibile);
     3. GIF della configurazione per README e post.
 
+- **14 ottobre 2026** (sessione automatica):
+  - nessuna richiesta nuova (GitHub e modulo);
+  - ✅ **prova estesa**: 31 gestori e comuni in 22 cantoni confrontati voce per voce con ElCom (energia, rete, tributi). Tributi ora entro 0,3 Rp in tutti i 32 casi, rete entro circa 0,5 Rp. Corretti: Thun (voci nazionali due volte), BKW (tributi non trovati), Svitto ed ebs/Mendrisio AIM (voci nazionali mancanti, ~3 Rp), Winterthur (due fasce sommate), Yverdon (tributo in CHF invece che Rp), Obwaldo (tributi cantonali), Losanna DUO (risolto). Dettagli in `FONTI-DATI.md`;
+  - 179 test, su Home Assistant 2025.10, 2026.2 e 2026.10.
+  - **Prossimi pezzi:**
+    1. versione v0.2.2 con tutte le correzioni svizzere del 13 e 14 ottobre: **serve l'ok dell'owner** (chiesto il 13 ottobre);
+    2. GIF della configurazione per README e post;
+    3. gestori senza file leggibile: ricontrollare a dicembre (file 2027).
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

@@ -1,0 +1,428 @@
+{
+ "dsoName": "Energie Thun AG",
+ "dsoNumber": 10383012345,
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "GRUNDPFUUS",
+   "tariffType": "electricity",
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Standardtarif zur Energielieferung 2026 für alle Kundengruppen der Netzebene 7",
+   "customerType": "Haushalt, Gewerbe von über 50'000 kWh, Gewerbe Effizienz, Gewerbe mit sehr unregelmässigem Energiebezug",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "06:00",
+      "to": "22:00",
+      "price": 0.144,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "22:00",
+      "to": "06:00",
+      "price": 0.1135,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "GRUNDPFUUS",
+   "tariffType": "electricity",
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Standardtarif zur Energielieferung 2026 für alle Kundengruppen der Netzebene 5.",
+   "customerType": "Gewerbe NE 5, Gewerbe NE 5 Effizienz, Gewerbe NE 5 mit Leistungsbeschränkung, Gewerbe NE 5 mit sehr unregelmässigem Energiebezug",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "06:00",
+      "to": "22:00",
+      "price": 0.144,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "22:00",
+      "to": "06:00",
+      "price": 0.1135,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Netznutzung Haushalt",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Haushalt",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "06:00",
+      "to": "22:00",
+      "price": 0.0965,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "22:00",
+      "to": "06:00",
+      "price": 0.0375,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Abgaben",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Abgaben für alle Kundengruppen der Netzebene 7.",
+   "customerType": "Haushalt, Gewerbe von über 50'000 kWh, Gewerbe Effizienz, Gewerbe mit sehr unregelmässigem Energiebezug",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 942,
+      "municipalityName": "Thun",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.028,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Abgaben und Leistungen an die Stadt Thun"
+     }
+    ],
+    "cantonalTaxes": [
+     {
+      "cantonName": "BE",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.023,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Netzzuschlag"
+     },
+     {
+      "cantonName": "BE",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0027,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Systemdienstleistungen"
+     },
+     {
+      "cantonName": "BE",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0041,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Stromreserve"
+     },
+     {
+      "cantonName": "BE",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0005,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Zuschlag solidarisierte Kosten Übertragungsnetz"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "Abgaben",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Abgaben für alle Kundengruppen der Netzebene 5.",
+   "customerType": "Gewerbe NE 5, Gewerbe NE 5 Effizienz, Gewerbe NE 5 mit Leistungsbeschränkung, Gewerbe NE 5 mit sehr unregelmässigem Energiebezug",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 942,
+      "municipalityName": "Thun",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.028,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Abgaben und Leistungen an die Stadt Thun"
+     }
+    ],
+    "cantonalTaxes": [
+     {
+      "cantonName": "BE",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.023,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Netzzuschlag"
+     },
+     {
+      "cantonName": "BE",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0027,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Systemdienstleistungen"
+     },
+     {
+      "cantonName": "BE",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0041,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Stromreserve"
+     },
+     {
+      "cantonName": "BE",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0005,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": "Zuschlag solidarisierte Kosten Übertragungsnetz"
+     }
+    ]
+   }
+  }
+ ]
+}

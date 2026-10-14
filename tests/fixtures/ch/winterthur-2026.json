@@ -1,0 +1,102 @@
+{
+ "dsoName": "Stadtwerk Winterthur",
+ "dsoNumber": 10186012345,
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Abgabe Gemeinwesen NE7",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Basic, Profil, Profil GK",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 230,
+      "municipalityName": "Winterthur",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.009,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "bis 100'000 kWh"
+     },
+     {
+      "municipalityNumber": 230,
+      "municipalityName": "Winterthur",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.006,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "ab 101'000 kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "Abgabe Gemeinwesen NE5",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Profil Plus",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 230,
+      "municipalityName": "Winterthur",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.009,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "bis 100'000 kWh"
+     },
+     {
+      "municipalityNumber": 230,
+      "municipalityName": "Winterthur",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.006,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "ab 100'001 kWh"
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,354 @@
+{
+ "dsoName": "BKW Energie AG",
+ "dsoNumber": 10222012345,
+ "tariffs": [
+  {
+   "tariffName": "Energy Blue",
+   "tariffType": "electricity",
+   "standardBasegroup": true,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Energiebezug kleiner 50 MWh/a; Prélèvement d’électricité annuel inférieur à 50 MWh",
+   "prices": {
+    "base": {
+     "price": 3.25,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1002,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Einheitstarif // Tarif unique",
+   "tariffType": "grid",
+   "standardBasegroup": true,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Energiebezug kleiner 50 MWh/a; Prélèvement d’électricité annuel inférieur à 50 MWh",
+   "prices": {
+    "base": {
+     "price": 8,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1142,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kW/M"
+     }
+    ],
+    "reactivePower": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.1142,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "Konzessionsabgabe/Redevance de concession",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01T00:00:00",
+   "endDate": "2026-12-31T00:00:00",
+   "comment": "",
+   "customerType": " ",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 15362,
+      "municipalityName": "Heimenhausen",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Deckelung in CHF/a // Plafond en CHF/an: 0"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "Konzessionsabgabe/Redevance de concession",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01T00:00:00",
+   "endDate": "2026-12-31T00:00:00",
+   "comment": "",
+   "customerType": " ",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 15040,
+      "municipalityName": "Ittigen",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.015,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Deckelung in CHF/a // Plafond en CHF/an: 300"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "Konzessionsabgabe/Redevance de concession",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01T00:00:00",
+   "endDate": "2026-12-31T00:00:00",
+   "comment": "",
+   "customerType": " ",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 15339,
+      "municipalityName": "Thun",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.015,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Deckelung in CHF/a // Plafond en CHF/an: 300"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Konzessionsabgabe/Redevance de concession",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01T00:00:00",
+   "endDate": "2026-12-31T00:00:00",
+   "comment": "",
+   "customerType": " ",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 15362,
+      "municipalityName": "Heimenhausen",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Deckelung in CHF/a // Plafond en CHF/an: 0"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Konzessionsabgabe/Redevance de concession",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01T00:00:00",
+   "endDate": "2026-12-31T00:00:00",
+   "comment": "",
+   "customerType": " ",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 15040,
+      "municipalityName": "Ittigen",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.015,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Deckelung in CHF/a // Plafond en CHF/an: 300"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Konzessionsabgabe/Redevance de concession",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01T00:00:00",
+   "endDate": "2026-12-31T00:00:00",
+   "comment": "",
+   "customerType": " ",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 15339,
+      "municipalityName": "Thun",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.015,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Deckelung in CHF/a // Plafond en CHF/an: 300"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": "7",
+   "tariffName": "Konzessionsabgabe für Zweitzähler // Redevance de concession pour compteurs secondaires",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01T00:00:00",
+   "endDate": "2026-12-31T00:00:00",
+   "comment": "Nur für Zweitzähler; Seulement pour compteurs secondaires",
+   "customerType": " ",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 15362,
+      "municipalityName": "Heimenhausen",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Deckelung in CHF/a // Plafond en CHF/an: 0"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": "7",
+   "tariffName": "Konzessionsabgabe für Zweitzähler // Redevance de concession pour compteurs secondaires",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01T00:00:00",
+   "endDate": "2026-12-31T00:00:00",
+   "comment": "Nur für Zweitzähler; Seulement pour compteurs secondaires",
+   "customerType": " ",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 15040,
+      "municipalityName": "Ittigen",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.005,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Deckelung in CHF/a // Plafond en CHF/an: 96"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": "7",
+   "tariffName": "Konzessionsabgabe für Zweitzähler // Redevance de concession pour compteurs secondaires",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01T00:00:00",
+   "endDate": "2026-12-31T00:00:00",
+   "comment": "Nur für Zweitzähler; Seulement pour compteurs secondaires",
+   "customerType": " ",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 15339,
+      "municipalityName": "Thun",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.005,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Deckelung in CHF/a // Plafond en CHF/an: 96"
+     }
+    ]
+   }
+  }
+ ]
+}

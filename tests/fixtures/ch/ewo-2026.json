@@ -1,0 +1,635 @@
+{
+ "dsoName": "Elektrizitätswerk Obwalden",
+ "dsoNumber": 10179012345,
+ "tariffs": [
+  {
+   "tariffName": "EWO NaturStrom Basis",
+   "tariffType": "electricity",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Der Elektrizitätspreis «EWO NaturStrom» Basis gilt für Kunden auf der Niederspannungsebene mit einem jährlichen Gesamtverbrauch bis 100’000 kWh. ",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "06:00",
+      "price": 0.0981,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "06:00",
+      "to": "10:00",
+      "price": 0.1308,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "10:00",
+      "to": "18:00",
+      "price": 0.0981,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "18:00",
+      "to": "22:00",
+      "price": 0.1308,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.0981,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "06:00",
+      "price": 0.0654,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "06:00",
+      "to": "10:00",
+      "price": 0.0981,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "10:00",
+      "to": "18:00",
+      "price": 0.0654,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "18:00",
+      "to": "22:00",
+      "price": 0.0981,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.0654,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "EWO Basis Netz",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne SDL, WResV, Zuschlag für solidarisierte Kosten, gesetzliche Bundesabgaben (alle ohne MwSt)",
+   "customerType": "Der Netznutzungspreis «EWO BasisNetz» gilt für Kunden auf der Niederspannungsebene mit einem jährlichen Gesamtverbrauch bis 100’000 kWh",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "06:00",
+      "price": 0.1065,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "06:00",
+      "to": "10:00",
+      "price": 0.11,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "10:00",
+      "to": "18:00",
+      "price": 0.1065,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "18:00",
+      "to": "22:00",
+      "price": 0.11,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.1065,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.1077,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "tariffName": "EWO Basis Netz Abgaben an Gemeinwesen",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Der Netznutzungspreis «EWO BasisNetz» gilt für Kunden auf der Niederspannungsebene mit einem jährlichen Gesamtverbrauch bis 100’000 kWh",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 6,
+      "municipalityName": "Obwalden",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.014,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "EWO Gewerbe Netz 100 Abgaben an das Gemeinwesen",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Der Netznutzungspreis «EWO GewerbeNetz 100» gilt für Kunden auf der Niederspannungsebene mit Leistungsmessung und einem jährlichen Gesamtverbrauch von mehr als 100’000 kWh, sowie Kunden mit freiem Netzzugang.",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 6,
+      "municipalityName": "Obwalden",
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.014,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "EWO Industrie Netz MS Abgaben an das Gemeinwesen",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Der Netznutzungspreis «EWO IndustrieNetz» gilt für Kunden auf der Mittelspannungsebene.",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 6,
+      "municipalityName": "Obwalden",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.009,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "EWO Industrie Netz HS Abgaben an das Gemeinwesen",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Der Netznutzungspreis «EWO IndustrieNetz HS» gilt für Kunden auf der Hochspannungsebene (Netzebene 3).",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 6,
+      "municipalityName": "Obwalden",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.002,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "EWO Strassenbeleuchtung Netz Abgaben an Gemeinwesen",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Der Netznutzungspreis «EWO StrassenbeleuchtungsNetz» gilt für die öffentliche Beleuchtung der Einwohnergemeinden und öffentlichen Körperschaften (z. B. Beleuchtung von Strassen und Plätzen) auf der Niederspannungsebene.",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 6,
+      "municipalityName": "Obwalden",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.014,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "EWO Temporär Netz NS Abgaben an Gemeinwesen",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Der Netznutzungspreis «EWO TemporärNetz» gilt für temporäre Stromanschlüsse (z. B. Baustellen, Provisorien, Festveranstaltungen) auf der Niederspannungsebene.",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 6,
+      "municipalityName": "Obwalden",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.014,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "tariffName": "EWO Temporär Netz MS Abgaben an Gemeinwesen ",
+   "tariffType": "regional_fees",
+   "standardBasegroup": false,
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "ohne MwSt.",
+   "customerType": "Der Netznutzungspreis «EWO TemporärNetz» gilt für temporäre Stromanschlüsse (z. B. Baustellen, Provisorien, Festveranstaltungen) auf der Mittelspannungsebene.",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 6,
+      "municipalityName": "Obwalden",
+      "municipalityBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.009,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  }
+ ]
+}
