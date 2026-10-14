@@ -335,6 +335,30 @@ def test_bkw_fees_by_municipality_name() -> None:
     assert _fees_rp(fees, "BE", 362, "Ittigen") == pytest.approx(1.5)
 
 
+def test_bkw_fee_in_the_price() -> None:
+    """The fee found by the municipality's name is in the price (1.5 Rp. in Ittigen)."""
+    bkw = load("bkw-2026.json")
+    fee = next(
+        t
+        for t in tariffs_on(bkw, "regional_fees", EWZ_DAY)
+        if t.municipality_key(362, "Ittigen", "BE") is not None
+    )
+
+    def price(regional_fees) -> float:
+        contract = SwissContract(
+            electricity=by_name(bkw, "Energy Blue"),
+            grid=next(t for t in bkw if t.tariff_type == "grid"),
+            regional_fees=regional_fees,
+            canton="BE",
+            municipality=362,
+            municipality_name="Ittigen",
+            federal_per_kwh=0.0,
+        )
+        return contract.price_at(zurich(2026, 10, 14, 10, 0))[0]
+
+    assert 100 * (price(fee) - price(None)) / (1 + SWISS_VAT) == pytest.approx(1.5)
+
+
 def test_federal_charges_listed_as_fees_are_left_out() -> None:
     """Energie Thun lists the federal charges (Netzzuschlag...) as cantonal fees; Corrente
     adds them itself, so only the city's 2.8 Rp. remain (ElCom: 2.8)."""

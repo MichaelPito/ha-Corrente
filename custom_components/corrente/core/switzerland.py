@@ -606,7 +606,7 @@ class SwissContract:
         total, any_gap = federal, False
         # Each tariff has its own schedule: price them separately, then add up.
         for tariff in self._tariffs():
-            windows = tariff.windows_for(self.canton, self.municipality)
+            windows = tariff.windows_for(self.canton, self.municipality, self.municipality_name)
             if tariff.is_dynamic:
                 # The API gives the tariff's own price; the file's fixed price for a
                 # dynamic tariff (AIL "dinamica": 8.35 Rp) is only indicative.
