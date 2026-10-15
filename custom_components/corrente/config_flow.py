@@ -234,6 +234,14 @@ def _electricity_names(tariffs: list[Tariff], today) -> list[str]:
     return sorted({t.name for t in tariffs_on(tariffs, "electricity", today) if _supported(t)})
 
 
+def _standard_electricity(tariffs: list[Tariff], today) -> str | None:
+    """The energy tariff the operator flags as its standard one, if it flags exactly one."""
+    names = {
+        t.name for t in tariffs_on(tariffs, "electricity", today) if t.standard and _supported(t)
+    }
+    return names.pop() if len(names) == 1 else None
+
+
 def _grid_schema(
     tariffs: list[Tariff], electricity: str, today, place: OperatorInMunicipality | None
 ) -> vol.Schema:
@@ -495,8 +503,11 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
         today = dt_util.now(SWISS_TZ).date()
         return self.async_show_form(
             step_id="ch_tariff",
+            # The operator's standard tariff first: most households have it (ewz.natur).
             data_schema=_select(
-                _electricity_names(self._tariffs, today), key=CONF_ELECTRICITY_TARIFF
+                _electricity_names(self._tariffs, today),
+                key=CONF_ELECTRICITY_TARIFF,
+                default=_standard_electricity(self._tariffs, today),
             ),
             description_placeholders={"operator": self._operator.operator_name},
         )

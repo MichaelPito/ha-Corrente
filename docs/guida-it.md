@@ -70,6 +70,8 @@ Importa il blueprint **"Corrente — use solar surplus"** (pulsante qui sotto). 
 
 ## La card
 
+Dopo aver configurato Corrente la prima volta, **ricarica la pagina** del browser una volta, così trova la card.
+
 Nella dashboard: **Aggiungi scheda** → cerca **Corrente**. In YAML:
 
 Il nome del sensore dipende dalla lingua e dal comune (per esempio `sensor.corrente_lugano_prezzo_attuale`): se aggiungi la card dall'editor, lo trova da sola.

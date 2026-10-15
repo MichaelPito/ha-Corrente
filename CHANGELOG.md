@@ -20,6 +20,7 @@ Switzerland: checked against ewz's file (city of Zürich and villages in Graubü
 - Winterthur: two fee tiers (up to and above 100,000 kWh) were added up. Yverdon: a 2 Rp. fee written as 2 CHF in the file. Obwalden: fees given for the whole canton were missed.
 
 ### Changed
+- Setup pre-selects the operator's standard energy tariff (ewz.natur at ewz), when the operator flags one.
 - Checked against ElCom for 31 operators and municipalities in 22 cantons: the fees now match ElCom's within 0.3 Rp. everywhere, the grid within about 0.5 Rp. (see docs/FONTI-DATI.md).
 - Setup checks its suggestions against ElCom's figures for a household in your municipality: the grid tariff whose price is closest (St. Gallen suggested a reactive-energy price, Geneva its separate "réserve d'électricité"), and the fees that add up to ElCom's (one set per product, as at AIL, or all of them, as in Lausanne).
 

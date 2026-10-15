@@ -10,7 +10,7 @@ from homeassistant.config_entries import SOURCE_USER
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 
-from custom_components.corrente.config_flow import _tariff_choice
+from custom_components.corrente.config_flow import _standard_electricity, _tariff_choice
 from custom_components.corrente.const import DOMAIN, ISSUES_URL
 from custom_components.corrente.core.switzerland import parse_tariffs
 
@@ -94,3 +94,12 @@ def test_fees_with_one_name_for_every_municipality_are_stored_once() -> None:
     )
     assert choice["regional_tariff"] == [name]
     assert choice["canton"] == "BE"
+
+
+def test_operators_standard_energy_tariff_is_preselected() -> None:
+    """ewz flags "ewz.natur" as its standard tariff; AIL flags none."""
+    fixtures = Path(__file__).parent / "fixtures" / "ch"
+    ewz = parse_tariffs(json.loads((fixtures / "ewz-2026.json").read_text("utf-8")))
+    ail = parse_tariffs(json.loads((fixtures / "ail-2027.json").read_text("utf-8")))
+    assert _standard_electricity(ewz, date(2026, 10, 15)) == "ewz.natur"
+    assert _standard_electricity(ail, date(2027, 3, 10)) is None
