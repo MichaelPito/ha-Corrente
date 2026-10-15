@@ -238,7 +238,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - trovato registrando: dopo la prima configurazione la card compare solo **ricaricando la pagina** (il browser carica le card all'apertura). Scritto nel README, nella guida italiana e nella guida del test a casa;
   - 186 test.
   - **Prossimi pezzi:**
-    1. versione v0.2.2: **serve l'ok dell'owner** (chiesto il 13 ottobre);
+    1. ✅ v0.2.2 pubblicata il 15 ottobre (ok dell'owner: «Si», in risposta alla richiesta di pubblicarla);
     2. gestori senza file leggibile: ricontrollare a dicembre (file 2027);
     3. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10.
 

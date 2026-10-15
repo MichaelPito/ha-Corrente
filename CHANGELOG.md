@@ -2,7 +2,7 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
-## [0.2.2] — not released yet
+## [0.2.2] — 2026-10-15
 
 Switzerland: checked against ewz's file (city of Zürich and villages in Graubünden) and EKZ's.
 
