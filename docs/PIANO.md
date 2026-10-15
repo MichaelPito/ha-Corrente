@@ -231,6 +231,17 @@ esperto. Le richieste diventano la roadmap pubblica.
     2. GIF della configurazione per README e post;
     3. gestori senza file leggibile: ricontrollare a dicembre (file 2027).
 
+- **15 ottobre 2026** (sessione automatica):
+  - nessuna richiesta nuova (GitHub e modulo);
+  - ✅ **GIF della configurazione** (`docs/images/setup.gif`, 26 s, in inglese): Home Assistant 2026.10 vero, dati reali, Zurigo dall'aggiunta dell'integrazione alla card; nel README e nel kit di lancio;
+  - ✅ la configurazione propone già la tariffa d'energia standard del gestore, se il file la indica (ewz.natur); prima la prima in ordine alfabetico;
+  - trovato registrando: dopo la prima configurazione la card compare solo **ricaricando la pagina** (il browser carica le card all'apertura). Scritto nel README, nella guida italiana e nella guida del test a casa;
+  - 186 test.
+  - **Prossimi pezzi:**
+    1. versione v0.2.2: **serve l'ok dell'owner** (chiesto il 13 ottobre);
+    2. gestori senza file leggibile: ricontrollare a dicembre (file 2027);
+    3. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

@@ -42,6 +42,8 @@ Corrente will be in the default HACS store after the launch. Until then:
 2. Install **Corrente** and restart Home Assistant.
 3. **Settings → Devices & services → Add integration → Corrente**, then follow the steps (country, then your contract or your municipality).
 
+<p><img src="docs/images/setup.gif" width="640" alt="Setting up Corrente in Home Assistant for Zürich: country, municipality, tariff, grid and fees suggested, then the card on a dashboard"></p>
+
 Without HACS: download `corrente.zip` from the [latest release](../../releases/latest), unzip it into `config/custom_components/corrente/` and restart Home Assistant.
 
 ## Sensors
@@ -69,7 +71,7 @@ The price sensor also carries the price **schedule** for the next 36 hours and t
 
 ## The card
 
-The card is installed with the integration. Add it from the dashboard editor (search "Corrente") or with YAML:
+The card is installed with the integration. After setting up Corrente for the first time, **reload the page** in your browser once so it finds the card. Then add it from the dashboard editor (search "Corrente") or with YAML:
 
 ```yaml
 type: custom:corrente-card
