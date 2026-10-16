@@ -6,6 +6,8 @@
 
 Tutto succede in una "macchina virtuale": un computer finto dentro il tuo. Non tocca nulla del resto del computer e alla fine si cancella con un clic.
 
+**Basta il tuo laptop**, non serve un apparecchio dedicato. Ti servono circa **8 GB di RAM** (Home Assistant ne usa 2) e **35 GB liberi** sul disco. Finché il test gira, il laptop deve restare **acceso, collegato alla corrente e senza sospensione** (Windows: Impostazioni → Sistema → Alimentazione → Sospensione: **Mai**). Se lo chiudi o va in sospensione, Home Assistant si ferma; riparte quando riavvii la macchina virtuale.
+
 ---
 
 ## Parte 1 — Installare Home Assistant (circa 25 minuti)
@@ -28,7 +30,9 @@ Riassunto di cosa fare (ottobre 2026, Home Assistant OS 18.3):
    - disco: **non** crearne uno nuovo; dopo, nelle impostazioni della macchina → **Archiviazione**, togli il disco vuoto e aggiungi il file `.vdi` che hai estratto;
    - **Rete** → "Connessa a": **Scheda con bridge** (Bridged Adapter), e scegli la rete che usi (Wi‑Fi o cavo).
 4. Avvia la macchina e **aspetta circa 15–20 minuti**.
+   Se VirtualBox dice che la virtualizzazione (VT-x / AMD-V) non è disponibile, va attivata nel BIOS del laptop: scrivimi marca e modello e ti dico dove.
 5. Nel browser apri <http://homeassistant.local:8123>. Se non si apre, nella finestra nera della macchina virtuale c'è scritto l'indirizzo (tipo `http://192.168.1.50:8123`): usa quello.
+   Se nella finestra nera non compare nessun indirizzo (succede con alcuni Wi‑Fi): spegni la macchina, nelle impostazioni → **Rete** scegli l'altra scheda di rete dell'elenco (o collega il cavo) e riavviala. Se ancora niente, fermati e scrivimi.
 6. Crea l'utente come ti chiede Home Assistant. Alla domanda sulla posizione scegli **la tua casa** (serve per il fuso orario).
 
 ## Parte 2 — Installare Corrente (circa 10 minuti)
@@ -82,5 +86,6 @@ Puoi lasciare la macchina virtuale accesa qualche giorno per vedere i cambi di f
 ### Note per Claude
 - **Prova generale fatta l'8 ottobre 2026** su un Home Assistant 2026.2.3 vero (con interfaccia web), con dati reali: Lugano/AIL giorno-notte, AIL "dinamica", Italia bioraria, PUN dal GME. Funziona tutto; nessun avviso nel registro. Trovati e corretti tre problemi (vedi `PIANO.md`, 8 ottobre). All'owner restano solo le cose che non posso vedere da qui: la sua tariffa reale, la sua rete, il suo computer, la sua impressione.
 - La riga della fonte svizzera sulla card ora è nella lingua di chi guarda (9 ottobre).
-- **13 ottobre:** provato anche su Home Assistant 2026.10.1 (la versione che l'owner installerà). Trovato e corretto un errore con due o più configurazioni dopo un riavvio (parte 3, punto 5): il test a casa va fatto con la v0.2.1.
-- Dopo il test: ogni problema diventa una richiesta su GitHub; le correzioni escono come v0.1.1.
+- **13 ottobre:** provato anche su Home Assistant 2026.10.1 (la versione che l'owner installerà). Trovato e corretto un errore con due o più configurazioni dopo un riavvio (parte 3, punto 5): il test a casa va fatto con l'ultima release (oggi v0.2.2).
+- **16 ottobre:** l'owner farà il test sul suo laptop Windows (decisione sua), non su un apparecchio dedicato.
+- Dopo il test: ogni problema diventa una richiesta su GitHub; le correzioni escono nella release successiva (v0.2.3).
