@@ -2,6 +2,21 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.2.3] — not released yet
+
+From a code review of 0.2.2; none of these was seen with the operators checked so far.
+
+### Fixed
+- Several fees with day/night prices are priced separately and added up (merged, they stopped the price with "overlapping time windows").
+- A seasonal all-day price (summer only, for example) is no longer dropped when it lies between another season's day and night prices.
+- Fees with the same name (EKZ): the one for your place is used, whatever the order in the operator's file.
+- BKW fees are also found for municipalities that ElCom writes with the canton ("Kirchdorf (BE)").
+- Fees that apply everywhere are suggested together with the local ones.
+- "AG" in a company name and "NE7" (network level) no longer count as the canton of Aargau or Neuchâtel when suggesting the grid tariff.
+- A local fee whose comment says it excludes a federal charge ("ohne Netzzuschlag") is no longer dropped.
+- Clearing all fees in setup now keeps none (the suggestion used to come back).
+- The fee suggestion is computed faster, and the options ask ElCom once instead of at every redisplay.
+
 ## [0.2.2] — 2026-10-15
 
 Switzerland: checked against ewz's file (city of Zürich and villages in Graubünden) and EKZ's.
@@ -86,6 +101,7 @@ Works with Home Assistant 2025.10 and later (tested on 2025.10 and 2026.2).
 - Every Home Assistant downloads its own data: ElCom open data and operators' tariff files and APIs (Switzerland), GME's daily prices (Italy). No Corrente server, no account, no telemetry.
 - GME data is for personal, non-commercial use; the source is shown on the sensors and the card.
 
+[0.2.3]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.2.3
 [0.2.2]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.2.2
 [0.2.1]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.2.1
 [0.2.0]: https://github.com/MichaelPito/ha-corrente/releases/tag/v0.2.0

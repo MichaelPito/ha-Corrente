@@ -514,7 +514,7 @@ class SwissSensor(CoordinatorEntity[SwissTariffCoordinator], SensorEntity):
         return {
             "energy_tariff": contract.electricity.name,
             "grid_tariff": contract.grid.name,
-            "regional_fees": contract.regional_fees.name if contract.regional_fees else None,
+            "regional_fees": " + ".join(t.name for t in contract.regional_fees) or None,
             "dynamic_prices_until": (
                 None if contract.known_until is None else contract.known_until.isoformat()
             ),

@@ -8,15 +8,18 @@ from pathlib import Path
 
 import pytest
 
+from custom_components.corrente.coordinator import select_contract
 from custom_components.corrente.core.switzerland import (
     SWISS_TZ,
     SWISS_VAT,
     PriceWindow,
     SwissContract,
+    Tariff,
     UnsupportedTariffError,
+    _is_federal_charge,
     _is_large_consumer,
+    _names_place,
     canton_of,
-    combine_fees,
     federal_addition,
     national_charges,
     parse_tariffs,
@@ -295,7 +298,7 @@ def test_lausanne_fees_add_up() -> None:
     contract = SwissContract(
         electricity=electricity,
         grid=by_name(sil, "nativa - Utilisation du réseau - SIMPLE - 2026"),
-        regional_fees=combine_fees(fees),
+        regional_fees=fees,
         canton="VD",
         municipality=5586,
         federal_per_kwh=0.0,
@@ -321,7 +324,7 @@ def test_one_set_of_fees_per_product_is_not_added_up() -> None:
 
 
 def _fees_rp(fees, canton: str | None, municipality: int, name: str | None = None) -> float:
-    windows = combine_fees(fees).windows_for(canton, municipality, name) if fees else ()
+    windows = [w for fee in fees for w in fee.windows_for(canton, municipality, name)]
     return 100 * sum(w.price for w in windows if w.every_day)
 
 
@@ -548,3 +551,140 @@ def test_contract_uses_the_checked_federal_addition() -> None:
     )
     price, _ = contract.price_at(zurich(2027, 3, 10, 12, 0))
     assert price == pytest.approx((0.0975 + 0.068) * (1 + SWISS_VAT), abs=1e-5)
+
+
+# Found by the code review of 0.2.2 (16 October 2026).
+
+
+def _fee(
+    name: str, windows, *, canton=None, municipality=None, municipality_names=None, energy=()
+) -> Tariff:
+    return Tariff(
+        name=name,
+        tariff_type="regional_fees",
+        form="constant",
+        start_date=date(2026, 1, 1),
+        end_date=date(2027, 12, 31),
+        customer_type="",
+        energy=tuple(energy),
+        monthly_base=0.0,
+        canton_energy={canton: tuple(windows)} if canton else {},
+        municipality_energy={municipality: tuple(windows)} if municipality else {},
+        municipality_names=municipality_names or {},
+    )
+
+
+def _day_night(day: float, night: float) -> tuple[PriceWindow, ...]:
+    return (
+        PriceWindow(price=day, start=time(6, 0), end=time(22, 0)),
+        PriceWindow(price=night, start=time(22, 0), end=time(6, 0)),
+    )
+
+
+def test_several_day_night_fees_add_up() -> None:
+    """Two fees, each with day and night windows, are priced separately and added up
+    (merged into one tariff, their windows overlapped and the price failed)."""
+    ail = load("ail-2027.json")
+    fees = (
+        _fee("A", _day_night(0.02, 0.01), municipality=5192),
+        _fee("B", _day_night(0.004, 0.002), municipality=5192),
+    )
+
+    def price(regional_fees) -> float:
+        return SwissContract(
+            electricity=by_name(ail, "Casa & PMI 24h-electricity"),
+            grid=by_name(ail, "Casa & PMI 24h-grid7"),
+            regional_fees=regional_fees,
+            municipality=5192,
+            federal_per_kwh=0.0,
+        ).price_at(zurich(2027, 3, 10, 12, 0))[0]
+
+    assert price(fees) - price(None) == pytest.approx(0.024 * (1 + SWISS_VAT), abs=1e-6)
+
+
+def test_seasonal_flat_price_is_not_a_single_rate_alternative() -> None:
+    """A summer all-day price between the winter day and night prices is a season of its
+    own, not St. Gallen's single-rate alternative."""
+    document = {
+        "tariffs": [
+            {
+                "tariffName": "Saison",
+                "tariffType": "electricity",
+                "tariffForm": "multilevel",
+                "startDate": "2026-01-01",
+                "endDate": "2026-12-31",
+                "prices": {
+                    "energy": [
+                        {"months": ["Jan", "Feb", "Mar", "Oct", "Nov", "Dec"], "from": "06:00",
+                         "to": "22:00", "price": 0.12, "priceUnit": "CHF/kWh"},
+                        {"months": ["Jan", "Feb", "Mar", "Oct", "Nov", "Dec"], "from": "22:00",
+                         "to": "06:00", "price": 0.08, "priceUnit": "CHF/kWh"},
+                        {"months": ["Apr", "May", "Jun", "Jul", "Aug", "Sep"], "from": "00:00",
+                         "to": "00:00", "price": 0.10, "priceUnit": "CHF/kWh"},
+                    ]
+                },
+            }
+        ]
+    }  # fmt: skip
+    tariff = parse_tariffs(document)[0]
+    assert [w.price for w in tariff.energy] == [0.12, 0.08, 0.10]
+
+
+def test_fees_with_one_name_follow_the_place_not_the_file_order() -> None:
+    """EKZ: same-named fees for the canton and for one municipality elsewhere."""
+    ail = load("ail-2027.json")
+    elsewhere = _fee("Abgaben", [PriceWindow(price=0.05)], municipality=1701)
+    canton = _fee("Abgaben", [PriceWindow(price=0.0016)], canton="ZH")
+    options = {
+        "electricity_tariff": "Casa & PMI 24h-electricity",
+        "grid_tariff": "Casa & PMI 24h-grid7",
+        "regional_tariff": ["Abgaben"],
+        "municipality": 243,
+        "canton": "ZH",
+    }
+    contract = select_contract([*ail, elsewhere, canton], options, DAY_2027, 0.0)
+    assert contract.regional_fees == (canton,)
+
+
+def test_municipality_name_without_the_canton() -> None:
+    """ElCom writes "Kirchdorf (BE)", BKW's file "Kirchdorf"."""
+    fee = _fee("K", [PriceWindow(price=0.015)], municipality=15050,
+               municipality_names={"kirchdorf": 15050})  # fmt: skip
+    assert fee.municipality_key(434, "Kirchdorf (BE)", "BE") == 15050
+
+
+def test_fees_for_everywhere_count_with_the_local_ones() -> None:
+    ail = load("ail-2027.json")
+    electricity = by_name(ail, "Casa & PMI 24h-electricity")
+    local = _fee("Comune", [PriceWindow(price=0.01)], municipality=5192)
+    everywhere = _fee("Tutti", [], energy=[PriceWindow(price=0.005)])
+    fees = suggest_regional_fees(electricity, [local, everywhere], 5192, 1.5, 2027)
+    assert {fee.name for fee in fees} == {"Comune", "Tutti"}
+
+
+@pytest.mark.parametrize(
+    ("name", "canton", "expected"),
+    [
+        ("NNA_GR", "GR", True),
+        ("NNE-H_ZH", "ZH", True),
+        ("Netz EWA AG Haushalt", "AG", False),  # Aktiengesellschaft
+        ("Netznutzung NE7", "NE", False),  # network level 7
+    ],
+)
+def test_canton_codes_in_tariff_names(name: str, canton: str, expected: bool) -> None:
+    grid = _fee(name, [])
+    assert _names_place(grid, "", canton) is expected
+
+
+@pytest.mark.parametrize(
+    ("comment", "federal"),
+    [
+        ("Netzzuschlag", True),
+        ("Systemdienstleistungen", True),
+        ("Abgabe an die Gemeinde (ohne Netzzuschlag)", False),
+        ("Taxe communale, hors supplément réseau", False),
+        ("Abgaben und Leistungen an die Stadt Thun", False),
+    ],
+)
+def test_federal_charge_comments(comment: str, federal: bool) -> None:
+    assert _is_federal_charge(comment) is federal

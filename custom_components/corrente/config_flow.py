@@ -284,8 +284,12 @@ def _grid_schema(
                 )
             ),
             # Several: some operators publish each fee on its own (Lausanne).
+            # Suggested, not a default: a default would come back when the user clears it.
             vol.Optional(
-                CONF_REGIONAL_TARIFF, default=list(dict.fromkeys(t.name for t in suggested_fees))
+                CONF_REGIONAL_TARIFF,
+                description={
+                    "suggested_value": list(dict.fromkeys(t.name for t in suggested_fees))
+                },
             ): SelectSelector(
                 SelectSelectorConfig(
                     options=sorted({t.name for t in regionals}),
@@ -558,6 +562,8 @@ class CorrenteOptionsFlow(OptionsFlow):
     def __init__(self) -> None:
         self._contract_type: ItalyContractType | None = None
         self._electricity: str | None = None
+        self._place: OperatorInMunicipality | None = None
+        self._place_asked = False
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Change the contract or tariff, or the energy meter used for costs."""
@@ -694,6 +700,18 @@ class CorrenteOptionsFlow(OptionsFlow):
 
     # Switzerland ---------------------------------------------------------
 
+    async def _elcom_once(self, year: int) -> OperatorInMunicipality | None:
+        """ElCom's figures for the entry's place, asked once per options flow (up to 30 s)."""
+        if not self._place_asked:
+            self._place_asked = True
+            self._place = await _elcom_place(
+                self.hass,
+                self.config_entry.data[CONF_MUNICIPALITY],
+                self.config_entry.data[CONF_OPERATOR_ID],
+                year,
+            )
+        return self._place
+
     def _swiss_tariffs(self) -> list[Tariff]:
         coordinator = self.config_entry.runtime_data.switzerland
         return coordinator.data.tariffs if coordinator and coordinator.data else []
@@ -740,9 +758,7 @@ class CorrenteOptionsFlow(OptionsFlow):
                 tariffs,
                 self._electricity,
                 today,
-                await _elcom_place(
-                    self.hass, municipality, self.config_entry.data[CONF_OPERATOR_ID], today.year
-                ),
+                await self._elcom_once(today.year),
             ),
             description_placeholders={**_PLACEHOLDERS, "electricity": self._electricity},
             errors=errors,
