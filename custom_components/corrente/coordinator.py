@@ -39,8 +39,8 @@ from .core.switzerland import (
     Tariff,
     UnsupportedTariffError,
     canton_of,
-    combine_fees,
     federal_addition,
+    fee_applies,
     parse_tariffs,
     regional_names,
     suggest_matching,
@@ -91,12 +91,13 @@ def select_contract(
     fees: list[Tariff] = []
     for name in regional_names(options.get(CONF_REGIONAL_TARIFF)):
         # BKW gives the fees of each municipality the same name: take the user's.
+        # EKZ: three fees called "Gemeinde- und Kantonalabgaben", for ZH, for Menzingen
+        # and for large consumers; the one for the user's place, whatever the file order.
         here = [
             t
             for t in tariffs_on(tariffs, "regional_fees", day)
             if t.name == name
-            and t.municipality_key(municipality, municipality_name, canton_of(municipality))
-            is not None
+            and fee_applies(t, municipality, municipality_name, canton_of(municipality))
         ]
         fee = here[0] if here else pick("regional_fees", name)
         if fee is not None and fee not in fees:  # two old names can lead to one fee
@@ -108,7 +109,7 @@ def select_contract(
     return SwissContract(
         electricity=electricity,
         grid=grid,
-        regional_fees=combine_fees(fees),
+        regional_fees=fees,
         canton=options.get(CONF_CANTON) or canton_of(municipality),
         municipality=municipality,
         municipality_name=municipality_name,

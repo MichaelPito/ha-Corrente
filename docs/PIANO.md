@@ -242,6 +242,16 @@ esperto. Le richieste diventano la roadmap pubblica.
     2. gestori senza file leggibile: ricontrollare a dicembre (file 2027);
     3. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10.
 
+- **16 ottobre 2026** (sessione automatica):
+  - nessuna richiesta nuova (GitHub e modulo);
+  - ✅ **Italia verificata**: i prezzi PUN e zonali letti da Corrente (al quarto d'ora) coincidono esattamente con i prezzi orari pubblicati dal GME (96 ore × 3 zone, differenza 0); il cambio d'ora del 25 ottobre è già coperto da test;
+  - ✅ **revisione del codice della 0.2.2**: 10 problemi trovati, tutti corretti con un test (9 casi falliscono sul codice di prima). Nessuno visto con i gestori provati finora; il confronto con ElCom resta 32 casi su 32;
+  - 200 test, su Home Assistant 2025.10, 2026.2 e 2026.10.
+  - **Prossimi pezzi:**
+    1. versione v0.2.3 con queste correzioni: serve l'ok dell'owner (non urgente: si può unire alle correzioni del test a casa);
+    2. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
+    3. gestori senza file leggibile: ricontrollare a dicembre (file 2027).
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

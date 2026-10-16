@@ -40,6 +40,17 @@ AIL_DAY_NIGHT = {
 }
 
 
+def _suggestions(result) -> dict:
+    """What a form shows filled in: defaults and suggested values."""
+    shown = {}
+    for key in result["data_schema"].schema:
+        if (key.description or {}).get("suggested_value") is not None:
+            shown[str(key)] = key.description["suggested_value"]
+        elif callable(key.default):
+            shown[str(key)] = key.default()
+    return shown
+
+
 @pytest.fixture
 def mock_ch(aioclient_mock: AiohttpClientMocker) -> AiohttpClientMocker:
     aioclient_mock.post(
@@ -71,7 +82,7 @@ async def test_flow_lugano(
     )
     assert result["step_id"] == "ch_grid"
     # The matching grid tariff and regional fees are suggested.
-    defaults = {str(key): key.default() for key in result["data_schema"].schema}
+    defaults = _suggestions(result)
     assert defaults["grid_tariff"] == "Casa & PMI giorno-notte-grid7"
     assert defaults["regional_tariff"] == ["Casa & PMI giorno-notte-regional_fees"]
 
@@ -210,7 +221,7 @@ async def test_swiss_options_change_tariff(
         result["flow_id"], {"electricity_tariff": "Casa & PMI 24h-electricity"}
     )
     assert result["step_id"] == "ch_grid"
-    defaults = {str(key): key.default() for key in result["data_schema"].schema}
+    defaults = _suggestions(result)
     assert defaults["grid_tariff"] == "Casa & PMI 24h-grid7"
     result = await hass.config_entries.options.async_configure(
         result["flow_id"],

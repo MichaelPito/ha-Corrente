@@ -287,7 +287,10 @@ def _without_single_rate_alternative(windows: tuple[PriceWindow, ...]) -> tuple[
     if not timed:
         return windows
     low, high = min(timed), max(timed)
-    return tuple(w for w in windows if not (w.every_day and low <= w.price <= high))
+    # Only an all-year price: a summer-only all-day price is a season of its own.
+    return tuple(
+        w for w in windows if not (w.every_day and w.months is None and low <= w.price <= high)
+    )
 
 
 def _next_minute(value: time) -> time | None:
@@ -342,8 +345,9 @@ class Tariff:
         absent."""
         if number in self.municipality_energy:
             return number
-        if name and (key := self.municipality_names.get(name.casefold())) is not None:
-            return key
+        for spelling in _name_spellings(name):
+            if (key := self.municipality_names.get(spelling)) is not None:
+                return key
         whole_canton = canton_number(canton)
         if whole_canton is not None:
             for listed, key in self.municipality_names.items():
@@ -444,13 +448,22 @@ def _is_large_consumer(comment: object) -> bool:
     )
 
 
+# "ohne Netzzuschlag", "hors supplément réseau": a local fee that says what it excludes.
+_EXCLUDING = re.compile(r"\b(ohne|exkl|excl|hors|sans|senza|escl)\w*\.?\W*$", re.IGNORECASE)
+
+
 def _is_federal_charge(comment: object) -> bool:
     """True for a fee that is a federal charge (Energie Thun lists them as cantonal fees).
 
     Corrente adds the federal charges itself, checked with ElCom (federal_addition),
     so such a fee would count them twice.
     """
-    return isinstance(comment, str) and _FEDERAL_CHARGE.search(comment) is not None
+    if not isinstance(comment, str):
+        return False
+    return any(
+        not _EXCLUDING.search(comment[max(0, match.start() - 20) : match.start()])
+        for match in _FEDERAL_CHARGE.finditer(comment)
+    )
 
 
 def _parse_tariff(raw: Mapping[str, Any]) -> Tariff:
@@ -524,7 +537,9 @@ class SwissContract:
 
     electricity: Tariff
     grid: Tariff
-    regional_fees: Tariff | None = None
+    # One fee tariff or several (Lausanne publishes each fee on its own); always a
+    # tuple after construction. Each is priced on its own schedule, then added up.
+    regional_fees: Tariff | Sequence[Tariff] | None = None
     canton: str | None = None
     municipality: int | None = None
     municipality_name: str | None = None
@@ -536,6 +551,12 @@ class SwissContract:
     _starts: Mapping[str, list[datetime]] = field(init=False, repr=False, compare=False)
 
     def __post_init__(self) -> None:
+        fees = self.regional_fees
+        object.__setattr__(
+            self,
+            "regional_fees",
+            () if fees is None else (fees,) if isinstance(fees, Tariff) else tuple(fees),
+        )
         for tariff in self._tariffs():
             tariff.check_supported()
         object.__setattr__(
@@ -545,10 +566,7 @@ class SwissContract:
         )
 
     def _tariffs(self) -> list[Tariff]:
-        tariffs = [self.electricity, self.grid]
-        if self.regional_fees is not None:
-            tariffs.append(self.regional_fees)
-        return tariffs
+        return [self.electricity, self.grid, *self.regional_fees]
 
     def _windows(self) -> tuple[PriceWindow, ...]:
         return tuple(
@@ -762,6 +780,16 @@ _CANTON_NAMES = {
 }  # fmt: skip
 
 
+def _name_spellings(name: str | None) -> list[str]:
+    """A municipality's name as ElCom gives it, and without the canton: ElCom writes
+    "Kirchdorf (BE)", an operator may write "Kirchdorf"."""
+    if not name:
+        return []
+    full = name.casefold().strip()
+    short = re.sub(r"\s*\([a-z]{2}\)$", "", full)
+    return [full, short] if short != full else [full]
+
+
 def canton_number(canton: str | None) -> int | None:
     """The federal number of a canton (ZH 1 ... JU 26), the order of _CANTON_BLOCKS."""
     codes = [code for _, code in _CANTON_BLOCKS]
@@ -789,9 +817,9 @@ def _names_place(tariff: Tariff, municipality_name: str, canton: str | None) -> 
         rf"(?<!\w){re.escape(municipality_name)}(?!\w)", text, re.IGNORECASE
     ):
         return True
-    return (
-        bool(canton) and re.search(rf"(?<![A-Za-z]){canton}(?![A-Za-z])", tariff.name) is not None
-    )
+    # Only as a code joined to the tariff's name ("NNA_ZH", "NNE-H_GR", "(GR)"): a bare
+    # "AG" is a company form, and "NE7" a network level, not Aargau or Neuchâtel.
+    return bool(canton) and re.search(rf"[_\-(]{canton}(?![A-Za-z0-9])", tariff.name) is not None
 
 
 def suggest_grid(
@@ -859,15 +887,17 @@ def suggest_regional_fees(
     with ``municipality_name`` its fees are found by name.
     """
     canton = canton_of(municipality)
+    # Fees for this place, and fees for no place in particular, which apply everywhere;
+    # fees for other places do not (Groupe E lists fees for Vaud and Neuchâtel
+    # municipalities, none for Fribourg).
     here = [
         t
         for t in regionals
-        if t.municipality_key(municipality, municipality_name, canton) is not None
-        or canton in t.canton_energy
+        if fee_applies(t, municipality, municipality_name, canton)
+        # A fee with its own price and no place list; not one whose places were all
+        # unreadable (BKW's "#N/A"), which carries no price at all.
+        or (t.energy and not t.municipality_energy and not t.canton_energy)
     ]
-    # Fees for no place in particular apply everywhere; fees for other places do not
-    # (Groupe E lists fees for Vaud and Neuchâtel municipalities, none for Fribourg).
-    here = here or [t for t in regionals if not t.municipality_energy and not t.canton_energy]
     names = [electricity.name.lower()] + ([grid.name.lower()] if grid else [])
 
     def likeness(fee: Tariff) -> float:
@@ -879,17 +909,20 @@ def suggest_regional_fees(
     if elcom_charge_rp is None or len(here) == 1:
         return [best]
 
-    def fees_rp(fees: Sequence[Tariff]) -> float | None:
+    # Each fee's average once: the search below tries up to 255 combinations.
+    average: dict[int, float | None] = {}
+    for fee in here:
         try:
-            return 100 * sum(
-                _average_price(
-                    t.windows_for(canton, municipality, municipality_name),
-                    year or date.today().year,
-                )
-                for t in fees
+            average[id(fee)] = 100 * _average_price(
+                fee.windows_for(canton, municipality, municipality_name),
+                year or date.today().year,
             )
         except UnsupportedTariffError:
-            return None
+            average[id(fee)] = None
+
+    def fees_rp(fees: Sequence[Tariff]) -> float | None:
+        values = [average[id(fee)] for fee in fees]
+        return None if None in values else sum(values)  # type: ignore[arg-type]
 
     # The combination closest to ElCom's figure: one fee (AIL), all (Lausanne), or
     # some (Neuchâtel: cantonal and low-voltage municipal fees, not medium-voltage).
@@ -911,38 +944,21 @@ def suggest_regional_fees(
     return min(scored, key=lambda item: item[:2])[2]
 
 
+def fee_applies(
+    fee: Tariff, municipality: int | None, municipality_name: str | None, canton: str | None
+) -> bool:
+    """True when a fee tariff lists the user's municipality (by number or name) or canton."""
+    return (
+        fee.municipality_key(municipality, municipality_name, canton) is not None
+        or canton in fee.canton_energy
+    )
+
+
 def regional_names(value: str | Sequence[str] | None) -> list[str]:
     """The fees stored in an entry: a list since 0.2.2, one name (or "none") before."""
     if isinstance(value, str):
         value = [value]
     return [name for name in value or () if name and name != "none"]
-
-
-def combine_fees(fees: Sequence[Tariff]) -> Tariff | None:
-    """Several fees as one tariff whose per-kWh prices add up; None for no fees."""
-    if not fees:
-        return None
-    if len(fees) == 1:
-        return fees[0]
-    canton_energy: dict[str, tuple[PriceWindow, ...]] = {}
-    municipality_energy: dict[int, tuple[PriceWindow, ...]] = {}
-    municipality_names: dict[str, int] = {}
-    for fee in fees:
-        for name, number in fee.municipality_names.items():
-            municipality_names.setdefault(name, number)
-        for canton, windows in fee.canton_energy.items():
-            canton_energy[canton] = canton_energy.get(canton, ()) + tuple(windows)
-        for number, windows in fee.municipality_energy.items():
-            municipality_energy[number] = municipality_energy.get(number, ()) + tuple(windows)
-    return replace(
-        fees[0],
-        name=" + ".join(fee.name for fee in fees),
-        energy=tuple(window for fee in fees for window in fee.energy),
-        monthly_base=sum(fee.monthly_base for fee in fees),
-        canton_energy=canton_energy,
-        municipality_energy=municipality_energy,
-        municipality_names=municipality_names,
-    )
 
 
 def tariffs_on(tariffs: Iterable[Tariff], tariff_type: str, day: date) -> list[Tariff]:
