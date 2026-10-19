@@ -34,3 +34,10 @@ Added on 2026-10-14, from the comparison with ElCom (`docs/FONTI-DATI.md`), trim
 - `ewo-2026.json` — EWO, Obwalden: fees for the whole canton ("6 Obwalden")
 - `ebs-2026.json` — ebs, Schwyz: no flat household grid tariff, a flat one for building sites
 - `winterthur-2026.json` — Stadtwerk Winterthur, fees only: a tier for consumption above 100'000 kWh
+
+Added on 2026-10-19, from the comparison with ElCom for 2027, trimmed:
+
+- `romande-energie-2027-double.json` — Romande Energie, "Double" tariffs: one grid price written
+  as 10.62 CHF/kWh (it is 10.62 Rp.)
+- `ebs-2027.json` — ebs, Schwyz: a seasonal day/night household grid tariff; the only flat
+  grid tariff is for building sites (90 CHF a month)

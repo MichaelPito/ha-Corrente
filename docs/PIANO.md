@@ -263,6 +263,15 @@ esperto. Le richieste diventano la roadmap pubblica.
     2. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
     3. gestori senza file leggibile: ricontrollare a dicembre (file 2027).
 
+- **19 ottobre 2026, dopo la sessione automatica** (owner: «ok, vai avanti»):
+  - ✅ **prova sul 2027**: dal 1° gennaio tutti passano ai file 2027. Stessi 32 comuni confrontati voce per voce con ElCom 2027: tornano come nel 2026. Corretti due errori che sarebbero comparsi a gennaio: **Romande Energie** (Vaud: un prezzo di rete scritto in CHF invece che in centesimi, la rete sarebbe costata circa 5,4 CHF/kWh) e **ebs** (Svitto: voci nazionali mancanti, 3,5 Rp);
+  - ✅ **avviso in Riparazioni** quando il file del gestore non ha prezzi in vigore (inizio anno, file nuovo non ancora pubblicato): prima i sensori risultavano solo "non disponibili". Oggi è il caso di Winterthur e AGE (Chiasso), che non hanno ancora pubblicato il 2027;
+  - 206 test.
+  - **Prossimi pezzi:**
+    1. versione v0.2.3 (revisione + 2027 + avviso): serve l'ok dell'owner; ora ha un motivo in più, perché Romande Energie e ebs sbaglierebbero da gennaio. Da pubblicare comunque entro dicembre;
+    2. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
+    3. dicembre: ricontrollare Winterthur, AGE e i gestori senza file leggibile.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

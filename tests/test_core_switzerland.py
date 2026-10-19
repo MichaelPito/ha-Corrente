@@ -718,3 +718,30 @@ def test_night_across_the_spring_clock_change() -> None:
     assert night.end == zurich(2027, 3, 28, 6, 0)
     assert night.end.timestamp() - night.start.timestamp() == 7 * 3600
     assert contract.period_at(zurich(2027, 3, 28, 3, 30)) == "low"
+
+
+def test_grid_price_in_rp_written_as_chf() -> None:
+    """Romande Energie 2027, grid "Double": the weekday price up to 17:00 is written as
+    10.62 CHF/kWh. Read as 10.62 Rp., like the night and weekend price of the same tariff."""
+    tariffs = load("romande-energie-2027-double.json")
+    grid = by_name(tariffs, "Double")
+    assert max(window.price for window in grid.energy) == pytest.approx(0.1644)
+    contract = SwissContract(
+        electricity=by_name(tariffs, "Double Energie Suisse"),
+        grid=grid,
+        federal_per_kwh=0.0,
+    )
+    low = (0.1199 + 0.1062) * (1 + SWISS_VAT)
+    high = (0.1693 + 0.1644) * (1 + SWISS_VAT)
+    assert contract.price_at(zurich(2027, 3, 10, 10, 0))[0] == pytest.approx(low, abs=1e-5)
+    assert contract.price_at(zurich(2027, 3, 10, 18, 0))[0] == pytest.approx(high, abs=1e-5)
+    assert contract.price_at(zurich(2027, 3, 13, 10, 0))[0] == pytest.approx(low, abs=1e-5)
+
+
+def test_federal_charges_from_own_day_night_tariff_before_building_sites() -> None:
+    """ebs (Schwyz) 2027: the household grid "N-Casa" is seasonal day/night and leaves the
+    federal charges out (ElCom: 10.45 + 2.3 Rp.). The only flat grid tariff is for building
+    sites, 90 CHF a month: compared with it, the charges looked included (3.5 Rp. too low)."""
+    grids = tariffs_on(load("ebs-2027.json"), "grid", DAY_2027)
+    chosen = by_name(grids, "N-Casa")
+    assert federal_addition(grids, 10.45, 2.3, 2027, chosen=chosen) == national_charges(2027)

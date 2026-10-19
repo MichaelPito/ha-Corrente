@@ -9,6 +9,7 @@ from datetime import UTC, date, datetime, time, timedelta
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
@@ -20,6 +21,7 @@ from .const import (
     CONF_MUNICIPALITY,
     CONF_MUNICIPALITY_NAME,
     CONF_OPERATOR_ID,
+    CONF_OPERATOR_NAME,
     CONF_REGIONAL_TARIFF,
     CONF_TARIFF_URL,
     DOMAIN,
@@ -117,6 +119,11 @@ def select_contract(
     )
 
 
+def no_tariffs_issue_id(entry_id: str) -> str:
+    """The Repairs issue raised while the operator has no tariffs in force."""
+    return f"no_tariffs_in_force_{entry_id}"
+
+
 class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
     """Downloads the tariff file twice a day and follows it across years."""
 
@@ -150,6 +157,8 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
                     # A new year, or the operator moved its file: ask ElCom again.
                     tariffs = await self._async_find_file(session, options, today)
                 self._file = (tariffs, now, today)
+                issue_id = no_tariffs_issue_id(self.config_entry.entry_id)
+                ir.async_delete_issue(self.hass, DOMAIN, issue_id)
             tariffs = self._file[0]
             federal = await self._async_federal(session, options, today, tariffs)
             contract = select_contract(tariffs, options, today, federal)
@@ -259,6 +268,20 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
                 _LOGGER.info("Tariff file for %s: %s", today.year, url)
                 self._url = url
                 return tariffs
+        # Usually the operator has not published next year's file yet (or ElCom still
+        # links last year's): say so in Repairs. The next refreshes try again.
+        ir.async_create_issue(
+            self.hass,
+            DOMAIN,
+            no_tariffs_issue_id(self.config_entry.entry_id),
+            is_fixable=False,
+            severity=ir.IssueSeverity.WARNING,
+            translation_key="no_tariffs_in_force",
+            translation_placeholders={
+                "operator": options.get(CONF_OPERATOR_NAME) or str(operator_id),
+                "date": today.isoformat(),
+            },
+        )
         raise UpdateFailed(f"no tariff file in force on {today} found for this operator")
 
 

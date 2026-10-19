@@ -81,7 +81,8 @@ def federal_addition(
     The comparison uses, in order: the user's own grid tariff if it is flat
     (EKZ households: "400F"), the operator's flagged standard tariffs, flat
     tariffs for the same customers as the user's (same customer group, else
-    same monthly fee), then all flat grid tariffs. An operator can have
+    same monthly fee), the user's own tariff even if it is not flat, then all
+    flat grid tariffs. An operator can have
     products that match different hypotheses (EKZ "400LS" for businesses), so
     the closest to the user's tariff comes first: with a dynamic or day/night
     grid tariff, Groupe E's business tariffs once pointed to the wrong answer.
@@ -121,6 +122,10 @@ def federal_addition(
             *choices,
             [t for t in pool if chosen.customer_type and t.customer_type == chosen.customer_type],
             [t for t in pool if t.monthly_base == chosen.monthly_base],
+            # Then the user's own tariff even if not flat, rather than another
+            # customer's: ebs's only flat grid tariff in 2027 is for building sites,
+            # with a 90 CHF monthly fee, and pointed to "everything included".
+            [chosen] if is_priced(chosen) else [],
         ]
     compared = next((group for group in choices if group), pool)
     if not compared:
@@ -263,6 +268,10 @@ def _parse_date(text: str) -> date:
 
 def _windows(raws: Iterable[Mapping[str, Any]] | None) -> tuple[PriceWindow, ...]:
     windows = [w for w in (_parse_window(raw) for raw in raws or ()) if w is not None]
+    # A price of 1 CHF/kWh or more is a price in Rp. written as CHF: Yverdon's file
+    # gives its 2 Rp. municipal fee as 2 CHF/kWh, Romande Energie's 2027 file one of
+    # the "Double" grid prices as 10.62 CHF/kWh (ElCom: about 12 Rp. in all).
+    windows = [replace(w, price=w.price / 100) if w.price >= 1 else w for w in windows]
     # Some operators give the last minute included: ewz writes "06:00"-"21:59" and
     # "22:00"-"05:59". Read as up to 22:00 and 06:00, unless a window starts at :59.
     starts = {window.start for window in windows}
@@ -415,15 +424,6 @@ _FEDERAL_CHARGE = re.compile(
 )
 
 
-def _fee_windows(raws: Iterable[Mapping[str, Any]] | None) -> tuple[PriceWindow, ...]:
-    """A fee's windows. A fee of 1 CHF/kWh or more is a price in Rp. written as CHF:
-    Yverdon's file gives its 2 Rp. municipal fee as 2 CHF/kWh (ElCom: 2 Rp.)."""
-    return tuple(
-        replace(window, price=window.price / 100) if window.price >= 1 else window
-        for window in _windows(raws)
-    )
-
-
 # A fee for consumption above a threshold: "ab 101'000 kWh", "dès 100 MWh", "oltre ...".
 _LARGE_CONSUMER = re.compile(
     r"\b(ab|über|uber|dès|des|plus de|au-delà de|oltre|da|sopra)\s*[\d'’ .,]+\s*[km]wh",
@@ -474,9 +474,7 @@ def _parse_tariff(raw: Mapping[str, Any]) -> Tariff:
             tax.get("cantonComment")
         ):
             continue
-        canton_energy.setdefault(tax["cantonName"], []).extend(
-            _fee_windows(tax.get("cantonEnergy"))
-        )
+        canton_energy.setdefault(tax["cantonName"], []).extend(_windows(tax.get("cantonEnergy")))
     municipality_energy: dict[int, list[PriceWindow]] = {}
     municipality_names: dict[str, int] = {}
     for tax in prices.get("municipalityTaxes") or ():
@@ -485,7 +483,7 @@ def _parse_tariff(raw: Mapping[str, Any]) -> Tariff:
         if not number.isdigit() or _is_federal_charge(comment) or _is_large_consumer(comment):
             continue  # "#N/A" in BKW's file
         municipality_energy.setdefault(int(number), []).extend(
-            _fee_windows(tax.get("municipalityEnergy"))
+            _windows(tax.get("municipalityEnergy"))
         )
         if name := str(tax.get("municipalityName") or "").strip():
             municipality_names.setdefault(name.casefold(), int(number))

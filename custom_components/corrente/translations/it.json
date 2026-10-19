@@ -277,5 +277,11 @@
         "name": "Costo del mese — {appliance}"
       }
     }
+  },
+  "issues": {
+    "no_tariffs_in_force": {
+      "title": "Nessuna tariffa in vigore: {operator}",
+      "description": "Corrente non trova prezzi in vigore oggi ({date}) per {operator}: il file delle tariffe non si può leggere o non ha prezzi per oggi. Succede di solito a inizio anno, quando il gestore non ha ancora pubblicato il file del nuovo anno o ElCom indica ancora quello dell'anno prima.\n\nCorrente continua a controllare e riparte da solo appena il file è pubblicato; fino ad allora i suoi sensori non sono disponibili. Se trovi il nuovo file sul sito del gestore, puoi aggiungere di nuovo Corrente con quel link."
+    }
   }
 }

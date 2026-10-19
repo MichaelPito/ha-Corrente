@@ -1,0 +1,257 @@
+{
+ "dsoName": "Romande Energie",
+ "dsoNumber": 10111012345,
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Double",
+   "tariffType": "grid",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "le tarif en ct/kWh comprend les services-systèmes, la réserve hivernale, les coûts solidaire et la RPC ",
+   "customerType": "Client basse tension avec consommation inférieure à 50'000 kWh/an: ce profil s’adresse aux ménages ou professionnels qui ont la possibilité de moduler leur consommation d’électricité en fonction des heures pleines et des heures creuses. Il est également conseillé aux ménages avec application thermique (pompe à chaleur, chauffage électrique, chauffe-eau) ou possédant un appareil à forte consommation d’électricité qui peut être enclenché durant les heures creuses.",
+   "prices": {
+    "base": {
+     "price": 2.5,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "17:00",
+      "to": "22:00",
+      "price": 0.1644,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.1062,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.1062,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "00:00",
+      "to": "17:00",
+      "price": 10.62,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.1149,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "tariffName": "Double Energie Suisse",
+   "tariffType": "electricity",
+   "standardBasegroup": false,
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Client basse tension avec consommation inférieure à 50'000 kWh/an: ce profil s’adresse aux ménages ou professionnels qui ont la possibilité de moduler leur consommation d’électricité en fonction des heures pleines et des heures creuses. Il est également conseillé aux ménages avec application thermique (pompe à chaleur, chauffage électrique, chauffe-eau) ou possédant un appareil à forte consommation d’électricité qui peut être enclenché durant les heures creuses.",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "17:00",
+      "to": "22:00",
+      "price": 0.1693,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.1199,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.1199,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "00:00",
+      "to": "17:00",
+      "price": 0.1199,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  }
+ ]
+}
