@@ -1,0 +1,414 @@
+{
+ "dsoName": "ebs Energie AG",
+ "dsoNumber": 10203012345,
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "N-Casa",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Haushalt",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "07:00",
+      "to": "21:59",
+      "price": 0.1431,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "06:59",
+      "price": 0.0971,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.0971,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "06:00",
+      "to": "11:59",
+      "price": 0.0731,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "15:00",
+      "to": "23:59",
+      "price": 0.0731,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "05:59",
+      "price": 0.0321,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "12:00",
+      "to": "14:59",
+      "price": 0.0321,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [],
+    "reactivePower": [],
+    "municipalityTaxes": [],
+    "cantonalTaxes": []
+   },
+   "standardBasegroup": true
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "N-Obra",
+   "tariffType": "grid",
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Baustrom",
+   "prices": {
+    "base": {
+     "price": 90,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.1412,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [],
+    "reactivePower": [
+     {
+      "months": [],
+      "weekdays": [],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.04,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "municipalityTaxes": [],
+    "cantonalTaxes": []
+   },
+   "standardBasegroup": false
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "E-Casa_Muotastrom",
+   "tariffType": "electricity",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Haushalt",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "07:00",
+      "to": "21:59",
+      "price": 0.1225,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "06:59",
+      "price": 0.1065,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "22:00",
+      "to": "23:59",
+      "price": 0.1065,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "06:00",
+      "to": "11:59",
+      "price": 0.067,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "15:00",
+      "to": "23:59",
+      "price": 0.067,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "05:59",
+      "price": 0.044,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "12:00",
+      "to": "14:59",
+      "price": 0.044,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "power": [],
+    "reactivePower": [],
+    "municipalityTaxes": [],
+    "cantonalTaxes": []
+   },
+   "standardBasegroup": true
+  }
+ ]
+}

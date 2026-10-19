@@ -736,3 +736,12 @@ def test_grid_price_in_rp_written_as_chf() -> None:
     assert contract.price_at(zurich(2027, 3, 10, 10, 0))[0] == pytest.approx(low, abs=1e-5)
     assert contract.price_at(zurich(2027, 3, 10, 18, 0))[0] == pytest.approx(high, abs=1e-5)
     assert contract.price_at(zurich(2027, 3, 13, 10, 0))[0] == pytest.approx(low, abs=1e-5)
+
+
+def test_federal_charges_from_own_day_night_tariff_before_building_sites() -> None:
+    """ebs (Schwyz) 2027: the household grid "N-Casa" is seasonal day/night and leaves the
+    federal charges out (ElCom: 10.45 + 2.3 Rp.). The only flat grid tariff is for building
+    sites, 90 CHF a month: compared with it, the charges looked included (3.5 Rp. too low)."""
+    grids = tariffs_on(load("ebs-2027.json"), "grid", DAY_2027)
+    chosen = by_name(grids, "N-Casa")
+    assert federal_addition(grids, 10.45, 2.3, 2027, chosen=chosen) == national_charges(2027)

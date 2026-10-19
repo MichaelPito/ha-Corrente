@@ -81,7 +81,8 @@ def federal_addition(
     The comparison uses, in order: the user's own grid tariff if it is flat
     (EKZ households: "400F"), the operator's flagged standard tariffs, flat
     tariffs for the same customers as the user's (same customer group, else
-    same monthly fee), then all flat grid tariffs. An operator can have
+    same monthly fee), the user's own tariff even if it is not flat, then all
+    flat grid tariffs. An operator can have
     products that match different hypotheses (EKZ "400LS" for businesses), so
     the closest to the user's tariff comes first: with a dynamic or day/night
     grid tariff, Groupe E's business tariffs once pointed to the wrong answer.
@@ -121,6 +122,10 @@ def federal_addition(
             *choices,
             [t for t in pool if chosen.customer_type and t.customer_type == chosen.customer_type],
             [t for t in pool if t.monthly_base == chosen.monthly_base],
+            # Then the user's own tariff even if not flat, rather than another
+            # customer's: ebs's only flat grid tariff in 2027 is for building sites,
+            # with a 90 CHF monthly fee, and pointed to "everything included".
+            [chosen] if is_priced(chosen) else [],
         ]
     compared = next((group for group in choices if group), pool)
     if not compared:
