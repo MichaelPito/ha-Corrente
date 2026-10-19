@@ -263,6 +263,10 @@ def _parse_date(text: str) -> date:
 
 def _windows(raws: Iterable[Mapping[str, Any]] | None) -> tuple[PriceWindow, ...]:
     windows = [w for w in (_parse_window(raw) for raw in raws or ()) if w is not None]
+    # A price of 1 CHF/kWh or more is a price in Rp. written as CHF: Yverdon's file
+    # gives its 2 Rp. municipal fee as 2 CHF/kWh, Romande Energie's 2027 file one of
+    # the "Double" grid prices as 10.62 CHF/kWh (ElCom: about 12 Rp. in all).
+    windows = [replace(w, price=w.price / 100) if w.price >= 1 else w for w in windows]
     # Some operators give the last minute included: ewz writes "06:00"-"21:59" and
     # "22:00"-"05:59". Read as up to 22:00 and 06:00, unless a window starts at :59.
     starts = {window.start for window in windows}
@@ -415,15 +419,6 @@ _FEDERAL_CHARGE = re.compile(
 )
 
 
-def _fee_windows(raws: Iterable[Mapping[str, Any]] | None) -> tuple[PriceWindow, ...]:
-    """A fee's windows. A fee of 1 CHF/kWh or more is a price in Rp. written as CHF:
-    Yverdon's file gives its 2 Rp. municipal fee as 2 CHF/kWh (ElCom: 2 Rp.)."""
-    return tuple(
-        replace(window, price=window.price / 100) if window.price >= 1 else window
-        for window in _windows(raws)
-    )
-
-
 # A fee for consumption above a threshold: "ab 101'000 kWh", "dès 100 MWh", "oltre ...".
 _LARGE_CONSUMER = re.compile(
     r"\b(ab|über|uber|dès|des|plus de|au-delà de|oltre|da|sopra)\s*[\d'’ .,]+\s*[km]wh",
@@ -474,9 +469,7 @@ def _parse_tariff(raw: Mapping[str, Any]) -> Tariff:
             tax.get("cantonComment")
         ):
             continue
-        canton_energy.setdefault(tax["cantonName"], []).extend(
-            _fee_windows(tax.get("cantonEnergy"))
-        )
+        canton_energy.setdefault(tax["cantonName"], []).extend(_windows(tax.get("cantonEnergy")))
     municipality_energy: dict[int, list[PriceWindow]] = {}
     municipality_names: dict[str, int] = {}
     for tax in prices.get("municipalityTaxes") or ():
@@ -485,7 +478,7 @@ def _parse_tariff(raw: Mapping[str, Any]) -> Tariff:
         if not number.isdigit() or _is_federal_charge(comment) or _is_large_consumer(comment):
             continue  # "#N/A" in BKW's file
         municipality_energy.setdefault(int(number), []).extend(
-            _fee_windows(tax.get("municipalityEnergy"))
+            _windows(tax.get("municipalityEnergy"))
         )
         if name := str(tax.get("municipalityName") or "").strip():
             municipality_names.setdefault(name.casefold(), int(number))
