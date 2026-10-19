@@ -688,3 +688,33 @@ def test_canton_codes_in_tariff_names(name: str, canton: str, expected: bool) ->
 )
 def test_federal_charge_comments(comment: str, federal: bool) -> None:
     assert _is_federal_charge(comment) is federal
+
+
+def test_ewz_low_weekend_across_the_autumn_clock_change() -> None:
+    """25 October 2026 (clocks go back, a Sunday): Saturday 22:00 summer time to Monday
+    06:00 winter time is one low segment of 33 real hours."""
+    contract = _ewz_zurich()
+    saturday_night = zurich(2026, 10, 24, 23, 0)
+    change, _ = contract.next_change(saturday_night)
+    assert change == zurich(2026, 10, 26, 6, 0)
+    low = contract.schedule(zurich(2026, 10, 24, 12, 0), zurich(2026, 10, 27))[1]
+    assert low.start == zurich(2026, 10, 24, 22, 0)
+    assert low.end.timestamp() - low.start.timestamp() == 33 * 3600
+
+
+def test_night_across_the_spring_clock_change() -> None:
+    """28 March 2027 (clocks go forward at 02:00): the night 22:00-06:00 lasts 7 real hours
+    and the day price starts at 06:00 summer time."""
+    ail = load("ail-2027.json")
+    contract = SwissContract(
+        electricity=by_name(ail, "Casa & PMI 24h-electricity"),
+        grid=by_name(ail, "Casa & PMI 24h-grid7"),
+        regional_fees=_fee("A", _day_night(0.02, 0.01), municipality=5192),
+        municipality=5192,
+        federal_per_kwh=0.0,
+    )
+    night = contract.schedule(zurich(2027, 3, 27, 12, 0), zurich(2027, 3, 28, 12, 0))[1]
+    assert night.start == zurich(2027, 3, 27, 22, 0)
+    assert night.end == zurich(2027, 3, 28, 6, 0)
+    assert night.end.timestamp() - night.start.timestamp() == 7 * 3600
+    assert contract.period_at(zurich(2027, 3, 28, 3, 30)) == "low"
