@@ -254,7 +254,7 @@ esperto. Le richieste diventano la roadmap pubblica.
 
 - **19 ottobre 2026** (sessione automatica):
   - nessuna richiesta nuova (GitHub e modulo);
-  - ✅ **Home Assistant 2026.10.2** (uscito il 17 ottobre): tutti i test passano; da oggi GitHub prova ogni modifica su questa versione;
+  - ✅ **Home Assistant 2026.10.2** (uscito il 16 ottobre sera): tutti i test passano; da oggi GitHub prova ogni modifica su questa versione;
   - ✅ **cambio d'ora svizzero** (25 ottobre e 28 marzo): le fasce giorno/notte restano all'ora giusta e durano le ore vere (Zurigo: notte del sabato fino a lunedì 06:00 = 33 ore). Funzionava già; ora è coperto da due test;
   - 16 ottobre: guida del test a casa adattata al laptop dell'owner (sua scelta: test sul laptop);
   - 202 test, su Home Assistant 2025.10 e 2026.10.
