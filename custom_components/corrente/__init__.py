@@ -9,6 +9,7 @@ from pathlib import Path
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import issue_registry as ir
 
 from .const import (
     CONF_CONTRACT_TYPE,
@@ -22,7 +23,7 @@ from .const import (
     COUNTRY_SWITZERLAND,
     DOMAIN,
 )
-from .coordinator import SwissTariffCoordinator
+from .coordinator import SwissTariffCoordinator, no_tariffs_issue_id
 from .coordinator_gme import GmePriceCoordinator
 from .core.contract import ItalyContractType, ItalyFixedContract, ItalyIndexedContract
 
@@ -105,6 +106,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: CorrenteConfigEntry) -> 
 async def async_unload_entry(hass: HomeAssistant, entry: CorrenteConfigEntry) -> bool:
     """Unload a config entry."""
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+
+
+async def async_remove_entry(hass: HomeAssistant, entry: CorrenteConfigEntry) -> None:
+    """Remove what the entry left in Repairs."""
+    ir.async_delete_issue(hass, DOMAIN, no_tariffs_issue_id(entry.entry_id))
 
 
 async def _async_reload_on_update(hass: HomeAssistant, entry: CorrenteConfigEntry) -> None:

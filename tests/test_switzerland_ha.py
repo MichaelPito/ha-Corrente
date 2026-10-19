@@ -11,6 +11,7 @@ from homeassistant.config_entries import SOURCE_USER, ConfigEntryState
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.helpers import entity_registry as er
+from homeassistant.helpers import issue_registry as ir
 from pytest_homeassistant_custom_component.common import (
     MockConfigEntry,
     async_fire_time_changed,
@@ -263,3 +264,64 @@ async def test_new_year_follows_the_new_file(
     await hass.async_block_till_done()
     assert entry.state is ConfigEntryState.LOADED
     assert entry.runtime_data.switzerland.data.source_url == url_2028
+
+
+async def test_new_year_without_new_file_raises_a_repair(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker, freezer: FrozenDateTimeFactory
+) -> None:
+    """On 1 January the operator's file and ElCom's link still hold last year's tariffs
+    (Winterthur and AGE in October 2026): the sensors wait and Repairs says why."""
+    freezer.move_to(datetime(2028, 1, 5, 10, 0, tzinfo=SWISS_TZ))
+    aioclient_mock.get(AIL_URL, content=(FIXTURES / "ail-2027.json").read_bytes())
+    aioclient_mock.post(
+        LINDAS_ENDPOINT, text=(FIXTURES / "lindas-lugano-2027.json").read_text("utf-8")
+    )
+    entry = MockConfigEntry(domain=DOMAIN, data=AIL_DAY_NIGHT)
+    entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    assert entry.state is ConfigEntryState.SETUP_RETRY
+    issue_id = f"no_tariffs_in_force_{entry.entry_id}"
+    issue = ir.async_get(hass).async_get_issue(DOMAIN, issue_id)
+    assert issue is not None
+    assert issue.translation_placeholders == {
+        "operator": "Aziende Industriali di Lugano (AIL) SA",
+        "date": "2028-01-05",
+    }
+
+    # The operator publishes the new year's file at the same address.
+    aioclient_mock.clear_requests()
+    aioclient_mock.post(
+        LINDAS_ENDPOINT, text=(FIXTURES / "lindas-lugano-2027.json").read_text("utf-8")
+    )
+    aioclient_mock.get(
+        AIL_URL,
+        text=(FIXTURES / "ail-2027.json")
+        .read_text("utf-8")
+        .replace("2027-01-01", "2028-01-01")
+        .replace("2027-12-31", "2028-12-31"),
+    )
+    await hass.config_entries.async_reload(entry.entry_id)
+    await hass.async_block_till_done()
+    assert entry.state is ConfigEntryState.LOADED
+    assert ir.async_get(hass).async_get_issue(DOMAIN, issue_id) is None
+
+
+async def test_removing_the_entry_removes_its_repair(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker, freezer: FrozenDateTimeFactory
+) -> None:
+    freezer.move_to(datetime(2028, 1, 5, 10, 0, tzinfo=SWISS_TZ))
+    aioclient_mock.get(AIL_URL, content=(FIXTURES / "ail-2027.json").read_bytes())
+    aioclient_mock.post(
+        LINDAS_ENDPOINT, text=(FIXTURES / "lindas-lugano-2027.json").read_text("utf-8")
+    )
+    entry = MockConfigEntry(domain=DOMAIN, data=AIL_DAY_NIGHT)
+    entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    issue_id = f"no_tariffs_in_force_{entry.entry_id}"
+    assert ir.async_get(hass).async_get_issue(DOMAIN, issue_id) is not None
+
+    await hass.config_entries.async_remove(entry.entry_id)
+    await hass.async_block_till_done()
+    assert ir.async_get(hass).async_get_issue(DOMAIN, issue_id) is None

@@ -277,5 +277,11 @@
         "name": "Cost this month — {appliance}"
       }
     }
+  },
+  "issues": {
+    "no_tariffs_in_force": {
+      "title": "No tariffs in force: {operator}",
+      "description": "Corrente cannot find prices in force today ({date}) for {operator}: the tariff file cannot be read or has no prices for today. This usually happens at the start of a year, when the operator has not published the new year's file yet or ElCom still links last year's.\n\nCorrente keeps checking and starts again by itself once the file is published; until then its sensors are unavailable. If you find the new file on the operator's website, you can add Corrente again with that link."
+    }
   }
 }

@@ -4,9 +4,14 @@ All notable changes to Corrente. Versions follow [Semantic Versioning](https://s
 
 ## [0.2.3] — not released yet
 
-From a code review of 0.2.2; none of these was seen with the operators checked so far.
+From a code review of 0.2.2, and a check of the 2027 tariffs (in force from 1 January) against ElCom's 2027 figures.
+
+### Added
+- Settings → Repairs explains when an operator's file has no prices in force (usually at the start of a year, before the operator publishes the new file); the issue goes away by itself once the file is there. Before, the sensors only showed as unavailable.
 
 ### Fixed
+- 2027, Romande Energie (Vaud): one of the "Double" grid prices is written in the file as 10.62 CHF/kWh instead of 10.62 Rp. Any price of 1 CHF/kWh or more is now read as Rp., as was already done for fees.
+- 2027, Schwyz (ebs): the federal charges were left out (about 3.5 Rp/kWh) because the check compared ElCom's figure with a tariff for building sites; your own grid tariff now comes first.
 - Several fees with day/night prices are priced separately and added up (merged, they stopped the price with "overlapping time windows").
 - A seasonal all-day price (summer only, for example) is no longer dropped when it lies between another season's day and night prices.
 - Fees with the same name (EKZ): the one for your place is used, whatever the order in the operator's file.
