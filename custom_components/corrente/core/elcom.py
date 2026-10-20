@@ -29,7 +29,8 @@ _QUERY = """
 PREFIX schema: <http://schema.org/>
 PREFIX cube: <https://cube.link/>
 PREFIX elcom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
-SELECT DISTINCT ?muni ?muniName ?op ?opName ?url ?total ?gridusage ?aidfee ?charge WHERE {{
+SELECT DISTINCT ?muni ?muniName ?op ?opName ?url ?total ?gridusage ?aidfee ?charge
+  ?gridworking WHERE {{
   <https://energy.ld.admin.ch/elcom/electricityprice> cube:observationSet/cube:observation ?obs .
   ?obs elcom:municipality ?muni ;
        elcom:period "{year}"^^<http://www.w3.org/2001/XMLSchema#gYear> ;
@@ -40,6 +41,7 @@ SELECT DISTINCT ?muni ?muniName ?op ?opName ?url ?total ?gridusage ?aidfee ?char
   OPTIONAL {{ ?obs elcom:gridusage ?gridusage }}
   OPTIONAL {{ ?obs elcom:aidfee ?aidfee }}
   OPTIONAL {{ ?obs elcom:charge ?charge }}
+  OPTIONAL {{ ?obs elcom:gridworkingprice ?gridworking }}
   OPTIONAL {{ ?obs elcom:urltr ?url }}
   ?op schema:name ?opName .
   ?muni schema:name ?muniName .
@@ -70,6 +72,8 @@ class OperatorInMunicipality:
     grid_h4_rp: float | None = None  # grid usage component (federal charges but the surcharge)
     aidfee_rp: float | None = None  # federal grid surcharge (Art. 35 EnG)
     charge_rp: float | None = None  # cantonal and municipal fees
+    # Grid price per kWh without the monthly fee and the federal charges.
+    grid_working_rp: float | None = None
 
 
 def _clean_search(text: str) -> str:
@@ -119,6 +123,7 @@ def _rows_to_operators(rows: list[dict[str, str]], year: int) -> list[OperatorIn
                 grid_h4_rp=float(row["gridusage"]) if "gridusage" in row else None,
                 aidfee_rp=float(row["aidfee"]) if "aidfee" in row else None,
                 charge_rp=float(row["charge"]) if "charge" in row else None,
+                grid_working_rp=float(row["gridworking"]) if "gridworking" in row else None,
             )
         )
     return operators

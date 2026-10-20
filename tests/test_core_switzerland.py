@@ -760,3 +760,126 @@ def test_monthly_part_of_a_municipal_fee_counts_in_fixed_charges() -> None:
     )
     assert contract.monthly_fixed == pytest.approx((3 + 7 + 0.84) * (1 + SWISS_VAT), abs=0.01)
     assert fee.base_for("VS", 9999) == 0.0  # not one of OIKEN's municipalities
+
+
+# Found comparing every operator with ElCom for 2027 (20 October 2026).
+
+_WORKDAYS = ["Mo", "Tu", "We", "Th", "Fr"]
+_EVERY_DAY = [*_WORKDAYS, "Sa", "Su"]
+
+
+def _one_tariff(energy: list[dict], form: str = "multilevel") -> Tariff:
+    """A tariff from its "energy" price list, as written in an operator's file."""
+    document = {
+        "tariffs": [
+            {
+                "tariffName": "T",
+                "tariffType": "grid",
+                "tariffForm": form,
+                "startDate": "2027-01-01",
+                "endDate": "2027-12-31",
+                "prices": {
+                    "base": {"price": 0, "priceUnit": "CHF/M"},
+                    "energy": [{"priceUnit": "CHF/kWh", **window} for window in energy],
+                },
+            }
+        ]
+    }
+    return parse_tariffs(document)[0]
+
+
+def test_single_rate_written_twice_is_one_price() -> None:
+    """Gsteig, Egerkingen, Bürglen 2027: a single rate as a high/low tariff with the same
+    whole-day price twice. It was rejected ("time windows missing")."""
+    whole_day = {"weekdays": _EVERY_DAY, "from": "00:00", "to": "00:00", "price": 0.1585}
+    tariff = _one_tariff([whole_day, whole_day])
+    tariff.check_supported()
+    assert price_of_windows(tariff.energy, zurich(2027, 3, 10, 12, 0)) == (0.1585, False)
+
+
+def test_repeated_surcharge_next_to_other_prices_still_adds_up() -> None:
+    """Herzogenbuchsee 2027 grid: winter and summer prices, plus three small charges for
+    the whole year, two of them at 0.19 Rp. Both count."""
+    year = {"weekdays": _EVERY_DAY, "from": "00:00", "to": "23:59"}
+    winter = ["Jan", "Feb", "Mar", "Oct", "Nov", "Dec"]
+    summer = ["Apr", "May", "Jun", "Jul", "Aug", "Sep"]
+    tariff = _one_tariff(
+        [
+            {**year, "months": winter, "price": 0.0965},
+            {**year, "months": summer, "price": 0.0725},
+            {**year, "price": 0.0019},
+            {**year, "price": 0.0017},
+            {**year, "price": 0.0019},
+        ]
+    )
+    tariff.check_supported()
+    price, _ = price_of_windows(tariff.energy, zurich(2027, 1, 13, 12, 0))
+    assert price == pytest.approx(0.0965 + 0.0055)
+    price, _ = price_of_windows(tariff.energy, zurich(2027, 7, 14, 12, 0))
+    assert price == pytest.approx(0.0725 + 0.0055)
+
+
+def test_part_of_a_day_inside_the_whole_day_wins() -> None:
+    """Dietlikon 2027 grid: Saturday 07:00-13:00 at 7.22 Rp. and the whole of Saturday at
+    5.48 Rp. (meaning the rest of it). Diessenhofen: the same, at one price."""
+    tariff = _one_tariff(
+        [
+            {"weekdays": _WORKDAYS, "from": "07:00", "to": "20:00", "price": 0.0722},
+            {"weekdays": _WORKDAYS, "from": "20:00", "to": "07:00", "price": 0.0548},
+            {"weekdays": ["Sa"], "from": "07:00", "to": "13:00", "price": 0.0722},
+            {"weekdays": ["Sa"], "from": "00:00", "to": "00:00", "price": 0.0548},
+            {"weekdays": ["Su"], "from": "00:00", "to": "00:00", "price": 0.0548},
+        ]
+    )
+    tariff.check_supported()
+    saturday = 13
+    assert price_of_windows(tariff.energy, zurich(2027, 3, saturday, 9, 0))[0] == 0.0722
+    assert price_of_windows(tariff.energy, zurich(2027, 3, saturday, 15, 0))[0] == 0.0548
+
+
+def test_overlapping_prices_without_months_are_unsupported() -> None:
+    """Merenschwand 2027 left out the months of its winter and summer prices: the same
+    hours have two prices. The tariff is not offered rather than failing later."""
+    tariff = _one_tariff(
+        [
+            {"weekdays": _EVERY_DAY, "from": "18:00", "to": "09:00", "price": 0.0935},
+            {"weekdays": _EVERY_DAY, "from": "09:00", "to": "18:00", "price": 0.0935},
+            {"weekdays": _EVERY_DAY, "from": "09:00", "to": "18:00", "price": 0.0655},
+            {"weekdays": _EVERY_DAY, "from": "18:00", "to": "09:00", "price": 0.0795},
+        ]
+    )
+    with pytest.raises(UnsupportedTariffError, match="overlapping"):
+        tariff.check_supported()
+
+
+def test_federal_charges_checked_without_the_monthly_fee() -> None:
+    """Spreitenbach 2027 writes its yearly grid fee (66 CHF, ElCom) as 66 CHF a month.
+    With the fee in, the charges looked included; ElCom's grid price per kWh without
+    fees (5.43 Rp.) shows they are not (2.85 Rp. were missing)."""
+    grids = tariffs_on(load("spreitenbach-2027.json"), "grid", DAY_2027)
+    chosen = by_name(grids, "Strom KN Netznutzung")
+    assert federal_addition(grids, 7.443, 2.3, 2027, chosen=chosen) == 0.0  # the old answer
+    addition = federal_addition(grids, 7.443, 2.3, 2027, chosen=chosen, elcom_working_rp=5.426)
+    assert addition == national_charges(2027)
+
+
+def test_grid_suggestion_skips_tariffs_far_from_elcom() -> None:
+    """Gränichen 2027: with a flat energy tariff, the only flat grid tariff is for
+    building sites, 20 Rp. away from ElCom's household figure."""
+    tariffs = load("graenichen-2027.json")
+    electricity = by_name(tariffs, "energie.natur+")
+    grids = tariffs_on(tariffs, "grid", DAY_2027)
+    grid = suggest_grid(electricity, grids, 4006, "Gränichen", (10.867, 2.3, 2027, 9.25))
+    # netz.kompakt.flex, or street lighting at the same price: the closest to ElCom.
+    assert grid.name in {"netz.kompakt.flex", "netz.öB"}
+    assert suggest_grid(electricity, grids, 4006, "Gränichen").name == "netz.temporär"
+
+
+def test_federal_charges_clear_when_the_next_hypothesis_is_far() -> None:
+    """ebs 2026 compared per kWh (ElCom: 10.32 Rp. without fees): the household day/night
+    average is 0.72 Rp. off with all charges added, 1.45 with the surcharge only. Over
+    0.6 Rp., the check used to fall back to the building-site tariff, which said none."""
+    grids = tariffs_on(load("ebs-2026.json"), "grid", date(2026, 10, 13))
+    chosen = by_name(grids, "N-Casa")
+    addition = federal_addition(grids, 10.729, 2.3, 2026, chosen=chosen, elcom_working_rp=10.319)
+    assert addition == national_charges(2026)

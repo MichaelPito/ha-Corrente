@@ -12,6 +12,7 @@ from __future__ import annotations
 import logging
 import re
 from bisect import bisect_right
+from collections import Counter
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field, replace
 from datetime import UTC, date, datetime, time, timedelta
@@ -59,6 +60,10 @@ _H4_KWH_PER_YEAR = 4500
 _MAX_FEES_COMBINED = 8  # beyond, only one fee or all of them are tried
 # The federal-charge hypotheses are 0.73 and 2.3 Rp. apart: within this, one clearly fits.
 _CLEAR_FIT_RP = 0.6
+_CLOSE_FIT_RP = 1.0
+_CLEAR_MARGIN_RP = 0.5
+# A suggested grid tariff further than this from ElCom's household figure is unlikely.
+_PLAUSIBLE_GRID_RP = 1.5
 
 
 def federal_addition(
@@ -67,6 +72,8 @@ def federal_addition(
     elcom_aidfee_rp: float,
     year: int,
     chosen: Tariff | None = None,
+    *,
+    elcom_working_rp: float | None = None,
 ) -> float | None:
     """How much federal charge to add on top of an operator's grid tariff, in CHF/kWh.
 
@@ -92,8 +99,18 @@ def federal_addition(
     over the year, every hour counting the same. ElCom's household uses more by
     day, so that average is a little low; the three hypotheses are 2-3 Rp.
     apart, much more than that difference.
+
+    With ``elcom_working_rp`` (ElCom's grid price per kWh without the monthly fee
+    and the federal charges) only prices per kWh are compared, leaving the monthly
+    fees out: some files give a yearly fee as monthly (Spreitenbach: 66 CHF "a
+    month", ElCom: 66 CHF a year), which made a 2.85 Rp. difference look like one
+    of the hypotheses.
     """
-    target = elcom_grid_rp + elcom_aidfee_rp  # what ElCom says grid costs, all charges in
+    with_base = elcom_working_rp is None
+    if with_base:
+        target = elcom_grid_rp + elcom_aidfee_rp  # what ElCom says grid costs, all charges in
+    else:
+        target = elcom_working_rp + 100 * national_charges(year)
     candidates = (national_charges(year), elcom_aidfee_rp / 100, 0.0)
 
     # The user's own tariff first, day/night too, when one hypothesis clearly fits:
@@ -102,11 +119,17 @@ def federal_addition(
     if chosen is not None:
         fits = [
             (abs(rp + 100 * addition - target), addition)
-            for rp in _grid_rp(chosen, year)
+            for rp in _grid_rp(chosen, year, with_base)
             for addition in candidates
         ]
-        if fits and min(fits)[0] <= _CLEAR_FIT_RP:
-            return min(fits)[1]
+        fits.sort()
+        if fits and (
+            fits[0][0] <= _CLEAR_FIT_RP
+            # A day/night average is a little low (see below), up to 0.7 Rp. at ebs:
+            # still clear when the next hypothesis is much further away.
+            or (fits[0][0] <= _CLOSE_FIT_RP and fits[1][0] - fits[0][0] >= _CLEAR_MARGIN_RP)
+        ):
+            return fits[0][1]
 
     def is_flat(tariff: Tariff) -> bool:
         return bool(tariff.energy) and all(w.every_day for w in tariff.energy)
@@ -130,7 +153,7 @@ def federal_addition(
     compared = next((group for group in choices if group), pool)
     if not compared:
         return None
-    grid_rp = [rp for tariff in compared for rp in _grid_rp(tariff, year)]
+    grid_rp = [rp for tariff in compared for rp in _grid_rp(tariff, year, with_base)]
     best_addition, best_error = None, None
     for addition in candidates:
         for rp in grid_rp:
@@ -140,15 +163,16 @@ def federal_addition(
     return best_addition
 
 
-def _grid_rp(tariff: Tariff, year: int) -> list[float]:
-    """A grid tariff's average price with its monthly fee, in Rp./kWh; empty if unpriced."""
+def _grid_rp(tariff: Tariff, year: int, with_base: bool = True) -> list[float]:
+    """A grid tariff's average price (with its monthly fee), in Rp./kWh; empty if unpriced."""
     if not tariff.energy or tariff.is_dynamic:
         return []
     try:
         average = _average_price(tariff.energy, year)
     except UnsupportedTariffError:
         return []
-    return [100 * (average + tariff.monthly_base * 12 / _H4_KWH_PER_YEAR)]
+    base = tariff.monthly_base * 12 / _H4_KWH_PER_YEAR if with_base else 0.0
+    return [100 * (average + base)]
 
 
 def _average_price(windows: Sequence[PriceWindow], year: int) -> float:
@@ -167,16 +191,28 @@ def _average_price(windows: Sequence[PriceWindow], year: int) -> float:
 
 
 def h4_grid_error(
-    grid: Tariff, elcom_grid_rp: float, elcom_aidfee_rp: float, year: int
+    grid: Tariff,
+    elcom_grid_rp: float,
+    elcom_aidfee_rp: float,
+    year: int,
+    elcom_working_rp: float | None = None,
 ) -> float | None:
     """How far a grid tariff is from ElCom's household figure, in Rp./kWh.
 
-    The best of the three federal-charge hypotheses (see federal_addition); None
-    for a tariff that cannot be priced from the file.
+    The best of the three federal-charge hypotheses (see federal_addition, also for
+    ``elcom_working_rp``); None for a tariff that cannot be priced from the file.
     """
-    target = elcom_grid_rp + elcom_aidfee_rp
+    with_base = elcom_working_rp is None
+    if with_base:
+        target = elcom_grid_rp + elcom_aidfee_rp
+    else:
+        target = elcom_working_rp + 100 * national_charges(year)
     additions = (100 * national_charges(year), elcom_aidfee_rp, 0.0)
-    errors = [abs(rp + addition - target) for rp in _grid_rp(grid, year) for addition in additions]
+    errors = [
+        abs(rp + addition - target)
+        for rp in _grid_rp(grid, year, with_base)
+        for addition in additions
+    ]
     return min(errors, default=None)
 
 
@@ -272,6 +308,12 @@ def _windows(raws: Iterable[Mapping[str, Any]] | None) -> tuple[PriceWindow, ...
     # gives its 2 Rp. municipal fee as 2 CHF/kWh, Romande Energie's 2027 file one of
     # the "Double" grid prices as 10.62 CHF/kWh (ElCom: about 12 Rp. in all).
     windows = [replace(w, price=w.price / 100) if w.price >= 1 else w for w in windows]
+    # A single rate written as a high/low tariff with the same price twice (Gsteig,
+    # Egerkingen, Glarus 2027): when every window comes the same number of times,
+    # keep one of each. Repeated surcharges next to other windows still add up.
+    counts = Counter(windows)
+    if len(set(counts.values())) == 1 and next(iter(counts.values())) > 1:
+        windows = list(dict.fromkeys(windows))
     # Some operators give the last minute included: ewz writes "06:00"-"21:59" and
     # "22:00"-"05:59". Read as up to 22:00 and 06:00, unless a window starts at :59.
     starts = {window.start for window in windows}
@@ -395,10 +437,15 @@ class Tariff:
         # daily windows were not encoded (seen in AMB "Dinamica" 2027). Whole-day
         # prices for different months are fine: EKZ "Erneuerbar" 2026 has a winter
         # and a summer price.
+        # Whole-year prices next to a complete set of seasonal ones are surcharges
+        # (Herzogenbuchsee's grid: winter and summer prices, plus three small charges).
+        seasonal = [w for w in self.energy if w.all_day and w.months is not None]
+        seasons_cover_the_year = set().union(*(w.months for w in seasonal)) == set(range(1, 13))
         if (
             self.form == "multilevel"
             and len(self.energy) > 1
             and all(window.all_day for window in self.energy)
+            and not seasons_cover_the_year
             and any(
                 _same_days(first, second)
                 for n, first in enumerate(self.energy)
@@ -406,6 +453,28 @@ class Tariff:
             )
         ):
             raise UnsupportedTariffError(f"{self.name}: time windows missing")
+        # Timed windows that overlap at different prices, with no way to tell which
+        # applies (Merenschwand 2027 left out the months of its winter and summer prices).
+        try:
+            for moment in _sample_moments(self.energy):
+                price_of_windows(self.energy, moment)
+        except UnsupportedTariffError as err:
+            raise UnsupportedTariffError(f"{self.name}: {err}") from err
+
+
+def _sample_moments(windows: Sequence[PriceWindow]) -> list[datetime]:
+    """Moments that meet every combination of windows: each window boundary, on each
+    weekday of a week in each month (only for tariffs with timed windows)."""
+    if all(w.every_day for w in windows):
+        return []
+    times = sorted({t for w in windows for t in w.boundaries()} | {time(0, 0)})
+    moments = []
+    for month in range(1, 13):
+        first = date(2027, month, 1)
+        for offset in range(7):
+            day = first + timedelta(days=offset)
+            moments.extend(datetime.combine(day, t, SWISS_TZ) for t in times)
+    return moments
 
 
 def _same_days(first: PriceWindow, second: PriceWindow) -> bool:
@@ -550,10 +619,26 @@ def price_of_windows(windows: Sequence[PriceWindow], local: datetime) -> tuple[f
         return whole_day, False
     matching = [w for w in timed if w.covers(local)]
     if len(matching) > 1:
-        raise UnsupportedTariffError("overlapping time windows")
+        matching = _narrowest(matching)
     if matching:
         return whole_day + matching[0].price, False
     return whole_day + min(w.price for w in timed), True
+
+
+def _narrowest(matching: list[PriceWindow]) -> list[PriceWindow]:
+    """The one window that applies when several timed windows cover the same moment.
+
+    Same price: no conflict (Diessenhofen gives Saturday as a whole day and as
+    07:00-13:00, at one price). A window for part of a day inside a whole day wins:
+    Dietlikon's grid is 7.22 Rp. on Saturday 07:00-13:00 and 5.48 the rest of Saturday,
+    written as the whole of Saturday. Anything else cannot be priced.
+    """
+    if len({w.price for w in matching}) == 1:
+        return matching[:1]
+    parts = [w for w in matching if not w.all_day]
+    if len(parts) == 1:
+        return parts
+    raise UnsupportedTariffError("overlapping time windows")
 
 
 class PriceNotPublishedError(LookupError):
@@ -859,7 +944,7 @@ def suggest_grid(
     grids: Sequence[Tariff],
     municipality: int | None = None,
     municipality_name: str | None = None,
-    elcom: tuple[float, float, int] | None = None,
+    elcom: tuple[float, float, int] | tuple[float, float, int, float | None] | None = None,
 ) -> Tariff | None:
     """The grid tariff that most likely goes with an energy tariff.
 
@@ -869,26 +954,37 @@ def suggest_grid(
     dynamic, the same kind of customer, the user's municipality or canton named in
     the tariff, the operator's standard tariff, a day/night tariff with a day/night
     tariff, then (with ``elcom``: ElCom's household grid figure, surcharge and
-    year) the price closest to what ElCom says a household pays, to the
-    nearest Rp.: St. Gallen's reactive energy price and Geneva's separate
-    "réserve d'électricité" are grid tariffs too. The name decides only between
-    otherwise equal tariffs.
+    year, and optionally its grid price per kWh without fees) the price closest to
+    what ElCom says a household pays, to the nearest Rp.: St. Gallen's reactive
+    energy price and Geneva's separate "réserve d'électricité" are grid tariffs too.
+    Before the day/night match, a price more than 3 Rp. away from ElCom's counts
+    against a tariff: with a flat energy tariff, Gränichen's only flat grid tariff
+    is for building sites (20 Rp. off). The name decides only between otherwise
+    equal tariffs.
     """
     customer = electricity.customer_type.strip().casefold()
     canton = canton_of(municipality)
 
+    def error(grid: Tariff) -> float | None:
+        return None if elcom is None else h4_grid_error(grid, *elcom)
+
     def closeness(grid: Tariff) -> int:
         if elcom is None:
             return 0
-        error = h4_grid_error(grid, *elcom)
-        return -1000 if error is None else -round(error)
+        rp = error(grid)
+        return -1000 if rp is None else -round(rp)
 
-    def score(grid: Tariff) -> tuple[bool, bool, bool, bool, bool, int, float]:
+    def plausible(grid: Tariff) -> bool:
+        rp = error(grid)
+        return elcom is None or rp is None or rp <= _PLAUSIBLE_GRID_RP
+
+    def score(grid: Tariff) -> tuple[bool, bool, bool, bool, bool, bool, int, float]:
         return (
             grid.is_dynamic == electricity.is_dynamic,
             bool(customer) and grid.customer_type.strip().casefold() == customer,
             _names_place(grid, municipality_name or "", canton),
             grid.standard,
+            plausible(grid),
             _by_time_of_day(grid) == _by_time_of_day(electricity),
             closeness(grid),
             SequenceMatcher(None, electricity.name.lower(), grid.name.lower()).ratio(),

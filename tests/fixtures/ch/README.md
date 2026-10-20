@@ -43,3 +43,9 @@ Added on 2026-10-19, from the comparison with ElCom for 2027, trimmed:
   grid tariff is for building sites (90 CHF a month)
 - `oiken-2027.json` — OIKEN, Sion: the municipal fee has a monthly part (0.84 CHF) besides the
   per-kWh one (trimmed to "Tarif Simple" and two municipalities)
+
+Added on 2026-10-20, from the comparison with ElCom of every operator for 2027, trimmed:
+
+- `spreitenbach-2027.json` — Gemeinde Spreitenbach: the yearly grid fee (66 CHF) written as monthly
+- `graenichen-2027.json` — TB Gränichen: with a flat energy tariff, the only flat grid tariff is
+  for building sites

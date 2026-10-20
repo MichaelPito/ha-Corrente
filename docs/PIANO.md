@@ -281,6 +281,15 @@ esperto. Le richieste diventano la roadmap pubblica.
     2. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
     3. dicembre: ricontrollare Winterthur, AGE e i gestori senza file leggibile.
 
+- **20 ottobre 2026, dopo la v0.2.3** (owner: «ok, vai avanti»):
+  - ✅ **prova su tutti i gestori svizzeri** (non solo 32): 535 gestori per il 2027 e 550 per il 2026, uno per gestore, confrontati con ElCom. Corretti: il controllo delle voci nazionali (ora con il prezzo di rete al kWh di ElCom, senza quote fisse: circa 30 gestori l'anno avevano il prezzo sbagliato di 2,3–2,85 Rp), 13 gestori con tariffe che prima venivano rifiutate, la rete suggerita lontana da ElCom. Dettagli in `FONTI-DATI.md`;
+  - rete entro 0,6 Rp da ElCom: 95% dei gestori nel 2027 (prima 85%), 90% nel 2026 (prima 81%);
+  - 215 test. Versione 0.2.4 pronta, non pubblicata.
+  - **Prossimi pezzi:**
+    1. versione v0.2.4 con queste correzioni: serve l'ok dell'owner (importante: circa 30 gestori hanno oggi un prezzo sbagliato del 10%);
+    2. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
+    3. gestori senza file leggibile (circa 200): vedere quanti hanno un file da un'altra parte; dicembre: ricontrollare Winterthur e AGE.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
