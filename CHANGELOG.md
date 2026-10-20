@@ -12,6 +12,7 @@ From a code review of 0.2.2, and a check of the 2027 tariffs (in force from 1 Ja
 ### Fixed
 - 2027, Romande Energie (Vaud): one of the "Double" grid prices is written in the file as 10.62 CHF/kWh instead of 10.62 Rp. Any price of 1 CHF/kWh or more is now read as Rp., as was already done for fees.
 - 2027, Schwyz (ebs): the federal charges were left out (about 3.5 Rp/kWh) because the check compared ElCom's figure with a tariff for building sites; your own grid tariff now comes first.
+- Fixed charges: the monthly part of a cantonal or municipal fee is counted (OIKEN, Sion: 0.84 CHF a month).
 - Several fees with day/night prices are priced separately and added up (merged, they stopped the price with "overlapping time windows").
 - A seasonal all-day price (summer only, for example) is no longer dropped when it lies between another season's day and night prices.
 - Fees with the same name (EKZ): the one for your place is used, whatever the order in the operator's file.

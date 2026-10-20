@@ -41,3 +41,5 @@ Added on 2026-10-19, from the comparison with ElCom for 2027, trimmed:
   as 10.62 CHF/kWh (it is 10.62 Rp.)
 - `ebs-2027.json` — ebs, Schwyz: a seasonal day/night household grid tariff; the only flat
   grid tariff is for building sites (90 CHF a month)
+- `oiken-2027.json` — OIKEN, Sion: the municipal fee has a monthly part (0.84 CHF) besides the
+  per-kWh one (trimmed to "Tarif Simple" and two municipalities)

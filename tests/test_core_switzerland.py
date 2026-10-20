@@ -745,3 +745,18 @@ def test_federal_charges_from_own_day_night_tariff_before_building_sites() -> No
     grids = tariffs_on(load("ebs-2027.json"), "grid", DAY_2027)
     chosen = by_name(grids, "N-Casa")
     assert federal_addition(grids, 10.45, 2.3, 2027, chosen=chosen) == national_charges(2027)
+
+
+def test_monthly_part_of_a_municipal_fee_counts_in_fixed_charges() -> None:
+    """OIKEN 2027: the municipal fee in Sion is 0.732 Rp./kWh plus 0.84 CHF a month."""
+    oiken = load("oiken-2027.json")
+    fee = by_name(tariffs_on(oiken, "regional_fees", DAY_2027), "Tarif Simple")
+    contract = SwissContract(
+        electricity=by_name(tariffs_on(oiken, "electricity", DAY_2027), "Tarif Simple"),
+        grid=by_name(tariffs_on(oiken, "grid", DAY_2027), "Tarif Simple"),
+        regional_fees=fee,
+        municipality=6266,
+        municipality_name="Sion",
+    )
+    assert contract.monthly_fixed == pytest.approx((3 + 7 + 0.84) * (1 + SWISS_VAT), abs=0.01)
+    assert fee.base_for("VS", 9999) == 0.0  # not one of OIKEN's municipalities
