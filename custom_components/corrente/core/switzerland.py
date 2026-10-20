@@ -324,6 +324,9 @@ class Tariff:
     # BKW numbers municipalities its own way ("15040 Ittigen", federal number 362),
     # so fees are also found by the municipality's name.
     municipality_names: Mapping[str, int] = field(default_factory=dict)
+    # Monthly fees by canton and municipality (OIKEN's municipal fee has one, CHF/month).
+    canton_base: Mapping[str, float] = field(default_factory=dict)
+    municipality_base: Mapping[int, float] = field(default_factory=dict)
     dynamic_url: str | None = None
     standard: bool = False  # the operator's flagged standard tariff (standardBasegroup)
 
@@ -345,6 +348,21 @@ class Tariff:
         if key is not None:
             windows.extend(self.municipality_energy[key])
         return tuple(windows)
+
+    def base_for(
+        self,
+        canton: str | None = None,
+        municipality: int | None = None,
+        municipality_name: str | None = None,
+    ) -> float:
+        """Monthly fee in CHF, including the canton's and municipality's."""
+        base = self.monthly_base
+        if canton is not None:
+            base += self.canton_base.get(canton, 0.0)
+        key = self.municipality_key(municipality, municipality_name, canton)
+        if key is not None:
+            base += self.municipality_base.get(key, 0.0)
+        return base
 
     def municipality_key(
         self, number: int | None, name: str | None = None, canton: str | None = None
@@ -466,15 +484,25 @@ def _is_federal_charge(comment: object) -> bool:
     )
 
 
+def _monthly(raw: Mapping[str, Any] | None) -> float:
+    """A monthly fee in CHF; 0 for other units."""
+    raw = raw or {}
+    return float(raw.get("price") or 0) if raw.get("priceUnit") == "CHF/M" else 0.0
+
+
 def _parse_tariff(raw: Mapping[str, Any]) -> Tariff:
     prices = raw.get("prices") or {}
     canton_energy: dict[str, list[PriceWindow]] = {}
+    canton_base: dict[str, float] = {}
+    municipality_base: dict[int, float] = {}
     for tax in prices.get("cantonalTaxes") or ():
         if _is_federal_charge(tax.get("cantonComment")) or _is_large_consumer(
             tax.get("cantonComment")
         ):
             continue
         canton_energy.setdefault(tax["cantonName"], []).extend(_windows(tax.get("cantonEnergy")))
+        if monthly := _monthly(tax.get("cantonBase")):
+            canton_base[tax["cantonName"]] = canton_base.get(tax["cantonName"], 0.0) + monthly
     municipality_energy: dict[int, list[PriceWindow]] = {}
     municipality_names: dict[str, int] = {}
     for tax in prices.get("municipalityTaxes") or ():
@@ -485,9 +513,10 @@ def _parse_tariff(raw: Mapping[str, Any]) -> Tariff:
         municipality_energy.setdefault(int(number), []).extend(
             _windows(tax.get("municipalityEnergy"))
         )
+        if monthly := _monthly(tax.get("municipalityBase")):
+            municipality_base[int(number)] = municipality_base.get(int(number), 0.0) + monthly
         if name := str(tax.get("municipalityName") or "").strip():
             municipality_names.setdefault(name.casefold(), int(number))
-    base = prices.get("base") or {}
     return Tariff(
         name=raw["tariffName"],
         tariff_type=raw["tariffType"],
@@ -496,10 +525,12 @@ def _parse_tariff(raw: Mapping[str, Any]) -> Tariff:
         end_date=_parse_date(raw["endDate"]),
         customer_type=raw.get("customerType", ""),
         energy=_without_single_rate_alternative(_windows(prices.get("energy"))),
-        monthly_base=float(base.get("price", 0)) if base.get("priceUnit") == "CHF/M" else 0,
+        monthly_base=_monthly(prices.get("base")),
         canton_energy={k: tuple(v) for k, v in canton_energy.items()},
         municipality_energy={k: tuple(v) for k, v in municipality_energy.items()},
         municipality_names=municipality_names,
+        canton_base=canton_base,
+        municipality_base=municipality_base,
         dynamic_url=(prices.get("dynamic") or {}).get("url"),
         standard=bool(raw.get("standardBasegroup")),
     )
@@ -726,7 +757,10 @@ class SwissContract:
     @property
     def monthly_fixed(self) -> float:
         """Fixed charges per month including VAT (metering is not included)."""
-        base = sum(tariff.monthly_base for tariff in self._tariffs())
+        base = sum(
+            tariff.base_for(self.canton, self.municipality, self.municipality_name)
+            for tariff in self._tariffs()
+        )
         return round(base * (1 + SWISS_VAT), 2)
 
 

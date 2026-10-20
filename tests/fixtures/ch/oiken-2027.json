@@ -1,0 +1,121 @@
+{
+ "dsoName": "OIKEN SA",
+ "dsoNumber": 11008012345,
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tarif Simple",
+   "tariffType": "electricity",
+   "standardBasegroup": true,
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Pour les clients de l'approvisionnement de base avec une consommation d'électricité annuelle inférieure à 50'000 kWh",
+   "prices": {
+    "base": {
+     "price": 3,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.122,
+      "priceUnit": "CHF/kWh",
+      "weekdays": []
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tarif Simple",
+   "tariffType": "grid",
+   "standardBasegroup": true,
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "",
+   "customerType": "Pour les clients de l'approvisionnement de base avec une consommation d'électricité annuelle inférieure à 50'000 kWh",
+   "prices": {
+    "base": {
+     "price": 7,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0876,
+      "priceUnit": "CHF/kWh",
+      "weekdays": []
+     }
+    ],
+    "power": [
+     {
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0,
+      "priceUnit": "CHF/kW/Y",
+      "weekdays": []
+     }
+    ],
+    "refundStorage": {
+     "price": 0.0876,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Tarif Simple",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "comment": "La prestation à la collectivité publique (PCP) représente 12% de l'utilisation du réseau (hors supplément réseau selon art. 35 LEne, réserve d'électricité et coûts solidarisés via le réseau de transport).",
+   "customerType": "Pour les clients de l'approvisionnement de base avec une consommation d'électricité annuelle inférieure à 50'000 kWh",
+   "prices": {
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 6252,
+      "municipalityName": "Anniviers",
+      "municipalityBase": {
+       "price": 0.84,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "weekdays": [],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.00732,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     },
+     {
+      "municipalityNumber": 6266,
+      "municipalityName": "Sion",
+      "municipalityBase": {
+       "price": 0.84,
+       "priceUnit": "CHF/M"
+      },
+      "municipalityEnergy": [
+       {
+        "weekdays": [],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.00732,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": ""
+     }
+    ]
+   }
+  }
+ ]
+}
