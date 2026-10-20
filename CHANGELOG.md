@@ -2,7 +2,7 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
-## [0.2.5] — not released yet
+## [0.2.5] — 2026-10-20
 
 Switzerland: more operators can be used, and fees missing from operators' files are taken from ElCom.
 

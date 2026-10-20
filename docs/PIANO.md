@@ -295,7 +295,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **tributi mancanti**: 83 gestori su 343 non hanno tributi nel file ma ElCom sì (fino a 4 Rp, Basilea 7 Rp): ora si aggiungono da ElCom;
   - 222 test. Versione 0.2.5 pronta, non pubblicata.
   - **Prossimi pezzi:**
-    1. versione v0.2.5: serve l'ok dell'owner;
+    1. ✅ v0.2.5 pubblicata il 20 ottobre (owner: «Si pubblica. Hai sempre l'autorizzazione a pubblicare upgrade»);
     2. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
     3. i 7 gestori con tributi nel file più alti di ElCom (Blumenstein, Fällanden...).
 
@@ -343,6 +343,8 @@ solo utenti che le condividono, quindi sono una stima per difetto) e con le stel
   - all'owner arriva un messaggio **solo** se serve una sua decisione.
 - **Ogni modifica** passa da un ramo dedicato, controlli automatici verdi, poi `main`. I rilasci pubblici
   hanno numero di versione e note.
+- **Pubblicare nuove versioni non richiede l'ok dell'owner** (owner, 20 ottobre: «Hai sempre l'autorizzazione
+  a pubblicare upgrade»). L'ok serve **solo per cancellare** qualcosa (file, rami, versioni, dati).
 
 ## 11. Rischi e risposte
 
