@@ -1,0 +1,872 @@
+{
+ "dsoName": "TB Gränichen Energie AG",
+ "dsoNumber": "10214012345",
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "netz.kompakt",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "customerType": "Gross",
+   "prices": {
+    "base": {
+     "price": 4.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "06:00",
+      "to": "12:00",
+      "price": 0.1415,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "18:00",
+      "to": "00:00",
+      "price": 0.1415,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1235,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "00:00",
+      "to": "06:00",
+      "price": 0.1235,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "12:00",
+      "to": "18:00",
+      "price": 0.1235,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "reactivePower": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    },
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 0,
+      "municipalityName": "Gränichen",
+      "municipalityEnergy": [
+       {
+        "weekdays": [
+         "Mo",
+         "Tu",
+         "We",
+         "Th",
+         "Fr",
+         "Sa",
+         "Su"
+        ],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0075,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Konz."
+     }
+    ],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "netz.kompakt.flex",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "customerType": "Gross",
+   "prices": {
+    "base": {
+     "price": 4.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "06:00",
+      "to": "12:00",
+      "price": 0.1315,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "18:00",
+      "to": "00:00",
+      "price": 0.1315,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1135,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "00:00",
+      "to": "06:00",
+      "price": 0.1135,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "12:00",
+      "to": "18:00",
+      "price": 0.1135,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "reactivePower": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    },
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 0,
+      "municipalityName": "Gränichen",
+      "municipalityEnergy": [
+       {
+        "weekdays": [
+         "Mo",
+         "Tu",
+         "We",
+         "Th",
+         "Fr",
+         "Sa",
+         "Su"
+        ],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0075,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Konz."
+     }
+    ],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "netz.plus",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "customerType": "Gross",
+   "prices": {
+    "base": {
+     "price": 12.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "06:00",
+      "to": "12:00",
+      "price": 0.0755,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "18:00",
+      "to": "00:00",
+      "price": 0.0755,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0655,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "00:00",
+      "to": "06:00",
+      "price": 0.0655,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "12:00",
+      "to": "18:00",
+      "price": 0.0655,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "reactivePower": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.038,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    },
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 0,
+      "municipalityName": "Gränichen",
+      "municipalityEnergy": [
+       {
+        "weekdays": [
+         "Mo",
+         "Tu",
+         "We",
+         "Th",
+         "Fr",
+         "Sa",
+         "Su"
+        ],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0075,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Konz."
+     }
+    ],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "netz.plus.flex",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "customerType": "Gross",
+   "prices": {
+    "base": {
+     "price": 12.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "06:00",
+      "to": "12:00",
+      "price": 0.0655,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "18:00",
+      "to": "00:00",
+      "price": 0.0655,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0555,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "00:00",
+      "to": "06:00",
+      "price": 0.0555,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "12:00",
+      "to": "18:00",
+      "price": 0.0555,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "reactivePower": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.038,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    },
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 0,
+      "municipalityName": "Gränichen",
+      "municipalityEnergy": [
+       {
+        "weekdays": [
+         "Mo",
+         "Tu",
+         "We",
+         "Th",
+         "Fr",
+         "Sa",
+         "Su"
+        ],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0075,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Konz."
+     }
+    ],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 5,
+   "tariffName": "netz.trafo",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "customerType": "Gross",
+   "prices": {
+    "base": {
+     "price": 12.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "06:00",
+      "to": "12:00",
+      "price": 0.0595,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "18:00",
+      "to": "00:00",
+      "price": 0.0595,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.0555,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "00:00",
+      "to": "06:00",
+      "price": 0.0555,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "12:00",
+      "to": "18:00",
+      "price": 0.0555,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "reactivePower": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.038,
+      "priceUnit": "CHF/kVarh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    },
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 0,
+      "municipalityName": "Gränichen",
+      "municipalityEnergy": [
+       {
+        "weekdays": [
+         "Mo",
+         "Tu",
+         "We",
+         "Th",
+         "Fr",
+         "Sa",
+         "Su"
+        ],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0075,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Konz."
+     }
+    ],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "netz.temporär",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "customerType": "Gross",
+   "prices": {
+    "base": {
+     "price": 24.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.2695,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "reactivePower": [],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    },
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 0,
+      "municipalityName": "Gränichen",
+      "municipalityEnergy": [
+       {
+        "weekdays": [
+         "Mo",
+         "Tu",
+         "We",
+         "Th",
+         "Fr",
+         "Sa",
+         "Su"
+        ],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0075,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Konz."
+     }
+    ],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "netz.öB",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "customerType": "Gross",
+   "prices": {
+    "base": {
+     "price": 4.0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "06:00",
+      "to": "12:00",
+      "price": 0.1315,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "18:00",
+      "to": "00:00",
+      "price": 0.1315,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.1135,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "00:00",
+      "to": "06:00",
+      "price": 0.1135,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "12:00",
+      "to": "18:00",
+      "price": 0.1135,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "reactivePower": [],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    },
+    "municipalityTaxes": [
+     {
+      "municipalityNumber": 0,
+      "municipalityName": "Gränichen",
+      "municipalityEnergy": [
+       {
+        "weekdays": [
+         "Mo",
+         "Tu",
+         "We",
+         "Th",
+         "Fr",
+         "Sa",
+         "Su"
+        ],
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.0075,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "municipalityComment": "Konz."
+     }
+    ],
+    "cantonalTaxes": []
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "energie.natur+",
+   "tariffType": "electricity",
+   "tariffForm": "multilevel",
+   "startDate": "2027-01-01",
+   "endDate": "2027-12-31",
+   "customerType": "Gross",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Oct",
+       "Nov",
+       "Dec",
+       "Jan",
+       "Feb",
+       "Mar"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.113,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr",
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "00:00",
+      "price": 0.083,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "reactivePower": [],
+    "refundStorage": {
+     "price": 0,
+     "priceUnit": "CHF/kWh"
+    },
+    "municipalityTaxes": [],
+    "cantonalTaxes": []
+   }
+  }
+ ]
+}

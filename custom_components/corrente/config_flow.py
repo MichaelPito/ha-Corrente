@@ -258,7 +258,7 @@ def _grid_schema(
     municipality = place.municipality if place else None
     elcom = None
     if place and place.grid_h4_rp is not None and place.aidfee_rp is not None:
-        elcom = (place.grid_h4_rp, place.aidfee_rp, today.year)
+        elcom = (place.grid_h4_rp, place.aidfee_rp, today.year, place.grid_working_rp)
     suggested_grid, suggested_fees = None, []
     if energy is not None:
         suggested_grid = suggest_grid(

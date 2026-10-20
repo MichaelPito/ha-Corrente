@@ -2,6 +2,16 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.2.4] — not released yet
+
+Switzerland: checked against ElCom for every operator with a readable tariff file (313 of 535 operators for 2027, 278 of 550 for 2026), not only 32.
+
+### Fixed
+- The federal charges are checked with ElCom's grid price per kWh, without monthly fees: some files give a yearly fee as monthly (Spreitenbach: 66 CHF), which made Corrente leave out or double the federal charges. In this check, about 30 operators per year had a price off by 2.3–2.85 Rp/kWh. The grid price per kWh now matches ElCom within 0.6 Rp. for 95% of operators in 2027 and 90% in 2026 (85% and 81% before).
+- Tariffs that were refused and can now be priced: a single rate written as a high/low tariff with the same price twice (Gsteig, Egerkingen, Glarus and others), a part of a day inside a whole day (Dietlikon's Saturday 07:00–13:00), two windows with the same price at the same time (Diessenhofen), winter and summer prices plus small charges for the whole year (Herzogenbuchsee).
+- Tariffs that still cannot be priced (two prices at the same time, as in Merenschwand's file) are no longer offered in the setup, instead of failing afterwards.
+- The suggested grid tariff is never one far from ElCom's household figure when a closer one exists (Gränichen suggested its building-site tariff).
+
 ## [0.2.3] — 2026-10-20
 
 From a code review of 0.2.2, and a check of the 2027 tariffs (in force from 1 January) against ElCom's 2027 figures.

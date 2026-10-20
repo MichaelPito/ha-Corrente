@@ -240,6 +240,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
                     operator.aidfee_rp,
                     today.year,
                     chosen=options_contract.grid,
+                    elcom_working_rp=operator.grid_working_rp,
                 )
                 break
         self._federal[key] = federal
