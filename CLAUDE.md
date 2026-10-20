@@ -15,7 +15,7 @@
 ## Regole di lavoro
 - **La repo è la memoria:** ogni decisione nuova va in `docs/DECISIONI.md` (data, chi, cosa, perché). Il lavoro non pushato si perde quando la sessione si chiude: commit + push a ogni passo.
 - Si lavora su **rami dedicati**; in `main` si entra solo con i controlli automatici verdi.
-- I rilasci pubblici hanno numero di versione (SemVer) e note di rilascio.
+- I rilasci pubblici hanno numero di versione (SemVer) e note di rilascio. **Le nuove versioni si pubblicano senza chiedere** (owner, 20 ottobre 2026); l'ok dell'owner serve **solo per cancellare** qualcosa (file, rami, versioni, dati).
 - **Segreti mai committati**, nemmeno in file di prova.
 - Lingue: codice, commenti e documentazione principale in **inglese**; piano e decisioni interne in **italiano**; interfaccia tradotta in EN/IT/DE/FR.
 - Trasparenza: il progetto dichiara di essere sviluppato con l'AI; le risposte pubbliche portano la firma di Claude Code.

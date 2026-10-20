@@ -77,5 +77,5 @@
 
 ## Dopo il lancio
 - Claude risponde alle richieste su GitHub e del modulo ogni giorno feriale (sessione automatica delle 8:52); le risposte pubbliche portano la firma di Claude Code.
-- La prima settimana: le correzioni urgenti escono subito come v0.2.x (sempre con l'ok dell'owner per ogni versione).
+- La prima settimana: le correzioni urgenti escono subito come v0.2.x (Claude le pubblica da sé: autorizzazione dell'owner del 20 ottobre; l'ok serve solo per cancellare).
 - Dopo 8 settimane: controllo dei numeri (PIANO §8).
