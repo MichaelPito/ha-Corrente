@@ -286,7 +286,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - rete entro 0,6 Rp da ElCom: 95% dei gestori nel 2027 (prima 85%), 90% nel 2026 (prima 81%);
   - 215 test. Versione 0.2.4 pronta, non pubblicata.
   - **Prossimi pezzi:**
-    1. versione v0.2.4 con queste correzioni: serve l'ok dell'owner (importante: circa 30 gestori hanno oggi un prezzo sbagliato del 10%);
+    1. ✅ v0.2.4 pubblicata il 20 ottobre (ok dell'owner: «sì, pubblica la 0.2.4»);
     2. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
     3. gestori senza file leggibile (circa 200): vedere quanti hanno un file da un'altra parte; dicembre: ricontrollare Winterthur e AGE.
 

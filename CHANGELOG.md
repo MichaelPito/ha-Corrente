@@ -2,7 +2,7 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
-## [0.2.4] — not released yet
+## [0.2.4] — 2026-10-20
 
 Switzerland: checked against ElCom for every operator with a readable tariff file (313 of 535 operators for 2027, 278 of 550 for 2026), not only 32.
 
