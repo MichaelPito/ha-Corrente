@@ -21,6 +21,7 @@ from custom_components.corrente.core.switzerland import (
     _names_place,
     canton_of,
     federal_addition,
+    missing_fees,
     national_charges,
     parse_tariffs,
     price_of_windows,
@@ -883,3 +884,17 @@ def test_federal_charges_clear_when_the_next_hypothesis_is_far() -> None:
     chosen = by_name(grids, "N-Casa")
     addition = federal_addition(grids, 10.729, 2.3, 2026, chosen=chosen, elcom_working_rp=10.319)
     assert addition == national_charges(2026)
+
+
+def test_missing_fees_from_elcom() -> None:
+    """Fees ElCom counts and the file lacks; monthly fees count at 4500 kWh a year."""
+    oiken = load("oiken-2027.json")
+    fee = by_name(tariffs_on(oiken, "regional_fees", DAY_2027), "Tarif Simple")
+    # No fee in the file, ElCom 2 Rp.: all of it is missing.
+    assert missing_fees([], "VS", 6266, "Sion", 2.0, 2027) == pytest.approx(0.02)
+    # Sion: 0.732 Rp. plus 0.84 CHF a month (0.224 Rp.), ElCom 1.17: close enough.
+    assert missing_fees([fee], "VS", 6266, "Sion", 1.17, 2027) == 0.0
+    # Most of ElCom's fees not in the file (Basel 2027: 0.65 Rp. in IWB's file, 7.79 at ElCom).
+    assert missing_fees([fee], "VS", 6266, "Sion", 7.79, 2027) == pytest.approx(
+        (7.79 - 0.732 - 0.224) / 100, abs=1e-5
+    )

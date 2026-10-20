@@ -2,6 +2,7 @@
 
 Formato: data — chi — decisione — perché. Le decisioni più recenti in alto.
 
+- **2026-10-20 — Claude (correzione tecnica)** — Se i tributi cantonali e comunali del file del gestore sono più bassi di quelli di ElCom per una casa (più di 0,3 Rp/kWh), la differenza si aggiunge al prezzo come "altri tributi (ElCom)", visibile negli attributi del sensore. *Perché:* 83 gestori su 343 non mettono nessun tributo nel file e IWB (Basilea) ne mette una piccola parte (0,65 di 7,79 Rp); ElCom è la fonte ufficiale già usata per le voci nazionali.
 - **2026-10-20 — owner** — Pubblicare la **v0.2.4** (confronto con ElCom su tutti i gestori svizzeri: controllo delle voci nazionali con il prezzo di rete al kWh, tariffe prima rifiutate, rete suggerita vicina a ElCom). Parole dell'owner: «sì, pubblica la 0.2.4». Claude avvia il workflow di release.
 - **2026-10-20 — owner** — Pubblicare la **v0.2.3** (correzioni dalla revisione del codice, prezzi 2027 controllati con ElCom: Romande Energie ed ebs, avviso in Riparazioni, quota mensile dei tributi). Parole dell'owner: «sì, pubblica la 0.2.3». Claude avvia il workflow di release.
 - **2026-10-15 — owner** — Pubblicare la **v0.2.2** (correzioni dei prezzi svizzeri controllate con ElCom in 22 cantoni, suggerimenti nella configurazione, tributi multipli, GIF). Alla domanda «Per pubblicarla basta scrivermi: «sì, pubblica la 0.2.2»» l'owner ha risposto: «Si». Claude avvia il workflow di release.

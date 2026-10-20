@@ -7,10 +7,15 @@ https://energy.ld.admin.ch/elcom/electricityprice
 
 from __future__ import annotations
 
+import asyncio
+import html
+import io
 import json
 import re
+import zipfile
 from dataclasses import dataclass
 from typing import Any
+from urllib.parse import urljoin
 
 import aiohttp
 
@@ -151,24 +156,126 @@ async def async_operators_for(
     return _rows_to_operators(rows, year)
 
 
-async def async_fetch_tariff_document(session: aiohttp.ClientSession, url: str) -> dict[str, Any]:
-    """Download and decode an operator's tariff file."""
+# A tariff file found on a web page: links whose path ends in ".json", but not the
+# site's icon manifest or WordPress's own API.
+_JSON_LINK = re.compile(r"""href=["']([^"'#]+?\.json(?:\?[^"']*)?)["']""", re.IGNORECASE)
+_NOT_TARIFF_LINK = re.compile(r"manifest[^/]*\.json|/wp-json/|oembed", re.IGNORECASE)
+_HTML = re.compile(r"<html|<!doctype html", re.IGNORECASE)
+_MAX_LINKS_FROM_PAGE = 6
+_RETRY_STATUSES = {429, 502, 503, 504}
+
+
+async def _async_download(session: aiohttp.ClientSession, url: str) -> bytes:
+    """The body at ``url``; one more try after a server's passing error."""
+    for attempt in (1, 2):
+        try:
+            async with session.get(
+                url, headers={"User-Agent": USER_AGENT}, timeout=_TIMEOUT
+            ) as response:
+                if response.status in _RETRY_STATUSES and attempt == 1:
+                    await asyncio.sleep(2)
+                    continue
+                response.raise_for_status()
+                return await response.read()
+        except aiohttp.ServerDisconnectedError as err:
+            if attempt == 2:
+                raise TariffFileError(str(err)) from err
+            await asyncio.sleep(2)
+        except (aiohttp.ClientError, TimeoutError) as err:
+            raise TariffFileError(str(err)) from err
+    raise TariffFileError(f"{url}: no answer")  # pragma: no cover
+
+
+def _decode(raw: bytes) -> str:
+    """Text of a file: UTF-16 with its byte order mark (two operators), else UTF-8."""
+    if raw[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        return raw.decode("utf-16")
+    return raw.decode("utf-8-sig")  # some files start with a byte order mark
+
+
+def _json_documents(text: str) -> list[Any]:
+    """Every JSON document in ``text``: IWB (Basel) publishes 2027 and 2026 one after
+    the other in the same file."""
+    decoder, documents, position = json.JSONDecoder(), [], 0
     try:
-        async with session.get(
-            url, headers={"User-Agent": USER_AGENT}, timeout=_TIMEOUT
-        ) as response:
-            response.raise_for_status()
-            raw = await response.read()
-    except (aiohttp.ClientError, TimeoutError) as err:
-        raise TariffFileError(str(err)) from err
-    try:
-        # utf-8-sig: some operators publish files with a byte order mark.
-        document = json.loads(raw.decode("utf-8-sig"))
-    except (UnicodeDecodeError, json.JSONDecodeError) as err:
+        while True:
+            while position < len(text) and text[position].isspace():
+                position += 1
+            if position >= len(text):
+                return documents
+            document, position = decoder.raw_decode(text, position)
+            documents.append(document)
+    except json.JSONDecodeError as err:
         raise TariffFileError("the link does not point to a tariff file") from err
-    if not isinstance(document, dict) or not isinstance(document.get("tariffs"), list):
+
+
+def parse_tariff_file(raw: bytes) -> dict[str, Any]:
+    """An operator's tariff file in the VSE format, from what its link returns.
+
+    Also read: a zip holding the file (two operators), UTF-16, and several
+    documents in one file, whose tariffs are put together.
+    """
+    if raw[:4] == b"PK\x03\x04":
+        try:
+            with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+                members = [n for n in archive.namelist() if n.lower().endswith(".json")]
+                parts = [parse_tariff_file(archive.read(name)) for name in members]
+        except zipfile.BadZipFile as err:
+            raise TariffFileError("the link does not point to a tariff file") from err
+        if not parts:
+            raise TariffFileError("the archive holds no tariff file")
+        return _merged(parts)
+    try:
+        documents = _json_documents(_decode(raw))
+    except UnicodeDecodeError as err:
+        raise TariffFileError("the link does not point to a tariff file") from err
+    files = [d for d in documents if isinstance(d, dict) and isinstance(d.get("tariffs"), list)]
+    if not files:
         raise TariffFileError("the file is not in the VSE tariff format")
-    return document
+    return _merged(files)
+
+
+def _merged(files: list[dict[str, Any]]) -> dict[str, Any]:
+    if len(files) == 1:
+        return files[0]
+    return {**files[0], "tariffs": [tariff for file in files for tariff in file["tariffs"]]}
+
+
+def _links_to_files(page: str, base_url: str) -> list[str]:
+    links = [urljoin(base_url, html.unescape(link)) for link in _JSON_LINK.findall(page)]
+    links = [
+        link for link in links if link.startswith("http") and not _NOT_TARIFF_LINK.search(link)
+    ]
+    return list(dict.fromkeys(links))[:_MAX_LINKS_FROM_PAGE]
+
+
+async def async_fetch_tariff_document(session: aiohttp.ClientSession, url: str) -> dict[str, Any]:
+    """Download and decode an operator's tariff file.
+
+    About 70 operators registered with ElCom the web page that links to their
+    file rather than the file: then the ".json" files linked from the page are
+    read and put together (often this year's and next year's), and callers pick
+    the tariffs in force.
+    """
+    raw = await _async_download(session, url)
+    try:
+        return parse_tariff_file(raw)
+    except TariffFileError as err:
+        try:
+            page = _decode(raw)
+        except UnicodeDecodeError:
+            raise err from None
+        if not _HTML.search(page[:5000]):
+            raise
+        parts = []
+        for link in _links_to_files(page, url):
+            try:
+                parts.append(parse_tariff_file(await _async_download(session, link)))
+            except TariffFileError:
+                continue
+        if not parts:
+            raise TariffFileError("the link does not point to a tariff file") from err
+        return _merged(parts)
 
 
 async def async_tariff_url_candidates(

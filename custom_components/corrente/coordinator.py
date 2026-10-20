@@ -43,6 +43,7 @@ from .core.switzerland import (
     canton_of,
     federal_addition,
     fee_applies,
+    missing_fees,
     parse_tariffs,
     regional_names,
     suggest_matching,
@@ -71,8 +72,16 @@ class SwissTariffData:
     federal_checked: bool = False
 
 
+@dataclass(frozen=True, slots=True)
+class ElcomCheck:
+    """What ElCom's household figures add to the file: federal charges and missing fees."""
+
+    federal_per_kwh: float | None = None  # None: not checked, all charges are added
+    other_fees_per_kwh: float = 0.0
+
+
 def select_contract(
-    tariffs: list[Tariff], options: dict, day: date, federal_per_kwh: float | None = None
+    tariffs: list[Tariff], options: dict, day: date, check: ElcomCheck | None = None
 ) -> SwissContract:
     """Pick the user's tariffs that are in force on ``day``.
 
@@ -115,7 +124,8 @@ def select_contract(
         canton=options.get(CONF_CANTON) or canton_of(municipality),
         municipality=municipality,
         municipality_name=municipality_name,
-        federal_per_kwh=federal_per_kwh,
+        federal_per_kwh=check.federal_per_kwh if check else None,
+        other_fees_per_kwh=check.other_fees_per_kwh if check else 0.0,
     )
 
 
@@ -138,7 +148,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
             update_interval=UPDATE_INTERVAL,
         )
         self._url: str = entry.data[CONF_TARIFF_URL]
-        self._federal: dict[tuple[str, int, str], float | None] = {}
+        self._checks: dict[tuple, ElcomCheck] = {}
         self._file: tuple[list[Tariff], datetime, date] | None = None
         self._dynamic: dict[tuple[str, str], list[Segment]] = {}
         self._dynamic_attempt: dict[tuple[str, str], datetime] = {}
@@ -160,8 +170,8 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
                 issue_id = no_tariffs_issue_id(self.config_entry.entry_id)
                 ir.async_delete_issue(self.hass, DOMAIN, issue_id)
             tariffs = self._file[0]
-            federal = await self._async_federal(session, options, today, tariffs)
-            contract = select_contract(tariffs, options, today, federal)
+            check = await self._async_elcom_check(session, options, today, tariffs)
+            contract = select_contract(tariffs, options, today, check)
         except (ElcomError, UnsupportedTariffError) as err:
             raise UpdateFailed(str(err)) from err
         if contract.dynamic_tariffs:
@@ -172,7 +182,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
             tariffs=tariffs,
             contract=contract,
             source_url=self._url,
-            federal_checked=federal is not None,
+            federal_checked=check.federal_per_kwh is not None,
         )
 
     async def _async_dynamic(
@@ -215,25 +225,29 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
             prices[tariff.tariff_type] = known
         return prices
 
-    async def _async_federal(
+    async def _async_elcom_check(
         self, session, options: dict, today: date, tariffs: list[Tariff]
-    ) -> float | None:
-        """Federal charges to add for this operator, checked with ElCom once per file and year."""
-        key = (self._url, today.year, options[CONF_GRID_TARIFF])
-        if key in self._federal:
-            return self._federal[key]
+    ) -> ElcomCheck:
+        """Federal charges and missing fees for this contract, checked with ElCom once per
+        file, year and choice of tariffs."""
+        key = (
+            self._url,
+            today.year,
+            options[CONF_GRID_TARIFF],
+            tuple(regional_names(options.get(CONF_REGIONAL_TARIFF))),
+        )
+        if key in self._checks:
+            return self._checks[key]
         try:
             operators = await async_operators_for(session, options[CONF_MUNICIPALITY], today.year)
         except ElcomError:
-            return None  # try again at the next refresh; meanwhile add all charges
-        federal = None
-        options_contract = select_contract(tariffs, options, today)  # the user's grid tariff
+            return ElcomCheck()  # try again at the next refresh; meanwhile add all charges
+        federal, other_fees = None, 0.0
+        options_contract = select_contract(tariffs, options, today)  # the user's tariffs
         for operator in operators:
-            if (
-                operator.operator_id == options[CONF_OPERATOR_ID]
-                and operator.grid_h4_rp is not None
-                and operator.aidfee_rp is not None
-            ):
+            if operator.operator_id != options[CONF_OPERATOR_ID]:
+                continue
+            if operator.grid_h4_rp is not None and operator.aidfee_rp is not None:
                 federal = federal_addition(
                     tariffs_on(tariffs, "grid", today),
                     operator.grid_h4_rp,
@@ -242,9 +256,18 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
                     chosen=options_contract.grid,
                     elcom_working_rp=operator.grid_working_rp,
                 )
-                break
-        self._federal[key] = federal
-        return federal
+            if operator.charge_rp is not None:
+                other_fees = missing_fees(
+                    options_contract.regional_fees,
+                    options_contract.canton,
+                    options_contract.municipality,
+                    options_contract.municipality_name,
+                    operator.charge_rp,
+                    today.year,
+                )
+            break
+        self._checks[key] = ElcomCheck(federal, other_fees)
+        return self._checks[key]
 
     async def _async_load(self, session, url: str, today: date) -> list[Tariff] | None:
         """Tariffs from ``url`` if the file is readable and has tariffs in force today."""

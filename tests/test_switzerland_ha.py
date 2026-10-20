@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -325,3 +326,25 @@ async def test_removing_the_entry_removes_its_repair(
     await hass.config_entries.async_remove(entry.entry_id)
     await hass.async_block_till_done()
     assert ir.async_get(hass).async_get_issue(DOMAIN, issue_id) is None
+
+
+async def test_fees_missing_from_the_file_come_from_elcom(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker, freezer: FrozenDateTimeFactory
+) -> None:
+    """83 of 343 operators publish no fee in their file although ElCom lists some: the
+    price adds ElCom's household fees then (here: no fee chosen, ElCom 2.22 Rp.)."""
+    freezer.move_to(WEDNESDAY_10AM)
+    answer = json.loads((FIXTURES / "lindas-lugano-2027.json").read_text("utf-8"))
+    answer["results"]["bindings"][0]["charge"] = {"type": "literal", "value": "2.22"}
+    aioclient_mock.post(LINDAS_ENDPOINT, text=json.dumps(answer))
+    aioclient_mock.get(AIL_URL, content=(FIXTURES / "ail-2027.json").read_bytes())
+    entry = MockConfigEntry(domain=DOMAIN, data={**AIL_DAY_NIGHT, "regional_tariff": []})
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+
+    entity_id = er.async_get(hass).async_get_entity_id("sensor", DOMAIN, f"{entry.entry_id}_price")
+    price = hass.states.get(entity_id)
+    assert price.attributes["other_fees_from_elcom"] == pytest.approx(2.22)
+    high = (0.0975 + 0.068 + 0.0222 + 0.0285) * (1 + SWISS_VAT)  # as with AIL's own fees
+    assert float(price.state) == pytest.approx(high, abs=1e-5)
