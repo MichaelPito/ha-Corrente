@@ -2,7 +2,7 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
-## [0.2.3] — not released yet
+## [0.2.3] — 2026-10-20
 
 From a code review of 0.2.2, and a check of the 2027 tariffs (in force from 1 January) against ElCom's 2027 figures.
 

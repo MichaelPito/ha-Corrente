@@ -277,7 +277,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **costi fissi**: la quota mensile di un tributo comunale o cantonale ora si conta (OIKEN, Sion: 0,84 CHF al mese). Fra i 32 gestori provati è l'unico che la usa;
   - 207 test.
   - **Prossimi pezzi:**
-    1. versione v0.2.3: **serve l'ok dell'owner** (chiesto il 19 ottobre; da pubblicare entro dicembre per Romande Energie ed ebs);
+    1. ✅ v0.2.3 pubblicata il 20 ottobre (ok dell'owner: «sì, pubblica la 0.2.3»);
     2. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
     3. dicembre: ricontrollare Winterthur, AGE e i gestori senza file leggibile.
 
