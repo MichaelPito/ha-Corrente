@@ -2,6 +2,14 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.2.5] — not released yet
+
+Switzerland: more operators can be used, and fees missing from operators' files are taken from ElCom.
+
+### Added
+- Cantonal and municipal fees that ElCom counts for a household but the operator's file leaves out are added to the price (attribute "other_fees_from_elcom"). 83 of 343 operators checked publish no fee in their file although ElCom lists some (about 1 Rp/kWh, up to 4); IWB's file has 0.65 of Basel's 7.79 Rp/kWh.
+- Tariff files that could not be read: a web page registered with ElCom instead of the file (the .json files it links to are read: about 30 operators), two files in one (IWB, Basel), a zipped file, a file in UTF-16. A busy server is asked a second time.
+
 ## [0.2.4] — 2026-10-20
 
 Switzerland: checked against ElCom for every operator with a readable tariff file (313 of 535 operators for 2027, 278 of 550 for 2026), not only 32.

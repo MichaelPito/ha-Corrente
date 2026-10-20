@@ -64,6 +64,8 @@ _CLOSE_FIT_RP = 1.0
 _CLEAR_MARGIN_RP = 0.5
 # A suggested grid tariff further than this from ElCom's household figure is unlikely.
 _PLAUSIBLE_GRID_RP = 1.5
+# Fees this far below ElCom's are taken to be missing from the file.
+_MISSING_FEES_RP = 0.3
 
 
 def federal_addition(
@@ -659,6 +661,9 @@ class SwissContract:
     municipality_name: str | None = None
     # Federal charges to add per kWh; None: all of them (see federal_addition).
     federal_per_kwh: float | None = None
+    # Cantonal and municipal fees ElCom counts and the file leaves out, CHF/kWh
+    # (see missing_fees).
+    other_fees_per_kwh: float = 0.0
     # Published per-kWh prices of the dynamic tariffs (CHF without VAT, UTC),
     # by tariff type ("electricity", "grid"); see core/dynamic.py.
     dynamic: Mapping[str, tuple[Segment, ...]] = field(default_factory=dict)
@@ -735,7 +740,7 @@ class SwissContract:
         federal = (
             national_charges(local.year) if self.federal_per_kwh is None else self.federal_per_kwh
         )
-        total, any_gap = federal, False
+        total, any_gap = federal + self.other_fees_per_kwh, False
         # Each tariff has its own schedule: price them separately, then add up.
         for tariff in self._tariffs():
             windows = tariff.windows_for(self.canton, self.municipality, self.municipality_name)
@@ -1070,6 +1075,34 @@ def suggest_regional_fees(
     if not scored:
         return [best]
     return min(scored, key=lambda item: item[:2])[2]
+
+
+def missing_fees(
+    fees: Sequence[Tariff],
+    canton: str | None,
+    municipality: int | None,
+    municipality_name: str | None,
+    elcom_charge_rp: float,
+    year: int,
+) -> float:
+    """Cantonal and municipal fees ElCom counts for a household and the file does not,
+    in CHF/kWh; 0 when the file's fees are within 0.3 Rp. of ElCom's.
+
+    83 of 343 operators checked in October 2026 publish no fee at all in their file
+    although ElCom lists some (up to 4 Rp.), and IWB's file lacks most of Basel's
+    (0.65 Rp. of 7.79). Monthly fees count at ElCom's 4500 kWh a year, as in
+    ElCom's figure; they are in the fixed charges already, so only the rest is added.
+    """
+    try:
+        file_rp = sum(
+            100 * _average_price(fee.windows_for(canton, municipality, municipality_name), year)
+            + 100 * fee.base_for(canton, municipality, municipality_name) * 12 / _H4_KWH_PER_YEAR
+            for fee in fees
+        )
+    except UnsupportedTariffError:
+        return 0.0
+    gap = elcom_charge_rp - file_rp
+    return round(gap / 100, 6) if gap > _MISSING_FEES_RP else 0.0
 
 
 def fee_applies(

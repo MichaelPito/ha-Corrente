@@ -515,6 +515,8 @@ class SwissSensor(CoordinatorEntity[SwissTariffCoordinator], SensorEntity):
             "energy_tariff": contract.electricity.name,
             "grid_tariff": contract.grid.name,
             "regional_fees": " + ".join(t.name for t in contract.regional_fees) or None,
+            # Fees ElCom counts and the operator's file leaves out, Rp./kWh without VAT.
+            "other_fees_from_elcom": round(contract.other_fees_per_kwh * 100, 3) or None,
             "dynamic_prices_until": (
                 None if contract.known_until is None else contract.known_until.isoformat()
             ),

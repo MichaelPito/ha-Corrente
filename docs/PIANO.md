@@ -290,6 +290,15 @@ esperto. Le richieste diventano la roadmap pubblica.
     2. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
     3. gestori senza file leggibile (circa 200): vedere quanti hanno un file da un'altra parte; dicembre: ricontrollare Winterthur e AGE.
 
+- **20 ottobre 2026, dopo la v0.2.4** (owner: «ok, vai avanti»):
+  - ✅ **file non leggibili**: Corrente ora segue la pagina web registrata presso ElCom fino ai file `.json`, legge file zip, UTF-16 e doppi (IWB Basilea), e riprova una volta se il server è occupato. 30 gestori in più, fra cui **Basilea**;
+  - ✅ **tributi mancanti**: 83 gestori su 343 non hanno tributi nel file ma ElCom sì (fino a 4 Rp, Basilea 7 Rp): ora si aggiungono da ElCom;
+  - 222 test. Versione 0.2.5 pronta, non pubblicata.
+  - **Prossimi pezzi:**
+    1. versione v0.2.5: serve l'ok dell'owner;
+    2. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
+    3. i 7 gestori con tributi nel file più alti di ElCom (Blumenstein, Fällanden...).
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
