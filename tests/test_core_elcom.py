@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import io
 import json
+import zipfile
 from pathlib import Path
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from homeassistant.core import HomeAssistant
@@ -19,6 +22,7 @@ from custom_components.corrente.core.elcom import (
     async_operators_for,
     async_search_municipalities,
     async_tariff_url_candidates,
+    parse_tariff_file,
 )
 
 FIXTURES = Path(__file__).parent / "fixtures" / "ch"
@@ -112,6 +116,80 @@ async def test_fetch_tariff_document_errors(
     aioclient_mock.get(url, content=body, status=status)
     with pytest.raises(TariffFileError):
         await async_fetch_tariff_document(async_get_clientsession(hass), url)
+
+
+def _vse(name: str, year: int) -> dict:
+    return {
+        "dsoName": "Example",
+        "tariffs": [
+            {
+                "tariffName": name,
+                "tariffType": "electricity",
+                "startDate": f"{year}-01-01",
+                "endDate": f"{year}-12-31",
+                "prices": {},
+            }
+        ],
+    }
+
+
+def test_file_with_two_documents() -> None:
+    """IWB (Basel) 2027: the 2027 and 2026 files one after the other in one file."""
+    raw = (json.dumps(_vse("A", 2027), indent=1) + "\n\n" + json.dumps(_vse("B", 2026))).encode()
+    document = parse_tariff_file(raw)
+    assert [t["tariffName"] for t in document["tariffs"]] == ["A", "B"]
+
+
+def test_file_in_utf16() -> None:
+    raw = json.dumps(_vse("A", 2027)).encode("utf-16")  # with its byte order mark
+    assert parse_tariff_file(raw)["tariffs"][0]["tariffName"] == "A"
+
+
+def test_file_in_a_zip() -> None:
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as archive:
+        archive.writestr("tarife 2027.json", json.dumps(_vse("A", 2027)))
+        archive.writestr("readme.txt", "not a tariff file")
+    assert parse_tariff_file(buffer.getvalue())["tariffs"][0]["tariffName"] == "A"
+
+
+async def test_web_page_linking_to_the_files(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker
+) -> None:
+    """About 70 operators registered with ElCom the page that links to their files
+    (Törbel, Glarus Nord...): the ".json" files linked from it are read together."""
+    page = "https://example.ch/strom/tarife"
+    aioclient_mock.get(
+        page,
+        text=(
+            "<!DOCTYPE html><html><head>"
+            '<link rel="manifest" href="/favicon/manifest.json"></head><body>'
+            '<a href="/files/Tarife 2027.json">2027</a>'
+            '<a href="https://example.ch/files/tarife-2026.json?v=2">2026</a>'
+            '<a href="https://example.ch/wp-json/wp/v2/pages/1">api</a>'
+            "</body></html>"
+        ),
+    )
+    aioclient_mock.get("https://example.ch/files/Tarife 2027.json", json=_vse("A", 2027))
+    aioclient_mock.get("https://example.ch/files/tarife-2026.json?v=2", json=_vse("B", 2026))
+    document = await async_fetch_tariff_document(async_get_clientsession(hass), page)
+    assert sorted(t["tariffName"] for t in document["tariffs"]) == ["A", "B"]
+    requested = [str(call[1]) for call in aioclient_mock.mock_calls]
+    assert not any("manifest" in url or "wp-json" in url for url in requested)
+
+
+async def test_busy_server_is_asked_twice(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker
+) -> None:
+    """Shared municipal web hosting answers 503 to requests in a row."""
+    url = "https://example.ch/tarife.json"
+    aioclient_mock.get(url, status=503)
+    with (
+        patch("custom_components.corrente.core.elcom.asyncio.sleep", AsyncMock()),
+        pytest.raises(TariffFileError),
+    ):
+        await async_fetch_tariff_document(async_get_clientsession(hass), url)
+    assert aioclient_mock.call_count == 2
 
 
 async def test_url_candidates_add_next_year_and_swapped_year(
