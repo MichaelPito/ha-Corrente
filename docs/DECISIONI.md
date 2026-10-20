@@ -2,6 +2,7 @@
 
 Formato: data — chi — decisione — perché. Le decisioni più recenti in alto.
 
+- **2026-10-20 — owner** — Pubblicare la **v0.2.4** (confronto con ElCom su tutti i gestori svizzeri: controllo delle voci nazionali con il prezzo di rete al kWh, tariffe prima rifiutate, rete suggerita vicina a ElCom). Parole dell'owner: «sì, pubblica la 0.2.4». Claude avvia il workflow di release.
 - **2026-10-20 — owner** — Pubblicare la **v0.2.3** (correzioni dalla revisione del codice, prezzi 2027 controllati con ElCom: Romande Energie ed ebs, avviso in Riparazioni, quota mensile dei tributi). Parole dell'owner: «sì, pubblica la 0.2.3». Claude avvia il workflow di release.
 - **2026-10-15 — owner** — Pubblicare la **v0.2.2** (correzioni dei prezzi svizzeri controllate con ElCom in 22 cantoni, suggerimenti nella configurazione, tributi multipli, GIF). Alla domanda «Per pubblicarla basta scrivermi: «sì, pubblica la 0.2.2»» l'owner ha risposto: «Si». Claude avvia il workflow di release.
 - **2026-10-13 — owner** — Pubblicare la **v0.2.1** (correzione per due o più configurazioni dopo un riavvio, prova su Home Assistant 2026.10). Parole dell'owner: «sì, pubblica la 0.2.1». Claude avvia il workflow di release. Il test a casa si fa con questa versione.
