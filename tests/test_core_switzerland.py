@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 from datetime import date, datetime, time
 from pathlib import Path
 
@@ -898,3 +899,34 @@ def test_missing_fees_from_elcom() -> None:
     assert missing_fees([fee], "VS", 6266, "Sion", 7.79, 2027) == pytest.approx(
         (7.79 - 0.732 - 0.224) / 100, abs=1e-5
     )
+
+
+def test_fees_that_hold_the_federal_charges() -> None:
+    """Lachen 2027: 2.68 Rp. of fees in the file, 0.38 at ElCom: the grid surcharge
+    (2.3 Rp.) is in the fee, and Corrente adds it on its own. Fällanden: 2.85 Rp.,
+    all the federal charges, against none at ElCom. Rothrist (8 against 0.8) is no
+    known pattern: left as it is."""
+    lachen = _fee("Abgaben", (PriceWindow(price=0.0268),), canton="SZ")
+    assert missing_fees([lachen], "SZ", 1344, "Lachen", 0.38, 2027) == pytest.approx(-0.023)
+    faellanden = _fee("Abgaben", (PriceWindow(price=0.0285),), canton="ZH")
+    assert missing_fees([faellanden], "ZH", 193, "Fällanden", 0.0, 2027) == pytest.approx(
+        -national_charges(2027)
+    )
+    rothrist = _fee("Konzession", (PriceWindow(price=0.08),), municipality=4282)
+    assert missing_fees([rothrist], "AG", 4282, "Rothrist", 0.8, 2027) == 0.0
+
+
+def test_fee_suggestion_counts_monthly_fees() -> None:
+    """Blumenstein 2027: 0.1 Rp. per kWh for households, and for businesses 25 CHF a
+    month and nothing per kWh. ElCom: 0.1 Rp. Only the households' fee fits."""
+    name = "Leistungen Gemeinde Blumenstein"
+    households = _fee(f"{name} (kWh)", (PriceWindow(price=0.001),), municipality=922)
+    businesses = replace(
+        _fee(name, (PriceWindow(price=0.0),), municipality=922), municipality_base={922: 25.0}
+    )
+    electricity = _fee("Naturstrom H", (PriceWindow(price=0.1),))
+    grid = _fee("Einfach Haushalt", (PriceWindow(price=0.1),))
+    fees = suggest_regional_fees(
+        electricity, [households, businesses], 922, 0.1, 2027, grid, "Blumenstein"
+    )
+    assert fees == [households]

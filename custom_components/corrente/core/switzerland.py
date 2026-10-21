@@ -33,6 +33,8 @@ SWISS_VAT = 0.081
 # without VAT: grid surcharge (Art. 35 EnG), electricity reserve, Swissgrid general
 # system services and solidarised transmission costs. Sources in docs/FONTI-DATI.md;
 # the 2027 sum matches ElCom's published totals for AIL and AMB.
+# The federal grid surcharge (Art. 35 EnG), part of the national charges, CHF/kWh.
+GRID_SURCHARGE = 0.0230
 NATIONAL_CHARGES: Mapping[int, float] = {
     2026: 0.0230 + 0.0041 + 0.0027 + 0.0005,
     2027: 0.0230 + 0.0017 + 0.0019 + 0.0019,
@@ -66,6 +68,7 @@ _CLEAR_MARGIN_RP = 0.5
 _PLAUSIBLE_GRID_RP = 1.5
 # Fees this far below ElCom's are taken to be missing from the file.
 _MISSING_FEES_RP = 0.3
+_SAME_RP = 0.05
 
 
 def federal_addition(
@@ -1042,13 +1045,18 @@ def suggest_regional_fees(
     if elcom_charge_rp is None or len(here) == 1:
         return [best]
 
-    # Each fee's average once: the search below tries up to 255 combinations.
+    # Each fee's average once: the search below tries up to 255 combinations. Monthly
+    # fees count at 4500 kWh a year, as in ElCom's figure: Blumenstein's fee for
+    # businesses is 25 CHF a month and nothing per kWh.
     average: dict[int, float | None] = {}
     for fee in here:
         try:
-            average[id(fee)] = 100 * _average_price(
-                fee.windows_for(canton, municipality, municipality_name),
-                year or date.today().year,
+            average[id(fee)] = 100 * (
+                _average_price(
+                    fee.windows_for(canton, municipality, municipality_name),
+                    year or date.today().year,
+                )
+                + fee.base_for(canton, municipality, municipality_name) * 12 / _H4_KWH_PER_YEAR
             )
         except UnsupportedTariffError:
             average[id(fee)] = None
@@ -1085,13 +1093,16 @@ def missing_fees(
     elcom_charge_rp: float,
     year: int,
 ) -> float:
-    """Cantonal and municipal fees ElCom counts for a household and the file does not,
-    in CHF/kWh; 0 when the file's fees are within 0.3 Rp. of ElCom's.
+    """The correction to the file's cantonal and municipal fees from ElCom's household
+    figure, in CHF/kWh; 0 when they are within 0.3 Rp. of ElCom's.
 
-    83 of 343 operators checked in October 2026 publish no fee at all in their file
-    although ElCom lists some (up to 4 Rp.), and IWB's file lacks most of Basel's
-    (0.65 Rp. of 7.79). Monthly fees count at ElCom's 4500 kWh a year, as in
-    ElCom's figure; they are in the fixed charges already, so only the rest is added.
+    Fees ElCom counts and the file does not are added: 83 of 343 operators checked in
+    October 2026 publish no fee at all in their file although ElCom lists some (up to
+    4 Rp.), and IWB's file lacks most of Basel's (0.65 Rp. of 7.79). Fees that hold
+    the federal charges, which Corrente adds on its own, are taken off when the
+    file is above ElCom's by exactly the grid surcharge or all of them (Lachen 2.68
+    against 0.38, Fällanden 2.85 against 0). Monthly fees count at ElCom's 4500 kWh
+    a year, as in ElCom's figure; they are in the fixed charges already.
     """
     try:
         file_rp = sum(
@@ -1102,6 +1113,9 @@ def missing_fees(
     except UnsupportedTariffError:
         return 0.0
     gap = elcom_charge_rp - file_rp
+    federal = (100 * national_charges(year), 100 * GRID_SURCHARGE)
+    if any(abs(gap + charge) <= _SAME_RP for charge in federal):
+        return round(gap / 100, 6)
     return round(gap / 100, 6) if gap > _MISSING_FEES_RP else 0.0
 
 

@@ -2,6 +2,14 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.2.6] — 2026-10-21
+
+Switzerland: cantonal and municipal fees now match ElCom's household figure within 0.3 Rp/kWh for 340 of 343 operators checked (250 before).
+
+### Fixed
+- Fees that hold the federal charges, which Corrente adds on its own, are no longer counted twice: Lachen, SIE (Chavannes-près-Renens), Goldach put the grid surcharge (2.3 Rp/kWh) in their fees, Fällanden all the federal charges (2.85 Rp/kWh).
+- The fee suggestion counts monthly fees, as ElCom does: Blumenstein's fee for businesses (25 CHF a month) is no longer suggested to households.
+
 ## [0.2.5] — 2026-10-20
 
 Switzerland: more operators can be used, and fees missing from operators' files are taken from ElCom.
