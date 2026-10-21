@@ -299,6 +299,16 @@ esperto. Le richieste diventano la roadmap pubblica.
     2. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
     3. i 7 gestori con tributi nel file più alti di ElCom (Blumenstein, Fällanden...).
 
+- **21 ottobre 2026** (sessione automatica):
+  - nessuna richiesta nuova (GitHub e modulo); Home Assistant 2026.11 beta non ancora uscita;
+  - ✅ **tributi**: 4 gestori mettono le voci federali dentro i tributi (contate due volte, 2,3–2,85 Rp in più): ora si tolgono; il suggerimento dei tributi conta le quote mensili. Tributi entro 0,3 Rp da ElCom: 340 gestori su 343 (prima 250);
+  - ✅ v0.2.6 pubblicata (autorizzazione dell'owner del 20 ottobre);
+  - 224 test.
+  - **Prossimi pezzi:**
+    1. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
+    2. kit di lancio (`LANCIO.md`): testi aggiornati con le novità dalla 0.2.0 (verifica con ElCom su tutti i gestori);
+    3. dicembre: ricontrollare Winterthur, AGE e i gestori senza file leggibile.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
