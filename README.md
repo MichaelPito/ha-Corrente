@@ -29,9 +29,10 @@
 
 ### 🇨🇭 Switzerland
 - Type your **municipality**: Corrente finds your **grid operator** in ElCom's open data and reads the tariff file every operator must publish (Art. 7b StromVV).
-- High/low tariff windows, cantonal and municipal surcharges, federal charges (grid surcharge, electricity reserve, Swissgrid system services) and VAT — checked against ElCom's published totals.
+- High/low tariff windows, cantonal and municipal surcharges, federal charges (grid surcharge, electricity reserve, Swissgrid system services) and VAT — checked against ElCom's figures for your municipality. Fees missing from your operator's file are taken from ElCom (shown in the price sensor's attributes).
+- Checked before release against ElCom for every operator with a readable tariff file (about 340 of 535 for 2027): the grid price matches within 0.6 Rp/kWh for 95% of them.
 - Follows your operator into the new year by itself.
-- Works for most operators, Ticino included (AIL Lugano, AIM Mendrisio, AEM Massagno…). If your operator has not published a readable file, you can paste the link — or [tell us](../../issues/new/choose) and we add it.
+- Works for most operators, Ticino included (AIL Lugano, AIM Mendrisio, AEM Massagno…). Corrente also follows the web page your operator registered with ElCom to the tariff file it links to. If your operator has not published a readable file, you can paste the link — or [tell us](../../issues/new/choose) and we add it.
 - **Dynamic tariffs** with prices per quarter hour, read from the operator's own API when its tariff file names one (VSE / SmartGridready standard): EKZ *Energie Dynamisch* and *Netz 400D*, Groupe E *Vario*, and any other operator using the standard. Today's prices, and tomorrow's as soon as the operator publishes them.
 
 ## Installation

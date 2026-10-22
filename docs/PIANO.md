@@ -306,7 +306,16 @@ esperto. Le richieste diventano la roadmap pubblica.
   - 224 test.
   - **Prossimi pezzi:**
     1. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
-    2. kit di lancio (`LANCIO.md`): testi aggiornati con le novità dalla 0.2.0 (verifica con ElCom su tutti i gestori);
+    2. ✅ kit di lancio, README e guida italiana aggiornati il 22 ottobre (verifica con ElCom su tutti i gestori, tributi da ElCom);
+    3. dicembre: ricontrollare Winterthur, AGE e i gestori senza file leggibile.
+
+- **22 ottobre 2026** (sessione automatica):
+  - nessuna richiesta nuova (GitHub e modulo); Home Assistant 2026.11 beta non ancora uscita (si aspetta per il 28 ottobre);
+  - ✅ kit di lancio, README e guida italiana aggiornati: confronto con ElCom su circa 340 gestori, tributi mancanti presi da ElCom, pagine web dei gestori seguite fino al file;
+  - nessuna modifica al codice: nessuna versione nuova.
+  - **Prossimi pezzi:**
+    1. Home Assistant 2026.11 beta (fine ottobre): prova come per la 2026.10;
+    2. test a casa dell'owner (inizio novembre) e correzioni;
     3. dicembre: ricontrollare Winterthur, AGE e i gestori senza file leggibile.
 
 ## 8. Numeri di controllo

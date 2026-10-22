@@ -39,6 +39,8 @@ Le fasce seguono le regole ARERA:
 
 Il prezzo svizzero include IVA, supplemento di rete, riserva elettrica, servizi di sistema Swissgrid e tributi cantonali e comunali. Le quote fisse mensili sono in un sensore a parte.
 
+Corrente controlla le voci nazionali e i tributi con i dati ElCom del tuo comune: se nel file del gestore mancano dei tributi, li prende da ElCom (attributo "other_fees_from_elcom" del sensore del prezzo). Prima del lancio l'abbiamo confrontato con ElCom per tutti i gestori svizzeri con un file leggibile (circa 340).
+
 ## Quanto ho speso oggi?
 
 Nelle **opzioni** di Corrente scegli **Contatore** e indica il sensore che conta i tuoi consumi in kWh (contatore intelligente, Shelly, consumo dalla rete della dashboard energia). Compaiono due sensori, **Costo di oggi** e **Costo del mese**: ogni kWh è pagato al prezzo del momento in cui l'hai consumato. In Italia il costo comprende solo la parte energia del contratto che hai inserito.
