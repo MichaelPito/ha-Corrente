@@ -2,15 +2,15 @@
 
 > Preparato da Claude. L'owner deve solo **copiare e incollare** i post nel giorno indicato. Tutto il resto lo fa Claude.
 >
-> **Versione da lanciare:** la 0.2.0 (12 ottobre), oppure la 0.2.x con le correzioni del test a casa di inizio novembre.
-> **Data:** martedì 17 novembre 2026 (finestra 17–20). Testi aggiornati il 12 ottobre con le novità della 0.1.1 e della 0.2.0.
+> **Versione da lanciare:** l'ultima 0.2.x (oggi la 0.2.6, 21 ottobre), con le correzioni del test a casa di inizio novembre.
+> **Data:** martedì 17 novembre 2026 (finestra 17–20). Testi aggiornati il 22 ottobre: verifica con ElCom su tutti i gestori svizzeri (0.2.3–0.2.6).
 
 ## Lista di controllo per il giorno del lancio
 
 | # | Cosa | Chi | Stato |
 |---|---|---|---|
 | 0 | Test a casa dell'owner con la sua tariffa (`docs/TEST-A-CASA.md`), inizio novembre | **Owner**, circa 45 min | ⏳ |
-| 1 | Versione con note di rilascio (`CHANGELOG.md`, release da GitHub Actions) | Claude | ✅ v0.1.0 l'8 ottobre, v0.1.1 il 9, v0.2.0 il 12; le correzioni del test a casa escono come v0.2.x |
+| 1 | Versione con note di rilascio (`CHANGELOG.md`, release da GitHub Actions) | Claude | ✅ v0.1.0 l'8 ottobre … v0.2.6 il 21; le correzioni del test a casa escono come v0.2.x |
 | 2 | Repo da privata a **pubblica** (Settings → General → Danger zone → Change visibility) | **Owner**, 1 min | ⏳ |
 | 3 | Descrizione della repo e topic (`home-assistant`, `hacs`, `hacs-integration`, `energy`, `electricity-prices`, `switzerland`, `italy`, `ticino`) — Settings → General / About | **Owner**, 1 min (testo qui sotto) | ⏳ |
 | 4 | Il controllo HACS si riattiva da solo con la repo pubblica: verifica verde | Claude | ⏳ |
@@ -31,7 +31,7 @@
 
 > Hi everyone! I'd like to share **Corrente**, a free and open-source integration that brings your *real* electricity price into Home Assistant.
 >
-> **Switzerland:** type your municipality, and Corrente finds your grid operator in ElCom's open data and reads the tariff file every operator must publish. High/low tariff windows, cantonal and municipal fees, federal charges and VAT are all included, and checked against ElCom's totals. It works for most operators, Ticino included — and with **dynamic tariffs** (EKZ, Groupe E) it reads the quarter-hour prices from the operator's own API.
+> **Switzerland:** type your municipality, and Corrente finds your grid operator in ElCom's open data and reads the tariff file every operator must publish. High/low tariff windows, cantonal and municipal fees, federal charges and VAT are all included, and checked against ElCom's figures for your municipality. Before release I compared it with ElCom for every Swiss operator that publishes a readable tariff file (about 340 of 535): the grid price matches within 0.6 Rp/kWh for 95% of them, and fees missing from an operator's file are taken from ElCom. It works for most operators, Ticino included — and with **dynamic tariffs** (EKZ, Groupe E) it reads the quarter-hour prices from the operator's own API.
 >
 > **Italy:** F1/F2/F3 time bands following ARERA's rules (holidays included) and your contract (monoraria, bioraria, trioraria), or a **PUN-indexed** contract with the quarter-hour prices published by GME.
 >
@@ -54,7 +54,7 @@
 
 **Testo:** (con lo screenshot della card)
 
-> Corrente is a free, open-source Home Assistant integration (HACS) for Switzerland and Italy. Swiss users type their municipality and get their grid operator's real tariff (high/low windows, fees, federal charges, VAT; dynamic quarter-hour prices for EKZ and Groupe E). Italian users get the F1/F2/F3 bands or PUN-indexed prices from GME.
+> Corrente is a free, open-source Home Assistant integration (HACS) for Switzerland and Italy. Swiss users type their municipality and get their grid operator's real tariff (high/low windows, fees, federal charges, VAT; dynamic quarter-hour prices for EKZ and Groupe E), checked against ElCom's figures for about 340 operators. Italian users get the F1/F2/F3 bands or PUN-indexed prices from GME.
 >
 > It shows the price now and the next change, the best time to start an appliance, what you spent today and this month (also per appliance), and comes with blueprints for cheap-hour starts, price alerts and solar surplus.
 >
@@ -67,7 +67,7 @@
 > Ciao a tutti! Ho pubblicato **Corrente**, un'integrazione gratuita per Home Assistant che porta il vero prezzo della luce in casa.
 >
 > 🇮🇹 **Italia:** fasce F1/F2/F3 secondo ARERA (festivi inclusi) e il tuo contratto (monoraria, bioraria, trioraria), oppure un contratto **indicizzato al PUN** con i prezzi al quarto d'ora pubblicati dal GME.
-> 🇨🇭 **Svizzera / Ticino:** scrivi il tuo comune e Corrente trova il gestore (AIL, AIM, AEM…) e le sue tariffe ufficiali, con tasse e IVA.
+> 🇨🇭 **Svizzera / Ticino:** scrivi il tuo comune e Corrente trova il gestore (AIL, AIM, AEM…) e le sue tariffe ufficiali, con tasse e IVA. Prima del lancio l'ho confrontato con i dati ElCom di circa 340 gestori svizzeri: i prezzi tornano.
 >
 > Ti dice anche **quando conviene avviare** lavastoviglie o lavatrice, quanto hai **speso oggi e nel mese** (anche per singolo apparecchio, se ha una presa intelligente), e c'è una card per la dashboard.
 > Ci sono tre blueprint pronti: avvio all'ora più economica, **avviso sul prezzo** e **uso del surplus del fotovoltaico** (accende boiler o auto quando i pannelli mandano corrente in rete).
