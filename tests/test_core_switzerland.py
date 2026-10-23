@@ -22,6 +22,7 @@ from custom_components.corrente.core.switzerland import (
     _names_place,
     canton_of,
     federal_addition,
+    metering_per_month,
     missing_fees,
     national_charges,
     parse_tariffs,
@@ -885,6 +886,33 @@ def test_yearly_grid_fee_written_as_monthly() -> None:
     check = ElcomCheck(federal_per_kwh=None, grid_monthly_base=5.5)
     assert select_contract(tariffs, options, DAY_2027, check).grid.monthly_base == 5.5
     assert select_contract(tariffs, options, DAY_2027).grid.monthly_base == 66.0
+
+
+def test_metering_comes_from_elcom_when_the_file_lists_it_apart() -> None:
+    """AIL lists metering (5.30 CHF a month) as a tariff of its own; ElCom's 1.413 Rp.
+    at 4500 kWh is the same fee. Where the file's fees match ElCom's grid fixed
+    costs and metering together, nothing is added."""
+    assert metering_per_month(8.55, 0.0, 1.413) == pytest.approx(5.30, abs=0.01)
+    assert metering_per_month(4.0, 48.0, 1.6) == 6.0  # the grid's fee only: add
+    assert metering_per_month(10.0, 48.0, 1.6) == 0.0  # 120 CHF = 48 + 72: in already
+    assert metering_per_month(6.2, 0.0, 1.653) == 0.0  # all of the fee is metering
+    assert metering_per_month(0.0, None, 1.6) == 6.0  # no fixed costs from ElCom
+    assert metering_per_month(4.0, 48.0, None) == 0.0
+    assert metering_per_month(4.0, 48.0, 0.0) == 0.0
+
+
+def test_metering_counts_in_the_fixed_charges() -> None:
+    tariffs = load("ail-2027.json")
+    contract = SwissContract(
+        electricity=by_name(tariffs, "Casa & PMI 24h-electricity"),
+        grid=by_name(tariffs, "Casa & PMI 24h-grid7"),
+        canton="TI",
+        municipality=5192,
+    )
+    with_metering = replace(contract, metering_monthly=5.3)
+    assert with_metering.monthly_fixed == pytest.approx(
+        contract.monthly_fixed + 5.3 * (1 + SWISS_VAT), abs=0.01
+    )
 
 
 def test_grid_suggestion_skips_tariffs_far_from_elcom() -> None:

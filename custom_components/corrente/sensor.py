@@ -36,7 +36,7 @@ from .core.contract import ItalyFixedContract, ItalyIndexedContract
 from .core.gme import ATTRIBUTION as GME_ATTRIBUTION
 from .core.italy import ITALY_TZ, Band, band_at, next_band_change
 from .core.schedule import Segment, Window, build_schedule, cheapest_window
-from .core.switzerland import SWISS_TZ, PriceNotPublishedError, SwissContract
+from .core.switzerland import SWISS_TZ, SWISS_VAT, PriceNotPublishedError, SwissContract
 from .cost import PERIOD_DAY, PERIOD_MONTH, CostSensor
 
 PARALLEL_UPDATES = 0
@@ -534,6 +534,10 @@ class SwissSensor(CoordinatorEntity[SwissTariffCoordinator], SensorEntity):
                 _best_window(swiss_schedule(contract, now, BEST_WINDOW_HORIZON), self._duration),
                 self._duration,
             )
+        if self.entity_description.key == "monthly_fixed":
+            # Metering taken from ElCom because the file lists it apart, CHF with VAT.
+            metering = round(contract.metering_monthly * (1 + SWISS_VAT), 2)
+            return {"metering_from_elcom": metering or None}
         if self.entity_description.key != "price":
             return None
         try:

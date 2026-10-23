@@ -348,3 +348,29 @@ async def test_fees_missing_from_the_file_come_from_elcom(
     assert price.attributes["other_fees_from_elcom"] == pytest.approx(2.22)
     high = (0.0975 + 0.068 + 0.0222 + 0.0285) * (1 + SWISS_VAT)  # as with AIL's own fees
     assert float(price.state) == pytest.approx(high, abs=1e-5)
+
+
+async def test_metering_from_elcom_in_the_fixed_charges(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker, freezer: FrozenDateTimeFactory
+) -> None:
+    """AIL lists metering apart from the grid fee; ElCom's 1.413 Rp. is 5.30 CHF a month."""
+    freezer.move_to(WEDNESDAY_10AM)
+    answer = json.loads((FIXTURES / "lindas-lugano-2027.json").read_text("utf-8"))
+    answer["results"]["bindings"][0]["gridfix"] = {"type": "literal", "value": "0"}
+    answer["results"]["bindings"][0]["metering"] = {"type": "literal", "value": "1.413"}
+    aioclient_mock.post(LINDAS_ENDPOINT, text=json.dumps(answer))
+    aioclient_mock.get(AIL_URL, content=(FIXTURES / "ail-2027.json").read_bytes())
+    entry = MockConfigEntry(domain=DOMAIN, data=AIL_DAY_NIGHT)
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+
+    entity_id = er.async_get(hass).async_get_entity_id(
+        "sensor", DOMAIN, f"{entry.entry_id}_monthly_fixed"
+    )
+    fixed = hass.states.get(entity_id)
+    metering = 1.413 * 45 / 12
+    assert float(fixed.state) == pytest.approx((8.55 + metering) * (1 + SWISS_VAT), abs=0.01)
+    assert fixed.attributes["metering_from_elcom"] == pytest.approx(
+        metering * (1 + SWISS_VAT), abs=0.01
+    )

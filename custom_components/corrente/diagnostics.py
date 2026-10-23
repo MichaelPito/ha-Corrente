@@ -84,6 +84,7 @@ async def async_get_config_entry_diagnostics(
                 "federal_charges_checked_with_elcom": data.federal_checked,
                 "federal_per_kwh": contract.federal_per_kwh,
                 "other_fees_from_elcom_per_kwh": contract.other_fees_per_kwh,
+                "metering_from_elcom_per_month": contract.metering_monthly,
                 "price_now_with_vat": price_now,
                 "period_now": contract.period_at(now),
                 "monthly_fixed_with_vat": contract.monthly_fixed,

@@ -352,6 +352,11 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ v0.3.1; 242 test.
   - **Prossimi pezzi:** beta 2026.11 (28 ottobre), test a casa dell'owner, dicembre.
 
+- **23 ottobre 2026, notte** (owner: «ok, vai avanti»; nessuna richiesta nuova su GitHub e nel modulo):
+  - ✅ **misurazione nei costi fissi svizzeri**: 305 file su 314 mettono il contatore in una tariffa a parte, che Corrente non contava (circa 6 CHF al mese in meno nel sensore dei costi fissi). Ora si prende da ElCom, che dà proprio la quota della casa; si salta se il file la include già (2 gestori su 314). Dettagli in `FONTI-DATI.md`;
+  - ✅ v0.3.2; 245 test.
+  - **Prossimi pezzi:** beta 2026.11 (28 ottobre), test a casa dell'owner, dicembre (Winterthur, AGE, gestori senza file; tariffa dinamica BKW a gennaio).
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
