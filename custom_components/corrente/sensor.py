@@ -170,6 +170,14 @@ ITALY_SENSORS: tuple[ItalySensorDescription, ...] = (
         device_class=SensorDeviceClass.TIMESTAMP,
         value_fn=_italy_best_start,
     ),
+    # Only when the user entered the bill's fixed charges.
+    ItalySensorDescription(
+        key="monthly_fixed",
+        translation_key="monthly_fixed",
+        native_unit_of_measurement="EUR",
+        suggested_display_precision=2,
+        value_fn=lambda contract, now, _d: contract.monthly_fixed,
+    ),
 )
 
 
@@ -324,6 +332,14 @@ PUN_SENSORS: tuple[PunSensorDescription, ...] = (
         device_class=SensorDeviceClass.TIMESTAMP,
         value_fn=_pun_best_start,
     ),
+    # Only when the user entered the bill's fixed charges.
+    PunSensorDescription(
+        key="monthly_fixed",
+        translation_key="monthly_fixed",
+        native_unit_of_measurement="EUR",
+        suggested_display_precision=2,
+        value_fn=lambda view, now, _d: view.contract.monthly_fixed,
+    ),
 )
 
 
@@ -372,14 +388,22 @@ async def async_setup_entry(
         currency, tz = "CHF", SWISS_TZ
     elif data.gme is not None:
         gme, indexed = data.gme, data.italy_indexed
-        entities = [PunSensor(entry, gme, indexed, d) for d in PUN_SENSORS]
+        entities = [
+            PunSensor(entry, gme, indexed, d)
+            for d in PUN_SENSORS
+            if d.key != "monthly_fixed" or indexed.monthly_fixed
+        ]
 
         def price_fn(now: datetime) -> float | None:
             return PunView(indexed, gme.data or []).price_at(now)
 
         currency, tz = "EUR", ITALY_TZ
     else:
-        entities = [ItalySensor(entry, d) for d in ITALY_SENSORS]
+        entities = [
+            ItalySensor(entry, d)
+            for d in ITALY_SENSORS
+            if d.key != "monthly_fixed" or data.italy.monthly_fixed
+        ]
         price_fn, currency, tz = data.italy.price_at, "EUR", ITALY_TZ
     async_add_entities(entities)
 
@@ -459,9 +483,14 @@ class ItalySensor(SensorEntity):
         """The schedule on the price sensor, window details on the best-start sensor."""
         key = self.entity_description.key
         if key == "price":
-            return _schedule_attributes(
-                italy_schedule(self._contract, dt_util.utcnow(), SCHEDULE_HORIZON), self._duration
-            )
+            return {
+                # Transport, system charges and excise per kWh, as entered from the bill.
+                "other_costs_per_kwh": self._contract.other_per_kwh or None,
+                **_schedule_attributes(
+                    italy_schedule(self._contract, dt_util.utcnow(), SCHEDULE_HORIZON),
+                    self._duration,
+                ),
+            }
         if key == "best_start":
             segments = italy_schedule(self._contract, dt_util.utcnow(), BEST_WINDOW_HORIZON)
             return _best_window_attributes(_best_window(segments, self._duration), self._duration)
@@ -569,6 +598,7 @@ class PunSensor(CoordinatorEntity[GmePriceCoordinator], SensorEntity):
                 "zone": self._contract.zone,
                 "spread": self._contract.spread,
                 "losses": self._contract.losses,
+                "other_costs_per_kwh": self._contract.other_per_kwh or None,
                 **_schedule_attributes(view.schedule(now, SCHEDULE_HORIZON), self._duration),
             }
         if self.entity_description.key == "best_start":

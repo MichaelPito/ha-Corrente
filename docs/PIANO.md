@@ -341,6 +341,11 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ v0.2.8 pubblicata; 235 test.
   - **Prossimi pezzi:** come sopra (beta 2026.11, test a casa, dicembre).
 
+- **23 ottobre 2026, sera** (owner: «1, vai con i campi da compilare»):
+  - ✅ **Italia, costi oltre l'energia**: due campi facoltativi nel contratto e nelle opzioni («altri costi per kWh», «costi fissi al mese»); prezzo, momento migliore e costi li includono; sensore dei costi fissi per l'Italia. Senza valori, tutto come prima;
+  - ✅ v0.3.0 pubblicata; 241 test.
+  - **Prossimi pezzi:** beta 2026.11 (28 ottobre), test a casa dell'owner, dicembre.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

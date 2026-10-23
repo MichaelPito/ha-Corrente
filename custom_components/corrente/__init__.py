@@ -15,6 +15,8 @@ from .const import (
     CONF_CONTRACT_TYPE,
     CONF_COUNTRY,
     CONF_LOSSES,
+    CONF_MONTHLY_FIXED,
+    CONF_OTHER_PER_KWH,
     CONF_PRICE_F1,
     CONF_PRICE_F2,
     CONF_PRICE_F3,
@@ -74,6 +76,8 @@ def contract_from_options(options: dict) -> ItalyFixedContract:
         price_f1=options[CONF_PRICE_F1],
         price_f2=options.get(CONF_PRICE_F2),
         price_f3=options.get(CONF_PRICE_F3),
+        other_per_kwh=options.get(CONF_OTHER_PER_KWH) or 0.0,
+        monthly_fixed=options.get(CONF_MONTHLY_FIXED) or 0.0,
     )
 
 
@@ -90,6 +94,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: CorrenteConfigEntry) -> 
             spread=options[CONF_SPREAD],
             losses=options.get(CONF_LOSSES, 0.0) / 100,
             zone=options.get(CONF_ZONE, "pun").upper(),
+            other_per_kwh=options.get(CONF_OTHER_PER_KWH) or 0.0,
+            monthly_fixed=options.get(CONF_MONTHLY_FIXED) or 0.0,
         )
         gme = GmePriceCoordinator(hass, entry, indexed.zone)
         await gme.async_config_entry_first_refresh()

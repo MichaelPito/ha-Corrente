@@ -41,7 +41,7 @@
 - **Prezzo dell'energia:**
   - fisso monorario, biorario (F1/F23) o triorario: ✅ implementato;
   - indicizzato, PUN + spread, a volte con fattore perdite: ⏳.
-- **Altre voci, oltre l'energia:**
+- **Altre voci, oltre l'energia** (dalla 0.3.0: due campi facoltativi, «altri costi per kWh» e «costi fissi al mese», che l'utente copia dalla bolletta; decisione dell'owner del 23 ottobre):
   - quota fissa di commercializzazione;
   - trasporto e gestione contatore: quota fissa, quota per potenza, quota per energia;
   - oneri di sistema ASOS/ARIM;

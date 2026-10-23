@@ -26,6 +26,7 @@
 ### 🇮🇹 Italy
 - Time bands **F1 / F2 / F3** as defined by ARERA, national holidays included (ARERA's closed list — 4 October is *not* F3).
 - Contracts: single price (*monoraria*), two bands F1/F23 (*bioraria*), three bands (*trioraria*), and **PUN-indexed** (PUN Index GME or your zone + spread, optional grid losses) with quarter-hour prices for today and tomorrow.
+- Optional: the other costs on your bill — transport, system charges and excise per kWh, and the fixed charges per month — so the price and the costs match your bill, not just the energy part.
 
 ### 🇨🇭 Switzerland
 - Type your **municipality**: Corrente finds your **grid operator** in ElCom's open data and reads the tariff file every operator must publish (Art. 7b StromVV).
@@ -58,9 +59,9 @@ Without HACS: download `corrente.zip` from the [latest release](../../releases/l
 | Wholesale price (PUN / zone) | ✅ (PUN contracts) | — |
 | Next price | ✅ | ✅ |
 | Best time to start | ✅ | ✅ |
-| Fixed charges per month | — | ✅ |
-| Cost today / Cost this month ¹ | € (energy part) | CHF incl. VAT |
-| Cost per appliance ³ | € (energy part) | CHF incl. VAT |
+| Fixed charges per month | ✅ (if entered) | ✅ |
+| Cost today / Cost this month ¹ | € (energy part, or all per-kWh costs if entered) | CHF incl. VAT |
+| Cost per appliance ³ | € (as above) | CHF incl. VAT |
 
 ² With a dynamic tariff, *high* means above the day's average price.
 

@@ -2,6 +2,11 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] — 2026-10-23
+
+### Added
+- Italy: the other costs on your bill, optional — transport, system charges and excise per kWh, and the fixed charges per month (in the contract step and in the options). The price, the best time and the cost sensors then include the per-kWh costs, and the fixed charges get a sensor of their own. Enter them like the energy prices (with or without VAT, the same way). Without them nothing changes: the price is the energy part, as before.
+
 ## [0.2.8] — 2026-10-23
 
 ### Fixed

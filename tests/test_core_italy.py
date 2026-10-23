@@ -9,6 +9,7 @@ import pytest
 from custom_components.corrente.core.contract import (
     ItalyContractType,
     ItalyFixedContract,
+    ItalyIndexedContract,
 )
 from custom_components.corrente.core.italy import (
     ITALY_TZ,
@@ -123,8 +124,25 @@ def test_single_price_contract() -> None:
         {"contract_type": ItalyContractType.TWO_BANDS, "price_f1": 0.3},
         {"contract_type": ItalyContractType.THREE_BANDS, "price_f1": 0.3, "price_f2": 0.2},
         {"contract_type": ItalyContractType.SINGLE, "price_f1": -0.1},
+        {"contract_type": ItalyContractType.SINGLE, "price_f1": 0.1, "other_per_kwh": -0.01},
+        {"contract_type": ItalyContractType.SINGLE, "price_f1": 0.1, "monthly_fixed": -1},
     ],
 )
 def test_invalid_contracts(kwargs: dict) -> None:
     with pytest.raises(ValueError):
         ItalyFixedContract(**kwargs)
+
+
+def test_other_costs_from_the_bill_add_to_every_band() -> None:
+    """Transport, system charges and excise per kWh, entered from the bill."""
+    contract = ItalyFixedContract(
+        ItalyContractType.TWO_BANDS, 0.12, 0.10, other_per_kwh=0.0712, monthly_fixed=9.5
+    )
+    assert contract.price_for_band(Band.F1) == pytest.approx(0.1912)
+    assert contract.price_for_band(Band.F3) == pytest.approx(0.1712)
+    assert contract.monthly_fixed == 9.5
+
+
+def test_other_costs_add_to_an_indexed_price() -> None:
+    contract = ItalyIndexedContract(spread=0.02, losses=0.1, other_per_kwh=0.07)
+    assert contract.price_from(0.10) == pytest.approx(0.10 * 1.1 + 0.02 + 0.07)

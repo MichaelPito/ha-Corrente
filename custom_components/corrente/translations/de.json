@@ -19,7 +19,13 @@
         "title": "Preise pro kWh",
         "description": "Geben Sie die Energiepreise von Ihrer Rechnung in €/kWh ein (z. B. 0.1250). Unsicher, wo Sie sie finden? [Hier fragen]({issues_url}).",
         "data": {
-          "price_f1": "Preis"
+          "price_f1": "Preis",
+          "other_per_kwh": "Weitere Kosten pro kWh (optional)",
+          "monthly_fixed": "Fixkosten pro Monat (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, Systemkosten und Verbrauchssteuer pro kWh aus deiner Rechnung. Corrente addiert sie zum Energiepreis; 0 lassen für nur den Energiepreis. Gib sie wie die Preise oben ein (mit oder ohne MwSt., gleich wie diese).",
+          "monthly_fixed": "Grund- und Leistungsgebühren pro Monat aus deiner Rechnung, in einem eigenen Sensor."
         }
       },
       "prices_two_bands": {
@@ -27,7 +33,13 @@
         "description": "Geben Sie die Energiepreise von Ihrer Rechnung in €/kWh ein (z. B. 0.1250). Unsicher, wo Sie sie finden? [Hier fragen]({issues_url}).",
         "data": {
           "price_f1": "Preis F1",
-          "price_f2": "Preis F23 (F2 + F3)"
+          "price_f2": "Preis F23 (F2 + F3)",
+          "other_per_kwh": "Weitere Kosten pro kWh (optional)",
+          "monthly_fixed": "Fixkosten pro Monat (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, Systemkosten und Verbrauchssteuer pro kWh aus deiner Rechnung. Corrente addiert sie zum Energiepreis; 0 lassen für nur den Energiepreis. Gib sie wie die Preise oben ein (mit oder ohne MwSt., gleich wie diese).",
+          "monthly_fixed": "Grund- und Leistungsgebühren pro Monat aus deiner Rechnung, in einem eigenen Sensor."
         }
       },
       "prices_three_bands": {
@@ -36,7 +48,13 @@
         "data": {
           "price_f1": "Preis F1",
           "price_f2": "Preis F2",
-          "price_f3": "Preis F3"
+          "price_f3": "Preis F3",
+          "other_per_kwh": "Weitere Kosten pro kWh (optional)",
+          "monthly_fixed": "Fixkosten pro Monat (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, Systemkosten und Verbrauchssteuer pro kWh aus deiner Rechnung. Corrente addiert sie zum Energiepreis; 0 lassen für nur den Energiepreis. Gib sie wie die Preise oben ein (mit oder ohne MwSt., gleich wie diese).",
+          "monthly_fixed": "Grund- und Leistungsgebühren pro Monat aus deiner Rechnung, in einem eigenen Sensor."
         }
       },
       "ch_search": {
@@ -81,7 +99,13 @@
         "data": {
           "spread": "Spread",
           "losses": "Netzverluste (falls Ihr Vertrag sie anwendet)",
-          "zone": "Referenzpreis"
+          "zone": "Referenzpreis",
+          "other_per_kwh": "Weitere Kosten pro kWh (optional)",
+          "monthly_fixed": "Fixkosten pro Monat (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, Systemkosten und Verbrauchssteuer pro kWh aus deiner Rechnung. Corrente addiert sie zum Energiepreis; 0 lassen für nur den Energiepreis. Gib sie wie die Preise oben ein (mit oder ohne MwSt., gleich wie diese).",
+          "monthly_fixed": "Grund- und Leistungsgebühren pro Monat aus deiner Rechnung, in einem eigenen Sensor."
         }
       }
     },
@@ -99,7 +123,13 @@
         "title": "Preise pro kWh",
         "description": "Geben Sie die Energiepreise von Ihrer Rechnung in €/kWh ein (z. B. 0.1250). Unsicher, wo Sie sie finden? [Hier fragen]({issues_url}).",
         "data": {
-          "price_f1": "Preis"
+          "price_f1": "Preis",
+          "other_per_kwh": "Weitere Kosten pro kWh (optional)",
+          "monthly_fixed": "Fixkosten pro Monat (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, Systemkosten und Verbrauchssteuer pro kWh aus deiner Rechnung. Corrente addiert sie zum Energiepreis; 0 lassen für nur den Energiepreis. Gib sie wie die Preise oben ein (mit oder ohne MwSt., gleich wie diese).",
+          "monthly_fixed": "Grund- und Leistungsgebühren pro Monat aus deiner Rechnung, in einem eigenen Sensor."
         }
       },
       "prices_two_bands": {
@@ -107,7 +137,13 @@
         "description": "Geben Sie die Energiepreise von Ihrer Rechnung in €/kWh ein (z. B. 0.1250). Unsicher, wo Sie sie finden? [Hier fragen]({issues_url}).",
         "data": {
           "price_f1": "Preis F1",
-          "price_f2": "Preis F23 (F2 + F3)"
+          "price_f2": "Preis F23 (F2 + F3)",
+          "other_per_kwh": "Weitere Kosten pro kWh (optional)",
+          "monthly_fixed": "Fixkosten pro Monat (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, Systemkosten und Verbrauchssteuer pro kWh aus deiner Rechnung. Corrente addiert sie zum Energiepreis; 0 lassen für nur den Energiepreis. Gib sie wie die Preise oben ein (mit oder ohne MwSt., gleich wie diese).",
+          "monthly_fixed": "Grund- und Leistungsgebühren pro Monat aus deiner Rechnung, in einem eigenen Sensor."
         }
       },
       "prices_three_bands": {
@@ -116,7 +152,13 @@
         "data": {
           "price_f1": "Preis F1",
           "price_f2": "Preis F2",
-          "price_f3": "Preis F3"
+          "price_f3": "Preis F3",
+          "other_per_kwh": "Weitere Kosten pro kWh (optional)",
+          "monthly_fixed": "Fixkosten pro Monat (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, Systemkosten und Verbrauchssteuer pro kWh aus deiner Rechnung. Corrente addiert sie zum Energiepreis; 0 lassen für nur den Energiepreis. Gib sie wie die Preise oben ein (mit oder ohne MwSt., gleich wie diese).",
+          "monthly_fixed": "Grund- und Leistungsgebühren pro Monat aus deiner Rechnung, in einem eigenen Sensor."
         }
       },
       "ch_tariff": {
@@ -170,7 +212,13 @@
         "data": {
           "spread": "Spread",
           "losses": "Netzverluste (falls Ihr Vertrag sie anwendet)",
-          "zone": "Referenzpreis"
+          "zone": "Referenzpreis",
+          "other_per_kwh": "Weitere Kosten pro kWh (optional)",
+          "monthly_fixed": "Fixkosten pro Monat (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, Systemkosten und Verbrauchssteuer pro kWh aus deiner Rechnung. Corrente addiert sie zum Energiepreis; 0 lassen für nur den Energiepreis. Gib sie wie die Preise oben ein (mit oder ohne MwSt., gleich wie diese).",
+          "monthly_fixed": "Grund- und Leistungsgebühren pro Monat aus deiner Rechnung, in einem eigenen Sensor."
         }
       },
       "appliances": {

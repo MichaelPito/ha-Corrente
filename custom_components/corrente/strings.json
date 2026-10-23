@@ -19,7 +19,13 @@
         "title": "Prices per kWh",
         "description": "Enter the energy prices from your bill, in €/kWh (for example 0.1250). Not sure where to find them? [Ask here]({issues_url}).",
         "data": {
-          "price_f1": "Price"
+          "price_f1": "Price",
+          "other_per_kwh": "Other costs per kWh (optional)",
+          "monthly_fixed": "Fixed costs per month (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, system charges and excise per kWh from your bill. Corrente adds them to the energy price; leave 0 for the energy price only. Enter them like the prices above (with or without VAT, the same way).",
+          "monthly_fixed": "Fixed and power charges per month from your bill, shown in a sensor of their own."
         }
       },
       "prices_two_bands": {
@@ -27,7 +33,13 @@
         "description": "Enter the energy prices from your bill, in €/kWh (for example 0.1250). Not sure where to find them? [Ask here]({issues_url}).",
         "data": {
           "price_f1": "Price F1",
-          "price_f2": "Price F23 (F2 + F3)"
+          "price_f2": "Price F23 (F2 + F3)",
+          "other_per_kwh": "Other costs per kWh (optional)",
+          "monthly_fixed": "Fixed costs per month (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, system charges and excise per kWh from your bill. Corrente adds them to the energy price; leave 0 for the energy price only. Enter them like the prices above (with or without VAT, the same way).",
+          "monthly_fixed": "Fixed and power charges per month from your bill, shown in a sensor of their own."
         }
       },
       "prices_three_bands": {
@@ -36,7 +48,13 @@
         "data": {
           "price_f1": "Price F1",
           "price_f2": "Price F2",
-          "price_f3": "Price F3"
+          "price_f3": "Price F3",
+          "other_per_kwh": "Other costs per kWh (optional)",
+          "monthly_fixed": "Fixed costs per month (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, system charges and excise per kWh from your bill. Corrente adds them to the energy price; leave 0 for the energy price only. Enter them like the prices above (with or without VAT, the same way).",
+          "monthly_fixed": "Fixed and power charges per month from your bill, shown in a sensor of their own."
         }
       },
       "ch_search": {
@@ -81,7 +99,13 @@
         "data": {
           "spread": "Spread",
           "losses": "Grid losses (if your contract applies them)",
-          "zone": "Reference price"
+          "zone": "Reference price",
+          "other_per_kwh": "Other costs per kWh (optional)",
+          "monthly_fixed": "Fixed costs per month (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, system charges and excise per kWh from your bill. Corrente adds them to the energy price; leave 0 for the energy price only. Enter them like the prices above (with or without VAT, the same way).",
+          "monthly_fixed": "Fixed and power charges per month from your bill, shown in a sensor of their own."
         }
       }
     },
@@ -99,7 +123,13 @@
         "title": "Prices per kWh",
         "description": "Enter the energy prices from your bill, in €/kWh (for example 0.1250). Not sure where to find them? [Ask here]({issues_url}).",
         "data": {
-          "price_f1": "Price"
+          "price_f1": "Price",
+          "other_per_kwh": "Other costs per kWh (optional)",
+          "monthly_fixed": "Fixed costs per month (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, system charges and excise per kWh from your bill. Corrente adds them to the energy price; leave 0 for the energy price only. Enter them like the prices above (with or without VAT, the same way).",
+          "monthly_fixed": "Fixed and power charges per month from your bill, shown in a sensor of their own."
         }
       },
       "prices_two_bands": {
@@ -107,7 +137,13 @@
         "description": "Enter the energy prices from your bill, in €/kWh (for example 0.1250). Not sure where to find them? [Ask here]({issues_url}).",
         "data": {
           "price_f1": "Price F1",
-          "price_f2": "Price F23 (F2 + F3)"
+          "price_f2": "Price F23 (F2 + F3)",
+          "other_per_kwh": "Other costs per kWh (optional)",
+          "monthly_fixed": "Fixed costs per month (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, system charges and excise per kWh from your bill. Corrente adds them to the energy price; leave 0 for the energy price only. Enter them like the prices above (with or without VAT, the same way).",
+          "monthly_fixed": "Fixed and power charges per month from your bill, shown in a sensor of their own."
         }
       },
       "prices_three_bands": {
@@ -116,7 +152,13 @@
         "data": {
           "price_f1": "Price F1",
           "price_f2": "Price F2",
-          "price_f3": "Price F3"
+          "price_f3": "Price F3",
+          "other_per_kwh": "Other costs per kWh (optional)",
+          "monthly_fixed": "Fixed costs per month (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, system charges and excise per kWh from your bill. Corrente adds them to the energy price; leave 0 for the energy price only. Enter them like the prices above (with or without VAT, the same way).",
+          "monthly_fixed": "Fixed and power charges per month from your bill, shown in a sensor of their own."
         }
       },
       "ch_tariff": {
@@ -170,7 +212,13 @@
         "data": {
           "spread": "Spread",
           "losses": "Grid losses (if your contract applies them)",
-          "zone": "Reference price"
+          "zone": "Reference price",
+          "other_per_kwh": "Other costs per kWh (optional)",
+          "monthly_fixed": "Fixed costs per month (optional)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, system charges and excise per kWh from your bill. Corrente adds them to the energy price; leave 0 for the energy price only. Enter them like the prices above (with or without VAT, the same way).",
+          "monthly_fixed": "Fixed and power charges per month from your bill, shown in a sensor of their own."
         }
       },
       "appliances": {

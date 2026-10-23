@@ -18,6 +18,9 @@ CONF_PRICE_F3: Final = "price_f3"
 CONF_SPREAD: Final = "spread"
 CONF_LOSSES: Final = "losses"
 CONF_ZONE: Final = "zone"
+# Other costs from the bill, optional: per kWh (transport, system charges, excise) and per month.
+CONF_OTHER_PER_KWH: Final = "other_per_kwh"
+CONF_MONTHLY_FIXED: Final = "monthly_fixed"
 
 # Switzerland
 CONF_MUNICIPALITY: Final = "municipality"
