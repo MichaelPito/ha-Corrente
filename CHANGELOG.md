@@ -2,6 +2,11 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.3] — 2026-10-23
+
+### Fixed
+- Switzerland, dynamic tariffs: Primeo's API (dynamic tariffs from 2027) refuses to send the energy prices alone and sends them with the grid prices; Corrente now reads them from there. Checked live with Primeo's prices of 23 October 2026.
+
 ## [0.3.2] — 2026-10-23
 
 ### Fixed

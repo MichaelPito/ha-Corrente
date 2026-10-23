@@ -104,15 +104,20 @@ def parse_prices(document: Mapping[str, Any], tariff_type: str) -> list[Segment]
 async def async_fetch_prices(
     session: aiohttp.ClientSession, url: str, tariff_type: str, start: datetime, end: datetime
 ) -> list[Segment]:
-    """Download the per-kWh prices of a dynamic tariff between ``start`` and ``end``."""
+    """Download the per-kWh prices of a dynamic tariff between ``start`` and ``end``.
+
+    Primeo (2027) refuses ``tariff_type=electricity`` (HTTP 422) and sends the
+    energy prices with every other answer: then the grid answer is read.
+    """
     try:
-        async with session.get(
-            request_url(url, tariff_type, start, end),
-            headers={"User-Agent": USER_AGENT, "Accept": "application/json"},
-            timeout=_TIMEOUT,
-        ) as response:
-            response.raise_for_status()
-            raw = await response.read()
+        raw = await _async_get(session, url, tariff_type, start, end)
+    except aiohttp.ClientResponseError as err:
+        if tariff_type != "electricity" or err.status not in (400, 422):
+            raise DynamicTariffError(str(err)) from err
+        try:
+            raw = await _async_get(session, url, "grid", start, end)
+        except (aiohttp.ClientError, TimeoutError) as retry_err:
+            raise DynamicTariffError(str(retry_err)) from retry_err
     except (aiohttp.ClientError, TimeoutError) as err:
         raise DynamicTariffError(str(err)) from err
     try:
@@ -122,3 +127,15 @@ async def async_fetch_prices(
     if not isinstance(document, Mapping) or "prices" not in document:
         raise NotAnApiError("the answer is not a price list")
     return [s for s in parse_prices(document, tariff_type) if s.end > start and s.start < end]
+
+
+async def _async_get(
+    session: aiohttp.ClientSession, url: str, tariff_type: str, start: datetime, end: datetime
+) -> bytes:
+    async with session.get(
+        request_url(url, tariff_type, start, end),
+        headers={"User-Agent": USER_AGENT, "Accept": "application/json"},
+        timeout=_TIMEOUT,
+    ) as response:
+        response.raise_for_status()
+        return await response.read()

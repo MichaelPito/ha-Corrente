@@ -88,6 +88,11 @@
   - **CKW:** `https://e-ckw-public-data.de-c1.eu1.cloudhub.io/api/v1/netzinformationen/energie/dynamische-preise?tariff_name=home_dynamic&tariff_type=integrated`
   - **Groupe E:** `https://api.tariffs.groupe-e.ch/v2/tariffs` (la v1 è dismessa)
   - **BKW**, rimunerazione per l'immissione: `https://api.bkw.ch/api/dyntariffs/v1/Tariffs/energyreturn`
+  - **Primeo** (2027, provato il 23 ottobre 2026): `https://tarife.primeo-energie.ch/api/v1/tariffs`, formato 2026. Rifiuta `tariff_type=electricity` (HTTP 422: accetta solo `grid`, `grid_usage`, `integrated`) ma manda i prezzi dell'energia in ogni risposta: Corrente chiede la rete e legge l'energia dalla stessa risposta (v0.3.3). La rete dinamica "NetzDynamisch" è già attiva nel 2026 (3–25 Rp), ma il file 2026 al posto del link scrive "URL wird auf der Webseite … bekannt gegeben": usabile dal 2027;
+- **Tariffe dinamiche 2027 non leggibili (scansione del 23 ottobre 2026 di tutti i file 2027):**
+  - **EW Höfe, Energie Thun:** portale comune Innostrom (`portal.dynamische-stromtarife.ch/api/v2/`), che dà i prezzi solo con un token personale del cliente o un accesso OAuth per i produttori di sistemi di gestione dell'energia (`/v2/metering_code`). Non sono prezzi pubblici: fuori programma, salvo richiesta di un utente (potrebbe incollare il suo token nelle opzioni);
+  - **AEW:** link a una pagina web (`www.aew.ch/dynamic`), non a un'API;
+  - **BKW** "Sonne Scheint": l'URL del file 2027 risponde ancora "Energy Return endpoint, nessun parametro": da riprovare a gennaio.
 - Scoperta automatica: il JSON statico del gestore indica l'URL dinamico in `prices.dynamic.url`.
 - **Come le legge Corrente (8 ottobre 2026):**
   - una tariffa del file con `tariffForm: "dynamic"` è proposta solo se `prices.dynamic.url` è un indirizzo `https` (AEW scrive `www.aew.ch/dynamic`, una pagina web: esclusa);
