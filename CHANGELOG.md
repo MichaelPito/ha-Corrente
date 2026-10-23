@@ -2,6 +2,12 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.1] — 2026-10-23
+
+### Fixed
+- Switzerland: the monthly fixed charges are right when an operator's file gives the yearly grid fee as a monthly one (Spreitenbach writes 66 CHF "a month", Quarten 144 CHF; ElCom lists the same figures as fees a year). When the file's monthly fee equals ElCom's yearly one, Corrente takes it as yearly. Before, the fixed-charges sensor and the cost of the month were twelve times too high for these operators.
+- Home Assistant 2026.11: checked against the changes announced for developers; nothing to change.
+
 ## [0.3.0] — 2026-10-23
 
 ### Added

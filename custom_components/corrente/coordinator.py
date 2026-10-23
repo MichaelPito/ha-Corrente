@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 import zlib
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import UTC, date, datetime, time, timedelta
 
 from homeassistant.config_entries import ConfigEntry
@@ -48,6 +48,7 @@ from .core.switzerland import (
     regional_names,
     suggest_matching,
     tariffs_on,
+    yearly_fee_as_monthly,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -78,6 +79,7 @@ class ElcomCheck:
 
     federal_per_kwh: float | None = None  # None: not checked, all charges are added
     other_fees_per_kwh: float = 0.0
+    grid_monthly_base: float | None = None  # when the file gives the yearly fee as monthly
 
 
 def select_contract(
@@ -117,6 +119,8 @@ def select_contract(
     grid = pick("grid", options[CONF_GRID_TARIFF])
     if electricity is None or grid is None:
         raise UnsupportedTariffError(f"no tariff of the operator is in force on {day}")
+    if check is not None and check.grid_monthly_base is not None:
+        grid = replace(grid, monthly_base=check.grid_monthly_base)
     return SwissContract(
         electricity=electricity,
         grid=grid,
@@ -242,7 +246,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
             operators = await async_operators_for(session, options[CONF_MUNICIPALITY], today.year)
         except ElcomError:
             return ElcomCheck()  # try again at the next refresh; meanwhile add all charges
-        federal, other_fees = None, 0.0
+        federal, other_fees, grid_base = None, 0.0, None
         options_contract = select_contract(tariffs, options, today)  # the user's tariffs
         for operator in operators:
             if operator.operator_id != options[CONF_OPERATOR_ID]:
@@ -256,6 +260,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
                     chosen=options_contract.grid,
                     elcom_working_rp=operator.grid_working_rp,
                 )
+            grid_base = yearly_fee_as_monthly(options_contract.grid, operator.grid_fix_chf)
             if operator.charge_rp is not None:
                 other_fees = missing_fees(
                     options_contract.regional_fees,
@@ -266,7 +271,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
                     today.year,
                 )
             break
-        self._checks[key] = ElcomCheck(federal, other_fees)
+        self._checks[key] = ElcomCheck(federal, other_fees, grid_base)
         return self._checks[key]
 
     async def _async_load(self, session, url: str, today: date) -> list[Tariff] | None:
