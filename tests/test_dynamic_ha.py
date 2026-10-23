@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import pytest
@@ -12,6 +12,7 @@ from homeassistant.config_entries import SOURCE_USER, ConfigEntryState
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.helpers import entity_registry as er
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from pytest_homeassistant_custom_component.common import (
     MockConfigEntry,
     async_fire_time_changed,
@@ -19,7 +20,11 @@ from pytest_homeassistant_custom_component.common import (
 from pytest_homeassistant_custom_component.test_util.aiohttp import AiohttpClientMocker
 
 from custom_components.corrente.const import DOMAIN
-from custom_components.corrente.core.dynamic import parse_prices
+from custom_components.corrente.core.dynamic import (
+    DynamicTariffError,
+    async_fetch_prices,
+    parse_prices,
+)
 from custom_components.corrente.core.elcom import LINDAS_ENDPOINT
 from custom_components.corrente.core.switzerland import SWISS_TZ, SWISS_VAT
 
@@ -200,3 +205,35 @@ async def test_flow_explains_a_web_page_instead_of_prices(
     )
     assert result["errors"] == {"base": "dynamic_not_api"}
     assert "issues_url" in result["description_placeholders"]
+
+
+async def test_energy_prices_from_the_grid_answer(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker
+) -> None:
+    """Primeo (2027) refuses tariff_type=electricity and sends the energy prices with
+    the grid ones: Corrente asks for the grid and reads the energy from the answer."""
+    api = "https://tarife.primeo-energie.ch/api/v1/tariffs"
+    answer = (FIXTURES / "primeo-grid-20261023.json").read_text("utf-8")
+    aioclient_mock.get(api, params={"tariff_type": "electricity"}, status=422)
+    aioclient_mock.get(api, params={"tariff_type": "grid"}, text=answer)
+    session = async_get_clientsession(hass)
+    start = datetime(2026, 10, 23, tzinfo=SWISS_TZ)
+    end = start + timedelta(days=1)
+    energy = await async_fetch_prices(session, api, "electricity", start, end)
+    grid = await async_fetch_prices(session, api, "grid", start, end)
+    assert len(energy) == len(grid) == 96
+    assert {s.price for s in energy} == {0.13, 0.144}
+    assert min(s.price for s in grid) == 0.0303
+    assert energy[0].start == start
+
+
+async def test_grid_refused_is_an_error(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker
+) -> None:
+    api = "https://tarife.example.ch/api/v1/tariffs"
+    aioclient_mock.get(api, status=422)
+    start = datetime(2026, 10, 23, tzinfo=SWISS_TZ)
+    with pytest.raises(DynamicTariffError):
+        await async_fetch_prices(
+            async_get_clientsession(hass), api, "grid", start, start + timedelta(days=1)
+        )

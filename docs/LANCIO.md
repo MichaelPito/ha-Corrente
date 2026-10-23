@@ -31,7 +31,7 @@
 
 > Hi everyone! I'd like to share **Corrente**, a free and open-source integration that brings your *real* electricity price into Home Assistant.
 >
-> **Switzerland:** type your municipality, and Corrente finds your grid operator in ElCom's open data and reads the tariff file every operator must publish. High/low tariff windows, cantonal and municipal fees, federal charges and VAT are all included, and checked against ElCom's figures for your municipality. Before release I compared it with ElCom for every Swiss operator that publishes a readable tariff file (about 340 of 535): the grid price matches within 0.6 Rp/kWh for 95% of them, and fees missing from an operator's file are taken from ElCom. It works for most operators, Ticino included — and with **dynamic tariffs** (EKZ, Groupe E) it reads the quarter-hour prices from the operator's own API.
+> **Switzerland:** type your municipality, and Corrente finds your grid operator in ElCom's open data and reads the tariff file every operator must publish. High/low tariff windows, cantonal and municipal fees, federal charges and VAT are all included, and checked against ElCom's figures for your municipality. Before release I compared it with ElCom for every Swiss operator that publishes a readable tariff file (about 340 of 535): the grid price matches within 0.6 Rp/kWh for 95% of them, and fees missing from an operator's file are taken from ElCom. It works for most operators, Ticino included — and with **dynamic tariffs** (EKZ, Groupe E, and Primeo from 2027) it reads the quarter-hour prices from the operator's own API.
 >
 > **Italy:** F1/F2/F3 time bands following ARERA's rules (holidays included) and your contract (monoraria, bioraria, trioraria), or a **PUN-indexed** contract with the quarter-hour prices published by GME. Optionally add the other costs from your bill (transport, system charges, excise, fixed charges) to get the whole price, not only the energy part.
 >
@@ -54,7 +54,7 @@
 
 **Testo:** (con lo screenshot della card)
 
-> Corrente is a free, open-source Home Assistant integration (HACS) for Switzerland and Italy. Swiss users type their municipality and get their grid operator's real tariff (high/low windows, fees, federal charges, VAT; dynamic quarter-hour prices for EKZ and Groupe E), checked against ElCom's figures for about 340 operators. Italian users get the F1/F2/F3 bands or PUN-indexed prices from GME, plus the other costs from their bill if they want the whole price.
+> Corrente is a free, open-source Home Assistant integration (HACS) for Switzerland and Italy. Swiss users type their municipality and get their grid operator's real tariff (high/low windows, fees, federal charges, VAT; dynamic quarter-hour prices for EKZ, Groupe E and, from 2027, Primeo), checked against ElCom's figures for about 340 operators. Italian users get the F1/F2/F3 bands or PUN-indexed prices from GME, plus the other costs from their bill if they want the whole price.
 >
 > It shows the price now and the next change, the best time to start an appliance, what you spent today and this month (also per appliance), and comes with blueprints for cheap-hour starts, price alerts and solar surplus.
 >

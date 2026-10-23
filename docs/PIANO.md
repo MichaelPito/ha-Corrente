@@ -361,6 +361,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ kit di lancio aggiornato alla 0.3.x (costi della bolletta per l'Italia, costi fissi con contatore, diagnostica);
   - energia svizzera confrontata con ElCom: entro 1 Rp per 294 gestori su 318; le differenze più grandi vengono da prodotti non standard scelti dallo script di prova, non da Corrente;
   - AEM Massagno: il link 2027 presso ElCom risponde ancora 404 (il 2026 funziona): da ricontrollare la settimana del 9 novembre, prima del lancio;
+  - ✅ **tariffe dinamiche 2027**: scansione di tutti i file 2027. Nuove: Primeo (ora letta, v0.3.3: la sua API manda l'energia solo insieme alla rete), EW Höfe ed Energie Thun (portale Innostrom con token personale del cliente: fuori programma), AEW (pagina web), BKW (a gennaio). 247 test;
   - **Prossimi pezzi:** beta 2026.11 (28 ottobre), test a casa dell'owner, dicembre (Winterthur, AGE, gestori senza file; tariffa dinamica BKW a gennaio).
 
 ## 8. Numeri di controllo

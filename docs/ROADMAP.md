@@ -21,7 +21,7 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [x] README with screenshots, installation, sensors, card and an automation example; Italian guide
 
 ## Next (December 2026 – January 2027)
-- [x] Swiss dynamic tariffs from the operator's API (VSE / SmartGridready standard, 2026 and 2027 formats): EKZ and Groupe E verified live
+- [x] Swiss dynamic tariffs from the operator's API (VSE / SmartGridready standard, 2026 and 2027 formats): EKZ and Groupe E verified live; Primeo from 2027
 - [ ] Swiss dynamic tariffs: CKW (its tariff file cannot be downloaded yet), BKW (from 2027), operators without an API (AIL, AMB, AEW)
 - [x] Cost per appliance (smart plugs or any appliance meter: today and this month, each kWh at its price)
 - [x] Guide: reading your consumption — clamp, Chain 2 / Open Meter (Italy), smart-meter customer interface (Switzerland): [docs/meter.md](meter.md)
