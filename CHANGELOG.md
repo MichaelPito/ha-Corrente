@@ -2,6 +2,11 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.2.7] — 2026-10-23
+
+### Added
+- Diagnostics (Settings → Devices & services → Corrente → ⋮ → Download diagnostics): the tariffs read, their time windows, the federal charges and fees checked with ElCom, the price now and for the next 24 hours. Attach the file to a request on GitHub; it holds your municipality, operator and tariffs, no passwords.
+
 ## [0.2.6] — 2026-10-21
 
 Switzerland: cantonal and municipal fees now match ElCom's household figure within 0.3 Rp/kWh for 340 of 343 operators checked (250 before).

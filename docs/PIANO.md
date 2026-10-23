@@ -328,6 +328,14 @@ esperto. Le richieste diventano la roadmap pubblica.
     2. test a casa dell'owner (inizio novembre) e correzioni;
     3. dicembre: ricontrollare Winterthur, AGE e i gestori senza file leggibile.
 
+- **23 ottobre 2026, pomeriggio** (owner: «ok, vai avanti»):
+  - ✅ **diagnostica scaricabile** (Impostazioni → Dispositivi e servizi → Corrente → ⋮ → Scarica diagnostica): tariffe lette e loro fasce, voci nazionali e tributi controllati con ElCom, prezzo ora e nelle prossime 24 ore. Il modulo delle segnalazioni su GitHub chiede di allegarla. Serve per rispondere alle richieste dopo il lancio senza chiedere dettagli;
+  - ✅ v0.2.7 pubblicata; 226 test.
+  - **Prossimi pezzi:**
+    1. Home Assistant 2026.11 beta (attesa per il 28 ottobre): prova come per la 2026.10;
+    2. test a casa dell'owner (inizio novembre) e correzioni;
+    3. dicembre: ricontrollare Winterthur, AGE e i gestori senza file leggibile.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
