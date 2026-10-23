@@ -69,6 +69,7 @@ _PLAUSIBLE_GRID_RP = 1.5
 # Fees this far below ElCom's are taken to be missing from the file.
 _MISSING_FEES_RP = 0.3
 _SAME_RP = 0.05
+_SAME_FEE_CHF = 6.0  # CHF a year: fixed fees this close are the same
 
 
 def federal_addition(
@@ -667,6 +668,9 @@ class SwissContract:
     # Cantonal and municipal fees ElCom counts and the file leaves out, CHF/kWh
     # (see missing_fees).
     other_fees_per_kwh: float = 0.0
+    # Metering fee per month, CHF without VAT, when the file's fees leave it out
+    # (see metering_per_month).
+    metering_monthly: float = 0.0
     # Published per-kWh prices of the dynamic tariffs (CHF without VAT, UTC),
     # by tariff type ("electricity", "grid"); see core/dynamic.py.
     dynamic: Mapping[str, tuple[Segment, ...]] = field(default_factory=dict)
@@ -849,12 +853,12 @@ class SwissContract:
 
     @property
     def monthly_fixed(self) -> float:
-        """Fixed charges per month including VAT (metering is not included)."""
+        """Fixed charges per month including VAT, metering included."""
         base = sum(
             tariff.base_for(self.canton, self.municipality, self.municipality_name)
             for tariff in self._tariffs()
         )
-        return round(base * (1 + SWISS_VAT), 2)
+        return round((base + self.metering_monthly) * (1 + SWISS_VAT), 2)
 
 
 def suggest_matching(name: str, candidates: Sequence[Tariff]) -> Tariff | None:
@@ -1152,3 +1156,28 @@ def regional_names(value: str | Sequence[str] | None) -> list[str]:
 def tariffs_on(tariffs: Iterable[Tariff], tariff_type: str, day: date) -> list[Tariff]:
     """Tariffs of a type that are in force on a day."""
     return [t for t in tariffs if t.tariff_type == tariff_type and t.valid_on(day)]
+
+
+def metering_per_month(
+    file_monthly: float, elcom_fix_chf: float | None, elcom_metering_rp: float | None
+) -> float:
+    """The household's metering fee per month, CHF without VAT, from ElCom; 0 when
+    the file's monthly fees hold it already.
+
+    Of 314 operators' files read in October 2026, 305 publish metering as a tariff of
+    its own ("Messung Niederspannung Direkt", "Mesure directe BT"), which Corrente
+    does not pick: their grid and fee monthly fees match ElCom's grid fixed costs
+    alone. ElCom's metering figure is the direct-metering fee of a household (AIL
+    5.30 CHF a month, OIKEN 6.60, Viteos 6.20), about 6 CHF a month.
+    ``file_monthly`` is the grid's and the fees' monthly fees in the file.
+    """
+    if not elcom_metering_rp or elcom_metering_rp <= 0:
+        return 0.0
+    yearly = elcom_metering_rp * _H4_KWH_PER_YEAR / 100
+    if elcom_fix_chf is not None:
+        tolerance = max(_SAME_FEE_CHF, 0.05 * (elcom_fix_chf + yearly))
+        holds_it = abs(12 * file_monthly - elcom_fix_chf - yearly) <= tolerance
+        grid_only = abs(12 * file_monthly - elcom_fix_chf) <= tolerance
+        if holds_it and not grid_only:
+            return 0.0
+    return round(yearly / 12, 4)

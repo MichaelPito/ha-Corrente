@@ -43,6 +43,7 @@ from .core.switzerland import (
     canton_of,
     federal_addition,
     fee_applies,
+    metering_per_month,
     missing_fees,
     parse_tariffs,
     regional_names,
@@ -80,6 +81,7 @@ class ElcomCheck:
     federal_per_kwh: float | None = None  # None: not checked, all charges are added
     other_fees_per_kwh: float = 0.0
     grid_monthly_base: float | None = None  # when the file gives the yearly fee as monthly
+    metering_monthly: float = 0.0  # CHF without VAT, when the file leaves it out
 
 
 def select_contract(
@@ -130,6 +132,7 @@ def select_contract(
         municipality_name=municipality_name,
         federal_per_kwh=check.federal_per_kwh if check else None,
         other_fees_per_kwh=check.other_fees_per_kwh if check else 0.0,
+        metering_monthly=check.metering_monthly if check else 0.0,
     )
 
 
@@ -246,7 +249,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
             operators = await async_operators_for(session, options[CONF_MUNICIPALITY], today.year)
         except ElcomError:
             return ElcomCheck()  # try again at the next refresh; meanwhile add all charges
-        federal, other_fees, grid_base = None, 0.0, None
+        federal, other_fees, grid_base, metering = None, 0.0, None, 0.0
         options_contract = select_contract(tariffs, options, today)  # the user's tariffs
         for operator in operators:
             if operator.operator_id != options[CONF_OPERATOR_ID]:
@@ -261,6 +264,19 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
                     elcom_working_rp=operator.grid_working_rp,
                 )
             grid_base = yearly_fee_as_monthly(options_contract.grid, operator.grid_fix_chf)
+            grid = options_contract.grid
+            if grid_base is not None:
+                grid = replace(grid, monthly_base=grid_base)
+            place = (
+                options_contract.canton,
+                options_contract.municipality,
+                options_contract.municipality_name,
+            )
+            metering = metering_per_month(
+                sum(t.base_for(*place) for t in (grid, *options_contract.regional_fees)),
+                operator.grid_fix_chf,
+                operator.metering_rp,
+            )
             if operator.charge_rp is not None:
                 other_fees = missing_fees(
                     options_contract.regional_fees,
@@ -271,7 +287,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
                     today.year,
                 )
             break
-        self._checks[key] = ElcomCheck(federal, other_fees, grid_base)
+        self._checks[key] = ElcomCheck(federal, other_fees, grid_base, metering)
         return self._checks[key]
 
     async def _async_load(self, session, url: str, today: date) -> list[Tariff] | None:

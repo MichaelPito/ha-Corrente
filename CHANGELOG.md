@@ -2,6 +2,11 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.2] — 2026-10-23
+
+### Fixed
+- Switzerland: the fixed charges per month now include metering (the meter fee), about 6 CHF a month. 305 of 314 operators' files checked list it as a tariff of its own, which Corrente did not count. It is taken from ElCom's figure for your operator, which equals the household's metering fee (AIL 5.30 CHF, OIKEN 6.60, Viteos 6.20), and shown in the sensor's attribute `metering_from_elcom`. When your operator's monthly fees already hold it, nothing is added.
+
 ## [0.3.1] — 2026-10-23
 
 ### Fixed
