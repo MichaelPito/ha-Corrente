@@ -357,6 +357,10 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ v0.3.2; 245 test.
   - ✅ regola provata anche sui file 2026 (in uso fino al 31 dicembre): misurazione aggiunta per 274 gestori, mediana 6 CHF al mese; e su Home Assistant vero con dati di oggi: Zurigo 7,46 CHF al mese (= 6,90 di ewz + IVA), Losanna 8,11, Lugano 15,54 (di cui 5,40 contatore), Basilea 4,86, Ittigen (BKW) 19,28;
   - limite noto annotato in `FONTI-DATI.md`: circa 8 gestori su 314 non hanno nel file la quota fissa di rete che ElCom conta;
+  - ✅ sezione «Il prezzo non torna con la bolletta?» nel README e nella guida italiana (IVA, quote fisse a parte, prodotto di energia, altri costi in Italia, diagnostica);
+  - ✅ kit di lancio aggiornato alla 0.3.x (costi della bolletta per l'Italia, costi fissi con contatore, diagnostica);
+  - energia svizzera confrontata con ElCom: entro 1 Rp per 294 gestori su 318; le differenze più grandi vengono da prodotti non standard scelti dallo script di prova, non da Corrente;
+  - AEM Massagno: il link 2027 presso ElCom risponde ancora 404 (il 2026 funziona): da ricontrollare la settimana del 9 novembre, prima del lancio;
   - **Prossimi pezzi:** beta 2026.11 (28 ottobre), test a casa dell'owner, dicembre (Winterthur, AGE, gestori senza file; tariffa dinamica BKW a gennaio).
 
 ## 8. Numeri di controllo
