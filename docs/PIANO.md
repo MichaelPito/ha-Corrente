@@ -346,6 +346,12 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ v0.3.0 pubblicata; 241 test.
   - **Prossimi pezzi:** beta 2026.11 (28 ottobre), test a casa dell'owner, dicembre.
 
+- **23 ottobre 2026, notte** (owner: «ok, vai avanti»):
+  - ✅ **quota fissa annua scritta come mensile** (Spreitenbach 66 CHF, Quarten 144): ElCom pubblica la quota fissa annua di rete (`fixcosts`); se la quota mensile del file è uguale, Corrente la legge come annua e la divide per 12. Prima il sensore dei costi fissi e il costo del mese erano 12 volte troppo alti per questi gestori;
+  - ✅ Home Assistant 2026.11: letti gli avvisi per gli sviluppatori (DeviceInfo, valori di ritorno, RestoreSensor): niente da cambiare. La beta si prova comunque quando esce;
+  - ✅ v0.3.1; 242 test.
+  - **Prossimi pezzi:** beta 2026.11 (28 ottobre), test a casa dell'owner, dicembre.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

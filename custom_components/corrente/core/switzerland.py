@@ -1119,6 +1119,19 @@ def missing_fees(
     return round(gap / 100, 6) if gap > _MISSING_FEES_RP else 0.0
 
 
+def yearly_fee_as_monthly(grid: Tariff, elcom_fix_chf: float | None) -> float | None:
+    """The grid's monthly fee when the file gives the yearly one as monthly, else None.
+
+    Spreitenbach writes 66 CHF "a month", Quarten 144; ElCom has the same figures as
+    fees a year. A monthly fee equal to ElCom's yearly one is read as yearly.
+    """
+    if not elcom_fix_chf or not grid.monthly_base:
+        return None
+    if abs(grid.monthly_base - elcom_fix_chf) <= 0.01 * elcom_fix_chf + 0.05:
+        return round(elcom_fix_chf / 12, 4)
+    return None
+
+
 def fee_applies(
     fee: Tariff, municipality: int | None, municipality_name: str | None, canton: str | None
 ) -> bool:

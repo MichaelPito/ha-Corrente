@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 
-from custom_components.corrente.coordinator import select_contract
+from custom_components.corrente.coordinator import ElcomCheck, select_contract
 from custom_components.corrente.core.switzerland import (
     SWISS_TZ,
     SWISS_VAT,
@@ -30,6 +30,7 @@ from custom_components.corrente.core.switzerland import (
     suggest_matching,
     suggest_regional_fees,
     tariffs_on,
+    yearly_fee_as_monthly,
 )
 
 FIXTURES = Path(__file__).parent / "fixtures" / "ch"
@@ -644,7 +645,7 @@ def test_fees_with_one_name_follow_the_place_not_the_file_order() -> None:
         "municipality": 243,
         "canton": "ZH",
     }
-    contract = select_contract([*ail, elsewhere, canton], options, DAY_2027, 0.0)
+    contract = select_contract([*ail, elsewhere, canton], options, DAY_2027)
     assert contract.regional_fees == (canton,)
 
 
@@ -863,6 +864,27 @@ def test_federal_charges_checked_without_the_monthly_fee() -> None:
     assert federal_addition(grids, 7.443, 2.3, 2027, chosen=chosen) == 0.0  # the old answer
     addition = federal_addition(grids, 7.443, 2.3, 2027, chosen=chosen, elcom_working_rp=5.426)
     assert addition == national_charges(2027)
+
+
+def test_yearly_grid_fee_written_as_monthly() -> None:
+    """Spreitenbach 2027 writes 66 CHF a month; ElCom's household fixed costs are
+    66 CHF a year. Other grids of the file, and a fee unlike ElCom's, stay as they are."""
+    tariffs = load("spreitenbach-2027.json")
+    kn = by_name(tariffs, "Strom KN Netznutzung")
+    assert yearly_fee_as_monthly(kn, 66.0) == 5.5
+    assert yearly_fee_as_monthly(kn, 66.4) == 5.5333  # rounding in ElCom's figure
+    assert yearly_fee_as_monthly(kn, 120.0) is None
+    assert yearly_fee_as_monthly(kn, None) is None
+    assert yearly_fee_as_monthly(by_name(tariffs, "Strom KN Energie"), 66.0) is None
+    options = {
+        "electricity_tariff": "Strom KN Energie",
+        "grid_tariff": "Strom KN Netznutzung",
+        "municipality": 4040,
+        "canton": "AG",
+    }
+    check = ElcomCheck(federal_per_kwh=None, grid_monthly_base=5.5)
+    assert select_contract(tariffs, options, DAY_2027, check).grid.monthly_base == 5.5
+    assert select_contract(tariffs, options, DAY_2027).grid.monthly_base == 66.0
 
 
 def test_grid_suggestion_skips_tariffs_far_from_elcom() -> None:

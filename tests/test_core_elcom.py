@@ -55,9 +55,11 @@ async def test_grid_price_without_fees_is_read(
     """ElCom's grid price per kWh without monthly fees and federal charges, when given."""
     answer = json.loads(fixture_text("lindas-lugano-2027.json"))
     answer["results"]["bindings"][0]["gridworking"] = {"type": "literal", "value": "7.53"}
+    answer["results"]["bindings"][0]["gridfix"] = {"type": "literal", "value": "66"}
     aioclient_mock.post(LINDAS_ENDPOINT, text=json.dumps(answer))
     operators = await async_operators_for(async_get_clientsession(hass), 5192, 2027)
     assert operators[0].grid_working_rp == pytest.approx(7.53)
+    assert operators[0].grid_fix_chf == pytest.approx(66)
 
 
 async def test_web_page_links_are_corrected_or_normalised(
