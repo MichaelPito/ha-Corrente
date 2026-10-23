@@ -60,7 +60,7 @@ async def test_flow_pun_contract(hass: HomeAssistant) -> None:
         result["flow_id"], {"spread": 0.02, "losses": 10.0, "zone": "pun"}
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["data"] == PUN_ENTRY
+    assert result["data"] == {**PUN_ENTRY, "other_per_kwh": 0.0, "monthly_fixed": 0.0}
 
 
 async def test_pun_sensors(

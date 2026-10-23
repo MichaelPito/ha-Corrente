@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta
 
+import pytest
 from freezegun.api import FrozenDateTimeFactory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
@@ -96,3 +97,34 @@ async def test_appliance_duration_from_options(
     assert "4 h" in best.attributes["friendly_name"]
     # Four hours of F3 from 23:00 (Wednesday night).
     assert datetime.fromisoformat(best.state) == datetime(2026, 10, 7, 23, 0, tzinfo=ITALY_TZ)
+
+
+async def test_other_costs_from_the_bill(
+    hass: HomeAssistant, freezer: FrozenDateTimeFactory
+) -> None:
+    """With the bill's other costs entered, the price includes them and the fixed costs
+    per month get a sensor of their own (not created when none are entered)."""
+    freezer.move_to(datetime(2026, 10, 7, 18, 30, tzinfo=ITALY_TZ))
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={
+            "country": "it",
+            "contract_type": "single",
+            "price_f1": 0.12,
+            "other_per_kwh": 0.07,
+            "monthly_fixed": 9.5,
+        },
+    )
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    price = hass.states.get(_entity_id(hass, entry, "price"))
+    assert float(price.state) == pytest.approx(0.19)
+    assert price.attributes["other_costs_per_kwh"] == 0.07
+    assert hass.states.get(_entity_id(hass, entry, "monthly_fixed")).state == "9.5"
+
+
+async def test_no_fixed_costs_sensor_without_them(hass: HomeAssistant) -> None:
+    entry = await _setup(hass)
+    registry = er.async_get(hass)
+    assert registry.async_get_entity_id("sensor", DOMAIN, f"{entry.entry_id}_monthly_fixed") is None

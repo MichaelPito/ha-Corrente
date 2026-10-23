@@ -37,6 +37,8 @@ async def test_three_band_flow_creates_entry(hass: HomeAssistant) -> None:
         "price_f1": 0.30,
         "price_f2": 0.25,
         "price_f3": 0.20,
+        "other_per_kwh": 0.0,  # nothing entered: energy only
+        "monthly_fixed": 0.0,
     }
 
 
@@ -47,7 +49,7 @@ async def test_single_price_flow_asks_one_price(hass: HomeAssistant) -> None:
         result["flow_id"], {"contract_type": "single"}
     )
     assert result["step_id"] == "prices_single"
-    assert list(result["data_schema"].schema) == ["price_f1"]
+    assert list(result["data_schema"].schema) == ["price_f1", "other_per_kwh", "monthly_fixed"]
 
 
 async def test_options_flow_changes_contract(hass: HomeAssistant) -> None:
@@ -77,7 +79,13 @@ async def test_options_flow_changes_contract(hass: HomeAssistant) -> None:
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
     await hass.async_block_till_done()
-    assert entry.options == {"contract_type": "two_bands", "price_f1": 0.31, "price_f2": 0.21}
+    assert entry.options == {
+        "contract_type": "two_bands",
+        "price_f1": 0.31,
+        "price_f2": 0.21,
+        "other_per_kwh": 0.0,
+        "monthly_fixed": 0.0,
+    }
 
 
 def test_fees_with_one_name_for_every_municipality_are_stored_once() -> None:

@@ -19,7 +19,13 @@
         "title": "Prix par kWh",
         "description": "Saisissez les prix de l'énergie figurant sur votre facture, en €/kWh (par exemple 0,1250). Vous ne savez pas où les trouver ? [Demandez ici]({issues_url}).",
         "data": {
-          "price_f1": "Prix"
+          "price_f1": "Prix",
+          "other_per_kwh": "Autres coûts par kWh (facultatif)",
+          "monthly_fixed": "Coûts fixes par mois (facultatif)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, charges de système et accises par kWh, comme sur ta facture. Corrente les ajoute au prix de l'énergie ; laisse 0 pour le seul prix de l'énergie. Saisis-les comme les prix ci-dessus (avec ou sans TVA, de la même façon).",
+          "monthly_fixed": "Parts fixes et de puissance par mois, comme sur ta facture : elles apparaissent dans un capteur à part."
         }
       },
       "prices_two_bands": {
@@ -27,7 +33,13 @@
         "description": "Saisissez les prix de l'énergie figurant sur votre facture, en €/kWh (par exemple 0,1250). Vous ne savez pas où les trouver ? [Demandez ici]({issues_url}).",
         "data": {
           "price_f1": "Prix F1",
-          "price_f2": "Prix F23 (F2 + F3)"
+          "price_f2": "Prix F23 (F2 + F3)",
+          "other_per_kwh": "Autres coûts par kWh (facultatif)",
+          "monthly_fixed": "Coûts fixes par mois (facultatif)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, charges de système et accises par kWh, comme sur ta facture. Corrente les ajoute au prix de l'énergie ; laisse 0 pour le seul prix de l'énergie. Saisis-les comme les prix ci-dessus (avec ou sans TVA, de la même façon).",
+          "monthly_fixed": "Parts fixes et de puissance par mois, comme sur ta facture : elles apparaissent dans un capteur à part."
         }
       },
       "prices_three_bands": {
@@ -36,7 +48,13 @@
         "data": {
           "price_f1": "Prix F1",
           "price_f2": "Prix F2",
-          "price_f3": "Prix F3"
+          "price_f3": "Prix F3",
+          "other_per_kwh": "Autres coûts par kWh (facultatif)",
+          "monthly_fixed": "Coûts fixes par mois (facultatif)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, charges de système et accises par kWh, comme sur ta facture. Corrente les ajoute au prix de l'énergie ; laisse 0 pour le seul prix de l'énergie. Saisis-les comme les prix ci-dessus (avec ou sans TVA, de la même façon).",
+          "monthly_fixed": "Parts fixes et de puissance par mois, comme sur ta facture : elles apparaissent dans un capteur à part."
         }
       },
       "ch_search": {
@@ -81,7 +99,13 @@
         "data": {
           "spread": "Spread",
           "losses": "Pertes de réseau (si votre contrat les applique)",
-          "zone": "Prix de référence"
+          "zone": "Prix de référence",
+          "other_per_kwh": "Autres coûts par kWh (facultatif)",
+          "monthly_fixed": "Coûts fixes par mois (facultatif)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, charges de système et accises par kWh, comme sur ta facture. Corrente les ajoute au prix de l'énergie ; laisse 0 pour le seul prix de l'énergie. Saisis-les comme les prix ci-dessus (avec ou sans TVA, de la même façon).",
+          "monthly_fixed": "Parts fixes et de puissance par mois, comme sur ta facture : elles apparaissent dans un capteur à part."
         }
       }
     },
@@ -99,7 +123,13 @@
         "title": "Prix par kWh",
         "description": "Saisissez les prix de l'énergie figurant sur votre facture, en €/kWh (par exemple 0,1250). Vous ne savez pas où les trouver ? [Demandez ici]({issues_url}).",
         "data": {
-          "price_f1": "Prix"
+          "price_f1": "Prix",
+          "other_per_kwh": "Autres coûts par kWh (facultatif)",
+          "monthly_fixed": "Coûts fixes par mois (facultatif)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, charges de système et accises par kWh, comme sur ta facture. Corrente les ajoute au prix de l'énergie ; laisse 0 pour le seul prix de l'énergie. Saisis-les comme les prix ci-dessus (avec ou sans TVA, de la même façon).",
+          "monthly_fixed": "Parts fixes et de puissance par mois, comme sur ta facture : elles apparaissent dans un capteur à part."
         }
       },
       "prices_two_bands": {
@@ -107,7 +137,13 @@
         "description": "Saisissez les prix de l'énergie figurant sur votre facture, en €/kWh (par exemple 0,1250). Vous ne savez pas où les trouver ? [Demandez ici]({issues_url}).",
         "data": {
           "price_f1": "Prix F1",
-          "price_f2": "Prix F23 (F2 + F3)"
+          "price_f2": "Prix F23 (F2 + F3)",
+          "other_per_kwh": "Autres coûts par kWh (facultatif)",
+          "monthly_fixed": "Coûts fixes par mois (facultatif)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, charges de système et accises par kWh, comme sur ta facture. Corrente les ajoute au prix de l'énergie ; laisse 0 pour le seul prix de l'énergie. Saisis-les comme les prix ci-dessus (avec ou sans TVA, de la même façon).",
+          "monthly_fixed": "Parts fixes et de puissance par mois, comme sur ta facture : elles apparaissent dans un capteur à part."
         }
       },
       "prices_three_bands": {
@@ -116,7 +152,13 @@
         "data": {
           "price_f1": "Prix F1",
           "price_f2": "Prix F2",
-          "price_f3": "Prix F3"
+          "price_f3": "Prix F3",
+          "other_per_kwh": "Autres coûts par kWh (facultatif)",
+          "monthly_fixed": "Coûts fixes par mois (facultatif)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, charges de système et accises par kWh, comme sur ta facture. Corrente les ajoute au prix de l'énergie ; laisse 0 pour le seul prix de l'énergie. Saisis-les comme les prix ci-dessus (avec ou sans TVA, de la même façon).",
+          "monthly_fixed": "Parts fixes et de puissance par mois, comme sur ta facture : elles apparaissent dans un capteur à part."
         }
       },
       "ch_tariff": {
@@ -170,7 +212,13 @@
         "data": {
           "spread": "Spread",
           "losses": "Pertes de réseau (si votre contrat les applique)",
-          "zone": "Prix de référence"
+          "zone": "Prix de référence",
+          "other_per_kwh": "Autres coûts par kWh (facultatif)",
+          "monthly_fixed": "Coûts fixes par mois (facultatif)"
+        },
+        "data_description": {
+          "other_per_kwh": "Transport, charges de système et accises par kWh, comme sur ta facture. Corrente les ajoute au prix de l'énergie ; laisse 0 pour le seul prix de l'énergie. Saisis-les comme les prix ci-dessus (avec ou sans TVA, de la même façon).",
+          "monthly_fixed": "Parts fixes et de puissance par mois, comme sur ta facture : elles apparaissent dans un capteur à part."
         }
       },
       "appliances": {

@@ -28,14 +28,20 @@ class ItalyIndexedContract:
     spread: float
     losses: float = 0.0  # grid losses applied to the wholesale price, e.g. 0.10 for 10%
     zone: str = "PUN"
+    # From the bill, if the user enters them: transport, system charges and excise
+    # per kWh, and the fixed charges per month.
+    other_per_kwh: float = 0.0
+    monthly_fixed: float = 0.0
 
     def __post_init__(self) -> None:
         if not 0 <= self.losses < 1:
             raise ValueError("losses must be between 0 and 1")
+        if self.other_per_kwh < 0 or self.monthly_fixed < 0:
+            raise ValueError("other costs cannot be negative")
 
     def price_from(self, wholesale: float) -> float:
-        """Energy price per kWh from the wholesale price per kWh."""
-        return round(wholesale * (1 + self.losses) + self.spread, 6)
+        """Price per kWh from the wholesale price per kWh: energy and other costs."""
+        return round(wholesale * (1 + self.losses) + self.spread + self.other_per_kwh, 6)
 
 
 @dataclass(frozen=True, slots=True)
@@ -46,8 +52,14 @@ class ItalyFixedContract:
     price_f1: float
     price_f2: float | None = None
     price_f3: float | None = None
+    # From the bill, if the user enters them: transport, system charges and excise
+    # per kWh, and the fixed charges per month.
+    other_per_kwh: float = 0.0
+    monthly_fixed: float = 0.0
 
     def __post_init__(self) -> None:
+        if self.other_per_kwh < 0 or self.monthly_fixed < 0:
+            raise ValueError("other costs cannot be negative")
         prices = [self.price_f1]
         if self.contract_type is ItalyContractType.TWO_BANDS:
             if self.price_f2 is None:
@@ -61,7 +73,10 @@ class ItalyFixedContract:
             raise ValueError("prices cannot be negative")
 
     def price_for_band(self, band: Band) -> float:
-        """Return the price per kWh that applies in a band."""
+        """Return the price per kWh that applies in a band, other costs included."""
+        return round(self._energy_price(band) + self.other_per_kwh, 6)
+
+    def _energy_price(self, band: Band) -> float:
         if self.contract_type is ItalyContractType.SINGLE or band is Band.F1:
             return self.price_f1
         if self.contract_type is ItalyContractType.TWO_BANDS:

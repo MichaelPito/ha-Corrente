@@ -41,10 +41,12 @@ from .const import (
     CONF_ENERGY_SENSOR,
     CONF_GRID_TARIFF,
     CONF_LOSSES,
+    CONF_MONTHLY_FIXED,
     CONF_MUNICIPALITY,
     CONF_MUNICIPALITY_NAME,
     CONF_OPERATOR_ID,
     CONF_OPERATOR_NAME,
+    CONF_OTHER_PER_KWH,
     CONF_PRICE_F1,
     CONF_PRICE_F2,
     CONF_PRICE_F3,
@@ -124,6 +126,30 @@ _URL_SCHEMA = vol.Schema(
 )
 
 
+_OTHER_SELECTOR = NumberSelector(
+    NumberSelectorConfig(
+        min=0, max=1, step="any", mode=NumberSelectorMode.BOX, unit_of_measurement="€/kWh"
+    )
+)
+_MONTHLY_SELECTOR = NumberSelector(
+    NumberSelectorConfig(
+        min=0, max=500, step="any", mode=NumberSelectorMode.BOX, unit_of_measurement="€"
+    )
+)
+
+
+def _other_costs(defaults: dict[str, Any]) -> dict[Any, Any]:
+    """The other costs on an Italian bill, optional: per kWh and per month."""
+    return {
+        vol.Optional(
+            CONF_OTHER_PER_KWH, default=defaults.get(CONF_OTHER_PER_KWH, 0.0)
+        ): _OTHER_SELECTOR,
+        vol.Optional(
+            CONF_MONTHLY_FIXED, default=defaults.get(CONF_MONTHLY_FIXED, 0.0)
+        ): _MONTHLY_SELECTOR,
+    }
+
+
 def _pun_schema(defaults: dict[str, Any]) -> vol.Schema:
     """Spread, grid losses and zone of a PUN-indexed contract."""
     return vol.Schema(
@@ -151,6 +177,7 @@ def _pun_schema(defaults: dict[str, Any]) -> vol.Schema:
                     translation_key=CONF_ZONE,
                 )
             ),
+            **_other_costs(defaults),
         }
     )
 
@@ -171,6 +198,7 @@ def _prices_schema(contract_type: ItalyContractType, defaults: dict[str, Any]) -
             else vol.Required(field): _PRICE_SELECTOR
             for field in fields
         }
+        | _other_costs(defaults)
     )
 
 
@@ -689,7 +717,16 @@ class CorrenteOptionsFlow(OptionsFlow):
             key: value
             for key, value in current.items()
             if key
-            in (CONF_PRICE_F1, CONF_PRICE_F2, CONF_PRICE_F3, CONF_SPREAD, CONF_LOSSES, CONF_ZONE)
+            in (
+                CONF_PRICE_F1,
+                CONF_PRICE_F2,
+                CONF_PRICE_F3,
+                CONF_SPREAD,
+                CONF_LOSSES,
+                CONF_ZONE,
+                CONF_OTHER_PER_KWH,
+                CONF_MONTHLY_FIXED,
+            )
             and value is not None
         }
         return self.async_show_form(

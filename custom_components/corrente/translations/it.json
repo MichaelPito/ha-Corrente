@@ -19,7 +19,13 @@
         "title": "Prezzi al kWh",
         "description": "Inserisci i prezzi dell'energia che trovi in bolletta, in €/kWh (per esempio 0,1250). Non sai dove trovarli? [Chiedi qui]({issues_url}).",
         "data": {
-          "price_f1": "Prezzo"
+          "price_f1": "Prezzo",
+          "other_per_kwh": "Altri costi per kWh (facoltativo)",
+          "monthly_fixed": "Costi fissi al mese (facoltativo)"
+        },
+        "data_description": {
+          "other_per_kwh": "Trasporto e gestione del contatore, oneri di sistema e accise per kWh, come in bolletta. Corrente li somma al prezzo dell'energia; lascia 0 per il solo prezzo dell'energia. Inseriscili come i prezzi qui sopra (con o senza IVA, allo stesso modo).",
+          "monthly_fixed": "Quote fisse e quota potenza al mese, come in bolletta: compaiono in un sensore a parte."
         }
       },
       "prices_two_bands": {
@@ -27,7 +33,13 @@
         "description": "Inserisci i prezzi dell'energia che trovi in bolletta, in €/kWh (per esempio 0,1250). Non sai dove trovarli? [Chiedi qui]({issues_url}).",
         "data": {
           "price_f1": "Prezzo F1",
-          "price_f2": "Prezzo F23 (F2 + F3)"
+          "price_f2": "Prezzo F23 (F2 + F3)",
+          "other_per_kwh": "Altri costi per kWh (facoltativo)",
+          "monthly_fixed": "Costi fissi al mese (facoltativo)"
+        },
+        "data_description": {
+          "other_per_kwh": "Trasporto e gestione del contatore, oneri di sistema e accise per kWh, come in bolletta. Corrente li somma al prezzo dell'energia; lascia 0 per il solo prezzo dell'energia. Inseriscili come i prezzi qui sopra (con o senza IVA, allo stesso modo).",
+          "monthly_fixed": "Quote fisse e quota potenza al mese, come in bolletta: compaiono in un sensore a parte."
         }
       },
       "prices_three_bands": {
@@ -36,7 +48,13 @@
         "data": {
           "price_f1": "Prezzo F1",
           "price_f2": "Prezzo F2",
-          "price_f3": "Prezzo F3"
+          "price_f3": "Prezzo F3",
+          "other_per_kwh": "Altri costi per kWh (facoltativo)",
+          "monthly_fixed": "Costi fissi al mese (facoltativo)"
+        },
+        "data_description": {
+          "other_per_kwh": "Trasporto e gestione del contatore, oneri di sistema e accise per kWh, come in bolletta. Corrente li somma al prezzo dell'energia; lascia 0 per il solo prezzo dell'energia. Inseriscili come i prezzi qui sopra (con o senza IVA, allo stesso modo).",
+          "monthly_fixed": "Quote fisse e quota potenza al mese, come in bolletta: compaiono in un sensore a parte."
         }
       },
       "ch_search": {
@@ -81,7 +99,13 @@
         "data": {
           "spread": "Spread",
           "losses": "Perdite di rete (se il contratto le applica)",
-          "zone": "Prezzo di riferimento"
+          "zone": "Prezzo di riferimento",
+          "other_per_kwh": "Altri costi per kWh (facoltativo)",
+          "monthly_fixed": "Costi fissi al mese (facoltativo)"
+        },
+        "data_description": {
+          "other_per_kwh": "Trasporto e gestione del contatore, oneri di sistema e accise per kWh, come in bolletta. Corrente li somma al prezzo dell'energia; lascia 0 per il solo prezzo dell'energia. Inseriscili come i prezzi qui sopra (con o senza IVA, allo stesso modo).",
+          "monthly_fixed": "Quote fisse e quota potenza al mese, come in bolletta: compaiono in un sensore a parte."
         }
       }
     },
@@ -99,7 +123,13 @@
         "title": "Prezzi al kWh",
         "description": "Inserisci i prezzi dell'energia che trovi in bolletta, in €/kWh (per esempio 0,1250). Non sai dove trovarli? [Chiedi qui]({issues_url}).",
         "data": {
-          "price_f1": "Prezzo"
+          "price_f1": "Prezzo",
+          "other_per_kwh": "Altri costi per kWh (facoltativo)",
+          "monthly_fixed": "Costi fissi al mese (facoltativo)"
+        },
+        "data_description": {
+          "other_per_kwh": "Trasporto e gestione del contatore, oneri di sistema e accise per kWh, come in bolletta. Corrente li somma al prezzo dell'energia; lascia 0 per il solo prezzo dell'energia. Inseriscili come i prezzi qui sopra (con o senza IVA, allo stesso modo).",
+          "monthly_fixed": "Quote fisse e quota potenza al mese, come in bolletta: compaiono in un sensore a parte."
         }
       },
       "prices_two_bands": {
@@ -107,7 +137,13 @@
         "description": "Inserisci i prezzi dell'energia che trovi in bolletta, in €/kWh (per esempio 0,1250). Non sai dove trovarli? [Chiedi qui]({issues_url}).",
         "data": {
           "price_f1": "Prezzo F1",
-          "price_f2": "Prezzo F23 (F2 + F3)"
+          "price_f2": "Prezzo F23 (F2 + F3)",
+          "other_per_kwh": "Altri costi per kWh (facoltativo)",
+          "monthly_fixed": "Costi fissi al mese (facoltativo)"
+        },
+        "data_description": {
+          "other_per_kwh": "Trasporto e gestione del contatore, oneri di sistema e accise per kWh, come in bolletta. Corrente li somma al prezzo dell'energia; lascia 0 per il solo prezzo dell'energia. Inseriscili come i prezzi qui sopra (con o senza IVA, allo stesso modo).",
+          "monthly_fixed": "Quote fisse e quota potenza al mese, come in bolletta: compaiono in un sensore a parte."
         }
       },
       "prices_three_bands": {
@@ -116,7 +152,13 @@
         "data": {
           "price_f1": "Prezzo F1",
           "price_f2": "Prezzo F2",
-          "price_f3": "Prezzo F3"
+          "price_f3": "Prezzo F3",
+          "other_per_kwh": "Altri costi per kWh (facoltativo)",
+          "monthly_fixed": "Costi fissi al mese (facoltativo)"
+        },
+        "data_description": {
+          "other_per_kwh": "Trasporto e gestione del contatore, oneri di sistema e accise per kWh, come in bolletta. Corrente li somma al prezzo dell'energia; lascia 0 per il solo prezzo dell'energia. Inseriscili come i prezzi qui sopra (con o senza IVA, allo stesso modo).",
+          "monthly_fixed": "Quote fisse e quota potenza al mese, come in bolletta: compaiono in un sensore a parte."
         }
       },
       "ch_tariff": {
@@ -170,7 +212,13 @@
         "data": {
           "spread": "Spread",
           "losses": "Perdite di rete (se il contratto le applica)",
-          "zone": "Prezzo di riferimento"
+          "zone": "Prezzo di riferimento",
+          "other_per_kwh": "Altri costi per kWh (facoltativo)",
+          "monthly_fixed": "Costi fissi al mese (facoltativo)"
+        },
+        "data_description": {
+          "other_per_kwh": "Trasporto e gestione del contatore, oneri di sistema e accise per kWh, come in bolletta. Corrente li somma al prezzo dell'energia; lascia 0 per il solo prezzo dell'energia. Inseriscili come i prezzi qui sopra (con o senza IVA, allo stesso modo).",
+          "monthly_fixed": "Quote fisse e quota potenza al mese, come in bolletta: compaiono in un sensore a parte."
         }
       },
       "appliances": {

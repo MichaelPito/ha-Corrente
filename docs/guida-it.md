@@ -24,6 +24,11 @@ Corrente porta in Home Assistant il **vero prezzo della tua elettricità** e ti 
    - il **prezzo di riferimento**: PUN Index GME, oppure la zona se il contratto la usa.
 
    Corrente scarica ogni giorno dal sito del GME i prezzi al quarto d'ora di oggi e di domani (fonte: GME) e calcola il tuo prezzo momento per momento.
+5. **Facoltativo, per avere il prezzo della bolletta e non solo dell'energia:** nella stessa pagina ci sono due campi.
+   - **Altri costi per kWh:** somma le voci al kWh della bolletta oltre all'energia, cioè trasporto e gestione del contatore (quota energia), oneri di sistema e accise. Corrente le aggiunge al prezzo e ai costi di oggi e del mese.
+   - **Costi fissi al mese:** quote fisse e quota potenza. Compaiono in un sensore a parte.
+
+   Inseriscili come i prezzi dell'energia: con o senza IVA, allo stesso modo. Questi valori cambiano ogni tanto (ARERA li aggiorna ogni trimestre): li modifichi quando vuoi dalle **opzioni** di Corrente.
 
 Le fasce seguono le regole ARERA:
 - **F1:** lun–ven 8–19;
