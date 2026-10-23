@@ -125,6 +125,12 @@ automation:
 - **Switzerland:** ElCom open data (LINDAS, Open-Use licence), the tariff files published by grid operators and, for dynamic tariffs, the operators' public price APIs. Federal charges per year are documented in [`docs/FONTI-DATI.md`](docs/FONTI-DATI.md).
 - **Italy:** ARERA time-band definitions (TIV, Tabella 6). Wholesale prices: *Fonte: Gestore dei Mercati Energetici S.p.A. (GME)* — downloaded by your own Home Assistant once or twice a day, for personal, non-commercial use, as GME's terms require. Nothing is shared or cached centrally, and no paid feature will ever be based on GME data.
 
+## Price different from your bill?
+
+- **Switzerland:** the price per kWh is energy + grid + cantonal and municipal fees + federal charges, **VAT included** (8.1%). Monthly fees — grid fee, metering, monthly fees — are not in the price: they are in the **Fixed charges per month** sensor, and the cost sensors count only the kWh. Check that the energy product and the grid tariff are the ones on your bill (options → Contract or tariff): green or local energy products cost more than the standard one. The price sensor's attributes show the tariffs used and any fee taken from ElCom.
+- **Italy:** with only the energy prices entered, the price is the energy part of the bill. Add **Other costs per kWh** (transport, system charges, excise) and **Fixed charges per month** from your bill to get the whole price (options → Contract or tariff). Enter all prices the same way, with or without VAT. For PUN-indexed contracts, GME's prices are without VAT, so the price is too unless you include VAT in the spread and other costs.
+- Still different? Download the diagnostics (Settings → Devices & services → Corrente → ⋮ → Download diagnostics) and attach the file to a [request](../../issues/new/choose): it shows every tariff and figure Corrente used, and holds no passwords.
+
 ## Suggestions and requests
 
 Something missing? Your provider or tariff not covered? **[Open a request](../../issues/new/choose)** — it takes a minute, and the most requested ideas go to the top of the [roadmap](docs/ROADMAP.md). No GitHub account? Use the **[short form](https://docs.google.com/forms/d/e/1FAIpQLSce_vFvHpz3Qav3o05DvoJhpIuM2zXWmvpgBHWRS1gJsEF6yQ/viewform)** (no account needed; we publish requests here without personal data).

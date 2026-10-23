@@ -90,6 +90,12 @@ entity: sensor.corrente_prezzo_attuale
 
 La card mostra il prezzo adesso, le prossime 24 ore a colori (verde più economico, rosso più caro) e il momento migliore per avviare un apparecchio di 2 ore. In basso trovi la fonte dei dati e il link **Suggerisci una modifica**; per nasconderlo aggiungi `feedback: false`.
 
+## Il prezzo non torna con la bolletta?
+
+- **Svizzera:** il prezzo al kWh è energia + rete + tributi cantonali e comunali + voci federali, **IVA compresa** (8,1%). Le quote mensili (quota di rete, contatore, quote dei tributi) non sono nel prezzo: sono nel sensore **Costi fissi al mese**, e i sensori dei costi contano solo i kWh. Controlla che il prodotto di energia e la tariffa di rete siano quelli della bolletta (opzioni → Contratto o tariffa): i prodotti "verdi" o locali costano più di quello standard. Gli attributi del sensore del prezzo mostrano le tariffe usate e i tributi presi da ElCom.
+- **Italia:** con i soli prezzi dell'energia, il prezzo è la parte energia della bolletta. Aggiungi **Altri costi per kWh** (trasporto, oneri di sistema, accise) e **Costi fissi al mese** dalla bolletta per avere il prezzo intero (opzioni → Contratto o tariffa). Inserisci tutti i prezzi allo stesso modo, con o senza IVA. Nei contratti indicizzati al PUN i prezzi del GME sono senza IVA, quindi lo è anche il prezzo, a meno che tu non metta l'IVA nello spread e negli altri costi.
+- Ancora diverso? Scarica la diagnostica (Impostazioni → Dispositivi e servizi → Corrente → ⋮ → Scarica diagnostica) e allegala a una [richiesta](https://github.com/MichaelPito/ha-corrente/issues/new/choose) o descrivila nel modulo: mostra ogni tariffa e cifra usata da Corrente e non contiene password.
+
 ## Hai un'idea o un problema?
 
 [Apri una richiesta](https://github.com/MichaelPito/ha-corrente/issues/new/choose): basta un minuto, e puoi scrivere in italiano. Non hai un account GitHub? Usa il **[modulo](https://docs.google.com/forms/d/e/1FAIpQLSce_vFvHpz3Qav3o05DvoJhpIuM2zXWmvpgBHWRS1gJsEF6yQ/viewform)**: non serve nessun account, e pubblichiamo la richiesta su GitHub senza dati personali.
