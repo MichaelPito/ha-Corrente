@@ -22,6 +22,7 @@ from custom_components.corrente.core.elcom import (
     async_operators_for,
     async_search_municipalities,
     async_tariff_url_candidates,
+    fold,
     parse_tariff_file,
 )
 
@@ -71,6 +72,35 @@ async def test_web_page_links_are_corrected_or_normalised(
     assert amb.tariff_url == "https://www.amb.ch/media/2hcct0s4/tariffe-2027.json"
     # Zernez has two operators; bare host names get a scheme.
     assert by_name["Gemeinde Zernez"].tariff_url == "https://www.ee-en.ch/tarife"
+
+
+@pytest.mark.parametrize(
+    ("typed", "official"),
+    [
+        ("Zurich", "Zürich"),
+        ("Zuerich", "Zürich"),
+        ("Neuchatel", "Neuchâtel"),
+        ("St Gallen", "St. Gallen"),
+        ("Sankt Gallen", "St. Gallen"),
+        ("Muenchenstein", "Münchenstein"),
+        ("Delemont", "Delémont"),
+        ("St-Imier", "Saint-Imier"),
+    ],
+)
+def test_spellings_fold_to_the_same_name(typed: str, official: str) -> None:
+    """People type names without accents or dots, or with "ue" for "ü"."""
+    assert fold(typed) in fold(official)
+
+
+async def test_search_ignores_accents_and_knows_other_languages(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker
+) -> None:
+    aioclient_mock.post(LINDAS_ENDPOINT, text=fixture_text("lindas-lugano-2027.json"))
+    session = async_get_clientsession(hass)
+    await async_search_municipalities(session, "Zurigo", 2027)
+    query = aioclient_mock.mock_calls[-1][2]["query"]
+    assert '"zurich"' in query  # the Italian name, folded
+    assert "REPLACE(" in query  # the municipality names are folded the same way
 
 
 async def test_short_or_empty_search_does_not_query(

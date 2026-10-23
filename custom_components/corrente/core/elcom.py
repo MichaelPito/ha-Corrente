@@ -86,6 +86,71 @@ def _clean_search(text: str) -> str:
     return re.sub(r"[^\w\s'.()/-]", "", text, flags=re.UNICODE).strip().lower()
 
 
+# Spellings people type for the same name, folded the same way on both sides of the
+# search: "Zurich" and "Zuerich" find "Zürich", "St Gallen" finds "St. Gallen".
+_FOLDS: tuple[tuple[str, str], ...] = (
+    *(
+        (accented, plain)
+        for plain, letters in (
+            ("a", "äàâá"),
+            ("e", "éèêë"),
+            ("i", "îïí"),
+            ("o", "öôó"),
+            ("u", "üûùú"),
+            ("c", "ç"),
+        )
+        for accented in letters
+    ),
+    ("ae", "a"),
+    ("oe", "o"),
+    ("ue", "u"),
+    (".", ""),
+    ("sankt", "st"),
+    ("saint", "st"),
+)
+
+# Names of the larger towns in the other languages (and in English), folded.
+_EXONYMS = {
+    "zurigo": "zurich",
+    "geneva": "geneve",
+    "ginevra": "geneve",
+    "genf": "geneve",
+    "basilea": "basel",
+    "bale": "basel",
+    "berna": "bern",
+    "berne": "bern",
+    "lucerna": "luzern",
+    "lucerne": "luzern",
+    "san gallo": "st gallen",
+    "coira": "chur",
+    "friburgo": "fribourg",
+    "freiburg": "fribourg",
+    "soletta": "solothurn",
+    "sciaffusa": "schaffhausen",
+    "neuenburg": "neuchatel",
+    "losanna": "lausanne",
+    "sitten": "sion",
+    "zugo": "zug",
+    "lauis": "lugano",
+    "bellenz": "bellinzona",
+}
+
+
+def fold(text: str) -> str:
+    """A name or a search folded so that spellings of the same name are equal."""
+    text = text.lower()
+    for written, plain in _FOLDS:
+        text = text.replace(written, plain)
+    return text
+
+
+def _fold_sparql(expression: str) -> str:
+    """The same folding as ``fold``, in SPARQL (REPLACE takes a regular expression)."""
+    for written, plain in _FOLDS:
+        expression = f"REPLACE({expression}, {json.dumps(re.escape(written))}, {json.dumps(plain)})"
+    return expression
+
+
 def _tariff_url(operator_id: str, year: int, url: str | None) -> str | None:
     if (operator_id, year) in KNOWN_TARIFF_URLS:
         return KNOWN_TARIFF_URLS[(operator_id, year)]
@@ -138,11 +203,13 @@ async def async_search_municipalities(
     session: aiohttp.ClientSession, text: str, year: int
 ) -> list[OperatorInMunicipality]:
     """Find operators of municipalities whose name contains ``text``."""
-    cleaned = _clean_search(text)
+    cleaned = fold(_clean_search(text))
     if len(cleaned) < 2:
         return []
+    cleaned = _EXONYMS.get(cleaned, cleaned)
     literal = json.dumps(cleaned)  # a valid, escaped SPARQL string literal
-    filter_clause = f"FILTER(CONTAINS(LCASE(STR(?muniName)), {literal}))"
+    name = _fold_sparql("LCASE(STR(?muniName))")
+    filter_clause = f"FILTER(CONTAINS({name}, {literal}))"
     rows = await _query(session, _QUERY.format(year=year, filter=filter_clause))
     return _rows_to_operators(rows, year)
 
