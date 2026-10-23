@@ -2,15 +2,15 @@
 
 > Preparato da Claude. L'owner deve solo **copiare e incollare** i post nel giorno indicato. Tutto il resto lo fa Claude.
 >
-> **Versione da lanciare:** l'ultima 0.2.x (oggi la 0.2.6, 21 ottobre), con le correzioni del test a casa di inizio novembre.
-> **Data:** martedì 17 novembre 2026 (finestra 17–20). Testi aggiornati il 22 ottobre: verifica con ElCom su tutti i gestori svizzeri (0.2.3–0.2.6).
+> **Versione da lanciare:** l'ultima 0.3.x (oggi la 0.3.2, 23 ottobre), con le correzioni del test a casa di inizio novembre.
+> **Data:** martedì 17 novembre 2026 (finestra 17–20). Testi aggiornati il 22 ottobre (verifica con ElCom su tutti i gestori svizzeri, 0.2.3–0.2.6) e il 23 ottobre (costi della bolletta per l'Italia, costi fissi con contatore, diagnostica: 0.2.7–0.3.2).
 
 ## Lista di controllo per il giorno del lancio
 
 | # | Cosa | Chi | Stato |
 |---|---|---|---|
 | 0 | Test a casa dell'owner con la sua tariffa (`docs/TEST-A-CASA.md`), inizio novembre | **Owner**, circa 45 min | ⏳ |
-| 1 | Versione con note di rilascio (`CHANGELOG.md`, release da GitHub Actions) | Claude | ✅ v0.1.0 l'8 ottobre … v0.2.6 il 21; le correzioni del test a casa escono come v0.2.x |
+| 1 | Versione con note di rilascio (`CHANGELOG.md`, release da GitHub Actions) | Claude | ✅ v0.1.0 l'8 ottobre … v0.3.2 il 23; le correzioni del test a casa escono come v0.3.x |
 | 2 | Repo da privata a **pubblica** (Settings → General → Danger zone → Change visibility) | **Owner**, 1 min | ⏳ |
 | 3 | Descrizione della repo e topic (`home-assistant`, `hacs`, `hacs-integration`, `energy`, `electricity-prices`, `switzerland`, `italy`, `ticino`) — Settings → General / About | **Owner**, 1 min (testo qui sotto) | ⏳ |
 | 4 | Il controllo HACS si riattiva da solo con la repo pubblica: verifica verde | Claude | ⏳ |
