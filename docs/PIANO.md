@@ -318,6 +318,16 @@ esperto. Le richieste diventano la roadmap pubblica.
     2. test a casa dell'owner (inizio novembre) e correzioni;
     3. dicembre: ricontrollare Winterthur, AGE e i gestori senza file leggibile.
 
+- **23 ottobre 2026** (sessione automatica):
+  - nessuna richiesta nuova (GitHub e modulo); Home Assistant 2026.11 beta non ancora uscita;
+  - ✅ **prova vera della 0.2.6** su Home Assistant 2026.10 con dati reali: **Basilea** (file doppio di IWB, 6,8 Rp di tributi presi da ElCom, media del prezzo coerente con il totale ElCom) e **Törbel** (link ElCom a una pagina web: Corrente trova il file e propone le tariffe). Nessun errore nel registro;
+  - nota: IWB pubblica la "Förderabgabe" di Basilea come tariffa di rete separata; il prezzo torna lo stesso perché la differenza con ElCom si aggiunge come tributo;
+  - nessuna modifica al codice: nessuna versione nuova.
+  - **Prossimi pezzi:**
+    1. Home Assistant 2026.11 beta (attesa per il 28 ottobre): prova come per la 2026.10;
+    2. test a casa dell'owner (inizio novembre) e correzioni;
+    3. dicembre: ricontrollare Winterthur, AGE e i gestori senza file leggibile.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
