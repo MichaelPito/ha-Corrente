@@ -336,6 +336,11 @@ esperto. Le richieste diventano la roadmap pubblica.
     2. test a casa dell'owner (inizio novembre) e correzioni;
     3. dicembre: ricontrollare Winterthur, AGE e i gestori senza file leggibile.
 
+- **23 ottobre 2026, sera** (owner: «ok, vai avanti»):
+  - ✅ **ricerca del comune** indipendente da accenti, punti, "ue" per "ü" e nomi nelle altre lingue: prima "Zurich", "Neuchatel", "St Gallen" non trovavano niente e "Geneve" trovava Les Genevez. Provato dal vivo con ElCom;
+  - ✅ v0.2.8 pubblicata; 235 test.
+  - **Prossimi pezzi:** come sopra (beta 2026.11, test a casa, dicembre).
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

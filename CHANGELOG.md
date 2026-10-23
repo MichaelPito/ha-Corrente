@@ -2,6 +2,11 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.2.8] — 2026-10-23
+
+### Fixed
+- Switzerland, setup: the municipality is found however it is typed: without accents ("Zurich", "Neuchatel", "Delemont"), with "ue" for "ü" ("Muenchenstein"), without the dot or in full ("St Gallen", "Sankt Gallen", "St-Imier"), and the larger towns by their name in Italian, French, German or English ("Zurigo", "Ginevra", "Geneva", "Basilea", "Bâle"...). Before, "Zurich" found nothing.
+
 ## [0.2.7] — 2026-10-23
 
 ### Added
