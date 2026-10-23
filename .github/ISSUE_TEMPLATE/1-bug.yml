@@ -51,3 +51,8 @@ body:
       label: "Logs (optional) / Log (facoltativo)"
       description: "Settings → System → Logs, filter by 'corrente'. Remove any personal data."
       render: text
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: "Diagnostics (optional) / Diagnostica (facoltativa)"
+      description: "Settings → Devices & services → Corrente → ⋮ → Download diagnostics, then drag the file here. It holds your municipality, operator and tariffs, no passwords. / Impostazioni → Dispositivi e servizi → Corrente → ⋮ → Scarica diagnostica, poi trascina qui il file. Contiene comune, gestore e tariffe, nessuna password."

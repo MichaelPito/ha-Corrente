@@ -128,6 +128,8 @@ automation:
 
 Something missing? Your provider or tariff not covered? **[Open a request](../../issues/new/choose)** — it takes a minute, and the most requested ideas go to the top of the [roadmap](docs/ROADMAP.md). No GitHub account? Use the **[short form](https://docs.google.com/forms/d/e/1FAIpQLSce_vFvHpz3Qav3o05DvoJhpIuM2zXWmvpgBHWRS1gJsEF6yQ/viewform)** (no account needed; we publish requests here without personal data).
 
+Something looks wrong? **Settings → Devices & services → Corrente → ⋮ → Download diagnostics** and attach the file to your request: it shows which tariffs Corrente read and how it computed your price (municipality, operator and tariffs; no passwords).
+
 ## Support the project
 
 Corrente is free and open source. If it saves you money, you can [buy us a coffee ☕](https://buymeacoffee.com/michaelpito).
