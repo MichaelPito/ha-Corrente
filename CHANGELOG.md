@@ -2,6 +2,17 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.4] — 2026-10-26
+
+### Added
+- Switzerland: Primeo's dynamic grid tariff *NetzDynamisch* (Basel-Landschaft and Solothurn) works now, not only from 2027: its 2026 tariff file does not give the price link, Corrente knows it.
+
+### Fixed
+- Switzerland, dynamic tariffs: Primeo's dynamic grid prices already hold the federal charges (every price is a whole number of Rp. plus the 3.03 Rp. of federal charges); Corrente no longer adds them a second time.
+- Switzerland, dynamic tariffs: operators that answer only up to 36 hours ahead (Primeo) are asked again within that limit. Before, the setup failed.
+- Switzerland, setup: the grid tariff with the same name as the energy tariff is suggested first (Primeo *NetzDynamisch*, Primeo *Aktiv*).
+- Switzerland, setup: "Aesch BL" finds "Aesch (BL)".
+
 ## [0.3.3] — 2026-10-23
 
 ### Fixed

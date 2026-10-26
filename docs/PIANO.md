@@ -370,6 +370,12 @@ esperto. Le richieste diventano la roadmap pubblica.
   - nessuna modifica al codice: nessuna versione nuova.
   - **Prossimi pezzi:** beta 2026.11 (attesa per il 28 ottobre), test a casa dell'owner, settimana del 9 novembre: AEM 2027 e controllo prima del lancio; dicembre: Winterthur, AGE, gestori senza file; gennaio: tariffa dinamica BKW.
 
+- **26 ottobre 2026, dopo la sessione** (owner: «ok, vai avanti»):
+  - ✅ **Primeo NetzDynamisch già nel 2026** (prima solo dal 2027): il file 2026 non dà il link dell'API, Corrente lo conosce. Provato su Home Assistant vero con dati di oggi (Aesch BL): la prova ha trovato due errori, corretti: le voci federali sono già nei prezzi di rete dinamici di Primeo (si aggiungevano due volte, 3,03 Rp) e l'API risponde solo fino a 36 ore avanti (la configurazione falliva);
+  - ✅ suggerimento della rete: prima la tariffa con lo stesso nome dell'energia (cambia 6 suggerimenti su 3486, tutti in meglio); "Aesch BL" trova "Aesch (BL)";
+  - ✅ v0.3.4; 253 test.
+  - **Prossimi pezzi:** come sopra; gennaio anche: ricontrollare le voci federali nei prezzi dinamici di Primeo 2027.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
