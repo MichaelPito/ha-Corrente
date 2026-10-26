@@ -21,7 +21,7 @@ from itertools import combinations
 from typing import Any
 from zoneinfo import ZoneInfo
 
-from .dynamic import is_api_url
+from .dynamic import api_host, is_api_url
 from .schedule import Segment
 
 _LOGGER = logging.getLogger(__name__)
@@ -72,6 +72,27 @@ _SAME_RP = 0.05
 _SAME_FEE_CHF = 6.0  # CHF a year: fixed fees this close are the same
 
 
+# Dynamic tariffs whose file names no API although the operator publishes one, keyed
+# by the file's "dsoName", the tariff's name and year. Primeo's 2026 file writes "URL
+# wird auf der Webseite … bekannt gegeben"; the API answers with this tariff's prices
+# (checked on 26 October 2026). See docs/FONTI-DATI.md.
+KNOWN_DYNAMIC_URLS: dict[tuple[str, str, int], str] = {
+    ("Primeo Energie", "Primeo NetzDynamisch", 2026): (
+        "https://tarife.primeo-energie.ch/api/v1/tariffs"
+    ),
+}
+
+# APIs whose grid prices hold the federal charges although the operator's other grid
+# tariffs leave them out. Primeo, 1-25 October 2026: every one of 2404 quarter-hour
+# prices is a whole number of Rp. plus 3.03, the 2026 federal charges.
+_DYNAMIC_GRID_WITH_FEDERAL_CHARGES = {"tarife.primeo-energie.ch"}
+
+
+def grid_includes_federal_charges(grid: Tariff) -> bool:
+    """Whether a dynamic grid tariff's API prices already hold the federal charges."""
+    return grid.is_dynamic and api_host(grid.dynamic_url) in _DYNAMIC_GRID_WITH_FEDERAL_CHARGES
+
+
 def federal_addition(
     grid_tariffs: Sequence[Tariff],
     elcom_grid_rp: float,
@@ -112,6 +133,8 @@ def federal_addition(
     month", ElCom: 66 CHF a year), which made a 2.85 Rp. difference look like one
     of the hypotheses.
     """
+    if chosen is not None and grid_includes_federal_charges(chosen):
+        return 0.0
     with_base = elcom_working_rp is None
     if with_base:
         target = elcom_grid_rp + elcom_aidfee_rp  # what ElCom says grid costs, all charges in
@@ -501,9 +524,15 @@ def parse_tariffs(document: Mapping[str, Any]) -> list[Tariff]:
     tariffs = []
     for raw in document.get("tariffs", ()):
         try:
-            tariffs.append(_parse_tariff(raw))
+            tariff = _parse_tariff(raw)
         except (KeyError, TypeError, ValueError) as err:
             _LOGGER.debug("Skipping unreadable tariff %s: %s", raw.get("tariffName"), err)
+            continue
+        if tariff.is_dynamic and not is_api_url(tariff.dynamic_url):
+            key = (document.get("dsoName"), tariff.name, tariff.start_date.year)
+            if key in KNOWN_DYNAMIC_URLS:
+                tariff = replace(tariff, dynamic_url=KNOWN_DYNAMIC_URLS[key])
+        tariffs.append(tariff)
     return tariffs
 
 
@@ -744,9 +773,11 @@ class SwissContract:
         if moment.tzinfo is None:
             raise ValueError("moment must be timezone-aware")
         local = moment.astimezone(SWISS_TZ)
-        federal = (
-            national_charges(local.year) if self.federal_per_kwh is None else self.federal_per_kwh
-        )
+        federal = self.federal_per_kwh
+        if federal is None:  # not checked with ElCom: all of them, unless in the grid's API
+            federal = national_charges(local.year)
+            if grid_includes_federal_charges(self.grid):
+                federal = 0.0
         total, any_gap = federal + self.other_fees_per_kwh, False
         # Each tariff has its own schedule: price them separately, then add up.
         for tariff in self._tariffs():
@@ -962,10 +993,12 @@ def suggest_grid(
 
     Names alone mislead: ewz serves the city of Zürich and some villages in
     Graubünden ("NNA_ZH", "NNA_GR"), EKZ has nine grid tariffs for three kinds of
-    customer. So the signals in the file come first, strongest first: dynamic with
-    dynamic, the same kind of customer, the user's municipality or canton named in
-    the tariff, the operator's standard tariff, a day/night tariff with a day/night
-    tariff, then (with ``elcom``: ElCom's household grid figure, surcharge and
+    customer. So the signals in the file come first, strongest first: a grid tariff
+    named exactly like the energy tariff (Primeo "NetzDynamisch": energy by the clock,
+    dynamic grid; 6 of 3486 suggestions in the 2026 and 2027 files changed, all for the
+    better), dynamic with dynamic, the same kind of customer, the user's municipality
+    or canton named in the tariff, the operator's standard tariff, a day/night tariff
+    with a day/night tariff, then (with ``elcom``: ElCom's household grid figure, surcharge and
     year, and optionally its grid price per kWh without fees) the price closest to
     what ElCom says a household pays, to the nearest Rp.: St. Gallen's reactive
     energy price and Geneva's separate "réserve d'électricité" are grid tariffs too.
@@ -990,8 +1023,11 @@ def suggest_grid(
         rp = error(grid)
         return elcom is None or rp is None or rp <= _PLAUSIBLE_GRID_RP
 
-    def score(grid: Tariff) -> tuple[bool, bool, bool, bool, bool, bool, int, float]:
+    same_name = electricity.name.strip().casefold()
+
+    def score(grid: Tariff) -> tuple[bool, bool, bool, bool, bool, bool, bool, int, float]:
         return (
+            grid.name.strip().casefold() == same_name,
             grid.is_dynamic == electricity.is_dynamic,
             bool(customer) and grid.customer_type.strip().casefold() == customer,
             _names_place(grid, municipality_name or "", canton),

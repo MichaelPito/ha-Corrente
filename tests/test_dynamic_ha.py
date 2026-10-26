@@ -237,3 +237,27 @@ async def test_grid_refused_is_an_error(
         await async_fetch_prices(
             async_get_clientsession(hass), api, "grid", start, start + timedelta(days=1)
         )
+
+
+async def test_no_more_than_36_hours_ahead(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker
+) -> None:
+    """Primeo refuses an end more than 36 hours ahead (HTTP 400): Corrente asks again
+    up to there. Seen on Home Assistant on 26 October 2026: setup failed."""
+    api = "https://tarife.primeo-energie.ch/api/v1/tariffs"
+    answer = (FIXTURES / "primeo-grid-20261023.json").read_text("utf-8")
+    start = datetime(2026, 10, 23, tzinfo=SWISS_TZ)
+    end = start + timedelta(days=2)
+    now = datetime(2026, 10, 23, 9, 0, tzinfo=SWISS_TZ)
+    query = {"tariff_type": "grid", "start_timestamp": "2026-10-23T00:00:00+02:00"}
+    aioclient_mock.get(
+        api,
+        params={**query, "end_timestamp": "2026-10-25T00:00:00+02:00"},
+        status=400,
+        json={"detail": "end_timestamp cannot be more than 36 hours in the future"},
+    )
+    aioclient_mock.get(
+        api, params={**query, "end_timestamp": "2026-10-24T20:45:00+02:00"}, text=answer
+    )
+    prices = await async_fetch_prices(async_get_clientsession(hass), api, "grid", start, end, now)
+    assert len(prices) == 96

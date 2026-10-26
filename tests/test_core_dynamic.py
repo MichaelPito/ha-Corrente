@@ -21,7 +21,9 @@ from custom_components.corrente.core.switzerland import (
     SwissContract,
     UnsupportedTariffError,
     federal_addition,
+    national_charges,
     parse_tariffs,
+    suggest_grid,
     tariffs_on,
 )
 
@@ -301,3 +303,63 @@ def test_file_price_of_a_dynamic_tariff_is_not_added() -> None:
     )
     price, _ = contract.price_at(zurich(2026, 10, 8, 0, 0))
     assert price == pytest.approx((0.11514 + 0.1053) * (1 + SWISS_VAT), abs=1e-6)
+
+
+PRIMEO_API = "https://tarife.primeo-energie.ch/api/v1/tariffs"
+
+
+def test_primeo_2026_dynamic_grid_gets_its_api() -> None:
+    """Primeo's 2026 file writes "URL wird auf der Webseite … bekannt gegeben"
+    instead of the link: Corrente knows the API. Another operator selling the same
+    product name with its own prices (Elektra Gretzenbach) keeps its file as it is."""
+    document = load("primeo-2026.json")
+    grids = tariffs_on(parse_tariffs(document), "grid", DAY)
+    dynamic = next(t for t in grids if t.is_dynamic)
+    assert dynamic.dynamic_url == PRIMEO_API
+    dynamic.check_supported()
+    other = parse_tariffs({**document, "dsoName": "Elektra Gretzenbach AG"})
+    with pytest.raises(UnsupportedTariffError):
+        next(t for t in other if t.is_dynamic and t.tariff_type == "grid").check_supported()
+
+
+def test_primeo_dynamic_grid_holds_the_federal_charges() -> None:
+    """Every Primeo dynamic grid price is a whole number of Rp. plus 3.03, the federal
+    charges; its standard grid leaves them out (ElCom 2026, Aesch BL: 11.927 Rp.)."""
+    grids = tariffs_on(parse_tariffs(load("primeo-2026.json")), "grid", DAY)
+    dynamic = next(t for t in grids if t.is_dynamic)
+    standard = next(t for t in grids if not t.is_dynamic)
+    federal = national_charges(2026)
+    assert federal_addition(grids, 14.6, 2.3, 2026, chosen=standard, elcom_working_rp=11.927) == (
+        federal
+    )
+    assert federal_addition(grids, 14.6, 2.3, 2026, chosen=dynamic, elcom_working_rp=11.927) == 0
+    prices = parse_prices(load("primeo-grid-20261023.json"), "grid")
+    assert {round(100 * s.price - 100 * federal, 6) % 1 for s in prices} == {0.0}
+
+    tariffs = parse_tariffs(load("primeo-2026.json"))
+    energy = next(
+        t for t in tariffs if t.name == "Primeo NetzDynamisch" and t.tariff_type == "electricity"
+    )
+    fees = next(
+        t for t in tariffs if t.name == "Primeo NetzDynamisch" and t.tariff_type == "regional_fees"
+    )
+    contract = SwissContract(
+        electricity=energy, grid=dynamic, regional_fees=fees, canton="BL", municipality=2761
+    ).with_dynamic_prices({"grid": prices})
+    midnight = datetime(2026, 10, 23, 0, 0, tzinfo=SWISS_TZ)  # Friday, night energy price
+    expected = (0.13 + 0.0703 + 0.00025) * (1 + SWISS_VAT)  # federal charges not added again
+    assert contract.price_at(midnight)[0] == pytest.approx(expected, abs=1e-6)
+
+
+def test_grid_named_like_the_energy_tariff_is_suggested() -> None:
+    """Primeo NetzDynamisch: energy by the clock, grid dynamic. Same name, same product."""
+    tariffs = parse_tariffs(load("primeo-2026.json"))
+    energy = next(
+        t for t in tariffs if t.name == "Primeo NetzDynamisch" and t.tariff_type == "electricity"
+    )
+    grids = tariffs_on(tariffs, "grid", DAY)
+    assert suggest_grid(energy, grids, 2761, "Aesch (BL)").name == "Primeo NetzDynamisch"
+    standard = next(
+        t for t in tariffs if t.name == "Primeo Standard" and t.tariff_type == "electricity"
+    )
+    assert suggest_grid(standard, grids, 2761, "Aesch (BL)").name == "Primeo Standard"

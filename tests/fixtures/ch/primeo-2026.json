@@ -1,0 +1,413 @@
+{
+ "dsoName": "Primeo Energie",
+ "dsoNumber": 10083012345,
+ "tariffs": [
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Primeo Standard",
+   "tariffType": "grid",
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Basis",
+   "prices": {
+    "base": {
+     "price": 6,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "06:00",
+      "to": "21:00",
+      "price": 0.142,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "21:00",
+      "to": "06:00",
+      "price": 0.0945,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.0945,
+      "priceUnit": "CHF/kWh"
+     }
+    ],
+    "refundStorage": {
+     "price": 0.115,
+     "priceUnit": "CHF/kWh"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Primeo Standard",
+   "tariffType": "electricity",
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Basis",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "06:00",
+      "to": "21:00",
+      "price": 0.144,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "21:00",
+      "to": "06:00",
+      "price": 0.13,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.13,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Primeo Standard",
+   "tariffType": "metering",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Basis",
+   "prices": {
+    "base": {
+     "price": 4,
+     "priceUnit": "CHF/M"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Primeo Standard",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Nur Abgaben an Gemeinwesen, ohne Konzessionsabgabe.",
+   "customerType": "Basis",
+   "prices": {
+    "cantonalTaxes": [
+     {
+      "cantonName": "BL",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.00025,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": ""
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Primeo NetzDynamisch",
+   "tariffType": "grid",
+   "tariffForm": "dynamic",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Basis",
+   "prices": {
+    "base": {
+     "price": 6,
+     "priceUnit": "CHF/M"
+    },
+    "refundStorage": {
+     "price": 0.115,
+     "priceUnit": "CHF/kWh"
+    },
+    "dynamic": {
+     "url": "URL wird auf der Webseite von Primeo Energie bekannt gegeben."
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Primeo NetzDynamisch",
+   "tariffType": "electricity",
+   "tariffForm": "multilevel",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Basis",
+   "prices": {
+    "base": {
+     "price": 0,
+     "priceUnit": "CHF/M"
+    },
+    "energy": [
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "06:00",
+      "to": "21:00",
+      "price": 0.144,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Mo",
+       "Tu",
+       "We",
+       "Th",
+       "Fr"
+      ],
+      "from": "21:00",
+      "to": "06:00",
+      "price": 0.13,
+      "priceUnit": "CHF/kWh"
+     },
+     {
+      "months": [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec"
+      ],
+      "weekdays": [
+       "Sa",
+       "Su"
+      ],
+      "from": "00:00",
+      "to": "23:59",
+      "price": 0.13,
+      "priceUnit": "CHF/kWh"
+     }
+    ]
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Primeo NetzDynamisch",
+   "tariffType": "metering",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "",
+   "customerType": "Basis",
+   "prices": {
+    "base": {
+     "price": 4,
+     "priceUnit": "CHF/M"
+    }
+   }
+  },
+  {
+   "customerVoltageLevel": 7,
+   "tariffName": "Primeo NetzDynamisch",
+   "tariffType": "regional_fees",
+   "tariffForm": "constant",
+   "startDate": "2026-01-01",
+   "endDate": "2026-12-31",
+   "comment": "Nur Abgaben an Gemeinwesen, ohne Konzessionsabgabe.",
+   "customerType": "Basis",
+   "prices": {
+    "cantonalTaxes": [
+     {
+      "cantonName": "BL",
+      "cantonBase": {
+       "price": 0,
+       "priceUnit": "CHF/M"
+      },
+      "cantonEnergy": [
+       {
+        "from": "00:00",
+        "to": "00:00",
+        "price": 0.00025,
+        "priceUnit": "CHF/kWh"
+       }
+      ],
+      "cantonComment": ""
+     }
+    ]
+   }
+  }
+ ]
+}

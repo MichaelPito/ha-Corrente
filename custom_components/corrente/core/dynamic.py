@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import json
 from collections.abc import Mapping
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 import aiohttp
@@ -29,6 +29,8 @@ from .version import USER_AGENT
 
 _TIMEOUT = aiohttp.ClientTimeout(total=30)
 _PER_KWH = {"CHF_kWh", "CHF/kWh"}
+# Primeo answers only up to 36 hours ahead; a minute less, to be safe.
+_MAX_AHEAD = timedelta(hours=36, minutes=-1)
 
 
 class DynamicTariffError(Exception):
@@ -41,6 +43,11 @@ class NotAnApiError(DynamicTariffError):
     AIL (2026) links its dynamic tariff to a page of its website: Corrente
     cannot read those prices until the operator publishes them in the standard.
     """
+
+
+def api_host(url: str | None) -> str | None:
+    """The host of a dynamic tariff's API link, None when it is not one."""
+    return URL(url).host if is_api_url(url) else None
 
 
 def is_api_url(url: str | None) -> bool:
@@ -102,24 +109,36 @@ def parse_prices(document: Mapping[str, Any], tariff_type: str) -> list[Segment]
 
 
 async def async_fetch_prices(
-    session: aiohttp.ClientSession, url: str, tariff_type: str, start: datetime, end: datetime
+    session: aiohttp.ClientSession,
+    url: str,
+    tariff_type: str,
+    start: datetime,
+    end: datetime,
+    now: datetime | None = None,
 ) -> list[Segment]:
     """Download the per-kWh prices of a dynamic tariff between ``start`` and ``end``.
 
-    Primeo (2027) refuses ``tariff_type=electricity`` (HTTP 422) and sends the
-    energy prices with every other answer: then the grid answer is read.
+    When the API refuses the request (HTTP 400 or 422) it is asked again within
+    the limits Primeo sets (2026): no more than 36 hours ahead ("end_timestamp cannot
+    be more than 36 hours in the future"), and no ``tariff_type=electricity``, the
+    energy prices coming with every other answer.
     """
-    try:
-        raw = await _async_get(session, url, tariff_type, start, end)
-    except aiohttp.ClientResponseError as err:
-        if tariff_type != "electricity" or err.status not in (400, 422):
-            raise DynamicTariffError(str(err)) from err
+    latest = (now or datetime.now(UTC)) + _MAX_AHEAD
+    latest = latest.replace(minute=latest.minute - latest.minute % 15, second=0, microsecond=0)
+    attempts = [(tariff_type, end)]
+    if end > latest:
+        attempts.append((tariff_type, latest))
+    if tariff_type == "electricity":
+        attempts += [("grid", until) for _, until in list(attempts)]
+    for number, (asked, until) in enumerate(attempts, 1):
         try:
-            raw = await _async_get(session, url, "grid", start, end)
-        except (aiohttp.ClientError, TimeoutError) as retry_err:
-            raise DynamicTariffError(str(retry_err)) from retry_err
-    except (aiohttp.ClientError, TimeoutError) as err:
-        raise DynamicTariffError(str(err)) from err
+            raw = await _async_get(session, url, asked, start, until)
+            break
+        except aiohttp.ClientResponseError as err:
+            if err.status not in (400, 422) or number == len(attempts):
+                raise DynamicTariffError(str(err)) from err
+        except (aiohttp.ClientError, TimeoutError) as err:
+            raise DynamicTariffError(str(err)) from err
     try:
         document = json.loads(raw)
     except ValueError as err:  # a web page, not prices

@@ -89,6 +89,8 @@ async def test_web_page_links_are_corrected_or_normalised(
         ("Muenchenstein", "Münchenstein"),
         ("Delemont", "Delémont"),
         ("St-Imier", "Saint-Imier"),
+        ("Aesch BL", "Aesch (BL)"),
+        ("Aesch (BL)", "Aesch (BL)"),
     ],
 )
 def test_spellings_fold_to_the_same_name(typed: str, official: str) -> None:

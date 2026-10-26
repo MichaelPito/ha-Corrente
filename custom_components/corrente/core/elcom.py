@@ -111,6 +111,8 @@ _FOLDS: tuple[tuple[str, str], ...] = (
     ("oe", "o"),
     ("ue", "u"),
     (".", ""),
+    ("(", ""),  # "Aesch BL" finds "Aesch (BL)"
+    (")", ""),
     ("sankt", "st"),
     ("saint", "st"),
 )
