@@ -364,6 +364,12 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **tariffe dinamiche 2027**: scansione di tutti i file 2027. Nuove: Primeo (ora letta, v0.3.3: la sua API manda l'energia solo insieme alla rete), EW Höfe ed Energie Thun (portale Innostrom con token personale del cliente: fuori programma), AEW (pagina web), BKW (a gennaio). 247 test;
   - **Prossimi pezzi:** beta 2026.11 (28 ottobre), test a casa dell'owner, dicembre (Winterthur, AGE, gestori senza file; tariffa dinamica BKW a gennaio).
 
+- **26 ottobre 2026** (sessione automatica):
+  - nessuna richiesta nuova (GitHub e modulo); Home Assistant 2026.11 beta non ancora uscita;
+  - ✅ Home Assistant 2026.10.4 uscita: 247 test verdi; i controlli su GitHub ora provano la 2026.10.4 (oltre alla 2025.10);
+  - nessuna modifica al codice: nessuna versione nuova.
+  - **Prossimi pezzi:** beta 2026.11 (attesa per il 28 ottobre), test a casa dell'owner, settimana del 9 novembre: AEM 2027 e controllo prima del lancio; dicembre: Winterthur, AGE, gestori senza file; gennaio: tariffa dinamica BKW.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
