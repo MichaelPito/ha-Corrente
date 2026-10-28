@@ -382,6 +382,14 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ controllo di regressione sui file salvati: rete entro 0,6 Rp da ElCom per 293 gestori su 309 nel 2027 (95%, come prima) e 234 su 262 nel 2026; festivi italiani 2027 e cambi d'ora già coperti dai test;
   - nessuna modifica al codice: resta la 0.3.4.
 
+- **28 ottobre 2026, pomeriggio** (owner: «Fondamentale disegnare anche un processo di onboarding contestuale…», vedi DECISIONI):
+  - ✅ **guida dentro Home Assistant** (`docs/ONBOARDING.md`): voce **Corrente** nella barra laterale; 16 argomenti da scegliere o la guida completa passo passo; segna fatto/da fare dalla configurazione e propone «Per te» cosa manca; pulsanti verso il punto giusto di Home Assistant; novità di ogni versione e avviso dopo l'installazione e dopo ogni aggiornamento; link dalle opzioni, da Riparazioni e dalla card; EN/IT/DE/FR;
+  - ✅ **regola a ogni rilascio**: contenuto in `guide.json`; `tests/test_guide.py` blocca il rilascio se mancano le novità della versione, un testo in una lingua o un argomento per una funzione (sensori, passi, opzioni, blueprint, card, diagnostica). Regola anche in CLAUDE.md e nella sessione quotidiana;
+  - provata su Home Assistant vero nel browser (computer e telefono): nessun errore;
+  - test a casa: aggiunta una domanda sulla guida;
+  - ✅ v0.3.5.
+  - **Prossimi pezzi:** beta 2026.11 (controllo stasera), test a casa dell'owner, settimana del 9 novembre: AEM 2027 e controllo prima del lancio; dicembre: Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

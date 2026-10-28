@@ -28,6 +28,7 @@ from .const import (
 from .coordinator import SwissTariffCoordinator, no_tariffs_issue_id
 from .coordinator_gme import GmePriceCoordinator
 from .core.contract import ItalyContractType, ItalyFixedContract, ItalyIndexedContract
+from .guide import async_dismiss_notification, async_setup_guide
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
@@ -84,6 +85,7 @@ def contract_from_options(options: dict) -> ItalyFixedContract:
 async def async_setup_entry(hass: HomeAssistant, entry: CorrenteConfigEntry) -> bool:
     """Set up Corrente from a config entry."""
     await _async_register_card(hass)
+    await async_setup_guide(hass)
     if entry.data.get(CONF_COUNTRY) == COUNTRY_SWITZERLAND:
         coordinator = SwissTariffCoordinator(hass, entry)
         await coordinator.async_config_entry_first_refresh()
@@ -115,8 +117,10 @@ async def async_unload_entry(hass: HomeAssistant, entry: CorrenteConfigEntry) ->
 
 
 async def async_remove_entry(hass: HomeAssistant, entry: CorrenteConfigEntry) -> None:
-    """Remove what the entry left in Repairs."""
+    """Remove what the entry left in Repairs, and the guide's notice with the last entry."""
     ir.async_delete_issue(hass, DOMAIN, no_tariffs_issue_id(entry.entry_id))
+    if not any(e.entry_id != entry.entry_id for e in hass.config_entries.async_entries(DOMAIN)):
+        async_dismiss_notification(hass)
 
 
 async def _async_reload_on_update(hass: HomeAssistant, entry: CorrenteConfigEntry) -> None:

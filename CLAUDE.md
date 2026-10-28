@@ -17,6 +17,7 @@
 - Si lavora su **rami dedicati**; in `main` si entra solo con i controlli automatici verdi.
 - I rilasci pubblici hanno numero di versione (SemVer) e note di rilascio. **Le nuove versioni si pubblicano senza chiedere** (owner, 20 ottobre 2026); l'ok dell'owner serve **solo per cancellare** qualcosa (file, rami, versioni, dati).
 - **Segreti mai committati**, nemmeno in file di prova.
+- **Guida dentro Home Assistant (onboarding) aggiornata a ogni rilascio** (owner, 28 ottobre 2026): ogni versione aggiunge le sue novità in `custom_components/corrente/guide.json` e aggiorna gli argomenti che tocca; una funzione nuova (sensore, passo, opzione, blueprint) va in un argomento. `tests/test_guide.py` blocca il rilascio se manca qualcosa. Dettagli in `docs/ONBOARDING.md`.
 - Lingue: codice, commenti e documentazione principale in **inglese**; piano e decisioni interne in **italiano**; interfaccia tradotta in EN/IT/DE/FR.
 - Trasparenza: il progetto dichiara di essere sviluppato con l'AI; le risposte pubbliche portano la firma di Claude Code.
 - Fonti dati: solo ufficiali o con termini che consentono il riuso. Mai scraping di siti che lo vietano.

@@ -2,6 +2,13 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.5] — 2026-10-28
+
+### Added
+- A guide inside Home Assistant: **Corrente** in the sidebar. Pick a topic (setting up Italy, PUN, Switzerland, dynamic tariffs, the price, the best time, costs, appliances, fixed charges, the card, the blueprints, changing contract, a price that differs from the bill, help), or follow the full guide step by step. Topics are marked done or to do from how Corrente is set up, **For you** suggests what is left, and buttons open the right place in Home Assistant. In English, Italian, German and French.
+- After the install a notice offers the full guide; after each update a notice shows what is new.
+- Links to the guide from Corrente's options, from Repairs and from the card (`guide: false` hides the card's link).
+
 ## [0.3.4] — 2026-10-26
 
 ### Added

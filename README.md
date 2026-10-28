@@ -48,6 +48,12 @@ Corrente will be in the default HACS store after the launch. Until then:
 
 Without HACS: download `corrente.zip` from the [latest release](../../releases/latest), unzip it into `config/custom_components/corrente/` and restart Home Assistant.
 
+## The guide in Home Assistant
+
+After the setup, **Corrente** appears in the sidebar: a guide that shows what you can do and how, marks what you have already set up, and suggests what is left. Pick a topic or follow the full guide step by step; after each update it shows what is new. English, Italian, German and French.
+
+<p><img src="docs/images/guide-it.png" width="640" alt="Corrente's guide in Home Assistant, in Italian: full guide button, suggestions, what's new and the topics"></p>
+
 ## Sensors
 
 | Sensor | Italy | Switzerland |
@@ -82,7 +88,7 @@ entity: sensor.corrente_price_now
 
 Entity names follow your Home Assistant language and setup (for example `sensor.corrente_lugano_prezzo_attuale` in Italian, for Lugano): the card editor finds the right one by itself.
 
-Options: `title` (default "Corrente", empty to hide) and `feedback: false` to hide the "Suggest a change" link. The data source (ElCom, GME) is shown at the bottom.
+Options: `title` (default "Corrente", empty to hide), `feedback: false` to hide the "Suggest a change" link and `guide: false` to hide the link to the guide. The data source (ElCom, GME) is shown at the bottom.
 
 ## Blueprints
 

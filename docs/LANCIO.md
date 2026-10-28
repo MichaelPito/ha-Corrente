@@ -39,7 +39,7 @@
 > - price now, next change, next price, and the fixed charges per month (in Switzerland grid fee and metering included);
 > - **best time to start** an appliance (you choose how long it runs);
 > - **cost today / this month** from your energy meter, each kWh priced when it was used — and **per appliance**, if it has its own meter (smart plug);
-> - a dashboard card (screenshot);
+> - a dashboard card (screenshot), and a guide in the sidebar that shows what is set up and what is left;
 > - three blueprints: start the dishwasher at the cheapest time, a **price alert** (below or above a threshold), and **use your solar surplus** (switch the boiler or the car charger on when the panels export enough power, off when the home buys from the grid again).
 >
 > Everything is set up from the UI, no YAML. Every Home Assistant downloads its own data from the official sources (ElCom, the operators, GME): no Corrente server, no account, no telemetry.

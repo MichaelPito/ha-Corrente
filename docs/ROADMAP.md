@@ -19,6 +19,7 @@ Ideas and requests from users are collected through the [request forms](../../..
 - [x] "Suggest a change" link inside the integration (setup and options) and the card, with the data source shown on the card
 
 - [x] README with screenshots, installation, sensors, card and an automation example; Italian guide
+- [x] Guide inside Home Assistant (sidebar): topics to pick or the full guide, contextual to the setup, what's new after each update; kept up to date at every release
 
 ## Next (December 2026 – January 2027)
 - [x] Swiss dynamic tariffs from the operator's API (VSE / SmartGridready standard, 2026 and 2027 formats): EKZ and Groupe E verified live; Primeo from 2027
