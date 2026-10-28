@@ -81,6 +81,10 @@ Importa il blueprint **"Corrente — use solar surplus"** (pulsante qui sotto). 
 
 [![Import blueprint](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fsolar_surplus.yaml)
 
+## La dashboard energia
+
+Nella dashboard energia di Home Assistant, nel consumo dalla rete, scegli di usare **un'entità con il prezzo attuale** e indica **Prezzo attuale** di Corrente: Home Assistant conta il costo di ogni kWh al prezzo di quel momento.
+
 ## La card
 
 Dopo aver configurato Corrente la prima volta, **ricarica la pagina** del browser una volta, così trova la card.

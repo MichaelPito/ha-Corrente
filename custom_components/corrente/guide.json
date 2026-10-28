@@ -1,6 +1,6 @@
 {
  "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
- "version": "0.3.5",
+ "version": "0.3.6",
  "tour": [
   "welcome",
   "setup_italy",
@@ -11,6 +11,7 @@
   "price",
   "best_time",
   "costs",
+  "energy_dashboard",
   "appliances",
   "fixed_charges",
   "card",
@@ -751,6 +752,64 @@
    ]
   },
   {
+   "id": "energy_dashboard",
+   "icon": "mdi:lightning-bolt-circle",
+   "countries": [],
+   "covers": [],
+   "status": "energy",
+   "title": {
+    "en": "Energy dashboard",
+    "it": "Dashboard energia",
+    "de": "Energie-Dashboard",
+    "fr": "Tableau de bord énergie"
+   },
+   "summary": {
+    "en": "Let Home Assistant's energy dashboard count your costs with Corrente's price.",
+    "it": "Fai calcolare i costi alla dashboard energia di Home Assistant con il prezzo di Corrente.",
+    "de": "Lass das Energie-Dashboard von Home Assistant die Kosten mit dem Preis von Corrente berechnen.",
+    "fr": "Faites calculer vos coûts au tableau énergie de Home Assistant avec le prix de Corrente."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Use Corrente's price",
+      "it": "Usa il prezzo di Corrente",
+      "de": "Den Preis von Corrente verwenden",
+      "fr": "Utiliser le prix de Corrente"
+     },
+     "body": {
+      "en": "In the energy settings, open your grid consumption and choose to use **an entity with the current price**: pick Corrente's **Price now**. Home Assistant then prices every kWh from the grid at the price of that moment, also with a dynamic tariff.",
+      "it": "Nelle impostazioni dell'energia apri il consumo dalla rete e scegli di usare **un'entità con il prezzo attuale**: indica **Prezzo attuale** di Corrente. Home Assistant paga così ogni kWh preso dalla rete al prezzo di quel momento, anche con una tariffa dinamica.",
+      "de": "Öffne in den Energie-Einstellungen den Netzbezug und wähle, **eine Entität mit dem aktuellen Preis** zu verwenden: nimm **Aktueller Preis** von Corrente. Home Assistant berechnet dann jede kWh aus dem Netz zum Preis des Moments, auch bei einem dynamischen Tarif.",
+      "fr": "Dans les réglages de l'énergie, ouvrez la consommation du réseau et choisissez d'utiliser **une entité avec le prix actuel** : prenez **Prix actuel** de Corrente. Home Assistant compte alors chaque kWh pris au réseau au prix du moment, même avec un tarif dynamique."
+     },
+     "action": {
+      "path": "/config/energy",
+      "label": {
+       "en": "Open the energy settings",
+       "it": "Apri le impostazioni dell'energia",
+       "de": "Energie-Einstellungen öffnen",
+       "fr": "Ouvrir les réglages de l'énergie"
+      }
+     }
+    },
+    {
+     "title": {
+      "en": "What it counts",
+      "it": "Cosa conta",
+      "de": "Was es zählt",
+      "fr": "Ce qui est compté"
+     },
+     "body": {
+      "en": "The energy dashboard counts the price per kWh only: the monthly fees stay in **Fixed charges per month**. In Italy the price is the energy part unless you entered the other costs of your bill.",
+      "it": "La dashboard energia conta solo il prezzo al kWh: le quote mensili restano in **Costi fissi al mese**. In Italia il prezzo è la parte energia, a meno che tu non abbia inserito gli altri costi della bolletta.",
+      "de": "Das Energie-Dashboard zählt nur den Preis pro kWh: die monatlichen Gebühren bleiben in **Fixkosten pro Monat**. In Italien ist der Preis der Energieanteil, außer du hast die weiteren Kosten deiner Rechnung eingegeben.",
+      "fr": "Le tableau énergie ne compte que le prix au kWh : les frais mensuels restent dans **Frais fixes par mois**. En Italie, le prix est la part énergie, sauf si vous avez saisi les autres coûts de votre facture."
+     }
+    }
+   ]
+  },
+  {
    "id": "appliances",
    "icon": "mdi:washing-machine",
    "countries": [],
@@ -1164,6 +1223,28 @@
   }
  ],
  "whats_new": [
+  {
+   "version": "0.3.6",
+   "date": "2026-10-28",
+   "items": {
+    "en": [
+     "Guide: a topic on Home Assistant's energy dashboard, to count your costs with Corrente's price; it shows whether the dashboard already uses it.",
+     "Guide: users who are not administrators no longer see buttons to settings pages."
+    ],
+    "it": [
+     "Guida: un argomento sulla dashboard energia di Home Assistant, per calcolare i costi con il prezzo di Corrente; mostra se la dashboard lo usa già.",
+     "Guida: chi non è amministratore non vede più i pulsanti verso le impostazioni."
+    ],
+    "de": [
+     "Anleitung: ein Thema zum Energie-Dashboard von Home Assistant, um die Kosten mit dem Preis von Corrente zu berechnen; es zeigt, ob das Dashboard ihn schon verwendet.",
+     "Anleitung: Benutzer ohne Administratorrechte sehen keine Schaltflächen zu den Einstellungen mehr."
+    ],
+    "fr": [
+     "Guide : un sujet sur le tableau énergie de Home Assistant, pour compter vos coûts avec le prix de Corrente ; il indique si le tableau l'utilise déjà.",
+     "Guide : les utilisateurs non administrateurs ne voient plus les boutons vers les réglages."
+    ]
+   }
+  },
   {
    "version": "0.3.5",
    "date": "2026-10-28",

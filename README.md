@@ -75,6 +75,8 @@ After the setup, **Corrente** appears in the sidebar: a guide that shows what yo
 
 ³ Optional: in the options choose **Cost per appliance** and pick the energy sensors of appliances with their own meter (for example a smart plug under the washing machine). Each one gets *Cost today — name* and *Cost this month — name*.
 
+**Energy dashboard:** in its grid consumption, choose *Use an entity with the current price* and pick Corrente's **Price now**: Home Assistant then counts the cost of each kWh at the price of that moment.
+
 The price sensor also carries the price **schedule** for the next 36 hours and the best window (`best_start`, `best_end`, `best_average_price`) as attributes.
 
 ## The card

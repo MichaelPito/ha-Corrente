@@ -107,6 +107,48 @@ def _entries(hass: HomeAssistant) -> list[dict[str, Any]]:
     return result
 
 
+def _price_entities(node: Any) -> tuple[list[str], bool]:
+    """The price entities in the energy settings, and whether a grid source is set up.
+
+    Searched through the whole settings: their layout changed between Home Assistant
+    versions (2025.10: "flow_from" lists; later: one entry per source).
+    """
+    prices: list[str] = []
+    grid = False
+    if isinstance(node, dict):
+        if node.get("type") == "grid":
+            grid = True
+        for key, value in node.items():
+            if key == "entity_energy_price" and isinstance(value, str):
+                prices.append(value)
+            else:
+                found, has_grid = _price_entities(value)
+                prices += found
+                grid = grid or has_grid
+    elif isinstance(node, list):
+        for value in node:
+            found, has_grid = _price_entities(value)
+            prices += found
+            grid = grid or has_grid
+    return prices, grid
+
+
+async def _async_energy_status(hass: HomeAssistant) -> str:
+    """Done when the energy dashboard prices the grid with Corrente; to do when it has a
+    grid source priced otherwise; nothing to say without an energy dashboard."""
+    if "energy" not in hass.config.components:
+        return ""
+    from homeassistant.components.energy.data import async_get_manager
+    from homeassistant.helpers import entity_registry as er
+
+    manager = await async_get_manager(hass)
+    prices, grid = _price_entities(manager.data or {})
+    registry = er.async_get(hass)
+    if any((e := registry.async_get(p)) and e.platform == DOMAIN for p in prices):
+        return DONE
+    return TODO if grid else ""
+
+
 @websocket_api.websocket_command({vol.Required("type"): "corrente/guide"})
 @websocket_api.async_response
 async def _ws_guide(
@@ -126,7 +168,7 @@ async def _ws_guide(
             "version": VERSION,
             "content": await _async_content(hass),
             "countries": countries,
-            "status": topic_status(entries),
+            "status": {**topic_status(entries), "energy": await _async_energy_status(hass)},
         },
     )
 

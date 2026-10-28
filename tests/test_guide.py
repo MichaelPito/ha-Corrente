@@ -14,6 +14,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 from homeassistant.components import persistent_notification
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_registry as er
 from homeassistant.setup import async_setup_component
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from pytest_homeassistant_custom_component.typing import WebSocketGenerator
@@ -24,6 +25,7 @@ from custom_components.corrente.guide import (
     GUIDE_JS_URL,
     GUIDE_PATH,
     NOTIFICATION_ID,
+    _price_entities,
     load_content,
     topic_status,
 )
@@ -88,7 +90,7 @@ def test_tour_and_topics() -> None:
     assert len(ids) == len(set(ids))
     assert CONTENT["tour"] == ids  # the full guide goes through every topic
     statuses = {"setup_italy", "setup_switzerland", "setup_pun", "dynamic", "bill_costs",
-                "meter", "appliances"}  # fmt: skip
+                "meter", "appliances", "energy"}  # fmt: skip
     for topic in CONTENT["topics"]:
         assert topic["steps"], topic["id"]
         assert topic["status"] in statuses | {None}, topic["id"]
@@ -231,3 +233,63 @@ async def test_guide_script_is_served(hass: HomeAssistant, hass_client) -> None:
     response = await client.get(GUIDE_JS_URL)
     assert response.status == 200
     assert "corrente-guide-panel" in await response.text()
+
+
+def test_price_entities_in_both_energy_layouts() -> None:
+    """2025.10 lists grid flows; later versions keep one entry per source."""
+    old = {
+        "energy_sources": [
+            {
+                "type": "grid",
+                "flow_from": [
+                    {
+                        "stat_energy_from": "sensor.grid",
+                        "entity_energy_price": "sensor.corrente_price",
+                    }
+                ],
+            }
+        ]
+    }
+    new = {
+        "energy_sources": [
+            {
+                "type": "grid",
+                "stat_energy_from": "sensor.grid",
+                "entity_energy_price": "sensor.other",
+            }
+        ]
+    }
+    assert _price_entities(old) == (["sensor.corrente_price"], True)
+    assert _price_entities(new) == (["sensor.other"], True)
+    assert _price_entities({"energy_sources": [{"type": "solar"}]}) == ([], False)
+
+
+@pytest.mark.parametrize(
+    ("prefs", "expected"),
+    [
+        ({"energy_sources": [{"type": "grid", "entity_energy_price": "sensor.corrente_price_now"}]},
+         "done"),
+        ({"energy_sources": [{"type": "grid", "entity_energy_price": None}]}, "todo"),
+        ({"energy_sources": []}, ""),
+    ],
+)  # fmt: skip
+async def test_energy_dashboard_status(
+    hass: HomeAssistant, hass_ws_client: WebSocketGenerator, prefs: dict, expected: str
+) -> None:
+    entry = await _setup(hass)
+    registry = er.async_get(hass)
+    registry.async_get_or_create(
+        "sensor", DOMAIN, "price_unique", suggested_object_id="corrente_price_now",
+        config_entry=entry,
+    )  # fmt: skip
+    hass.config.components.add("energy")
+    manager = AsyncMock()
+    manager.data = prefs
+    with patch(
+        "homeassistant.components.energy.data.async_get_manager",
+        new=AsyncMock(return_value=manager),
+    ):
+        client = await hass_ws_client(hass)
+        await client.send_json({"id": 1, "type": "corrente/guide"})
+        answer = await client.receive_json()
+    assert answer["result"]["status"]["energy"] == expected
