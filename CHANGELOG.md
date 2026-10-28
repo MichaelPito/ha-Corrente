@@ -2,6 +2,14 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.6] — 2026-10-28
+
+### Added
+- Guide: a topic on Home Assistant's energy dashboard, to count your costs with Corrente's price (*Use an entity with the current price*). It is marked done when the energy dashboard already uses Corrente's price, and suggested when it prices the grid otherwise.
+
+### Fixed
+- Guide: users who are not administrators no longer see buttons to settings pages they cannot open. German topic title as the sensor ("Beste Startzeit").
+
 ## [0.3.5] — 2026-10-28
 
 ### Added

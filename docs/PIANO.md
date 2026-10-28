@@ -388,6 +388,7 @@ esperto. Le richieste diventano la roadmap pubblica.
   - provata su Home Assistant vero nel browser (computer e telefono): nessun errore;
   - test a casa: aggiunta una domanda sulla guida;
   - ✅ v0.3.5.
+  - ✅ guida provata anche in tedesco e francese; niente pulsanti verso le impostazioni per chi non è amministratore; nuovo argomento **dashboard energia** (il prezzo di Corrente come prezzo della rete): segnato fatto quando la dashboard lo usa già, proposto quando prezza la rete in altro modo. Provato su Home Assistant 2026.10 vero (il formato delle impostazioni energia è cambiato rispetto alla 2025.10: Corrente li legge entrambi); v0.3.6.
   - **Prossimi pezzi:** beta 2026.11 (controllo stasera), test a casa dell'owner, settimana del 9 novembre: AEM 2027 e controllo prima del lancio; dicembre: Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
 
 ## 8. Numeri di controllo
