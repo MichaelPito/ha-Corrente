@@ -8,20 +8,21 @@
 const STRINGS = {
   en: { now: "Now", best: "Best time to start", for: "for", hours: "h", avg: "avg",
         next: "Next hours", cheap: "cheaper", dear: "dearer", unavailable: "Corrente: sensor not found",
-        startNow: "now", tomorrow: "tomorrow", suggest: "Suggest a change", elcom: "Tariffs: grid operator files via ElCom open data" },
+        startNow: "now", tomorrow: "tomorrow", suggest: "Suggest a change", guide: "Guide", elcom: "Tariffs: grid operator files via ElCom open data" },
   it: { now: "Adesso", best: "Momento migliore per avviare", for: "per", hours: "h", avg: "media",
         next: "Prossime ore", cheap: "più economico", dear: "più caro", unavailable: "Corrente: sensore non trovato",
-        startNow: "adesso", tomorrow: "domani", suggest: "Suggerisci una modifica", elcom: "Tariffe: file dei gestori di rete tramite i dati aperti ElCom" },
+        startNow: "adesso", tomorrow: "domani", suggest: "Suggerisci una modifica", guide: "Guida", elcom: "Tariffe: file dei gestori di rete tramite i dati aperti ElCom" },
   de: { now: "Jetzt", best: "Beste Startzeit", for: "für", hours: "Std.", avg: "Ø",
         next: "Nächste Stunden", cheap: "günstiger", dear: "teurer", unavailable: "Corrente: Sensor nicht gefunden",
-        startNow: "jetzt", tomorrow: "morgen", suggest: "Änderung vorschlagen", elcom: "Tarife: Dateien der Netzbetreiber über die offenen Daten der ElCom" },
+        startNow: "jetzt", tomorrow: "morgen", suggest: "Änderung vorschlagen", guide: "Anleitung", elcom: "Tarife: Dateien der Netzbetreiber über die offenen Daten der ElCom" },
   fr: { now: "Maintenant", best: "Meilleur moment pour démarrer", for: "pendant", hours: "h", avg: "moy.",
         next: "Prochaines heures", cheap: "moins cher", dear: "plus cher", unavailable: "Corrente : capteur introuvable",
-        startNow: "maintenant", tomorrow: "demain", suggest: "Suggérer une modification", elcom: "Tarifs : fichiers des gestionnaires de réseau via les données ouvertes de l'ElCom" },
+        startNow: "maintenant", tomorrow: "demain", suggest: "Suggérer une modification", guide: "Guide", elcom: "Tarifs : fichiers des gestionnaires de réseau via les données ouvertes de l'ElCom" },
 };
 
 const HOURS_SHOWN = 24;
 const SUGGEST_URL = "https://github.com/MichaelPito/ha-corrente/issues/new/choose";
+const GUIDE_PATH = "/corrente-guide?topic=card";  // the guide's panel, see corrente-guide.js
 
 function escapeHtml(text) {
   return String(text).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -153,7 +154,10 @@ class CorrenteCard extends HTMLElement {
     const source = attribution ? `<span>${escapeHtml(attribution)}</span>` : "<span></span>";
     const suggest = this._config.feedback === false ? "" :
       `<a href="${SUGGEST_URL}" target="_blank" rel="noopener">${t.suggest}</a>`;
-    const footHtml = a.attribution || suggest ? `<div class="foot">${source}${suggest}</div>` : "";
+    // "guide: false" hides the link to Corrente's guide.
+    const guide = this._config.guide === false ? "" : `<a href="${GUIDE_PATH}" class="guide">${t.guide}</a>`;
+    const links = guide || suggest ? `<span>${[guide, suggest].filter(Boolean).join(" · ")}</span>` : "";
+    const footHtml = a.attribution || links ? `<div class="foot">${source}${links}</div>` : "";
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -185,6 +189,13 @@ class CorrenteCard extends HTMLElement {
         <svg viewBox="0 0 ${width} ${height + 16}" role="img" aria-label="${t.next}">${bestBand}${bars}${ticks}</svg>
         ${footHtml}
       </ha-card>`;
+    // The guide opens inside Home Assistant, without reloading the page.
+    const guideLink = this.shadowRoot.querySelector("a.guide");
+    if (guideLink) guideLink.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      window.history.pushState(null, "", GUIDE_PATH);
+      window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } }));
+    });
   }
 }
 

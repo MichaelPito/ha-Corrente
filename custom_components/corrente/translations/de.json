@@ -184,7 +184,7 @@
         }
       },
       "init": {
-        "description": "Was möchten Sie ändern? Fehlt etwas oder haben Sie einen Fehler gefunden? [Änderung vorschlagen]({issues_url}).",
+        "description": "Was möchten Sie ändern? Die [Anleitung](/corrente-guide) erklärt jede Option. Fehlt etwas oder haben Sie einen Fehler gefunden? [Änderung vorschlagen]({issues_url}).",
         "menu_options": {
           "contract": "Vertrag oder Tarif",
           "meter": "Stromzähler (für Kosten)",
@@ -329,7 +329,7 @@
   "issues": {
     "no_tariffs_in_force": {
       "title": "Keine gültigen Tarife: {operator}",
-      "description": "Corrente findet für heute ({date}) keine gültigen Preise von {operator}: Die Tarifdatei ist nicht lesbar oder enthält keine Preise für heute. Das kommt meist zu Jahresbeginn vor, wenn der Netzbetreiber die Datei für das neue Jahr noch nicht veröffentlicht hat oder ElCom noch auf die des Vorjahres verweist.\n\nCorrente prüft regelmässig weiter und läuft von selbst wieder, sobald die Datei veröffentlicht ist; bis dahin sind die Sensoren nicht verfügbar. Wenn du die neue Datei auf der Website des Netzbetreibers findest, kannst du Corrente mit diesem Link neu hinzufügen."
+      "description": "Corrente findet für heute ({date}) keine gültigen Preise von {operator}: Die Tarifdatei ist nicht lesbar oder enthält keine Preise für heute. Das kommt meist zu Jahresbeginn vor, wenn der Netzbetreiber die Datei für das neue Jahr noch nicht veröffentlicht hat oder ElCom noch auf die des Vorjahres verweist.\n\nCorrente prüft regelmässig weiter und läuft von selbst wieder, sobald die Datei veröffentlicht ist; bis dahin sind die Sensoren nicht verfügbar. Wenn du die neue Datei auf der Website des Netzbetreibers findest, kannst du Corrente mit diesem Link neu hinzufügen.\n\n[Anleitung: Vertrag oder Tarif ändern](/corrente-guide?topic=change_contract)"
     }
   }
 }

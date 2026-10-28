@@ -1,0 +1,1262 @@
+{
+ "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
+ "version": "0.3.5",
+ "tour": [
+  "welcome",
+  "setup_italy",
+  "setup_pun",
+  "bill_costs",
+  "setup_switzerland",
+  "dynamic_ch",
+  "price",
+  "best_time",
+  "costs",
+  "appliances",
+  "fixed_charges",
+  "card",
+  "blueprints",
+  "change_contract",
+  "bill_check",
+  "help"
+ ],
+ "ui": {
+  "title": {
+   "en": "Corrente — guide",
+   "it": "Corrente — guida",
+   "de": "Corrente — Anleitung",
+   "fr": "Corrente — guide"
+  },
+  "full_tour": {
+   "en": "Start the full guide",
+   "it": "Avvia la guida completa",
+   "de": "Ganze Anleitung starten",
+   "fr": "Lancer le guide complet"
+  },
+  "resume_tour": {
+   "en": "Continue the full guide",
+   "it": "Continua la guida completa",
+   "de": "Anleitung fortsetzen",
+   "fr": "Reprendre le guide complet"
+  },
+  "for_you": {
+   "en": "For you",
+   "it": "Per te",
+   "de": "Für dich",
+   "fr": "Pour vous"
+  },
+  "all_set": {
+   "en": "You're all set: nothing left to do.",
+   "it": "Tutto a posto: non resta niente da fare.",
+   "de": "Alles erledigt: nichts mehr zu tun.",
+   "fr": "Tout est prêt : plus rien à faire."
+  },
+  "topics": {
+   "en": "Topics",
+   "it": "Argomenti",
+   "de": "Themen",
+   "fr": "Sujets"
+  },
+  "show_all": {
+   "en": "Show both countries",
+   "it": "Mostra entrambi i paesi",
+   "de": "Beide Länder zeigen",
+   "fr": "Afficher les deux pays"
+  },
+  "whats_new": {
+   "en": "What's new",
+   "it": "Novità",
+   "de": "Neuigkeiten",
+   "fr": "Nouveautés"
+  },
+  "version": {
+   "en": "Version",
+   "it": "Versione",
+   "de": "Version",
+   "fr": "Version"
+  },
+  "done": {
+   "en": "done",
+   "it": "fatto",
+   "de": "erledigt",
+   "fr": "fait"
+  },
+  "todo": {
+   "en": "to do",
+   "it": "da fare",
+   "de": "offen",
+   "fr": "à faire"
+  },
+  "back": {
+   "en": "Back",
+   "it": "Indietro",
+   "de": "Zurück",
+   "fr": "Retour"
+  },
+  "next": {
+   "en": "Next",
+   "it": "Avanti",
+   "de": "Weiter",
+   "fr": "Suivant"
+  },
+  "skip_topic": {
+   "en": "Skip topic",
+   "it": "Salta l'argomento",
+   "de": "Thema überspringen",
+   "fr": "Passer le sujet"
+  },
+  "exit": {
+   "en": "Exit the guide",
+   "it": "Esci dalla guida",
+   "de": "Anleitung beenden",
+   "fr": "Quitter le guide"
+  },
+  "finish": {
+   "en": "Finish",
+   "it": "Fine",
+   "de": "Fertig",
+   "fr": "Terminer"
+  },
+  "home": {
+   "en": "All topics",
+   "it": "Tutti gli argomenti",
+   "de": "Alle Themen",
+   "fr": "Tous les sujets"
+  },
+  "step_of": {
+   "en": "Step {n} of {total}",
+   "it": "Passo {n} di {total}",
+   "de": "Schritt {n} von {total}",
+   "fr": "Étape {n} sur {total}"
+  },
+  "finished": {
+   "en": "That's the whole guide. Topics stay here whenever you need them.",
+   "it": "Hai visto tutta la guida. Gli argomenti restano qui quando ti servono.",
+   "de": "Das war die ganze Anleitung. Die Themen bleiben hier, wann immer du sie brauchst.",
+   "fr": "C'était tout le guide. Les sujets restent ici quand vous en avez besoin."
+  },
+  "welcome_notification": {
+   "en": "Corrente is set up. Its guide is in the sidebar under **Corrente**: [start the full guide](/corrente-guide?tour=1), or pick only the topics you need.",
+   "it": "Corrente è configurato. La sua guida è nella barra laterale, alla voce **Corrente**: [avvia la guida completa](/corrente-guide?tour=1), o scegli solo gli argomenti che ti servono.",
+   "de": "Corrente ist eingerichtet. Die Anleitung ist in der Seitenleiste unter **Corrente**: [ganze Anleitung starten](/corrente-guide?tour=1) oder nur die Themen wählen, die du brauchst.",
+   "fr": "Corrente est configuré. Son guide est dans la barre latérale, sous **Corrente** : [lancer le guide complet](/corrente-guide?tour=1), ou choisissez seulement les sujets utiles."
+  },
+  "update_notification": {
+   "en": "What's new in Corrente {version}:\n{items}\n\n[Open the guide](/corrente-guide?topic=whats_new)",
+   "it": "Novità di Corrente {version}:\n{items}\n\n[Apri la guida](/corrente-guide?topic=whats_new)",
+   "de": "Neu in Corrente {version}:\n{items}\n\n[Anleitung öffnen](/corrente-guide?topic=whats_new)",
+   "fr": "Nouveautés de Corrente {version} :\n{items}\n\n[Ouvrir le guide](/corrente-guide?topic=whats_new)"
+  },
+  "guide_link": {
+   "en": "Guide",
+   "it": "Guida",
+   "de": "Anleitung",
+   "fr": "Guide"
+  },
+  "italy": {
+   "en": "Italy",
+   "it": "Italia",
+   "de": "Italien",
+   "fr": "Italie"
+  },
+  "switzerland": {
+   "en": "Switzerland",
+   "it": "Svizzera",
+   "de": "Schweiz",
+   "fr": "Suisse"
+  }
+ },
+ "topics": [
+  {
+   "id": "welcome",
+   "icon": "mdi:lightning-bolt",
+   "countries": [],
+   "covers": [],
+   "status": null,
+   "title": {
+    "en": "Welcome",
+    "it": "Benvenuto",
+    "de": "Willkommen",
+    "fr": "Bienvenue"
+   },
+   "summary": {
+    "en": "What Corrente does and how this guide works.",
+    "it": "Cosa fa Corrente e come funziona questa guida.",
+    "de": "Was Corrente macht und wie diese Anleitung funktioniert.",
+    "fr": "Ce que fait Corrente et comment fonctionne ce guide."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "What Corrente does",
+      "it": "Cosa fa Corrente",
+      "de": "Was Corrente macht",
+      "fr": "Ce que fait Corrente"
+     },
+     "body": {
+      "en": "Corrente shows your **real electricity price** in Home Assistant, the **best time** to switch appliances on and **what you spend**, in Italy and Switzerland. The data comes from official sources (ElCom, the grid operators, GME): no account, no Corrente server.",
+      "it": "Corrente mostra in Home Assistant il **vero prezzo della tua elettricità**, il **momento migliore** per accendere gli apparecchi e **quanto spendi**, in Italia e in Svizzera. I dati arrivano dalle fonti ufficiali (ElCom, i gestori di rete, GME): nessun account, nessun server di Corrente.",
+      "de": "Corrente zeigt in Home Assistant deinen **echten Strompreis**, den **besten Zeitpunkt** zum Einschalten von Geräten und **was du ausgibst**, in Italien und der Schweiz. Die Daten kommen aus offiziellen Quellen (ElCom, die Netzbetreiber, GME): kein Konto, kein Corrente-Server.",
+      "fr": "Corrente affiche dans Home Assistant votre **vrai prix de l'électricité**, le **meilleur moment** pour allumer les appareils et **ce que vous dépensez**, en Italie et en Suisse. Les données viennent de sources officielles (ElCom, les gestionnaires de réseau, GME) : pas de compte, pas de serveur Corrente."
+     }
+    },
+    {
+     "title": {
+      "en": "How this guide works",
+      "it": "Come funziona questa guida",
+      "de": "So funktioniert diese Anleitung",
+      "fr": "Comment fonctionne ce guide"
+     },
+     "body": {
+      "en": "Pick a topic, or follow the **full guide** step by step. Topics are marked *done* or *to do* from how Corrente is set up, and **For you** suggests the next useful steps. After each update, **What's new** lists the changes. You find this guide in the sidebar under **Corrente**.",
+      "it": "Scegli un argomento, oppure segui la **guida completa** passo dopo passo. Gli argomenti sono segnati *fatto* o *da fare* in base a come è configurato Corrente, e **Per te** propone i prossimi passi utili. Dopo ogni aggiornamento, **Novità** elenca i cambiamenti. Trovi questa guida nella barra laterale, alla voce **Corrente**.",
+      "de": "Wähle ein Thema oder folge der **ganzen Anleitung** Schritt für Schritt. Themen sind als *erledigt* oder *offen* markiert, je nachdem wie Corrente eingerichtet ist, und **Für dich** schlägt die nächsten sinnvollen Schritte vor. Nach jedem Update listet **Neuigkeiten** die Änderungen. Du findest diese Anleitung in der Seitenleiste unter **Corrente**.",
+      "fr": "Choisissez un sujet, ou suivez le **guide complet** pas à pas. Les sujets sont marqués *fait* ou *à faire* selon la configuration de Corrente, et **Pour vous** propose les prochaines étapes utiles. Après chaque mise à jour, **Nouveautés** liste les changements. Vous trouvez ce guide dans la barre latérale, sous **Corrente**."
+     }
+    }
+   ]
+  },
+  {
+   "id": "setup_italy",
+   "icon": "mdi:home-lightning-bolt",
+   "countries": [
+    "it"
+   ],
+   "covers": [
+    "config:user",
+    "config:italy",
+    "config:prices_single",
+    "config:prices_two_bands",
+    "config:prices_three_bands",
+    "sensor:band",
+    "sensor:next_band",
+    "sensor:next_band_change"
+   ],
+   "status": "setup_italy",
+   "title": {
+    "en": "Set up Corrente in Italy",
+    "it": "Configurare Corrente in Italia",
+    "de": "Corrente in Italien einrichten",
+    "fr": "Configurer Corrente en Italie"
+   },
+   "summary": {
+    "en": "Your contract and its time bands F1, F2, F3.",
+    "it": "Il tuo contratto e le fasce F1, F2, F3.",
+    "de": "Dein Vertrag und die Zeitbänder F1, F2, F3.",
+    "fr": "Votre contrat et les plages horaires F1, F2, F3."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Add Corrente",
+      "it": "Aggiungi Corrente",
+      "de": "Corrente hinzufügen",
+      "fr": "Ajouter Corrente"
+     },
+     "body": {
+      "en": "**Settings → Devices & services → Add integration → Corrente**, then choose **Italy**.",
+      "it": "**Impostazioni → Dispositivi e servizi → Aggiungi integrazione → Corrente**, poi scegli **Italia**.",
+      "de": "**Einstellungen → Geräte & Dienste → Integration hinzufügen → Corrente**, dann **Italien** wählen.",
+      "fr": "**Paramètres → Appareils et services → Ajouter une intégration → Corrente**, puis choisissez **Italie**."
+     },
+     "action": {
+      "path": "/config/integrations/dashboard/add?domain=corrente",
+      "label": {
+       "en": "Add Corrente",
+       "it": "Aggiungi Corrente",
+       "de": "Corrente hinzufügen",
+       "fr": "Ajouter Corrente"
+      }
+     }
+    },
+    {
+     "title": {
+      "en": "Your contract",
+      "it": "Il tuo contratto",
+      "de": "Dein Vertrag",
+      "fr": "Votre contrat"
+     },
+     "body": {
+      "en": "Choose **single rate** (monoraria), **two bands** (F1 and F23) or **three bands** (F1, F2, F3), and enter the energy prices from your bill in €/kWh, for example `0.1250`. You find them under \"spesa per la materia energia\" or \"quota energia\". With a PUN-indexed contract, see the next topic.",
+      "it": "Scegli **monoraria**, **bioraria** (F1 e F23) o **trioraria** (F1, F2, F3) e inserisci i prezzi dell'energia della bolletta in €/kWh, per esempio `0,1250`. Li trovi alla voce \"spesa per la materia energia\" o \"quota energia\". Con un contratto indicizzato al PUN, vedi l'argomento seguente.",
+      "de": "Wähle **Einheitstarif** (monoraria), **zwei Bänder** (F1 und F23) oder **drei Bänder** (F1, F2, F3) und gib die Energiepreise deiner Rechnung in €/kWh ein, zum Beispiel `0.1250`. Du findest sie unter \"spesa per la materia energia\" oder \"quota energia\". Bei einem PUN-indexierten Vertrag siehe das nächste Thema.",
+      "fr": "Choisissez **tarif unique** (monoraria), **deux plages** (F1 et F23) ou **trois plages** (F1, F2, F3) et saisissez les prix de l'énergie de votre facture en €/kWh, par exemple `0.1250`. Vous les trouvez sous \"spesa per la materia energia\" ou \"quota energia\". Avec un contrat indexé sur le PUN, voyez le sujet suivant."
+     }
+    },
+    {
+     "title": {
+      "en": "The time bands",
+      "it": "Le fasce orarie",
+      "de": "Die Zeitbänder",
+      "fr": "Les plages horaires"
+     },
+     "body": {
+      "en": "Corrente follows ARERA's rules: **F1** Monday–Friday 8–19; **F2** Monday–Friday 7–8 and 19–23, Saturday 7–23; **F3** nights, Sundays and national holidays. The sensors **Time band**, **Next band** and **Next band change** show where you are and what comes next.",
+      "it": "Corrente segue le regole ARERA: **F1** lunedì–venerdì 8–19; **F2** lunedì–venerdì 7–8 e 19–23, sabato 7–23; **F3** notte, domenica e festivi nazionali. I sensori **Fascia oraria**, **Prossima fascia** e **Prossimo cambio di fascia** dicono dove sei e cosa viene dopo.",
+      "de": "Corrente folgt den Regeln von ARERA: **F1** Montag–Freitag 8–19; **F2** Montag–Freitag 7–8 und 19–23, Samstag 7–23; **F3** Nächte, Sonntage und nationale Feiertage. Die Sensoren **Zeitband**, **Nächstes Band** und **Nächster Bandwechsel** zeigen, wo du bist und was als Nächstes kommt.",
+      "fr": "Corrente suit les règles de l'ARERA : **F1** lundi–vendredi 8–19 ; **F2** lundi–vendredi 7–8 et 19–23, samedi 7–23 ; **F3** nuits, dimanches et jours fériés nationaux. Les capteurs **Plage horaire**, **Prochaine plage** et **Prochain changement de plage** indiquent où vous en êtes et ce qui suit."
+     }
+    }
+   ]
+  },
+  {
+   "id": "setup_pun",
+   "icon": "mdi:chart-line",
+   "countries": [
+    "it"
+   ],
+   "covers": [
+    "config:prices_pun",
+    "sensor:wholesale"
+   ],
+   "status": "setup_pun",
+   "title": {
+    "en": "PUN-indexed contract",
+    "it": "Contratto indicizzato al PUN",
+    "de": "PUN-indexierter Vertrag",
+    "fr": "Contrat indexé sur le PUN"
+   },
+   "summary": {
+    "en": "Price from GME's quarter-hour prices plus your spread.",
+    "it": "Prezzo dai prezzi al quarto d'ora del GME più il tuo spread.",
+    "de": "Preis aus den Viertelstundenpreisen des GME plus deinem Spread.",
+    "fr": "Prix à partir des prix au quart d'heure du GME plus votre spread."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Choose the indexed contract",
+      "it": "Scegli il contratto indicizzato",
+      "de": "Indexierten Vertrag wählen",
+      "fr": "Choisir le contrat indexé"
+     },
+     "body": {
+      "en": "In the setup choose **Indexed: PUN (or zone) + spread** and enter the **spread** in €/kWh from your bill, the **grid losses** in % only if your contract applies them to the PUN (often about 10%), and the **reference**: PUN Index GME, or your zone if the contract uses it.",
+      "it": "Nella configurazione scegli **Indicizzato: PUN (o zona) + spread** e inserisci lo **spread** in €/kWh della bolletta, le **perdite di rete** in % solo se il contratto le applica al PUN (spesso circa 10%) e il **riferimento**: PUN Index GME, oppure la zona se il contratto la usa.",
+      "de": "Wähle bei der Einrichtung **Indexiert: PUN (oder Zone) + Spread** und gib den **Spread** in €/kWh deiner Rechnung ein, die **Netzverluste** in % nur, wenn dein Vertrag sie auf den PUN anwendet (oft etwa 10 %), und die **Referenz**: PUN Index GME oder deine Zone, wenn der Vertrag sie verwendet.",
+      "fr": "Dans la configuration, choisissez **Indexé : PUN (ou zone) + spread** et saisissez le **spread** en €/kWh de votre facture, les **pertes de réseau** en % seulement si votre contrat les applique au PUN (souvent environ 10 %) et la **référence** : PUN Index GME, ou votre zone si le contrat l'utilise."
+     },
+     "action": {
+      "path": "/config/integrations/dashboard/add?domain=corrente",
+      "label": {
+       "en": "Add Corrente",
+       "it": "Aggiungi Corrente",
+       "de": "Corrente hinzufügen",
+       "fr": "Ajouter Corrente"
+      }
+     }
+    },
+    {
+     "title": {
+      "en": "How the price is made",
+      "it": "Come si forma il prezzo",
+      "de": "Wie der Preis entsteht",
+      "fr": "Comment le prix est calculé"
+     },
+     "body": {
+      "en": "Corrente downloads GME's quarter-hour prices for today and tomorrow once a day. Your price = PUN × (1 + losses) + spread (+ other costs, if entered). The **Wholesale price** sensor shows the PUN or zone price. GME's prices are without VAT.",
+      "it": "Corrente scarica una volta al giorno i prezzi al quarto d'ora del GME di oggi e di domani. Il tuo prezzo = PUN × (1 + perdite) + spread (+ altri costi, se li hai inseriti). Il sensore **Prezzo all'ingrosso** mostra il PUN o il prezzo della zona. I prezzi del GME sono senza IVA.",
+      "de": "Corrente lädt einmal am Tag die Viertelstundenpreise des GME für heute und morgen. Dein Preis = PUN × (1 + Verluste) + Spread (+ weitere Kosten, falls eingegeben). Der Sensor **Großhandelspreis** zeigt den PUN oder den Zonenpreis. Die Preise des GME sind ohne MwSt.",
+      "fr": "Corrente télécharge une fois par jour les prix au quart d'heure du GME pour aujourd'hui et demain. Votre prix = PUN × (1 + pertes) + spread (+ autres coûts, s'ils sont saisis). Le capteur **Prix de gros** affiche le PUN ou le prix de la zone. Les prix du GME sont hors TVA."
+     }
+    }
+   ]
+  },
+  {
+   "id": "bill_costs",
+   "icon": "mdi:receipt-text",
+   "countries": [
+    "it"
+   ],
+   "covers": [
+    "sensor:monthly_fixed"
+   ],
+   "status": "bill_costs",
+   "title": {
+    "en": "The other costs on your bill",
+    "it": "Gli altri costi della bolletta",
+    "de": "Die weiteren Kosten deiner Rechnung",
+    "fr": "Les autres coûts de votre facture"
+   },
+   "summary": {
+    "en": "Optional: transport, system charges, excise and fixed charges, for the whole price.",
+    "it": "Facoltativo: trasporto, oneri di sistema, accise e quote fisse, per il prezzo intero.",
+    "de": "Optional: Transport, Systemkosten, Verbrauchssteuer und Fixkosten, für den ganzen Preis.",
+    "fr": "Facultatif : transport, charges de système, accises et frais fixes, pour le prix complet."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Other costs per kWh",
+      "it": "Altri costi per kWh",
+      "de": "Weitere Kosten pro kWh",
+      "fr": "Autres coûts par kWh"
+     },
+     "body": {
+      "en": "Add up the per-kWh items of your bill beyond energy: transport and meter management (energy part), system charges and excise. Corrente adds them to the price, the best time and the costs. Without them the price is the energy part only.",
+      "it": "Somma le voci al kWh della bolletta oltre all'energia: trasporto e gestione del contatore (quota energia), oneri di sistema e accise. Corrente le aggiunge al prezzo, al momento migliore e ai costi. Senza, il prezzo è solo la parte energia.",
+      "de": "Addiere die kWh-Posten deiner Rechnung außer der Energie: Transport und Zählerverwaltung (Energieanteil), Systemkosten und Verbrauchssteuer. Corrente rechnet sie in den Preis, den besten Zeitpunkt und die Kosten ein. Ohne sie ist der Preis nur der Energieanteil.",
+      "fr": "Additionnez les postes par kWh de votre facture hors énergie : transport et gestion du compteur (part énergie), charges de système et accises. Corrente les ajoute au prix, au meilleur moment et aux coûts. Sans eux, le prix n'est que la part énergie."
+     },
+     "action": {
+      "path": "/config/integrations/integration/corrente",
+      "label": {
+       "en": "Open Corrente's options (the cog)",
+       "it": "Apri le opzioni di Corrente (l'ingranaggio)",
+       "de": "Optionen von Corrente öffnen (Zahnrad)",
+       "fr": "Ouvrir les options de Corrente (la roue dentée)"
+      }
+     }
+    },
+    {
+     "title": {
+      "en": "Fixed charges per month",
+      "it": "Costi fissi al mese",
+      "de": "Fixkosten pro Monat",
+      "fr": "Frais fixes par mois"
+     },
+     "body": {
+      "en": "Fixed fees and the power fee go in **Fixed charges per month**: they get a sensor of their own. Enter everything the same way as the energy prices, with or without VAT. ARERA updates these items every quarter: change them in the options when your bill changes.",
+      "it": "Quote fisse e quota potenza vanno in **Costi fissi al mese**: hanno un sensore a parte. Inserisci tutto come i prezzi dell'energia, con o senza IVA allo stesso modo. ARERA aggiorna queste voci ogni trimestre: cambiale nelle opzioni quando cambia la bolletta.",
+      "de": "Fixgebühren und Leistungsgebühr gehören in **Fixkosten pro Monat**: sie bekommen einen eigenen Sensor. Gib alles wie die Energiepreise ein, gleich mit oder ohne MwSt. ARERA passt diese Posten jedes Quartal an: ändere sie in den Optionen, wenn sich deine Rechnung ändert.",
+      "fr": "Les frais fixes et la part puissance vont dans **Frais fixes par mois** : ils ont leur propre capteur. Saisissez tout comme les prix de l'énergie, avec ou sans TVA de la même façon. L'ARERA met ces postes à jour chaque trimestre : modifiez-les dans les options quand votre facture change."
+     },
+     "action": {
+      "path": "/config/integrations/integration/corrente",
+      "label": {
+       "en": "Open Corrente's options (the cog)",
+       "it": "Apri le opzioni di Corrente (l'ingranaggio)",
+       "de": "Optionen von Corrente öffnen (Zahnrad)",
+       "fr": "Ouvrir les options de Corrente (la roue dentée)"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "setup_switzerland",
+   "icon": "mdi:home-city",
+   "countries": [
+    "ch"
+   ],
+   "covers": [
+    "config:user",
+    "config:ch_search",
+    "config:ch_operator",
+    "config:ch_url",
+    "config:ch_tariff",
+    "config:ch_grid"
+   ],
+   "status": "setup_switzerland",
+   "title": {
+    "en": "Set up Corrente in Switzerland",
+    "it": "Configurare Corrente in Svizzera",
+    "de": "Corrente in der Schweiz einrichten",
+    "fr": "Configurer Corrente en Suisse"
+   },
+   "summary": {
+    "en": "Your municipality, your grid operator and its official tariffs.",
+    "it": "Il tuo comune, il tuo gestore di rete e le sue tariffe ufficiali.",
+    "de": "Deine Gemeinde, dein Netzbetreiber und seine offiziellen Tarife.",
+    "fr": "Votre commune, votre gestionnaire de réseau et ses tarifs officiels."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Add Corrente and type your municipality",
+      "it": "Aggiungi Corrente e scrivi il tuo comune",
+      "de": "Corrente hinzufügen und Gemeinde eingeben",
+      "fr": "Ajouter Corrente et saisir votre commune"
+     },
+     "body": {
+      "en": "**Settings → Devices & services → Add integration → Corrente**, choose **Switzerland** and type your municipality. Accents and dots are not needed, and the larger towns are found in any national language (\"Zurigo\", \"Genf\").",
+      "it": "**Impostazioni → Dispositivi e servizi → Aggiungi integrazione → Corrente**, scegli **Svizzera** e scrivi il tuo comune. Accenti e punti non servono, e le città più grandi si trovano in ogni lingua nazionale (\"Zurigo\", \"Genf\").",
+      "de": "**Einstellungen → Geräte & Dienste → Integration hinzufügen → Corrente**, **Schweiz** wählen und die Gemeinde eingeben. Akzente und Punkte sind nicht nötig, und grössere Städte findet man in jeder Landessprache (\"Zurigo\", \"Genf\").",
+      "fr": "**Paramètres → Appareils et services → Ajouter une intégration → Corrente**, choisissez **Suisse** et saisissez votre commune. Les accents et les points ne sont pas nécessaires, et les grandes villes se trouvent dans chaque langue nationale (\"Zurigo\", \"Genf\")."
+     },
+     "action": {
+      "path": "/config/integrations/dashboard/add?domain=corrente",
+      "label": {
+       "en": "Add Corrente",
+       "it": "Aggiungi Corrente",
+       "de": "Corrente hinzufügen",
+       "fr": "Ajouter Corrente"
+      }
+     }
+    },
+    {
+     "title": {
+      "en": "Your grid operator",
+      "it": "Il tuo gestore di rete",
+      "de": "Dein Netzbetreiber",
+      "fr": "Votre gestionnaire de réseau"
+     },
+     "body": {
+      "en": "Corrente finds the operators of your municipality in ElCom's open data: pick the one on your bill. It reads the tariff file every operator must publish. If your operator's file cannot be read, you can paste the link to its tariff file (JSON), if it publishes one elsewhere.",
+      "it": "Corrente trova i gestori del tuo comune nei dati aperti di ElCom: scegli quello della bolletta. Legge il file delle tariffe che ogni gestore deve pubblicare. Se il file del tuo gestore non si legge, puoi incollare il link al suo file delle tariffe (JSON), se lo pubblica altrove.",
+      "de": "Corrente findet die Netzbetreiber deiner Gemeinde in den offenen Daten der ElCom: wähle den auf deiner Rechnung. Es liest die Tarifdatei, die jeder Netzbetreiber veröffentlichen muss. Kann die Datei deines Betreibers nicht gelesen werden, kannst du den Link zu seiner Tarifdatei (JSON) einfügen, wenn er sie anderswo veröffentlicht.",
+      "fr": "Corrente trouve les gestionnaires de votre commune dans les données ouvertes de l'ElCom : choisissez celui de votre facture. Il lit le fichier des tarifs que chaque gestionnaire doit publier. Si le fichier de votre gestionnaire est illisible, vous pouvez coller le lien vers son fichier de tarifs (JSON), s'il le publie ailleurs."
+     }
+    },
+    {
+     "title": {
+      "en": "Energy, grid and fees",
+      "it": "Energia, rete e tributi",
+      "de": "Energie, Netz und Abgaben",
+      "fr": "Énergie, réseau et taxes"
+     },
+     "body": {
+      "en": "Choose your **energy product** as on your bill (standard, green, local...). Corrente suggests the matching **grid tariff** and **fees**: check them against your bill. It checks the federal charges and the fees with ElCom's figures for your municipality, and adds fees missing from the operator's file.",
+      "it": "Scegli il tuo **prodotto di energia** come in bolletta (standard, verde, locale...). Corrente propone la **tariffa di rete** e i **tributi** che vanno insieme: controllali con la bolletta. Verifica le voci federali e i tributi con i dati ElCom del tuo comune e aggiunge i tributi che mancano nel file del gestore.",
+      "de": "Wähle dein **Energieprodukt** wie auf der Rechnung (Standard, Öko, lokal...). Corrente schlägt den passenden **Netztarif** und die **Abgaben** vor: vergleiche sie mit der Rechnung. Es prüft die Bundesabgaben und die Abgaben mit den ElCom-Zahlen deiner Gemeinde und ergänzt Abgaben, die in der Datei des Betreibers fehlen.",
+      "fr": "Choisissez votre **produit d'énergie** comme sur votre facture (standard, vert, local...). Corrente propose le **tarif de réseau** et les **taxes** qui vont avec : vérifiez-les avec votre facture. Il contrôle les redevances fédérales et les taxes avec les chiffres de l'ElCom pour votre commune, et ajoute les taxes absentes du fichier du gestionnaire."
+     }
+    }
+   ]
+  },
+  {
+   "id": "dynamic_ch",
+   "icon": "mdi:chart-bell-curve",
+   "countries": [
+    "ch"
+   ],
+   "covers": [],
+   "status": "dynamic",
+   "title": {
+    "en": "Dynamic tariffs",
+    "it": "Tariffe dinamiche",
+    "de": "Dynamische Tarife",
+    "fr": "Tarifs dynamiques"
+   },
+   "summary": {
+    "en": "Quarter-hour prices from your operator (EKZ, Groupe E, Primeo).",
+    "it": "Prezzi al quarto d'ora dal tuo gestore (EKZ, Groupe E, Primeo).",
+    "de": "Viertelstundenpreise von deinem Netzbetreiber (EKZ, Groupe E, Primeo).",
+    "fr": "Prix au quart d'heure de votre gestionnaire (EKZ, Groupe E, Primeo)."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Choose the dynamic product",
+      "it": "Scegli il prodotto dinamico",
+      "de": "Dynamisches Produkt wählen",
+      "fr": "Choisir le produit dynamique"
+     },
+     "body": {
+      "en": "If your operator sells a dynamic tariff and publishes its prices (EKZ, Groupe E, Primeo), choose it during the setup or in the options. Corrente reads today's prices, and tomorrow's as soon as the operator publishes them, in the afternoon.",
+      "it": "Se il tuo gestore vende una tariffa dinamica e ne pubblica i prezzi (EKZ, Groupe E, Primeo), sceglila nella configurazione o nelle opzioni. Corrente legge i prezzi di oggi, e quelli di domani appena il gestore li pubblica, nel pomeriggio.",
+      "de": "Wenn dein Netzbetreiber einen dynamischen Tarif anbietet und die Preise veröffentlicht (EKZ, Groupe E, Primeo), wähle ihn bei der Einrichtung oder in den Optionen. Corrente liest die Preise von heute und die von morgen, sobald der Betreiber sie am Nachmittag veröffentlicht.",
+      "fr": "Si votre gestionnaire propose un tarif dynamique et publie ses prix (EKZ, Groupe E, Primeo), choisissez-le dans la configuration ou dans les options. Corrente lit les prix d'aujourd'hui, et ceux de demain dès que le gestionnaire les publie, l'après-midi."
+     },
+     "action": {
+      "path": "/config/integrations/integration/corrente",
+      "label": {
+       "en": "Open Corrente's options (the cog)",
+       "it": "Apri le opzioni di Corrente (l'ingranaggio)",
+       "de": "Optionen von Corrente öffnen (Zahnrad)",
+       "fr": "Ouvrir les options de Corrente (la roue dentée)"
+      }
+     }
+    },
+    {
+     "title": {
+      "en": "Make use of cheap quarters",
+      "it": "Sfrutta i quarti d'ora economici",
+      "de": "Günstige Viertelstunden nutzen",
+      "fr": "Profiter des quarts d'heure bon marché"
+     },
+     "body": {
+      "en": "With a dynamic tariff, **high** in the Tariff period sensor means above the day's average. The best time to start and the card follow the real prices: pair them with the blueprints to move consumption to the cheapest hours.",
+      "it": "Con una tariffa dinamica, **alta** nel sensore del periodo tariffario vuol dire sopra la media del giorno. Il momento migliore e la card seguono i prezzi veri: usali con i blueprint per spostare i consumi nelle ore più economiche.",
+      "de": "Bei einem dynamischen Tarif bedeutet **hoch** im Sensor Tarifzeit über dem Tagesdurchschnitt. Der beste Zeitpunkt und die Karte folgen den echten Preisen: kombiniere sie mit den Blueprints, um den Verbrauch in die günstigsten Stunden zu verschieben.",
+      "fr": "Avec un tarif dynamique, **haut** dans le capteur Période tarifaire signifie au-dessus de la moyenne du jour. Le meilleur moment et la carte suivent les vrais prix : combinez-les avec les blueprints pour déplacer la consommation vers les heures les moins chères."
+     }
+    }
+   ]
+  },
+  {
+   "id": "price",
+   "icon": "mdi:cash",
+   "countries": [],
+   "covers": [
+    "sensor:price",
+    "sensor:next_price",
+    "sensor:next_price_change",
+    "sensor:period"
+   ],
+   "status": null,
+   "title": {
+    "en": "The price sensors",
+    "it": "I sensori del prezzo",
+    "de": "Die Preissensoren",
+    "fr": "Les capteurs de prix"
+   },
+   "summary": {
+    "en": "Price now, next price and when it changes.",
+    "it": "Prezzo attuale, prossimo prezzo e quando cambia.",
+    "de": "Aktueller Preis, nächster Preis und wann er wechselt.",
+    "fr": "Prix actuel, prochain prix et quand il change."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Price now",
+      "it": "Prezzo attuale",
+      "de": "Aktueller Preis",
+      "fr": "Prix actuel"
+     },
+     "body": {
+      "en": "**Price now** is in €/kWh in Italy (as you entered it) and in CHF/kWh with VAT in Switzerland (energy, grid, fees and federal charges). Its attributes hold the schedule of the next 36 hours, the best window and the tariffs used.",
+      "it": "**Prezzo attuale** è in €/kWh in Italia (come l'hai inserito) e in CHF/kWh con IVA in Svizzera (energia, rete, tributi e voci federali). Nei suoi attributi ci sono l'andamento delle prossime 36 ore, la finestra migliore e le tariffe usate.",
+      "de": "**Aktueller Preis** ist in Italien in €/kWh (wie eingegeben) und in der Schweiz in CHF/kWh inkl. MwSt. (Energie, Netz, Abgaben und Bundesabgaben). Seine Attribute enthalten den Verlauf der nächsten 36 Stunden, das beste Fenster und die verwendeten Tarife.",
+      "fr": "**Prix actuel** est en €/kWh en Italie (tel que saisi) et en CHF/kWh TVA comprise en Suisse (énergie, réseau, taxes et redevances fédérales). Ses attributs contiennent l'évolution des 36 prochaines heures, la meilleure fenêtre et les tarifs utilisés."
+     }
+    },
+    {
+     "title": {
+      "en": "What comes next",
+      "it": "Cosa viene dopo",
+      "de": "Was als Nächstes kommt",
+      "fr": "Ce qui vient ensuite"
+     },
+     "body": {
+      "en": "**Next price** and **Next price change** tell you when the price changes and to what. In Switzerland, **Tariff period** says *single*, *high* or *low*. Use them in automations and on the dashboard.",
+      "it": "**Prossimo prezzo** e **Prossimo cambio di prezzo** dicono quando cambia il prezzo e a quanto. In Svizzera **Periodo tariffario** dice *unico*, *alto* o *basso*. Usali nelle automazioni e nella dashboard.",
+      "de": "**Nächster Preis** und **Nächste Preisänderung** sagen, wann sich der Preis ändert und auf welchen Wert. In der Schweiz zeigt **Tarifzeit** *einheitlich*, *hoch* oder *niedrig*. Nutze sie in Automationen und im Dashboard.",
+      "fr": "**Prochain prix** et **Prochain changement de prix** indiquent quand le prix change et sa nouvelle valeur. En Suisse, **Période tarifaire** indique *unique*, *haute* ou *basse*. Utilisez-les dans les automatisations et le tableau de bord."
+     }
+    }
+   ]
+  },
+  {
+   "id": "best_time",
+   "icon": "mdi:clock-check",
+   "countries": [],
+   "covers": [
+    "sensor:best_start",
+    "options:appliance"
+   ],
+   "status": null,
+   "title": {
+    "en": "Best time to start",
+    "it": "Momento migliore per avviare",
+    "de": "Bester Startzeitpunkt",
+    "fr": "Meilleur moment pour démarrer"
+   },
+   "summary": {
+    "en": "The cheapest moment in the next 24 hours for your appliance.",
+    "it": "Il momento più economico delle prossime 24 ore per il tuo apparecchio.",
+    "de": "Der günstigste Moment der nächsten 24 Stunden für dein Gerät.",
+    "fr": "Le moment le moins cher des 24 prochaines heures pour votre appareil."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "The sensor",
+      "it": "Il sensore",
+      "de": "Der Sensor",
+      "fr": "Le capteur"
+     },
+     "body": {
+      "en": "**Best time to start** is the start of the cheapest window in the next 24 hours, as long as your appliance runs (2 hours unless you change it). It is a time: an automation can start the dishwasher right then.",
+      "it": "**Momento migliore per avviare** è l'inizio della finestra più economica delle prossime 24 ore, lunga quanto il funzionamento del tuo apparecchio (2 ore se non la cambi). È un orario: un'automazione può avviare la lavastoviglie proprio allora.",
+      "de": "**Beste Startzeit** ist der Beginn des günstigsten Fensters der nächsten 24 Stunden, so lang wie dein Gerät läuft (2 Stunden, wenn du es nicht änderst). Es ist eine Uhrzeit: eine Automation kann den Geschirrspüler genau dann starten.",
+      "fr": "**Meilleur moment pour démarrer** est le début de la fenêtre la moins chère des 24 prochaines heures, aussi longue que le fonctionnement de votre appareil (2 heures si vous ne la changez pas). C'est une heure : une automatisation peut lancer le lave-vaisselle à ce moment-là."
+     }
+    },
+    {
+     "title": {
+      "en": "Change the duration",
+      "it": "Cambia la durata",
+      "de": "Dauer ändern",
+      "fr": "Changer la durée"
+     },
+     "body": {
+      "en": "In Corrente's options choose **Appliance duration** (0.5–8 hours).",
+      "it": "Nelle opzioni di Corrente scegli **Durata dell'apparecchio** (0,5–8 ore).",
+      "de": "In den Optionen von Corrente **Gerätedauer** wählen (0,5–8 Stunden).",
+      "fr": "Dans les options de Corrente, choisissez **Durée de l'appareil** (0,5–8 heures)."
+     },
+     "action": {
+      "path": "/config/integrations/integration/corrente",
+      "label": {
+       "en": "Open Corrente's options (the cog)",
+       "it": "Apri le opzioni di Corrente (l'ingranaggio)",
+       "de": "Optionen von Corrente öffnen (Zahnrad)",
+       "fr": "Ouvrir les options de Corrente (la roue dentée)"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "costs",
+   "icon": "mdi:counter",
+   "countries": [],
+   "covers": [
+    "options:meter",
+    "sensor:cost_day",
+    "sensor:cost_month"
+   ],
+   "status": "meter",
+   "title": {
+    "en": "What you spend",
+    "it": "Quanto spendi",
+    "de": "Was du ausgibst",
+    "fr": "Ce que vous dépensez"
+   },
+   "summary": {
+    "en": "Cost today and this month from your energy meter.",
+    "it": "Costo di oggi e del mese dal tuo contatore.",
+    "de": "Kosten heute und diesen Monat von deinem Energiezähler.",
+    "fr": "Coût d'aujourd'hui et du mois depuis votre compteur."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Choose your energy meter",
+      "it": "Scegli il contatore",
+      "de": "Energiezähler wählen",
+      "fr": "Choisir votre compteur"
+     },
+     "body": {
+      "en": "In Corrente's options choose **Energy meter (for costs)**: any kWh sensor, for example your smart meter or the grid consumption of the energy dashboard.",
+      "it": "Nelle opzioni di Corrente scegli **Contatore (per i costi)**: un qualsiasi sensore in kWh, per esempio il contatore intelligente o il consumo dalla rete della dashboard energia.",
+      "de": "In den Optionen von Corrente **Stromzähler (für Kosten)** wählen: irgendein kWh-Sensor, zum Beispiel dein Smart Meter oder der Netzbezug des Energie-Dashboards.",
+      "fr": "Dans les options de Corrente, choisissez **Compteur (pour les coûts)** : n'importe quel capteur en kWh, par exemple votre compteur intelligent ou la consommation réseau du tableau énergie."
+     },
+     "action": {
+      "path": "/config/integrations/integration/corrente",
+      "label": {
+       "en": "Open Corrente's options (the cog)",
+       "it": "Apri le opzioni di Corrente (l'ingranaggio)",
+       "de": "Optionen von Corrente öffnen (Zahnrad)",
+       "fr": "Ouvrir les options de Corrente (la roue dentée)"
+      }
+     }
+    },
+    {
+     "title": {
+      "en": "Cost today and this month",
+      "it": "Costo di oggi e del mese",
+      "de": "Kosten heute und diesen Monat",
+      "fr": "Coût d'aujourd'hui et du mois"
+     },
+     "body": {
+      "en": "Each kWh is priced at the moment it is used. The sensors survive restarts and start again at midnight and at the start of the month. No kWh sensor yet? The guide [reading your consumption](https://github.com/MichaelPito/ha-corrente/blob/main/docs/meter.md) lists clamps, Chain 2 / Open Meter (Italy) and the smart-meter interface (Switzerland).",
+      "it": "Ogni kWh è pagato al prezzo del momento in cui lo usi. I sensori sopravvivono ai riavvii e ripartono a mezzanotte e a inizio mese. Non hai ancora un sensore in kWh? La guida [leggere i consumi](https://github.com/MichaelPito/ha-corrente/blob/main/docs/meter.md) spiega pinza, Chain 2 / Open Meter (Italia) e interfaccia del contatore intelligente (Svizzera).",
+      "de": "Jede kWh wird zum Preis des Moments berechnet, in dem sie verbraucht wird. Die Sensoren überstehen Neustarts und beginnen um Mitternacht und am Monatsanfang neu. Noch kein kWh-Sensor? Die Anleitung [Verbrauch messen](https://github.com/MichaelPito/ha-corrente/blob/main/docs/meter.md) erklärt Stromzangen, Chain 2 / Open Meter (Italien) und die Kundenschnittstelle des Smart Meters (Schweiz).",
+      "fr": "Chaque kWh est payé au prix du moment où il est consommé. Les capteurs survivent aux redémarrages et repartent à minuit et en début de mois. Pas encore de capteur en kWh ? Le guide [mesurer votre consommation](https://github.com/MichaelPito/ha-corrente/blob/main/docs/meter.md) explique les pinces, Chain 2 / Open Meter (Italie) et l'interface client du compteur intelligent (Suisse)."
+     }
+    }
+   ]
+  },
+  {
+   "id": "appliances",
+   "icon": "mdi:washing-machine",
+   "countries": [],
+   "covers": [
+    "options:appliances",
+    "sensor:appliance_cost_day",
+    "sensor:appliance_cost_month"
+   ],
+   "status": "appliances",
+   "title": {
+    "en": "Cost per appliance",
+    "it": "Costo per apparecchio",
+    "de": "Kosten pro Gerät",
+    "fr": "Coût par appareil"
+   },
+   "summary": {
+    "en": "What the washing machine or the boiler costs you.",
+    "it": "Quanto ti costano la lavatrice o il boiler.",
+    "de": "Was dich die Waschmaschine oder der Boiler kostet.",
+    "fr": "Ce que vous coûtent le lave-linge ou le chauffe-eau."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Choose the appliances",
+      "it": "Scegli gli apparecchi",
+      "de": "Geräte wählen",
+      "fr": "Choisir les appareils"
+     },
+     "body": {
+      "en": "In Corrente's options choose **Cost per appliance** and pick the energy sensors of appliances with their own meter, for example a smart plug under the washing machine. Each one gets **Cost today — name** and **Cost this month — name**. To stop, take it off the list.",
+      "it": "Nelle opzioni di Corrente scegli **Costo per apparecchio** e indica i sensori di energia degli apparecchi con un contatore loro, per esempio una presa intelligente sotto la lavatrice. Per ognuno compaiono **Costo di oggi — nome** e **Costo del mese — nome**. Per toglierlo, toglilo dall'elenco.",
+      "de": "In den Optionen von Corrente **Kosten pro Gerät** wählen und die Energiesensoren von Geräten mit eigenem Zähler angeben, zum Beispiel eine smarte Steckdose unter der Waschmaschine. Jedes bekommt **Kosten heute — Name** und **Kosten diesen Monat — Name**. Zum Entfernen aus der Liste nehmen.",
+      "fr": "Dans les options de Corrente, choisissez **Coût par appareil** et indiquez les capteurs d'énergie des appareils qui ont leur propre compteur, par exemple une prise connectée sous le lave-linge. Chacun reçoit **Coût aujourd'hui — nom** et **Coût ce mois-ci — nom**. Pour l'enlever, retirez-le de la liste."
+     },
+     "action": {
+      "path": "/config/integrations/integration/corrente",
+      "label": {
+       "en": "Open Corrente's options (the cog)",
+       "it": "Apri le opzioni di Corrente (l'ingranaggio)",
+       "de": "Optionen von Corrente öffnen (Zahnrad)",
+       "fr": "Ouvrir les options de Corrente (la roue dentée)"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "fixed_charges",
+   "icon": "mdi:calendar-month",
+   "countries": [],
+   "covers": [
+    "sensor:monthly_fixed"
+   ],
+   "status": null,
+   "title": {
+    "en": "Fixed charges per month",
+    "it": "Costi fissi al mese",
+    "de": "Fixkosten pro Monat",
+    "fr": "Frais fixes par mois"
+   },
+   "summary": {
+    "en": "The monthly part of the bill, apart from the price per kWh.",
+    "it": "La parte mensile della bolletta, a parte il prezzo al kWh.",
+    "de": "Der monatliche Teil der Rechnung, getrennt vom kWh-Preis.",
+    "fr": "La partie mensuelle de la facture, à part le prix au kWh."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "What the sensor holds",
+      "it": "Cosa contiene il sensore",
+      "de": "Was der Sensor enthält",
+      "fr": "Ce que contient le capteur"
+     },
+     "body": {
+      "en": "In Switzerland **Fixed charges per month** adds up the grid's monthly fee, metering (taken from ElCom when the operator lists it apart, shown in the attribute *metering_from_elcom*) and the monthly fees, with VAT. In Italy it is what you entered from your bill. These charges are not in the price per kWh nor in the cost sensors.",
+      "it": "In Svizzera **Costi fissi al mese** somma la quota mensile di rete, la misurazione (presa da ElCom quando il gestore la mette a parte, nell'attributo *metering_from_elcom*) e le quote mensili dei tributi, con IVA. In Italia è quanto hai inserito dalla bolletta. Questi costi non sono nel prezzo al kWh né nei sensori dei costi.",
+      "de": "In der Schweiz summiert **Fixkosten pro Monat** die monatliche Netzgebühr, die Messung (von der ElCom, wenn der Betreiber sie separat aufführt, im Attribut *metering_from_elcom*) und die monatlichen Abgaben, inkl. MwSt. In Italien ist es das, was du von deiner Rechnung eingegeben hast. Diese Kosten sind weder im kWh-Preis noch in den Kostensensoren.",
+      "fr": "En Suisse, **Frais fixes par mois** additionne la taxe mensuelle de réseau, le comptage (pris chez l'ElCom quand le gestionnaire le liste à part, dans l'attribut *metering_from_elcom*) et les taxes mensuelles, TVA comprise. En Italie, c'est ce que vous avez saisi depuis votre facture. Ces frais ne sont ni dans le prix au kWh ni dans les capteurs de coûts."
+     }
+    }
+   ]
+  },
+  {
+   "id": "card",
+   "icon": "mdi:view-dashboard",
+   "countries": [],
+   "covers": [
+    "card"
+   ],
+   "status": null,
+   "title": {
+    "en": "The dashboard card",
+    "it": "La card per la dashboard",
+    "de": "Die Dashboard-Karte",
+    "fr": "La carte du tableau de bord"
+   },
+   "summary": {
+    "en": "Price now, the next 24 hours and the best time at a glance.",
+    "it": "Prezzo attuale, prossime 24 ore e momento migliore a colpo d'occhio.",
+    "de": "Aktueller Preis, die nächsten 24 Stunden und der beste Zeitpunkt auf einen Blick.",
+    "fr": "Prix actuel, les 24 prochaines heures et le meilleur moment en un coup d'œil."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Add the card",
+      "it": "Aggiungi la card",
+      "de": "Karte hinzufügen",
+      "fr": "Ajouter la carte"
+     },
+     "body": {
+      "en": "Edit a dashboard, **Add card** and search \"Corrente\". The card comes with the integration: after the first setup, reload the page once so the browser finds it.",
+      "it": "Modifica una dashboard, **Aggiungi card** e cerca \"Corrente\". La card arriva con l'integrazione: dopo la prima configurazione, ricarica una volta la pagina perché il browser la trovi.",
+      "de": "Ein Dashboard bearbeiten, **Karte hinzufügen** und nach \"Corrente\" suchen. Die Karte kommt mit der Integration: nach der ersten Einrichtung die Seite einmal neu laden, damit der Browser sie findet.",
+      "fr": "Modifiez un tableau de bord, **Ajouter une carte** et cherchez \"Corrente\". La carte est fournie avec l'intégration : après la première configuration, rechargez une fois la page pour que le navigateur la trouve."
+     },
+     "action": {
+      "path": "/config/lovelace/dashboards",
+      "label": {
+       "en": "Open the dashboards",
+       "it": "Apri le dashboard",
+       "de": "Dashboards öffnen",
+       "fr": "Ouvrir les tableaux de bord"
+      }
+     }
+    },
+    {
+     "title": {
+      "en": "What it shows",
+      "it": "Cosa mostra",
+      "de": "Was sie zeigt",
+      "fr": "Ce qu'elle affiche"
+     },
+     "body": {
+      "en": "The price now, the next 24 hours coloured cheap to dear, and the best time to start. Options: `title` (empty to hide it) and `feedback: false` to hide the *Suggest a change* link. The data source is shown at the bottom.",
+      "it": "Il prezzo attuale, le prossime 24 ore colorate da economico a caro e il momento migliore. Opzioni: `title` (vuoto per nasconderlo) e `feedback: false` per nascondere il link *Suggerisci una modifica*. In fondo c'è la fonte dei dati.",
+      "de": "Den aktuellen Preis, die nächsten 24 Stunden von günstig bis teuer eingefärbt und den besten Zeitpunkt. Optionen: `title` (leer zum Ausblenden) und `feedback: false`, um den Link *Änderung vorschlagen* auszublenden. Unten steht die Datenquelle.",
+      "fr": "Le prix actuel, les 24 prochaines heures colorées de bon marché à cher et le meilleur moment. Options : `title` (vide pour le masquer) et `feedback: false` pour masquer le lien *Suggérer une modification*. La source des données est indiquée en bas."
+     }
+    }
+   ]
+  },
+  {
+   "id": "blueprints",
+   "icon": "mdi:robot",
+   "countries": [],
+   "covers": [
+    "blueprint:start_at_best_time",
+    "blueprint:price_alert",
+    "blueprint:solar_surplus"
+   ],
+   "status": null,
+   "title": {
+    "en": "Ready-made automations",
+    "it": "Automazioni pronte",
+    "de": "Fertige Automationen",
+    "fr": "Automatisations prêtes"
+   },
+   "summary": {
+    "en": "Three blueprints: cheapest start, price alert, solar surplus.",
+    "it": "Tre blueprint: avvio economico, avviso sul prezzo, surplus del fotovoltaico.",
+    "de": "Drei Blueprints: günstigster Start, Preisalarm, Solarüberschuss.",
+    "fr": "Trois blueprints : démarrage le moins cher, alerte de prix, surplus solaire."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Start an appliance at the cheapest time",
+      "it": "Avvia un apparecchio all'ora più economica",
+      "de": "Gerät zum günstigsten Zeitpunkt starten",
+      "fr": "Démarrer un appareil au moment le moins cher"
+     },
+     "body": {
+      "en": "Load the dishwasher, turn on a \"ready\" helper, and Corrente starts it at the best time.",
+      "it": "Carica la lavastoviglie, accendi un aiutante \"pronto\" e Corrente la avvia al momento migliore.",
+      "de": "Geschirrspüler einräumen, einen Helfer \"bereit\" einschalten, und Corrente startet ihn zum besten Zeitpunkt.",
+      "fr": "Chargez le lave-vaisselle, activez un assistant \"prêt\", et Corrente le lance au meilleur moment."
+     },
+     "action": {
+      "path": "https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fstart_at_best_time.yaml",
+      "label": {
+       "en": "Import the blueprint",
+       "it": "Importa il blueprint",
+       "de": "Blueprint importieren",
+       "fr": "Importer le blueprint"
+      }
+     }
+    },
+    {
+     "title": {
+      "en": "Price alert",
+      "it": "Avviso sul prezzo",
+      "de": "Preisalarm",
+      "fr": "Alerte de prix"
+     },
+     "body": {
+      "en": "A notification, or any action, when the price goes below or above a threshold; once each time it crosses it.",
+      "it": "Una notifica, o qualsiasi azione, quando il prezzo scende sotto o sale sopra una soglia; una volta ogni volta che la attraversa.",
+      "de": "Eine Benachrichtigung oder eine beliebige Aktion, wenn der Preis unter oder über eine Schwelle geht; einmal bei jedem Überschreiten.",
+      "fr": "Une notification, ou n'importe quelle action, quand le prix passe sous ou au-dessus d'un seuil ; une fois à chaque passage."
+     },
+     "action": {
+      "path": "https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fprice_alert.yaml",
+      "label": {
+       "en": "Import the blueprint",
+       "it": "Importa il blueprint",
+       "de": "Blueprint importieren",
+       "fr": "Importer le blueprint"
+      }
+     }
+    },
+    {
+     "title": {
+      "en": "Use solar surplus",
+      "it": "Usa il surplus del fotovoltaico",
+      "de": "Solarüberschuss nutzen",
+      "fr": "Utiliser le surplus solaire"
+     },
+     "body": {
+      "en": "Switch on the boiler, heat pump or car charger when the panels send enough power to the grid, and off when the home buys again; optionally also in cheap hours.",
+      "it": "Accende boiler, pompa di calore o caricatore dell'auto quando i pannelli mandano abbastanza potenza in rete, e li spegne quando la casa torna a comprare; se vuoi anche nelle ore economiche.",
+      "de": "Schaltet Boiler, Wärmepumpe oder Ladestation ein, wenn die Panels genug Leistung ins Netz einspeisen, und aus, wenn das Haus wieder Strom bezieht; auf Wunsch auch in günstigen Stunden.",
+      "fr": "Allume le chauffe-eau, la pompe à chaleur ou la borne de recharge quand les panneaux injectent assez de puissance dans le réseau, et les éteint quand la maison achète à nouveau ; si vous voulez, aussi aux heures bon marché."
+     },
+     "action": {
+      "path": "https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FMichaelPito%2Fha-corrente%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fcorrente%2Fsolar_surplus.yaml",
+      "label": {
+       "en": "Import the blueprint",
+       "it": "Importa il blueprint",
+       "de": "Blueprint importieren",
+       "fr": "Importer le blueprint"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "change_contract",
+   "icon": "mdi:file-document-edit",
+   "countries": [],
+   "covers": [
+    "options:contract"
+   ],
+   "status": null,
+   "title": {
+    "en": "Change contract or tariff",
+    "it": "Cambiare contratto o tariffa",
+    "de": "Vertrag oder Tarif ändern",
+    "fr": "Changer de contrat ou de tarif"
+   },
+   "summary": {
+    "en": "New prices, a new product, a new year.",
+    "it": "Prezzi nuovi, un prodotto nuovo, un anno nuovo.",
+    "de": "Neue Preise, ein neues Produkt, ein neues Jahr.",
+    "fr": "Nouveaux prix, nouveau produit, nouvelle année."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "In the options",
+      "it": "Nelle opzioni",
+      "de": "In den Optionen",
+      "fr": "Dans les options"
+     },
+     "body": {
+      "en": "In Corrente's options choose **Contract or tariff** to change your prices (Italy) or your energy product, grid tariff and fees (Switzerland). At the new year Corrente switches to the operator's new file by itself; if the operator has not published it yet, **Repairs** explains it.",
+      "it": "Nelle opzioni di Corrente scegli **Contratto o tariffa** per cambiare i prezzi (Italia) o prodotto di energia, tariffa di rete e tributi (Svizzera). A inizio anno Corrente passa da solo al nuovo file del gestore; se il gestore non l'ha ancora pubblicato, lo spiega **Riparazioni**.",
+      "de": "In den Optionen von Corrente **Vertrag oder Tarif** wählen, um die Preise (Italien) oder Energieprodukt, Netztarif und Abgaben (Schweiz) zu ändern. Zum neuen Jahr wechselt Corrente selbst zur neuen Datei des Betreibers; hat er sie noch nicht veröffentlicht, erklärt es **Reparaturen**.",
+      "fr": "Dans les options de Corrente, choisissez **Contrat ou tarif** pour changer vos prix (Italie) ou votre produit d'énergie, votre tarif de réseau et vos taxes (Suisse). À la nouvelle année, Corrente passe seul au nouveau fichier du gestionnaire ; s'il ne l'a pas encore publié, **Réparations** l'explique."
+     },
+     "action": {
+      "path": "/config/integrations/integration/corrente",
+      "label": {
+       "en": "Open Corrente's options (the cog)",
+       "it": "Apri le opzioni di Corrente (l'ingranaggio)",
+       "de": "Optionen von Corrente öffnen (Zahnrad)",
+       "fr": "Ouvrir les options de Corrente (la roue dentée)"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "bill_check",
+   "icon": "mdi:scale-balance",
+   "countries": [],
+   "covers": [
+    "diagnostics"
+   ],
+   "status": null,
+   "title": {
+    "en": "Price different from your bill?",
+    "it": "Il prezzo non torna con la bolletta?",
+    "de": "Preis anders als auf der Rechnung?",
+    "fr": "Prix différent de votre facture ?"
+   },
+   "summary": {
+    "en": "What to check, and the diagnostics file.",
+    "it": "Cosa controllare, e il file di diagnostica.",
+    "de": "Was du prüfen kannst, und die Diagnosedatei.",
+    "fr": "Quoi vérifier, et le fichier de diagnostic."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "What to check",
+      "it": "Cosa controllare",
+      "de": "Was prüfen",
+      "fr": "Quoi vérifier"
+     },
+     "body": {
+      "en": "Switzerland: the price includes VAT; monthly fees are in **Fixed charges per month**, not in the price; green or local energy products cost more than the standard one. Italy: with only the energy prices the price is the energy part; add the other costs for the whole price. Enter all prices the same way, with or without VAT.",
+      "it": "Svizzera: il prezzo comprende l'IVA; le quote mensili sono in **Costi fissi al mese**, non nel prezzo; i prodotti di energia verdi o locali costano più di quello standard. Italia: con i soli prezzi dell'energia il prezzo è la parte energia; aggiungi gli altri costi per il prezzo intero. Inserisci tutti i prezzi allo stesso modo, con o senza IVA.",
+      "de": "Schweiz: der Preis enthält die MwSt.; monatliche Gebühren stehen in **Fixkosten pro Monat**, nicht im Preis; Öko- oder Lokalprodukte kosten mehr als das Standardprodukt. Italien: nur mit den Energiepreisen ist der Preis der Energieanteil; füge die weiteren Kosten für den ganzen Preis hinzu. Gib alle Preise gleich ein, mit oder ohne MwSt.",
+      "fr": "Suisse : le prix comprend la TVA ; les taxes mensuelles sont dans **Frais fixes par mois**, pas dans le prix ; les produits verts ou locaux coûtent plus que le produit standard. Italie : avec seulement les prix de l'énergie, le prix est la part énergie ; ajoutez les autres coûts pour le prix complet. Saisissez tous les prix de la même façon, avec ou sans TVA."
+     }
+    },
+    {
+     "title": {
+      "en": "Download the diagnostics",
+      "it": "Scarica la diagnostica",
+      "de": "Diagnose herunterladen",
+      "fr": "Télécharger le diagnostic"
+     },
+     "body": {
+      "en": "**Settings → Devices & services → Corrente → ⋮ → Download diagnostics**. The file shows every tariff and figure Corrente used, and holds no passwords: attach it to a request.",
+      "it": "**Impostazioni → Dispositivi e servizi → Corrente → ⋮ → Scarica diagnostica**. Il file mostra ogni tariffa e cifra usata da Corrente e non contiene password: allegalo a una richiesta.",
+      "de": "**Einstellungen → Geräte & Dienste → Corrente → ⋮ → Diagnose herunterladen**. Die Datei zeigt jeden Tarif und jede Zahl, die Corrente verwendet hat, und enthält keine Passwörter: hänge sie an eine Anfrage an.",
+      "fr": "**Paramètres → Appareils et services → Corrente → ⋮ → Télécharger le diagnostic**. Le fichier montre chaque tarif et chiffre utilisé par Corrente et ne contient aucun mot de passe : joignez-le à une demande."
+     },
+     "action": {
+      "path": "/config/integrations/integration/corrente",
+      "label": {
+       "en": "Open Corrente",
+       "it": "Apri Corrente",
+       "de": "Corrente öffnen",
+       "fr": "Ouvrir Corrente"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "help",
+   "icon": "mdi:lifebuoy",
+   "countries": [],
+   "covers": [],
+   "status": null,
+   "title": {
+    "en": "Ideas and problems",
+    "it": "Idee e problemi",
+    "de": "Ideen und Probleme",
+    "fr": "Idées et problèmes"
+   },
+   "summary": {
+    "en": "Ask, suggest, report: in any language.",
+    "it": "Chiedi, proponi, segnala: in qualsiasi lingua.",
+    "de": "Fragen, vorschlagen, melden: in jeder Sprache.",
+    "fr": "Demander, proposer, signaler : dans n'importe quelle langue."
+   },
+   "steps": [
+    {
+     "title": {
+      "en": "Open a request",
+      "it": "Apri una richiesta",
+      "de": "Anfrage stellen",
+      "fr": "Ouvrir une demande"
+     },
+     "body": {
+      "en": "On GitHub, in any language: a missing operator or tariff, a price that looks wrong, an idea. No GitHub account? Use the form: no account needed, and the request is published without personal data.",
+      "it": "Su GitHub, in qualsiasi lingua: un gestore o una tariffa che manca, un prezzo che non torna, un'idea. Non hai un account GitHub? Usa il modulo: non serve nessun account, e la richiesta viene pubblicata senza dati personali.",
+      "de": "Auf GitHub, in jeder Sprache: ein fehlender Betreiber oder Tarif, ein seltsamer Preis, eine Idee. Kein GitHub-Konto? Nutze das Formular: kein Konto nötig, und die Anfrage wird ohne persönliche Daten veröffentlicht.",
+      "fr": "Sur GitHub, dans n'importe quelle langue : un gestionnaire ou un tarif manquant, un prix qui semble faux, une idée. Pas de compte GitHub ? Utilisez le formulaire : aucun compte nécessaire, et la demande est publiée sans données personnelles."
+     },
+     "action": {
+      "path": "https://github.com/MichaelPito/ha-corrente/issues/new/choose",
+      "label": {
+       "en": "Open a request on GitHub",
+       "it": "Apri una richiesta su GitHub",
+       "de": "Anfrage auf GitHub stellen",
+       "fr": "Ouvrir une demande sur GitHub"
+      }
+     }
+    },
+    {
+     "title": {
+      "en": "Without a GitHub account",
+      "it": "Senza account GitHub",
+      "de": "Ohne GitHub-Konto",
+      "fr": "Sans compte GitHub"
+     },
+     "body": {
+      "en": "The form asks what it is about, the country and a few words.",
+      "it": "Il modulo chiede di cosa si tratta, il paese e poche parole.",
+      "de": "Das Formular fragt, worum es geht, das Land und ein paar Worte.",
+      "fr": "Le formulaire demande de quoi il s'agit, le pays et quelques mots."
+     },
+     "action": {
+      "path": "https://docs.google.com/forms/d/e/1FAIpQLSce_vFvHpz3Qav3o05DvoJhpIuM2zXWmvpgBHWRS1gJsEF6yQ/viewform",
+      "label": {
+       "en": "Open the form",
+       "it": "Apri il modulo",
+       "de": "Formular öffnen",
+       "fr": "Ouvrir le formulaire"
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "whats_new": [
+  {
+   "version": "0.3.5",
+   "date": "2026-10-28",
+   "items": {
+    "en": [
+     "A guide inside Home Assistant: **Corrente** in the sidebar. Pick a topic or follow the full guide; it shows what is done and what is left, and the news of each update."
+    ],
+    "it": [
+     "Una guida dentro Home Assistant: **Corrente** nella barra laterale. Scegli un argomento o segui la guida completa; mostra cosa è fatto e cosa resta, e le novità di ogni aggiornamento."
+    ],
+    "de": [
+     "Eine Anleitung in Home Assistant: **Corrente** in der Seitenleiste. Wähle ein Thema oder folge der ganzen Anleitung; sie zeigt, was erledigt ist und was fehlt, und die Neuigkeiten jedes Updates."
+    ],
+    "fr": [
+     "Un guide dans Home Assistant : **Corrente** dans la barre latérale. Choisissez un sujet ou suivez le guide complet ; il montre ce qui est fait et ce qui reste, et les nouveautés de chaque mise à jour."
+    ]
+   }
+  },
+  {
+   "version": "0.3.4",
+   "date": "2026-10-26",
+   "items": {
+    "en": [
+     "Switzerland: Primeo's dynamic grid tariff *NetzDynamisch* works already in 2026.",
+     "Setup: the grid tariff named like the energy tariff is suggested first; \"Aesch BL\" finds \"Aesch (BL)\"."
+    ],
+    "it": [
+     "Svizzera: la tariffa di rete dinamica di Primeo *NetzDynamisch* funziona già nel 2026.",
+     "Configurazione: la tariffa di rete con lo stesso nome dell'energia è proposta per prima; \"Aesch BL\" trova \"Aesch (BL)\"."
+    ],
+    "de": [
+     "Schweiz: Primeos dynamischer Netztarif *NetzDynamisch* funktioniert schon 2026.",
+     "Einrichtung: der Netztarif mit dem gleichen Namen wie der Energietarif wird zuerst vorgeschlagen; \"Aesch BL\" findet \"Aesch (BL)\"."
+    ],
+    "fr": [
+     "Suisse : le tarif de réseau dynamique de Primeo *NetzDynamisch* fonctionne déjà en 2026.",
+     "Configuration : le tarif de réseau du même nom que le tarif d'énergie est proposé en premier ; \"Aesch BL\" trouve \"Aesch (BL)\"."
+    ]
+   }
+  },
+  {
+   "version": "0.3.3",
+   "date": "2026-10-23",
+   "items": {
+    "en": [
+     "Switzerland: Primeo's dynamic tariffs (from 2027) are read."
+    ],
+    "it": [
+     "Svizzera: si leggono le tariffe dinamiche di Primeo (dal 2027)."
+    ],
+    "de": [
+     "Schweiz: Primeos dynamische Tarife (ab 2027) werden gelesen."
+    ],
+    "fr": [
+     "Suisse : les tarifs dynamiques de Primeo (dès 2027) sont lus."
+    ]
+   }
+  },
+  {
+   "version": "0.3.2",
+   "date": "2026-10-23",
+   "items": {
+    "en": [
+     "Switzerland: the fixed charges per month include metering (about 6 CHF), taken from ElCom."
+    ],
+    "it": [
+     "Svizzera: i costi fissi al mese comprendono la misurazione (circa 6 CHF), presa da ElCom."
+    ],
+    "de": [
+     "Schweiz: die Fixkosten pro Monat enthalten die Messung (etwa 6 CHF), von der ElCom."
+    ],
+    "fr": [
+     "Suisse : les frais fixes par mois comprennent le comptage (environ 6 CHF), pris chez l'ElCom."
+    ]
+   }
+  },
+  {
+   "version": "0.3.0",
+   "date": "2026-10-23",
+   "items": {
+    "en": [
+     "Italy: optional other costs from your bill (per kWh and per month) for the whole price."
+    ],
+    "it": [
+     "Italia: altri costi facoltativi dalla bolletta (al kWh e al mese) per il prezzo intero."
+    ],
+    "de": [
+     "Italien: optionale weitere Kosten der Rechnung (pro kWh und pro Monat) für den ganzen Preis."
+    ],
+    "fr": [
+     "Italie : autres coûts facultatifs de votre facture (par kWh et par mois) pour le prix complet."
+    ]
+   }
+  }
+ ]
+}

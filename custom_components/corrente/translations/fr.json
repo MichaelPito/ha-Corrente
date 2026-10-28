@@ -184,7 +184,7 @@
         }
       },
       "init": {
-        "description": "Que voulez-vous modifier ? Il manque quelque chose ou vous avez trouvé une erreur ? [Suggérer une modification]({issues_url}).",
+        "description": "Que voulez-vous modifier ? Le [guide](/corrente-guide) explique chaque option. Il manque quelque chose ou vous avez trouvé une erreur ? [Suggérer une modification]({issues_url}).",
         "menu_options": {
           "contract": "Contrat ou tarif",
           "meter": "Compteur (pour les coûts)",
@@ -329,7 +329,7 @@
   "issues": {
     "no_tariffs_in_force": {
       "title": "Aucun tarif en vigueur : {operator}",
-      "description": "Corrente ne trouve aucun prix en vigueur aujourd'hui ({date}) pour {operator} : le fichier des tarifs est illisible ou n'a pas de prix pour aujourd'hui. Cela arrive surtout en début d'année, quand le gestionnaire n'a pas encore publié le fichier de la nouvelle année ou qu'ElCom renvoie encore à celui de l'année précédente.\n\nCorrente continue de vérifier et reprend tout seul dès que le fichier est publié ; d'ici là, ses capteurs sont indisponibles. Si vous trouvez le nouveau fichier sur le site du gestionnaire, vous pouvez ajouter à nouveau Corrente avec ce lien."
+      "description": "Corrente ne trouve aucun prix en vigueur aujourd'hui ({date}) pour {operator} : le fichier des tarifs est illisible ou n'a pas de prix pour aujourd'hui. Cela arrive surtout en début d'année, quand le gestionnaire n'a pas encore publié le fichier de la nouvelle année ou qu'ElCom renvoie encore à celui de l'année précédente.\n\nCorrente continue de vérifier et reprend tout seul dès que le fichier est publié ; d'ici là, ses capteurs sont indisponibles. Si vous trouvez le nouveau fichier sur le site du gestionnaire, vous pouvez ajouter à nouveau Corrente avec ce lien.\n\n[Guide : changer de contrat ou de tarif](/corrente-guide?topic=change_contract)"
     }
   }
 }

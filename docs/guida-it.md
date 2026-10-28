@@ -46,6 +46,12 @@ Il prezzo svizzero include IVA, supplemento di rete, riserva elettrica, servizi 
 
 Corrente controlla le voci nazionali e i tributi con i dati ElCom del tuo comune: se nel file del gestore mancano dei tributi, li prende da ElCom (attributo "other_fees_from_elcom" del sensore del prezzo). I **costi fissi al mese** comprendono anche la misurazione (il contatore), che quasi tutti i gestori mettono in una tariffa a parte: Corrente la prende da ElCom, circa 6 CHF al mese (attributo "metering_from_elcom"). Prima del lancio l'abbiamo confrontato con ElCom per tutti i gestori svizzeri con un file leggibile (circa 340).
 
+## La guida dentro Home Assistant
+
+Dopo la configurazione, nella barra laterale compare **Corrente**: una guida che spiega cosa puoi fare e come, segna cosa hai già configurato e propone cosa manca. Scegli un argomento o segui la **guida completa** passo dopo passo; dopo ogni aggiornamento mostra le **novità**. I pulsanti ti portano nel punto giusto di Home Assistant.
+
+![La guida di Corrente in Home Assistant](images/guide-it.png)
+
 ## Quanto ho speso oggi?
 
 Nelle **opzioni** di Corrente scegli **Contatore** e indica il sensore che conta i tuoi consumi in kWh (contatore intelligente, Shelly, consumo dalla rete della dashboard energia). Compaiono due sensori, **Costo di oggi** e **Costo del mese**: ogni kWh è pagato al prezzo del momento in cui l'hai consumato. In Italia il costo comprende solo la parte energia del contratto che hai inserito.

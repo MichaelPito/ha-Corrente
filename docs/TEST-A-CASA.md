@@ -67,8 +67,9 @@ La repo è ancora privata, quindi HACS non può scaricarla: la copiamo a mano.
 4. Il **prezzo adesso** (sensore "Prezzo attuale") ti sembra giusto rispetto alla bolletta? (La bolletta di solito ha i prezzi **senza IVA**; Corrente li mostra **con IVA**, quindi è normale che sia circa l'8% più alto.)
 5. La **fascia** (alta/bassa) e l'**orario del prossimo cambio** corrispondono a quelli del tuo contratto?
 6. La **card** si vede bene, nella tua lingua? Il "momento migliore" ha senso?
-7. Qualcosa ti è sembrato **difficile, strano o brutto**? Qualsiasi cosa.
-8. Una **foto dello schermo** della card e del dispositivo Corrente.
+7. Apri **Corrente** nella barra laterale (la guida): si capisce? Ti ha aiutato, o manca qualcosa?
+8. Qualcosa ti è sembrato **difficile, strano o brutto**? Qualsiasi cosa.
+9. Una **foto dello schermo** della card e del dispositivo Corrente.
 
 Se qualcosa non funziona: **Impostazioni → Sistema → Registri**, cerca `corrente`, e incollami quello che compare. Non incollare password o il numero cliente della bolletta.
 
