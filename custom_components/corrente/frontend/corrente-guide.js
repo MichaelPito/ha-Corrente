@@ -259,7 +259,9 @@ class CorrenteGuidePanel extends HTMLElement {
     const topics = tour ? this._tourTopics() : [topic];
     const all = topics.flatMap((t) => t.steps.map((_, i) => `${t.id}:${i}`));
     const position = all.indexOf(`${topic.id}:${this._step}`) + 1;
-    const action = step.action
+    // Settings pages are for administrators: other users do not get a button that fails.
+    const admin = !this._hass.user || this._hass.user.is_admin;
+    const action = step.action && (admin || !step.action.path.startsWith("/config"))
       ? `<button class="primary" id="action" data-path="${escapeHtml(step.action.path)}">${escapeHtml(this._t(step.action.label))}</button>`
       : "";
     const first = position === 1;
