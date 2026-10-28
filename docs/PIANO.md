@@ -391,6 +391,13 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ guida provata anche in tedesco e francese; niente pulsanti verso le impostazioni per chi non è amministratore; nuovo argomento **dashboard energia** (il prezzo di Corrente come prezzo della rete): segnato fatto quando la dashboard lo usa già, proposto quando prezza la rete in altro modo. Provato su Home Assistant 2026.10 vero (il formato delle impostazioni energia è cambiato rispetto alla 2025.10: Corrente li legge entrambi); v0.3.6.
   - **Prossimi pezzi:** beta 2026.11 (controllo stasera), test a casa dell'owner, settimana del 9 novembre: AEM 2027 e controllo prima del lancio; dicembre: Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
 
+- **28 ottobre 2026, sera** (controllo programmato):
+  - ✅ **Home Assistant 2026.11.0b0** (uscita oggi) provata su un Home Assistant vero con dati reali: tutte le 8 configurazioni caricate (Lugano, Zurigo, Losanna, Basilea, Ittigen, Aesch/Primeo dinamica, Italia a fasce e PUN), valori uguali alla 2026.10.4; card e guida nel browser senza errori. Il primo avvio di un'installazione nuova impiega circa un minuto prima di caricare le integrazioni: normale;
+  - letti gli avvisi per gli sviluppatori di ottobre (step_id obbligatorio dal 2027.5, DeviceInfo dataclass, RestoreStateData.last_states rimosso, categorie delle integrazioni): Corrente è già a posto (tutti i form e il menu hanno lo step_id; DeviceInfo costruito con argomenti; i valori ripristinati passano da RestoreSensor);
+  - i test automatici non girano ancora sulla beta: il pacchetto di test per le integrazioni personalizzate (pytest-homeassistant-custom-component 0.13.375) è fatto per la 2026.10.4 e non si avvia con la beta (cambio di libreria httpx → httpx2). Si rifanno appena esce la versione per la 2026.11;
+  - nessuna modifica al codice.
+  - **Prossimi pezzi:** test automatici sulla 2026.11 appena esce il pacchetto di test; test a casa dell'owner; settimana del 9 novembre: AEM 2027 e controllo prima del lancio; dicembre: Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
