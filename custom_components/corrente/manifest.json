@@ -2,6 +2,7 @@
   "domain": "corrente",
   "name": "Corrente",
   "after_dependencies": [
+    "energy",
     "frontend",
     "http",
     "panel_custom",
