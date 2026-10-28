@@ -376,6 +376,12 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ v0.3.4; 253 test.
   - **Prossimi pezzi:** come sopra; gennaio anche: ricontrollare le voci federali nei prezzi dinamici di Primeo 2027.
 
+- **28 ottobre 2026** (sessione automatica e owner: «ok, vai avanti»):
+  - nessuna richiesta nuova (GitHub e modulo); Home Assistant 2026.11 beta non ancora uscita al mattino (controllo programmato per la sera);
+  - ✅ prova completa su Home Assistant vero con dati di oggi: tutte le 8 configurazioni caricate senza errori (Lugano, Zurigo, Losanna, Basilea, Ittigen, Aesch/Primeo dinamica, Italia a fasce e PUN). Il PUN alto di oggi (circa 230 €/MWh di giorno, oltre 400 la sera) è quello vero: controllato sul file originale del GME;
+  - ✅ controllo di regressione sui file salvati: rete entro 0,6 Rp da ElCom per 293 gestori su 309 nel 2027 (95%, come prima) e 234 su 262 nel 2026; festivi italiani 2027 e cambi d'ora già coperti dai test;
+  - nessuna modifica al codice: resta la 0.3.4.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
