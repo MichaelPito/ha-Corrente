@@ -1,6 +1,6 @@
 {
  "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
- "version": "0.3.6",
+ "version": "0.3.7",
  "tour": [
   "welcome",
   "setup_italy",
@@ -1223,6 +1223,28 @@
   }
  ],
  "whats_new": [
+  {
+   "version": "0.3.7",
+   "date": "2026-10-29",
+   "items": {
+    "en": [
+     "The card says when the price is not available yet, and is lighter on tablets.",
+     "The full guide keeps its place when you read a single topic or exit, and \"Show both countries\" now works."
+    ],
+    "it": [
+     "La card dice quando il prezzo non è ancora disponibile, ed è più leggera sui tablet.",
+     "La guida completa ricorda dove eri quando leggi un solo argomento o esci, e \"Mostra entrambi i paesi\" ora funziona."
+    ],
+    "de": [
+     "Die Karte zeigt an, wenn der Preis noch nicht verfügbar ist, und ist auf Tablets sparsamer.",
+     "Die ganze Anleitung merkt sich die Stelle, wenn du ein einzelnes Thema liest oder sie beendest, und \"Beide Länder zeigen\" funktioniert jetzt."
+    ],
+    "fr": [
+     "La carte indique quand le prix n'est pas encore disponible, et elle est plus légère sur les tablettes.",
+     "Le guide complet garde votre position quand vous lisez un seul sujet ou le quittez, et \"Afficher les deux pays\" fonctionne maintenant."
+    ]
+   }
+  },
   {
    "version": "0.3.6",
    "date": "2026-10-28",

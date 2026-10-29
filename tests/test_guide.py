@@ -293,3 +293,36 @@ async def test_energy_dashboard_status(
         await client.send_json({"id": 1, "type": "corrente/guide"})
         answer = await client.receive_json()
     assert answer["result"]["status"]["energy"] == expected
+
+
+def test_feed_in_price_does_not_count() -> None:
+    """2025.10 layout: Corrente's price as the feed-in compensation is not the grid price."""
+    prefs = {
+        "energy_sources": [
+            {
+                "type": "grid",
+                "flow_from": [{"stat_energy_from": "sensor.grid"}],
+                "flow_to": [
+                    {"stat_energy_to": "sensor.out", "entity_energy_price": "sensor.corrente_pun"}
+                ],
+            }
+        ]
+    }
+    assert _price_entities(prefs) == ([], True)
+
+
+async def test_energy_settings_that_cannot_be_read(
+    hass: HomeAssistant, hass_ws_client: WebSocketGenerator
+) -> None:
+    """The energy badge is optional: if the settings cannot be read, the guide still works."""
+    await _setup(hass)
+    hass.config.components.add("energy")
+    with patch(
+        "homeassistant.components.energy.data.async_get_manager",
+        new=AsyncMock(side_effect=RuntimeError("changed")),
+    ):
+        client = await hass_ws_client(hass)
+        await client.send_json({"id": 1, "type": "corrente/guide"})
+        answer = await client.receive_json()
+    assert answer["success"]
+    assert answer["result"]["status"]["energy"] == ""

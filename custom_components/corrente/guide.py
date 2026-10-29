@@ -7,6 +7,7 @@ languages); a test fails a release that does not update it. See docs/ONBOARDING.
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
 from typing import Any
 
@@ -36,6 +37,8 @@ _REGISTERED = f"{DOMAIN}_guide_registered"
 _CONTENT = f"{DOMAIN}_guide_content"
 _STORE_VERSION = 1
 NOTIFICATION_ID = f"{DOMAIN}_guide"
+
+_LOGGER = logging.getLogger(__name__)
 
 DONE, TODO, NOT_NEEDED = "done", "todo", "na"
 
@@ -108,28 +111,29 @@ def _entries(hass: HomeAssistant) -> list[dict[str, Any]]:
 
 
 def _price_entities(node: Any) -> tuple[list[str], bool]:
-    """The price entities in the energy settings, and whether a grid source is set up.
+    """The grid's import price entities in the energy settings, and whether a grid
+    source is set up.
 
     Searched through the whole settings: their layout changed between Home Assistant
-    versions (2025.10: "flow_from" lists; later: one entry per source).
+    versions (2025.10: "flow_from" and "flow_to" lists; later: one entry per source,
+    with "entity_energy_price_export" for feed-in). Feed-in prices ("flow_to") do not
+    count: the topic is about pricing what the home buys.
     """
     prices: list[str] = []
     grid = False
+    children: list[Any] = []
     if isinstance(node, dict):
-        if node.get("type") == "grid":
-            grid = True
-        for key, value in node.items():
-            if key == "entity_energy_price" and isinstance(value, str):
-                prices.append(value)
-            else:
-                found, has_grid = _price_entities(value)
-                prices += found
-                grid = grid or has_grid
+        grid = node.get("type") == "grid"
+        price = node.get("entity_energy_price")
+        if isinstance(price, str):
+            prices.append(price)
+        children = [value for key, value in node.items() if key != "flow_to"]
     elif isinstance(node, list):
-        for value in node:
-            found, has_grid = _price_entities(value)
-            prices += found
-            grid = grid or has_grid
+        children = node
+    for child in children:
+        found, has_grid = _price_entities(child)
+        prices += found
+        grid = grid or has_grid
     return prices, grid
 
 
@@ -141,8 +145,12 @@ async def _async_energy_status(hass: HomeAssistant) -> str:
     from homeassistant.components.energy.data import async_get_manager
     from homeassistant.helpers import entity_registry as er
 
-    manager = await async_get_manager(hass)
-    prices, grid = _price_entities(manager.data or {})
+    try:
+        manager = await async_get_manager(hass)
+        prices, grid = _price_entities(manager.data or {})
+    except Exception:  # noqa: BLE001 - an optional badge must never break the guide
+        _LOGGER.debug("Could not read the energy settings", exc_info=True)
+        return ""
     registry = er.async_get(hass)
     if any((e := registry.async_get(p)) and e.platform == DOMAIN for p in prices):
         return DONE
