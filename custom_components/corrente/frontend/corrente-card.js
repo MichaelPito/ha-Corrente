@@ -7,16 +7,16 @@
 
 const STRINGS = {
   en: { now: "Now", best: "Best time to start", for: "for", hours: "h", avg: "avg",
-        next: "Next hours", cheap: "cheaper", dear: "dearer", unavailable: "Corrente: sensor not found",
+        next: "Next hours", cheap: "cheaper", dear: "dearer", unavailable: "Corrente: sensor not found", waiting: "Price not available yet",
         startNow: "now", tomorrow: "tomorrow", suggest: "Suggest a change", guide: "Guide", elcom: "Tariffs: grid operator files via ElCom open data" },
   it: { now: "Adesso", best: "Momento migliore per avviare", for: "per", hours: "h", avg: "media",
-        next: "Prossime ore", cheap: "più economico", dear: "più caro", unavailable: "Corrente: sensore non trovato",
+        next: "Prossime ore", cheap: "più economico", dear: "più caro", unavailable: "Corrente: sensore non trovato", waiting: "Prezzo non ancora disponibile",
         startNow: "adesso", tomorrow: "domani", suggest: "Suggerisci una modifica", guide: "Guida", elcom: "Tariffe: file dei gestori di rete tramite i dati aperti ElCom" },
   de: { now: "Jetzt", best: "Beste Startzeit", for: "für", hours: "Std.", avg: "Ø",
-        next: "Nächste Stunden", cheap: "günstiger", dear: "teurer", unavailable: "Corrente: Sensor nicht gefunden",
+        next: "Nächste Stunden", cheap: "günstiger", dear: "teurer", unavailable: "Corrente: Sensor nicht gefunden", waiting: "Preis noch nicht verfügbar",
         startNow: "jetzt", tomorrow: "morgen", suggest: "Änderung vorschlagen", guide: "Anleitung", elcom: "Tarife: Dateien der Netzbetreiber über die offenen Daten der ElCom" },
   fr: { now: "Maintenant", best: "Meilleur moment pour démarrer", for: "pendant", hours: "h", avg: "moy.",
-        next: "Prochaines heures", cheap: "moins cher", dear: "plus cher", unavailable: "Corrente : capteur introuvable",
+        next: "Prochaines heures", cheap: "moins cher", dear: "plus cher", unavailable: "Corrente : capteur introuvable", waiting: "Prix pas encore disponible",
         startNow: "maintenant", tomorrow: "demain", suggest: "Suggérer une modification", guide: "Guide", elcom: "Tarifs : fichiers des gestionnaires de réseau via les données ouvertes de l'ElCom" },
 };
 
@@ -59,11 +59,19 @@ class CorrenteCard extends HTMLElement {
       throw new Error("Set 'entity' to Corrente's price sensor");
     }
     this._config = config;
+    this._drawn = null;
     if (!this.shadowRoot) this.attachShadow({ mode: "open" });
   }
 
+  // Home Assistant passes hass on every state change in the house: redraw only when
+  // Corrente's sensor or the language changes, or once a minute for the "now" mark.
   set hass(hass) {
     this._hass = hass;
+    const state = this._config ? hass.states[this._config.entity] : undefined;
+    const minute = Math.floor(Date.now() / 60000);
+    const key = this._drawn;
+    if (key && key.state === state && key.language === hass.language && key.minute === minute) return;
+    this._drawn = { state, language: hass.language, minute };
     this._render();
   }
 
@@ -77,11 +85,15 @@ class CorrenteCard extends HTMLElement {
     const t = strings(hass);
     const state = hass.states[this._config.entity];
     if (!state) {
-      this.shadowRoot.innerHTML = `<ha-card><div class="msg">${t.unavailable}: ${this._config.entity}</div></ha-card>`;
+      this.shadowRoot.innerHTML = `<ha-card><div class="msg" style="padding: 16px">${t.unavailable}: ${this._config.entity}</div></ha-card>`;
       return;
     }
     const unit = state.attributes.unit_of_measurement || "EUR/kWh";
     const price = Number(state.state);
+    if (state.state === "" || !Number.isFinite(price)) {  // unavailable or unknown
+      this.shadowRoot.innerHTML = `<ha-card><div class="msg" style="padding: 16px">Corrente: ${t.waiting}</div></ha-card>`;
+      return;
+    }
     const now = new Date();
     const horizon = new Date(now.getTime() + HOURS_SHOWN * 3600 * 1000);
     const segments = (state.attributes.schedule || [])

@@ -398,6 +398,11 @@ esperto. Le richieste diventano la roadmap pubblica.
   - nessuna modifica al codice.
   - **Prossimi pezzi:** test automatici sulla 2026.11 appena esce il pacchetto di test; test a casa dell'owner; settimana del 9 novembre: AEM 2027 e controllo prima del lancio; dicembre: Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
 
+- **29 ottobre 2026** (sessione automatica e owner: «ok, vai avanti»):
+  - nessuna richiesta nuova; il pacchetto di test per la 2026.11 non è ancora uscito;
+  - ✅ **revisione del codice della guida e della card**: 10 segnalazioni, 8 corrette e provate nel browser su Home Assistant vero (posizione della guida completa salvata male o persa, «mostra entrambi i paesi» senza effetto, pagina vuota se la guida non si carica, link che non aprivano la pagina giusta a guida aperta, card con «NaN» a prezzo non disponibile e ridisegnata a ogni cambiamento della casa, prezzo di immissione contato come prezzo della rete, impostazioni energia illeggibili che bloccavano la guida); le altre 2 sono pulizia del codice, rimandate;
+  - ✅ v0.3.7; 275 test.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

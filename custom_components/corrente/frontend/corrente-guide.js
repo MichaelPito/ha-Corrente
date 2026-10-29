@@ -90,11 +90,33 @@ class CorrenteGuidePanel extends HTMLElement {
     } catch (err) {
       this._error = err && err.message ? err.message : String(err);
     }
+    if (this._data) this._followUrl();
+    this._render();
+  }
+
+  // ?tour=1, ?topic=<id>: when the panel opens, and when a link (the update notice,
+  // the card) leads here while it is already open.
+  _followUrl() {
     const params = new URLSearchParams(window.location.search);
     if (params.get("tour")) this._startTour(params.get("tour") === "restart");
     else if (params.get("topic") === "whats_new") this._view = "news";
     else if (params.get("topic") && this._find(params.get("topic"))) this._open(params.get("topic"));
-    this._render();
+  }
+
+  connectedCallback() {
+    this._onLocation = () => {
+      if (!this._data || !window.location.pathname.startsWith("/corrente-guide")) return;
+      if (!window.location.search) return;
+      this._followUrl();
+      this._render();
+    };
+    window.addEventListener("location-changed", this._onLocation);
+    window.addEventListener("popstate", this._onLocation);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener("location-changed", this._onLocation);
+    window.removeEventListener("popstate", this._onLocation);
   }
 
   // --- content helpers ---
@@ -129,10 +151,15 @@ class CorrenteGuidePanel extends HTMLElement {
     return topic.countries.some((c) => countries.includes(c));
   }
 
+  // "na": not needed for the countries set up; shown anyway with "show both countries".
+  _needed(topic) {
+    return this._showAll || this._status(topic) !== "na";
+  }
+
   _tourTopics() {
     return this._data.content.tour
       .map((id) => this._find(id))
-      .filter((t) => t && this._relevant(t) && this._status(t) !== "na");
+      .filter((t) => t && this._relevant(t) && this._needed(t));
   }
 
   // --- navigation ---
@@ -150,11 +177,14 @@ class CorrenteGuidePanel extends HTMLElement {
     if (!ids.includes(topic)) [topic, step] = [ids[0], "0"];
     this._view = "tour";
     this._topic = topic;
-    this._step = Number(step) || 0;
+    // The guide changes with each release: a saved step may no longer exist.
+    const steps = this._find(topic).steps.length;
+    this._step = Math.min(Math.max(Number(step) || 0, 0), steps - 1);
   }
 
+  // Only the full guide remembers where it is; reading one topic leaves it alone.
   _saveTour() {
-    storageSet(TOUR_KEY, this._view === "tour" ? `${this._topic}:${this._step}` : null);
+    if (this._view === "tour") storageSet(TOUR_KEY, `${this._topic}:${this._step}`);
   }
 
   _move(delta) {
@@ -170,8 +200,8 @@ class CorrenteGuidePanel extends HTMLElement {
     }
     if (index < 0) return;
     if (index >= topics.length) {
+      if (this._view === "tour") storageSet(TOUR_KEY, null);  // the full guide is done
       this._view = this._view === "tour" ? "finished" : "home";
-      storageSet(TOUR_KEY, null);
     } else {
       this._topic = topics[index].id;
       this._step = step;
@@ -220,7 +250,7 @@ class CorrenteGuidePanel extends HTMLElement {
   }
 
   _homeHtml() {
-    const topics = this._data.content.topics.filter((t) => this._relevant(t) && this._status(t) !== "na");
+    const topics = this._data.content.topics.filter((t) => this._relevant(t) && this._needed(t));
     const forYou = this._tourTopics().filter((t) => this._status(t) === "todo");
     const resume = storageGet(TOUR_KEY);
     const news = this._data.content.whats_new[0];
@@ -374,7 +404,7 @@ class CorrenteGuidePanel extends HTMLElement {
     on("next", () => this._move(1));
     on("back", () => this._move(-1));
     on("skip", () => this._skipTopic());
-    on("exit", () => { storageSet(TOUR_KEY, null); this._home(); });
+    on("exit", () => this._home());  // the full guide keeps its place: "Continue" goes back
     on("action", (ev) => this._navigate(ev.currentTarget.dataset.path));
     const all = root.getElementById("all");
     if (all) all.addEventListener("change", () => {

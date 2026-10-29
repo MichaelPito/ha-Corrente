@@ -2,6 +2,14 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.7] — 2026-10-29
+
+### Fixed
+- Card: while the price is not available (at startup, or while a data source is down) the card says so instead of showing "NaN".
+- Card: redrawn only when Corrente's price changes, or once a minute, instead of at every state change in the house (lighter on tablets, steadier tooltips).
+- Guide: a full guide left at a step that a later version removed opens at the topic's last step instead of a blank page; reading a single topic no longer erases where the full guide was; "Exit the guide" keeps the place, so "Continue" goes back to it; "Show both countries" now shows the other country's topics; links that arrive while the guide is open (the update notice, the card) open the right page; if the guide cannot load, it says why.
+- Guide: the energy dashboard topic counts only the price of what the home buys (not a feed-in price), and an energy setup that cannot be read no longer stops the guide.
+
 ## [0.3.6] — 2026-10-28
 
 ### Added
