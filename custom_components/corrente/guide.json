@@ -1,6 +1,6 @@
 {
  "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
- "version": "0.3.7",
+ "version": "0.3.8",
  "tour": [
   "welcome",
   "setup_italy",
@@ -1223,6 +1223,24 @@
   }
  ],
  "whats_new": [
+  {
+   "version": "0.3.8",
+   "date": "2026-10-30",
+   "items": {
+    "en": [
+     "Switzerland: when your operator's website does not answer, the prices stay: Corrente uses the last copy of the tariff file, also after a restart."
+    ],
+    "it": [
+     "Svizzera: se il sito del gestore non risponde, i prezzi restano: Corrente usa l'ultima copia del file delle tariffe, anche dopo un riavvio."
+    ],
+    "de": [
+     "Schweiz: Wenn die Website deines Netzbetreibers nicht antwortet, bleiben die Preise: Corrente verwendet die letzte Kopie der Tarifdatei, auch nach einem Neustart."
+    ],
+    "fr": [
+     "Suisse : si le site de votre gestionnaire ne répond pas, les prix restent : Corrente utilise la dernière copie du fichier des tarifs, même après un redémarrage."
+    ]
+   }
+  },
   {
    "version": "0.3.7",
    "date": "2026-10-29",

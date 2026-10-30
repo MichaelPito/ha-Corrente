@@ -2,6 +2,11 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.8] — 2026-10-30
+
+### Fixed
+- Switzerland: when the operator's website does not answer (Lausanne's reset every connection for hours on 30 October 2026), Corrente keeps the prices of the last copy of its tariff file instead of making the sensors unavailable, also after a restart. It tries again at every refresh; the price sensor's attribute `tariff_file_offline_copy` says when the copy is in use. At the new year an old copy has no prices for the new year, so Repairs still explains a missing file.
+
 ## [0.3.7] — 2026-10-29
 
 ### Fixed
