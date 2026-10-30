@@ -374,3 +374,83 @@ async def test_metering_from_elcom_in_the_fixed_charges(
     assert fixed.attributes["metering_from_elcom"] == pytest.approx(
         metering * (1 + SWISS_VAT), abs=0.01
     )
+
+
+def _price(hass: HomeAssistant, entry: MockConfigEntry):
+    entity_id = er.async_get(hass).async_get_entity_id("sensor", DOMAIN, f"{entry.entry_id}_price")
+    return hass.states.get(entity_id)
+
+
+async def test_operator_site_down_keeps_the_last_copy(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker, freezer: FrozenDateTimeFactory
+) -> None:
+    """Lausanne, 30 October 2026: the operator's site resets connections for hours. The
+    file read in the morning still has today's prices: the sensors keep them."""
+    freezer.move_to(WEDNESDAY_10AM)
+    aioclient_mock.post(
+        LINDAS_ENDPOINT, text=(FIXTURES / "lindas-lugano-2027.json").read_text("utf-8")
+    )
+    aioclient_mock.get(AIL_URL, content=(FIXTURES / "ail-2027.json").read_bytes())
+    entry = MockConfigEntry(domain=DOMAIN, data=AIL_DAY_NIGHT)
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    before = _price(hass, entry).state
+
+    aioclient_mock.clear_requests()
+    aioclient_mock.post(LINDAS_ENDPOINT, status=500)  # 503 is retried after 2 s
+    aioclient_mock.get(AIL_URL, status=500)
+    freezer.tick(timedelta(hours=12, minutes=1))  # the file is read again twice a day
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done()
+
+    price = _price(hass, entry)
+    assert before != "unavailable"
+    low = (0.086 + 0.061 + 0.0102 + 0.012 + 0.0285) * (1 + SWISS_VAT)  # 22:01: night price
+    assert float(price.state) == pytest.approx(low, abs=1e-5)
+    assert price.attributes["tariff_file_offline_copy"] is True
+    assert (
+        ir.async_get(hass).async_get_issue(DOMAIN, f"no_tariffs_in_force_{entry.entry_id}") is None
+    )
+
+
+async def test_restart_while_the_site_is_down(
+    hass: HomeAssistant,
+    aioclient_mock: AiohttpClientMocker,
+    freezer: FrozenDateTimeFactory,
+    hass_storage: dict,
+) -> None:
+    """After a restart the copy on disk is used if it has today's prices."""
+    freezer.move_to(WEDNESDAY_10AM)
+    entry = MockConfigEntry(domain=DOMAIN, data=AIL_DAY_NIGHT)
+    document = json.loads((FIXTURES / "ail-2027.json").read_text("utf-8"))
+    hass_storage[f"corrente.tariff_file.{entry.entry_id}"] = {
+        "version": 1, "key": f"corrente.tariff_file.{entry.entry_id}",
+        "data": {"url": AIL_URL, "document": document},
+    }  # fmt: skip
+    aioclient_mock.post(LINDAS_ENDPOINT, status=500)  # 503 is retried after 2 s
+    aioclient_mock.get(AIL_URL, status=500)
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    assert entry.state is ConfigEntryState.LOADED
+    price = _price(hass, entry)
+    high = (0.0975 + 0.068 + 0.0102 + 0.012 + 0.0285) * (1 + SWISS_VAT)
+    assert float(price.state) == pytest.approx(high, abs=1e-5)
+    assert price.attributes["tariff_file_offline_copy"] is True
+
+
+async def test_copy_saved_and_removed_with_the_entry(
+    hass: HomeAssistant, mock_ch: AiohttpClientMocker, freezer: FrozenDateTimeFactory,
+    hass_storage: dict,
+) -> None:  # fmt: skip
+    freezer.move_to(WEDNESDAY_10AM)
+    entry = MockConfigEntry(domain=DOMAIN, data=AIL_DAY_NIGHT)
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    key = f"corrente.tariff_file.{entry.entry_id}"
+    assert hass_storage[key]["data"]["url"] == AIL_URL
+    await hass.config_entries.async_remove(entry.entry_id)
+    await hass.async_block_till_done()
+    assert key not in hass_storage

@@ -556,6 +556,8 @@ class SwissSensor(CoordinatorEntity[SwissTariffCoordinator], SensorEntity):
             "schedule_gap_filled": gap,
             "source": self.coordinator.data.source_url,
             "federal_charges_checked_with_elcom": self.coordinator.data.federal_checked,
+            # The operator's site does not answer: prices from the last copy of its file.
+            "tariff_file_offline_copy": self.coordinator.data.offline_copy,
             **_schedule_attributes(swiss_schedule(contract, now, SCHEDULE_HORIZON), self._duration),
         }
 

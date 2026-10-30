@@ -214,3 +214,5 @@ Quindi Corrente **non** aggiunge più sempre le stesse voci. Per ogni gestore e 
 
 **Limite noto:** per EKZ "400F" riserva elettrica e costi solidali (circa 0,46 Rp nel 2026) potrebbero non essere né nel file né aggiunti da Corrente: errore massimo stimato intorno all'1,5%. Prima della correzione il prezzo EKZ era gonfiato di circa il 13% (voci contate due volte).
 
+### Siti dei gestori che non rispondono
+- 30 ottobre 2026: `www.lausanne.ch` interrompe le connessioni (e `lausanne.ch` risponde 503) per ore, dal server cloud. Dalla v0.3.8 Corrente tiene l'ultima copia del file (in memoria e su disco, `.storage/corrente.tariff_file.<entry>`) e la usa finché ha prezzi in vigore oggi.

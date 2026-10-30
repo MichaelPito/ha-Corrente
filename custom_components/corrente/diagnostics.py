@@ -78,6 +78,7 @@ async def async_get_config_entry_diagnostics(
                 price_now = None
             result["switzerland"] = {
                 "source_url": data.source_url,
+                "offline_copy": data.offline_copy,
                 "tariffs_in_file": len(data.tariffs),
                 "canton": contract.canton,
                 "municipality": contract.municipality,

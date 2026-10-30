@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import zlib
 from dataclasses import dataclass, replace
@@ -11,6 +12,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.storage import Store
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
@@ -72,6 +74,13 @@ class SwissTariffData:
     source_url: str
     # True when the federal charges were checked against ElCom for this operator.
     federal_checked: bool = False
+    # True while the operator's file cannot be downloaded and the last copy is used.
+    offline_copy: bool = False
+
+
+def tariff_file_store(hass: HomeAssistant, entry_id: str) -> Store[dict]:
+    """The last tariff file read for an entry, kept for when the operator's site is down."""
+    return Store(hass, 1, f"{DOMAIN}.tariff_file.{entry_id}")
 
 
 @dataclass(frozen=True, slots=True)
@@ -157,6 +166,11 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
         self._url: str = entry.data[CONF_TARIFF_URL]
         self._checks: dict[tuple, ElcomCheck] = {}
         self._file: tuple[list[Tariff], datetime, date] | None = None
+        # The last file read (url, document), saved to disk when it changes.
+        self._read: tuple[str, dict] | None = None
+        self._saved: int | None = None
+        self._store = tariff_file_store(hass, entry.entry_id)
+        self._offline = False
         self._dynamic: dict[tuple[str, str], list[Segment]] = {}
         self._dynamic_attempt: dict[tuple[str, str], datetime] = {}
         # A stable minute per installation, 0-59, so not everyone calls at once.
@@ -169,11 +183,28 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
         session = async_get_clientsession(self.hass)
         try:
             if self._file is None or now - self._file[1] >= FILE_MAX_AGE or self._file[2] != today:
+                fetched = now
                 tariffs = await self._async_load(session, self._url, today)
-                if tariffs is None:
-                    # A new year, or the operator moved its file: ask ElCom again.
-                    tariffs = await self._async_find_file(session, options, today)
-                self._file = (tariffs, now, today)
+                try:
+                    if tariffs is None:
+                        # A new year, or the operator moved its file: ask ElCom again.
+                        tariffs = await self._async_find_file(session, options, today)
+                    self._offline = False
+                    await self._async_save()
+                except (UpdateFailed, ElcomError):
+                    # The operator's site (or ElCom) does not answer: the last copy is
+                    # still right if it has prices for today. Lausanne, 30 October 2026:
+                    # "connection reset" for hours. Tried again at each refresh.
+                    tariffs = await self._async_last_copy(today)
+                    if tariffs is None:
+                        raise
+                    if not self._offline:
+                        _LOGGER.warning(
+                            "Tariff file not reachable, using the last copy: %s", self._url
+                        )
+                    self._offline = True
+                    fetched = now - FILE_MAX_AGE
+                self._file = (tariffs, fetched, today)
                 issue_id = no_tariffs_issue_id(self.config_entry.entry_id)
                 ir.async_delete_issue(self.hass, DOMAIN, issue_id)
             tariffs = self._file[0]
@@ -190,6 +221,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
             contract=contract,
             source_url=self._url,
             federal_checked=check.federal_per_kwh is not None,
+            offline_copy=self._offline,
         )
 
     async def _async_dynamic(
@@ -293,10 +325,36 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
     async def _async_load(self, session, url: str, today: date) -> list[Tariff] | None:
         """Tariffs from ``url`` if the file is readable and has tariffs in force today."""
         try:
-            tariffs = parse_tariffs(await async_fetch_tariff_document(session, url))
+            document = await async_fetch_tariff_document(session, url)
         except TariffFileError:
             return None
-        return tariffs if tariffs_on(tariffs, "electricity", today) else None
+        tariffs = parse_tariffs(document)
+        if not tariffs_on(tariffs, "electricity", today):
+            return None
+        self._read = (url, document)
+        return tariffs
+
+    async def _async_save(self) -> None:
+        """Keep the file just read on disk, when it changed."""
+        if self._read is None:
+            return
+        digest = hash(json.dumps(self._read[1], sort_keys=True))
+        if digest != self._saved:
+            await self._store.async_save({"url": self._read[0], "document": self._read[1]})
+            self._saved = digest
+
+    async def _async_last_copy(self, today: date) -> list[Tariff] | None:
+        """The last file read (in memory, else on disk) if it has tariffs in force today."""
+        if self._file is not None and tariffs_on(self._file[0], "electricity", today):
+            return self._file[0]
+        saved = await self._store.async_load()
+        if not saved:
+            return None
+        tariffs = parse_tariffs(saved["document"])
+        if not tariffs_on(tariffs, "electricity", today):
+            return None  # a new year: Repairs explains it
+        self._url = saved["url"]
+        return tariffs
 
     async def _async_find_file(self, session, options: dict, today: date) -> list[Tariff]:
         municipality, operator_id = options[CONF_MUNICIPALITY], options[CONF_OPERATOR_ID]

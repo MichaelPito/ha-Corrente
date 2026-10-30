@@ -403,6 +403,11 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **revisione del codice della guida e della card**: 10 segnalazioni, 8 corrette e provate nel browser su Home Assistant vero (posizione della guida completa salvata male o persa, «mostra entrambi i paesi» senza effetto, pagina vuota se la guida non si carica, link che non aprivano la pagina giusta a guida aperta, card con «NaN» a prezzo non disponibile e ridisegnata a ogni cambiamento della casa, prezzo di immissione contato come prezzo della rete, impostazioni energia illeggibili che bloccavano la guida); le altre 2 sono pulizia del codice, rimandate;
   - ✅ v0.3.7; 275 test.
 
+- **30 ottobre 2026** (sessione automatica):
+  - nessuna richiesta nuova; uscita la beta 1 della 2026.11: provata su Home Assistant vero, 7 configurazioni su 8 caricate; l'ottava (Losanna) no perché il sito del Comune di Losanna non risponde (connessione interrotta, poi 503) — non è la beta. Il primo avvio della beta è stato lento per un blocco nella cache dei pacchetti lasciato da un avvio interrotto: problema dell'ambiente di prova;
+  - ✅ **copia di riserva del file delle tariffe**: prima, se il sito del gestore non rispondeva alla rilettura (ogni 12 ore) o dopo un riavvio, i sensori diventavano non disponibili anche se il file letto prima era ancora valido. Ora Corrente tiene l'ultima copia (anche su disco, tolta con la configurazione) e la usa finché ha i prezzi di oggi, riprovando a ogni aggiornamento; attributo `tariff_file_offline_copy`. A inizio anno la copia vecchia non ha prezzi del nuovo anno: Riparazioni lo spiega come prima;
+  - ✅ v0.3.8; 278 test.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

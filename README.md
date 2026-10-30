@@ -130,7 +130,7 @@ automation:
 
 ## Data sources
 
-- **Switzerland:** ElCom open data (LINDAS, Open-Use licence), the tariff files published by grid operators and, for dynamic tariffs, the operators' public price APIs. Federal charges per year are documented in [`docs/FONTI-DATI.md`](docs/FONTI-DATI.md).
+- **Switzerland:** ElCom open data (LINDAS, Open-Use licence), the tariff files published by grid operators (Corrente keeps the last copy, so prices stay when an operator's website is down) and, for dynamic tariffs, the operators' public price APIs. Federal charges per year are documented in [`docs/FONTI-DATI.md`](docs/FONTI-DATI.md).
 - **Italy:** ARERA time-band definitions (TIV, Tabella 6). Wholesale prices: *Fonte: Gestore dei Mercati Energetici S.p.A. (GME)* — downloaded by your own Home Assistant once or twice a day, for personal, non-commercial use, as GME's terms require. Nothing is shared or cached centrally, and no paid feature will ever be based on GME data.
 
 ## Price different from your bill?
