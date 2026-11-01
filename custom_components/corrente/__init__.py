@@ -25,8 +25,13 @@ from .const import (
     COUNTRY_SWITZERLAND,
     DOMAIN,
 )
-from .coordinator import SwissTariffCoordinator, no_tariffs_issue_id, tariff_file_store
-from .coordinator_gme import GmePriceCoordinator
+from .coordinator import (
+    SwissTariffCoordinator,
+    elcom_check_store,
+    no_tariffs_issue_id,
+    tariff_file_store,
+)
+from .coordinator_gme import GmePriceCoordinator, gme_store
 from .core.contract import ItalyContractType, ItalyFixedContract, ItalyIndexedContract
 from .guide import async_dismiss_notification, async_setup_guide
 
@@ -119,7 +124,8 @@ async def async_unload_entry(hass: HomeAssistant, entry: CorrenteConfigEntry) ->
 async def async_remove_entry(hass: HomeAssistant, entry: CorrenteConfigEntry) -> None:
     """Remove what the entry left in Repairs, and the guide's notice with the last entry."""
     ir.async_delete_issue(hass, DOMAIN, no_tariffs_issue_id(entry.entry_id))
-    await tariff_file_store(hass, entry.entry_id).async_remove()
+    for store in (tariff_file_store, elcom_check_store, gme_store):
+        await store(hass, entry.entry_id).async_remove()
     if not any(e.entry_id != entry.entry_id for e in hass.config_entries.async_entries(DOMAIN)):
         async_dismiss_notification(hass)
 

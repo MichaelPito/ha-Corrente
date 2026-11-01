@@ -2,6 +2,12 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.9] — 2026-11-01
+
+### Fixed
+- Switzerland: when ElCom's open data does not answer, Corrente uses its last check of the federal charges and fees for the same tariffs, instead of adding all federal charges (2.85 Rp./kWh too many where the grid tariff already holds them, as at EKZ). Kept on disk, so also after a restart.
+- Italy, PUN contracts: GME's prices downloaded before a restart are kept on disk: if GME does not answer after the restart, the sensors keep working with them as long as they cover the current quarter hour.
+
 ## [0.3.8] — 2026-10-30
 
 ### Fixed

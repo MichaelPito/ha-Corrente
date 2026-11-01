@@ -408,6 +408,12 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ **copia di riserva del file delle tariffe**: prima, se il sito del gestore non rispondeva alla rilettura (ogni 12 ore) o dopo un riavvio, i sensori diventavano non disponibili anche se il file letto prima era ancora valido. Ora Corrente tiene l'ultima copia (anche su disco, tolta con la configurazione) e la usa finché ha i prezzi di oggi, riprovando a ogni aggiornamento; attributo `tariff_file_offline_copy`. A inizio anno la copia vecchia non ha prezzi del nuovo anno: Riparazioni lo spiega come prima;
   - ✅ v0.3.8; 278 test.
 
+- **1 novembre 2026** (owner: «ok, vai avanti»):
+  - pacchetto di test per la 2026.11 non ancora uscito (la 2026.11 esce il 4 novembre);
+  - ✅ **stessa protezione per le altre fonti**: se ElCom non risponde, si usa l'ultimo controllo delle voci federali e dei tributi per le stesse tariffe (prima si aggiungevano tutte le voci federali: 2,85 Rp in più dove la rete le comprende già, come EKZ); per i contratti PUN, i prezzi del GME scaricati prima di un riavvio restano su disco e si usano se il GME non risponde. Tutto tolto con la configurazione;
+  - ✅ v0.3.9; 280 test.
+  - **Prossimi pezzi:** test automatici sulla 2026.11 quando esce il pacchetto (4–5 novembre); test a casa dell'owner; settimana del 9 novembre: AEM 2027 e controllo prima del lancio; dicembre: Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,

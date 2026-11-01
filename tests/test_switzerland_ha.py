@@ -454,3 +454,31 @@ async def test_copy_saved_and_removed_with_the_entry(
     await hass.config_entries.async_remove(entry.entry_id)
     await hass.async_block_till_done()
     assert key not in hass_storage
+
+
+async def test_restart_while_elcom_is_down_keeps_the_last_check(
+    hass: HomeAssistant,
+    aioclient_mock: AiohttpClientMocker,
+    freezer: FrozenDateTimeFactory,
+    hass_storage: dict,
+) -> None:
+    """Without ElCom all federal charges would be added; the last check for the same
+    file and tariffs is used instead (here: charges already in the grid tariff)."""
+    freezer.move_to(WEDNESDAY_10AM)
+    entry = MockConfigEntry(domain=DOMAIN, data=AIL_DAY_NIGHT)
+    key = json.dumps(
+        [AIL_URL, 2027, AIL_DAY_NIGHT["grid_tariff"], [AIL_DAY_NIGHT["regional_tariff"]]]
+    )
+    hass_storage[f"corrente.elcom_check.{entry.entry_id}"] = {
+        "version": 1, "key": f"corrente.elcom_check.{entry.entry_id}",
+        "data": {key: {"federal_per_kwh": 0.0, "other_fees_per_kwh": 0.0,
+                       "grid_monthly_base": None, "metering_monthly": 0.0}},
+    }  # fmt: skip
+    aioclient_mock.post(LINDAS_ENDPOINT, status=500)
+    aioclient_mock.get(AIL_URL, content=(FIXTURES / "ail-2027.json").read_bytes())
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    price = _price(hass, entry)
+    without_charges = (0.0975 + 0.068 + 0.0102 + 0.012) * (1 + SWISS_VAT)
+    assert float(price.state) == pytest.approx(without_charges, abs=1e-5)
