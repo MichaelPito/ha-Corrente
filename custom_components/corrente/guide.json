@@ -1,6 +1,6 @@
 {
  "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
- "version": "0.3.8",
+ "version": "0.3.9",
  "tour": [
   "welcome",
   "setup_italy",
@@ -1223,6 +1223,28 @@
   }
  ],
  "whats_new": [
+  {
+   "version": "0.3.9",
+   "date": "2026-11-01",
+   "items": {
+    "en": [
+     "Switzerland: if ElCom does not answer, the last check of the federal charges is used: no extra charges by mistake.",
+     "Italy, PUN: after a restart while GME does not answer, the prices downloaded before are used."
+    ],
+    "it": [
+     "Svizzera: se ElCom non risponde, si usa l'ultimo controllo delle voci federali: niente voci in più per errore.",
+     "Italia, PUN: dopo un riavvio mentre il GME non risponde, si usano i prezzi scaricati prima."
+    ],
+    "de": [
+     "Schweiz: Wenn die ElCom nicht antwortet, wird die letzte Prüfung der Bundesabgaben verwendet: keine Abgaben zu viel aus Versehen.",
+     "Italien, PUN: Nach einem Neustart, während der GME nicht antwortet, werden die vorher geladenen Preise verwendet."
+    ],
+    "fr": [
+     "Suisse : si l'ElCom ne répond pas, le dernier contrôle des redevances fédérales est utilisé : pas de redevances en trop par erreur.",
+     "Italie, PUN : après un redémarrage pendant que le GME ne répond pas, les prix téléchargés avant sont utilisés."
+    ]
+   }
+  },
   {
    "version": "0.3.8",
    "date": "2026-10-30",

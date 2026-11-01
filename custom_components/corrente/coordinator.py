@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import logging
 import zlib
-from dataclasses import dataclass, replace
+from dataclasses import asdict, dataclass, replace
 from datetime import UTC, date, datetime, time, timedelta
 
 from homeassistant.config_entries import ConfigEntry
@@ -81,6 +81,11 @@ class SwissTariffData:
 def tariff_file_store(hass: HomeAssistant, entry_id: str) -> Store[dict]:
     """The last tariff file read for an entry, kept for when the operator's site is down."""
     return Store(hass, 1, f"{DOMAIN}.tariff_file.{entry_id}")
+
+
+def elcom_check_store(hass: HomeAssistant, entry_id: str) -> Store[dict]:
+    """The last ElCom checks of an entry, kept for when ElCom does not answer."""
+    return Store(hass, 1, f"{DOMAIN}.elcom_check.{entry_id}")
 
 
 @dataclass(frozen=True, slots=True)
@@ -170,6 +175,7 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
         self._read: tuple[str, dict] | None = None
         self._saved: int | None = None
         self._store = tariff_file_store(hass, entry.entry_id)
+        self._check_store = elcom_check_store(hass, entry.entry_id)
         self._offline = False
         self._dynamic: dict[tuple[str, str], list[Segment]] = {}
         self._dynamic_attempt: dict[tuple[str, str], datetime] = {}
@@ -280,7 +286,11 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
         try:
             operators = await async_operators_for(session, options[CONF_MUNICIPALITY], today.year)
         except ElcomError:
-            return ElcomCheck()  # try again at the next refresh; meanwhile add all charges
+            # Tried again at the next refresh. Meanwhile the last check for the same
+            # file and tariffs, if any: without it all federal charges are added, 2.85 Rp.
+            # too many where the grid tariff holds them (EKZ).
+            saved = (await self._check_store.async_load() or {}).get(json.dumps(list(key)))
+            return ElcomCheck(**saved) if saved else ElcomCheck()
         federal, other_fees, grid_base, metering = None, 0.0, None, 0.0
         options_contract = select_contract(tariffs, options, today)  # the user's tariffs
         for operator in operators:
@@ -320,6 +330,9 @@ class SwissTariffCoordinator(DataUpdateCoordinator[SwissTariffData]):
                 )
             break
         self._checks[key] = ElcomCheck(federal, other_fees, grid_base, metering)
+        saved = await self._check_store.async_load() or {}
+        saved[json.dumps(list(key))] = asdict(self._checks[key])
+        await self._check_store.async_save(saved)
         return self._checks[key]
 
     async def _async_load(self, session, url: str, today: date) -> list[Tariff] | None:

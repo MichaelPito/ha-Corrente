@@ -145,3 +145,32 @@ async def test_tomorrow_is_fetched_after_publication_only(
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
     assert aioclient_mock.call_count == 1
+
+
+async def test_restart_while_gme_is_down(
+    hass: HomeAssistant,
+    aioclient_mock: AiohttpClientMocker,
+    freezer: FrozenDateTimeFactory,
+    hass_storage: dict,
+) -> None:
+    """The prices downloaded before a restart are kept on disk and used while GME is down."""
+    freezer.move_to(rome(2026, 10, 7, 0, 5))
+    aioclient_mock.get(GME_URL, content=ZIP)
+    entry = await _setup(hass)
+    key = f"corrente.gme.{entry.entry_id}"
+    saved = hass_storage[key]
+    assert saved["data"]
+
+    # Restart three hours later with GME not answering.
+    await hass.config_entries.async_unload(entry.entry_id)
+    aioclient_mock.clear_requests()
+    aioclient_mock.get(GME_URL, status=500)
+    freezer.tick(timedelta(hours=3))
+    await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    assert entry.state is ConfigEntryState.LOADED
+    assert _state(hass, entry, "price").state not in ("unknown", "unavailable")
+
+    await hass.config_entries.async_remove(entry.entry_id)
+    await hass.async_block_till_done()
+    assert key not in hass_storage
