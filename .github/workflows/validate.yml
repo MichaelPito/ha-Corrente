@@ -28,5 +28,6 @@ jobs:
       - uses: hacs/action@main
         with:
           category: integration
-          # Brand assets, repository description and topics are set before the public launch.
-          ignore: brands description topics
+          # Description and topics are set by the owner at the public launch; then this line
+          # goes: the catalog accepts only a run without "ignore" (brand: custom_components/corrente/brand).
+          ignore: description topics

@@ -15,7 +15,7 @@
 | 3 | Descrizione della repo e topic (`home-assistant`, `hacs`, `hacs-integration`, `energy`, `electricity-prices`, `switzerland`, `italy`, `ticino`) — Settings → General / About | **Owner**, 1 min (testo qui sotto) | ⏳ |
 | 4 | Il controllo HACS si riattiva da solo con la repo pubblica: verifica verde | Claude | ⏳ |
 | 5 | Icona e logo: dentro l'integrazione (cartella `brand/`, letta da Home Assistant 2026.3 e successivi), nessuna richiesta esterna | Claude | ✅ 8 ottobre |
-| 6 | Richiesta di inserimento nello store HACS (`hacs/default`): una riga `MichaelPito/ha-corrente` nel file `integration`, in ordine alfabetico; serve la repo pubblica con release, descrizione e topic | Claude prepara, **owner** approva | ⏳ |
+| 6 | Richiesta di inserimento nel catalogo (`hacs/default`): una riga `MichaelPito/ha-corrente` nel file `integration`, in ordine alfabetico. Dalla 2026.11 lo stesso catalogo alimenta il **Marketplace** integrato in Home Assistant (e HACS sulle versioni precedenti). Prima: togliere la riga `ignore` dal controllo HACS in `.github/workflows/validate.yml` (il catalogo accetta solo un controllo senza `ignore`), nuova release dopo i controlli verdi; nella richiesta i link alla release, a un controllo HACS e a uno hassfest riusciti | Claude prepara, **owner** approva | ⏳ |
 | 7 | Post nelle community (testi qui sotto), con uno screenshot da `docs/images/` (o la GIF della configurazione `docs/images/setup.gif`, 26 s, per il forum e Reddit): `prova-dashboard-it.png` per i post in italiano, `card-ekz-dynamic-en.png` (tariffa dinamica EKZ, in inglese) per quelli in inglese; in alternativa `card-lugano-en.png` | **Owner**, copia e incolla, circa 10 min | ⏳ |
 | 8 | Modulo per chi non ha GitHub: Google Form creato da uno script (`docs/MODULO.md`), nessun account nuovo | Claude prepara ✅, **owner** esegue lo script una volta (circa 3 min) | ✅ 8 ottobre |
 | 9 | Il giorno del lancio: README, guida italiana e link del modulo ricontrollati sulla repo pubblica; nessuna richiesta aperta senza risposta | Claude | ⏳ |
@@ -54,7 +54,7 @@
 
 **Testo:** (con lo screenshot della card)
 
-> Corrente is a free, open-source Home Assistant integration (HACS) for Switzerland and Italy. Swiss users type their municipality and get their grid operator's real tariff (high/low windows, fees, federal charges, VAT; dynamic quarter-hour prices for EKZ, Groupe E and, from 2027, Primeo), checked against ElCom's figures for about 340 operators. Italian users get the F1/F2/F3 bands or PUN-indexed prices from GME, plus the other costs from their bill if they want the whole price.
+> Corrente is a free, open-source Home Assistant integration (in the Marketplace / HACS) for Switzerland and Italy. Swiss users type their municipality and get their grid operator's real tariff (high/low windows, fees, federal charges, VAT; dynamic quarter-hour prices for EKZ, Groupe E and, from 2027, Primeo), checked against ElCom's figures for about 340 operators. Italian users get the F1/F2/F3 bands or PUN-indexed prices from GME, plus the other costs from their bill if they want the whole price.
 >
 > It shows the price now and the next change, the best time to start an appliance, what you spent today and this month (also per appliance), and comes with blueprints for cheap-hour starts, price alerts and solar surplus.
 >

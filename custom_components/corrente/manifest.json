@@ -9,6 +9,9 @@
     "persistent_notification",
     "websocket_api"
   ],
+  "categories": [
+    "energy.energy_prices"
+  ],
   "codeowners": [
     "@MichaelPito"
   ],

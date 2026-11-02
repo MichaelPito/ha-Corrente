@@ -38,15 +38,17 @@
 
 ## Installation
 
-Corrente will be in the default HACS store after the launch. Until then:
+Corrente will be in the community catalog after the launch: the **Marketplace** built into Home Assistant from 2026.11 (**Settings → Marketplace**), and **HACS** on earlier versions. Until then:
 
-1. HACS → ⋮ → **Custom repositories** → add `https://github.com/MichaelPito/ha-corrente`, category **Integration**.
+1. In the Marketplace (Home Assistant 2026.11 and later) or in HACS (earlier versions), add the custom repository `https://github.com/MichaelPito/ha-corrente`, type **Integration**.
 2. Install **Corrente** and restart Home Assistant.
-3. **Settings → Devices & services → Add integration → Corrente**, then follow the steps (country, then your contract or your municipality).
+3. **Settings → Devices & services → Add integration → Corrente**, then follow the steps (country, then your contract or your municipality). Or:
+
+   [![Open your Home Assistant and set up Corrente](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=corrente)
 
 <p><img src="docs/images/setup.gif" width="640" alt="Setting up Corrente in Home Assistant for Zürich: country, municipality, tariff, grid and fees suggested, then the card on a dashboard"></p>
 
-Without HACS: download `corrente.zip` from the [latest release](../../releases/latest), unzip it into `config/custom_components/corrente/` and restart Home Assistant.
+Without the Marketplace or HACS: download `corrente.zip` from the [latest release](../../releases/latest), unzip it into `config/custom_components/corrente/` and restart Home Assistant.
 
 ## The guide in Home Assistant
 
