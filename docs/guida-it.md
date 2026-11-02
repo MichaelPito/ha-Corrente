@@ -4,7 +4,7 @@ Corrente porta in Home Assistant il **vero prezzo della tua elettricità** e ti 
 
 ## Installazione
 
-1. In HACS: ⋮ → **Repository personalizzati** → aggiungi `https://github.com/MichaelPito/ha-corrente`, categoria **Integrazione**. Dopo il lancio Corrente sarà direttamente nello store di HACS.
+1. Nel **Marketplace** di Home Assistant (dalla 2026.11: **Impostazioni → Marketplace**) o in **HACS** (versioni precedenti) aggiungi il repository personalizzato `https://github.com/MichaelPito/ha-corrente`, tipo **Integrazione**. Dopo il lancio Corrente sarà direttamente nel catalogo, senza questo passo.
 2. Installa **Corrente** e riavvia Home Assistant.
 3. **Impostazioni → Dispositivi e servizi → Aggiungi integrazione → Corrente**.
 

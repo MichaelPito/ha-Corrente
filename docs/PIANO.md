@@ -414,6 +414,11 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ v0.3.9; 280 test.
   - **Prossimi pezzi:** test automatici sulla 2026.11 quando esce il pacchetto (4–5 novembre); test a casa dell'owner; settimana del 9 novembre: AEM 2027 e controllo prima del lancio; dicembre: Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
 
+- **2 novembre 2026** (owner: «ok, vai avanti»):
+  - 📌 **Home Assistant 2026.11 (4 novembre) integra HACS come «Marketplace»** (Impostazioni → Marketplace): stesso catalogo (`hacs/default`) e stesso `hacs.json`; sulla 2026.11 HACS non si può più installare, sulle versioni precedenti resta HACS. Il piano di lancio non cambia (la richiesta a `hacs/default` resta la strada), cambiano le parole: README, guida italiana e post dicono «Marketplace / HACS». Fonti: hacs.xyz/docs/marketplace, contributors.home-assistant.io/marketplace;
+  - ✅ preparato per il catalogo: `categories: ["energy.energy_prices"]` nel manifest (il controllo HACS lo chiede), badge «configura Corrente» nel README, controllo HACS senza più `brands` tra le eccezioni (l'icona è in `brand/`); prima della richiesta al catalogo va tolto anche `ignore: description topics`, dopo che l'owner ha messo descrizione e topic;
+  - il test a casa non cambia: copia Corrente a mano, funziona anche sulla 2026.11.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
