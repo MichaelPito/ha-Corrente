@@ -2,6 +2,11 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.10] — 2026-11-03
+
+### Changed
+- Ready for the Marketplace built into Home Assistant from 2026.11 (it replaces HACS there, with the same catalog): Corrente is listed under *Energy › Energy prices*, and the README and the Italian guide explain the installation from the Marketplace or, on older versions, from HACS. The README has a button that opens Corrente's setup in your Home Assistant.
+
 ## [0.3.9] — 2026-11-01
 
 ### Fixed
