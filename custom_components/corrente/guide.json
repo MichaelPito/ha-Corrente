@@ -1,6 +1,6 @@
 {
  "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
- "version": "0.3.9",
+ "version": "0.3.10",
  "tour": [
   "welcome",
   "setup_italy",
@@ -1223,6 +1223,24 @@
   }
  ],
  "whats_new": [
+  {
+   "version": "0.3.10",
+   "date": "2026-11-03",
+   "items": {
+    "en": [
+     "Ready for the Marketplace of Home Assistant 2026.11, under Energy › Energy prices."
+    ],
+    "it": [
+     "Pronto per il Marketplace di Home Assistant 2026.11, in Energia › Prezzi dell'energia."
+    ],
+    "de": [
+     "Bereit für den Marketplace von Home Assistant 2026.11, unter Energie › Energiepreise."
+    ],
+    "fr": [
+     "Prêt pour le Marketplace de Home Assistant 2026.11, dans Énergie › Prix de l'énergie."
+    ]
+   }
+  },
   {
    "version": "0.3.9",
    "date": "2026-11-01",
