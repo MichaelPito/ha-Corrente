@@ -419,6 +419,10 @@ esperto. Le richieste diventano la roadmap pubblica.
   - ✅ preparato per il catalogo: `categories: ["energy.energy_prices"]` nel manifest (il controllo HACS lo chiede), badge «configura Corrente» nel README, controllo HACS senza più `brands` tra le eccezioni (l'icona è in `brand/`); prima della richiesta al catalogo va tolto anche `ignore: description topics`, dopo che l'owner ha messo descrizione e topic;
   - il test a casa non cambia: copia Corrente a mano, funziona anche sulla 2026.11.
 
+- **3 novembre 2026** (sessione automatica e owner: «ok, vai avanti»):
+  - nessuna richiesta nuova; ✅ v0.3.10 (pronto per il Marketplace);
+  - ✅ **prova da utente nuovo** su un Home Assistant 2026.11 beta 3 appena installato, senza niente configurato: dopo la prima configurazione (Italia biorario) la voce **Corrente** compare da sola nella barra laterale senza ricaricare; arriva l'avviso di benvenuto in italiano con il link alla guida completa; la guida mostra solo gli argomenti dell'Italia (con «mostra entrambi i paesi») e propone «altri costi della bolletta» e «quanto spendi». Nessun errore nel browser.
+
 ## 8. Numeri di controllo
 
 Le installazioni si misurano con le statistiche pubbliche di Home Assistant (analytics.home-assistant.io,
