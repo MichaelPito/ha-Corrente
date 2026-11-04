@@ -27,6 +27,7 @@ from .const import (
     COUNTRY_SWITZERLAND,
     DOMAIN,
 )
+from .core.contract import ItalyContractType
 from .core.version import VERSION
 
 GUIDE_PATH = "corrente-guide"  # the panel's address: /corrente-guide?topic=costs, ?tour=1
@@ -63,7 +64,7 @@ def topic_status(entries: list[dict[str, Any]]) -> dict[str, str]:
     """
     italy = [e for e in entries if e.get(CONF_COUNTRY) != COUNTRY_SWITZERLAND]
     swiss = [e for e in entries if e.get(CONF_COUNTRY) == COUNTRY_SWITZERLAND]
-    indexed = [e for e in italy if e.get(CONF_CONTRACT_TYPE) == "indexed"]
+    indexed = [e for e in italy if e.get(CONF_CONTRACT_TYPE) == ItalyContractType.INDEXED]
 
     def setup(mine: list, others: list) -> str:
         if mine:
