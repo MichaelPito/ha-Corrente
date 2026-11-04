@@ -7,7 +7,7 @@
 
 **Your real electricity price in Home Assistant — and the best time to switch things on. Made for Italy 🇮🇹 and Switzerland 🇨🇭.**
 
-> Requires Home Assistant 2025.10 or later (tested on 2025.10 and 2026.10.4). What's new in each version: [CHANGELOG](CHANGELOG.md).
+> Requires Home Assistant 2025.10 or later (tested on 2025.10 and 2026.10.4; checked on 2026.11.0). What's new in each version: [CHANGELOG](CHANGELOG.md).
 
 <p>
   <img src="docs/images/card-lugano-it.png" width="340" alt="Corrente card for a day/night tariff in Lugano">
@@ -40,7 +40,9 @@
 
 Corrente will be in the community catalog after the launch: the **Marketplace** built into Home Assistant from 2026.11 (**Settings → Marketplace**), and **HACS** on earlier versions. Until then:
 
-1. In the Marketplace (Home Assistant 2026.11 and later) or in HACS (earlier versions), add the custom repository `https://github.com/MichaelPito/ha-corrente`, type **Integration**.
+1. Add Corrente's link `https://github.com/MichaelPito/ha-corrente`:
+   - **Marketplace** (Home Assistant 2026.11 and later): **Settings → Marketplace → Add from link**, paste the link, **Add**. The first time, the Marketplace asks you to connect a GitHub account (it only reads public information).
+   - **HACS** (earlier versions): **⋮ → Custom repositories**, paste the link, type **Integration**.
 2. Install **Corrente** and restart Home Assistant.
 3. **Settings → Devices & services → Add integration → Corrente**, then follow the steps (country, then your contract or your municipality). Or:
 
