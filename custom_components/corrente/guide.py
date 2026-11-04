@@ -55,6 +55,11 @@ async def _async_content(hass: HomeAssistant) -> dict[str, Any]:
     return hass.data[_CONTENT]
 
 
+def _country(entry: dict[str, Any]) -> str:
+    """Switzerland or Italy: anything not Swiss is Italian, as in async_setup_entry."""
+    return COUNTRY_SWITZERLAND if entry.get(CONF_COUNTRY) == COUNTRY_SWITZERLAND else COUNTRY_ITALY
+
+
 def topic_status(entries: list[dict[str, Any]]) -> dict[str, str]:
     """Whether each guided task is done, still to do or not needed, from the entries.
 
@@ -62,8 +67,8 @@ def topic_status(entries: list[dict[str, Any]]) -> dict[str, str]:
     whether a Swiss entry runs a dynamic tariff. Topics without a status are
     information that is always useful (the price sensors, the card...).
     """
-    italy = [e for e in entries if e.get(CONF_COUNTRY) != COUNTRY_SWITZERLAND]
-    swiss = [e for e in entries if e.get(CONF_COUNTRY) == COUNTRY_SWITZERLAND]
+    italy = [e for e in entries if _country(e) == COUNTRY_ITALY]
+    swiss = [e for e in entries if _country(e) == COUNTRY_SWITZERLAND]
     indexed = [e for e in italy if e.get(CONF_CONTRACT_TYPE) == ItalyContractType.INDEXED]
 
     def setup(mine: list, others: list) -> str:
@@ -165,12 +170,7 @@ async def _ws_guide(
 ) -> None:
     """The guide's content and where this home stands with each topic."""
     entries = _entries(hass)
-    countries = sorted(
-        {
-            COUNTRY_SWITZERLAND if e.get(CONF_COUNTRY) == COUNTRY_SWITZERLAND else COUNTRY_ITALY
-            for e in entries
-        }
-    )
+    countries = sorted({_country(e) for e in entries})
     connection.send_result(
         msg["id"],
         {

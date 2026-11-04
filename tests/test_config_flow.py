@@ -42,6 +42,24 @@ async def test_three_band_flow_creates_entry(hass: HomeAssistant) -> None:
     }
 
 
+async def _single_price_title(hass: HomeAssistant) -> str:
+    result = await hass.config_entries.flow.async_init(DOMAIN, context={"source": SOURCE_USER})
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], {"country": "it"})
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {"contract_type": "single"}
+    )
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], {"price_f1": 0.25})
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    return result["title"]
+
+
+async def test_a_second_italian_contract_says_which_it_is(hass: HomeAssistant) -> None:
+    """The sensors take the entry's name: two contracts must not both be "Corrente"."""
+    assert await _single_price_title(hass) == "Corrente"
+    assert await _single_price_title(hass) == "Corrente monoraria"
+    assert await _single_price_title(hass) == "Corrente monoraria 2"
+
+
 async def test_single_price_flow_asks_one_price(hass: HomeAssistant) -> None:
     result = await hass.config_entries.flow.async_init(DOMAIN, context={"source": SOURCE_USER})
     result = await hass.config_entries.flow.async_configure(result["flow_id"], {"country": "it"})

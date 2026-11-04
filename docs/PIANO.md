@@ -483,4 +483,5 @@ solo utenti che le condividono, quindi sono una stima per difetto) e con le stel
 - **4 novembre 2026** (owner: «ok, vai avanti»):
   - ✅ **Home Assistant di prova per l'owner**, aperto nell'anteprima dell'app: 2026.10.4 appena installato, con Lugano (AIL), Aesch (Primeo NetzDynamisch), Italia biorario con altri costi, Italia PUN e una dashboard «Prezzi luce» con le quattro card. È temporaneo: sparisce quando la sessione si spegne;
   - 🐞 trovato provandolo: la guida non segnava mai come *fatto* il contratto PUN (cercava il tipo `indexed`, la configurazione salva `pun`; il test usava lo stesso valore sbagliato) → ✅ v0.3.11;
-  - da valutare: due contratti italiani prendono entrambi il titolo «Corrente» e sensori con `_2`; capita solo a chi ne configura due.
+  - ✅ un secondo contratto italiano non si chiama più «Corrente» come il primo (sensori con `_2`): prende il nome del tipo, per esempio «Corrente PUN»; chi ha un solo contratto non vede differenze → v0.3.12, 281 test;
+  - pulizia rimasta dalla revisione: la guida divide le configurazioni per paese in un punto solo.

@@ -2,6 +2,11 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.12] — 2026-11-04
+
+### Changed
+- Italy: a second contract set up next to the first one is named after its type («Corrente monoraria», «bioraria», «trioraria» or «PUN», with a number if needed) instead of «Corrente» again, so its device and sensors say which contract they belong to (before: `sensor.corrente_prezzo_attuale_2`). A single contract keeps the name «Corrente»; existing entries do not change.
+
 ## [0.3.11] — 2026-11-04
 
 ### Fixed
