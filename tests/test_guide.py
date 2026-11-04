@@ -110,7 +110,7 @@ def test_notices_carry_their_links() -> None:
 
 
 ITALY = {"country": "it", "contract_type": "single", "price_f1": 0.25}
-PUN = {"country": "it", "contract_type": "indexed", "spread": 0.02}
+PUN = {"country": "it", "contract_type": "pun", "spread": 0.02}  # as the setup saves it
 SWISS = {"country": "ch", "municipality": 5192}
 
 

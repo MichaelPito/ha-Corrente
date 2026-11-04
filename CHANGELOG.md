@@ -2,6 +2,11 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.11] — 2026-11-04
+
+### Fixed
+- The guide inside Home Assistant did not mark *Contract indexed to the PUN* as done for PUN contracts: it looked for a contract type that the setup never saves.
+
 ## [0.3.10] — 2026-11-03
 
 ### Changed

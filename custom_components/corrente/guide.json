@@ -1,6 +1,6 @@
 {
  "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
- "version": "0.3.10",
+ "version": "0.3.11",
  "tour": [
   "welcome",
   "setup_italy",
@@ -1223,6 +1223,24 @@
   }
  ],
  "whats_new": [
+  {
+   "version": "0.3.11",
+   "date": "2026-11-04",
+   "items": {
+    "en": [
+     "The guide now marks the PUN contract as done when it is set up."
+    ],
+    "it": [
+     "La guida ora segna come fatto il contratto indicizzato al PUN quando è configurato."
+    ],
+    "de": [
+     "Die Anleitung zeigt den PUN-Vertrag jetzt als erledigt, wenn er eingerichtet ist."
+    ],
+    "fr": [
+     "Le guide indique maintenant le contrat indexé sur le PUN comme fait lorsqu'il est configuré."
+    ]
+   }
+  },
   {
    "version": "0.3.10",
    "date": "2026-11-03",
