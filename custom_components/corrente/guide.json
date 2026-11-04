@@ -1,6 +1,6 @@
 {
  "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
- "version": "0.3.11",
+ "version": "0.3.12",
  "tour": [
   "welcome",
   "setup_italy",
@@ -1223,6 +1223,24 @@
   }
  ],
  "whats_new": [
+  {
+   "version": "0.3.12",
+   "date": "2026-11-04",
+   "items": {
+    "en": [
+     "A second Italian contract gets its own name, e.g. «Corrente PUN», and so do its sensors."
+    ],
+    "it": [
+     "Un secondo contratto italiano prende un nome suo, per esempio «Corrente PUN», e così i suoi sensori."
+    ],
+    "de": [
+     "Ein zweiter italienischer Vertrag bekommt einen eigenen Namen, z. B. «Corrente PUN», und seine Sensoren ebenso."
+    ],
+    "fr": [
+     "Un deuxième contrat italien reçoit son propre nom, par exemple « Corrente PUN », et ses capteurs aussi."
+    ]
+   }
+  },
   {
    "version": "0.3.11",
    "date": "2026-11-04",

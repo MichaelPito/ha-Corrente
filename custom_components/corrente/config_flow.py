@@ -85,6 +85,13 @@ from .core.switzerland import (
 )
 
 _PLACEHOLDERS = {"issues_url": ISSUES_URL, "donate_url": DONATE_URL}
+# The names Italian bills use, to tell a second contract's sensors apart.
+_ITALY_CONTRACT_NAMES = {
+    ItalyContractType.SINGLE: "monoraria",
+    ItalyContractType.TWO_BANDS: "bioraria",
+    ItalyContractType.THREE_BANDS: "trioraria",
+    ItalyContractType.INDEXED: "PUN",
+}
 
 _PRICE_SELECTOR = NumberSelector(
     NumberSelectorConfig(
@@ -420,13 +427,30 @@ class CorrenteConfigFlow(ConfigFlow, domain=DOMAIN):
         """Enter spread, losses and zone of a PUN-indexed contract."""
         return await self._async_step_prices(user_input)
 
+    def _italy_title(self) -> str:
+        """ "Corrente", or with the contract's name when another entry already has it.
+
+        The device, and so the sensors, take this name: a single contract keeps the
+        short one, a second one gets sensors that say which contract they are.
+        """
+        assert self._contract_type is not None
+        taken = {entry.title for entry in self._async_current_entries()}
+        if "Corrente" not in taken:
+            return "Corrente"
+        title = f"Corrente {_ITALY_CONTRACT_NAMES[self._contract_type]}"
+        number = 2
+        while title in taken:
+            title = f"Corrente {_ITALY_CONTRACT_NAMES[self._contract_type]} {number}"
+            number += 1
+        return title
+
     async def _async_step_prices(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         assert self._contract_type is not None
         if user_input is not None:
             return self.async_create_entry(
-                title="Corrente",
+                title=self._italy_title(),
                 data={
                     CONF_COUNTRY: COUNTRY_ITALY,
                     CONF_CONTRACT_TYPE: self._contract_type.value,
