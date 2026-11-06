@@ -1,6 +1,6 @@
 {
  "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
- "version": "0.3.12",
+ "version": "0.3.13",
  "tour": [
   "welcome",
   "setup_italy",
@@ -1223,6 +1223,24 @@
   }
  ],
  "whats_new": [
+  {
+   "version": "0.3.13",
+   "date": "2026-11-06",
+   "items": {
+    "en": [
+     "The card keeps its «Guide · Suggest a change» links together; on a narrow card they move to a line of their own."
+    ],
+    "it": [
+     "La card tiene insieme i link «Guida · Suggerisci una modifica»; se la card è stretta vanno su una riga a parte."
+    ],
+    "de": [
+     "Die Karte hält die Links «Anleitung · Änderung vorschlagen» zusammen; auf einer schmalen Karte stehen sie in einer eigenen Zeile."
+    ],
+    "fr": [
+     "La carte garde ensemble les liens « Guide · Suggérer une modification » ; sur une carte étroite, ils passent sur une ligne à part."
+    ]
+   }
+  },
   {
    "version": "0.3.12",
    "date": "2026-11-04",

@@ -43,7 +43,7 @@ Le fasce seguono le regole ARERA:
 1. Scegli **Svizzera** e scrivi il nome del tuo **comune**.
 2. Corrente trova il tuo **gestore di rete** nei dati aperti di ElCom e legge il suo file delle tariffe.
 3. Scegli la tua **tariffa dell'energia**, per esempio "Casa & PMI giorno-notte". Corrente propone la tariffa di rete e i tributi che vanno con quella scelta: confrontali con la bolletta e conferma.
-4. **Tariffe dinamiche** (prezzo diverso ogni quarto d'ora): se il gestore le pubblica con l'API standard, compaiono nell'elenco e Corrente scarica da sola i prezzi di oggi e, appena escono, quelli di domani. Oggi funziona con EKZ (*Energie Dynamisch*, *Netz 400D*) e Groupe E (*Vario*). AIL e AMB per ora pubblicano i prezzi dinamici solo sul loro sito: non sono ancora supportati.
+4. **Tariffe dinamiche** (prezzo diverso ogni quarto d'ora): se il gestore le pubblica con l'API standard, compaiono nell'elenco e Corrente scarica da sola i prezzi di oggi e, appena escono, quelli di domani. Oggi funziona con EKZ (*Energie Dynamisch*, *Netz 400D*), Groupe E (*Vario*) e Primeo (*NetzDynamisch*, Basilea Campagna e Soletta). AIL e AMB per ora pubblicano i prezzi dinamici solo sul loro sito: non sono ancora supportati.
 5. Se il gestore non ha pubblicato un file leggibile (succede per esempio con SES e, nel 2026, con AMB), puoi incollare il link al file, oppure [segnalarcelo](https://github.com/MichaelPito/ha-corrente/issues/new/choose) e lo aggiungiamo noi.
 
 Il prezzo svizzero include IVA, supplemento di rete, riserva elettrica, servizi di sistema Swissgrid e tributi cantonali e comunali. Le quote fisse mensili sono in un sensore a parte.
@@ -58,7 +58,7 @@ Dopo la configurazione, nella barra laterale compare **Corrente**: una guida che
 
 ## Quanto ho speso oggi?
 
-Nelle **opzioni** di Corrente scegli **Contatore** e indica il sensore che conta i tuoi consumi in kWh (contatore intelligente, Shelly, consumo dalla rete della dashboard energia). Compaiono due sensori, **Costo di oggi** e **Costo del mese**: ogni kWh è pagato al prezzo del momento in cui l'hai consumato. In Italia il costo comprende solo la parte energia del contratto che hai inserito.
+Nelle **opzioni** di Corrente scegli **Contatore** e indica il sensore che conta i tuoi consumi in kWh (contatore intelligente, Shelly, consumo dalla rete della dashboard energia). Compaiono due sensori, **Costo di oggi** e **Costo del mese**: ogni kWh è pagato al prezzo del momento in cui l'hai consumato. In Italia il costo comprende la parte energia e, se li hai inseriti, gli altri costi per kWh della bolletta; i costi fissi al mese restano a parte.
 
 **Non hai ancora un sensore dei consumi?** Le strade, dalla più semplice:
 - **una pinza o un contatore nel quadro elettrico** (per esempio Shelly EM / Pro 3EM), installati da un elettricista: funzionano ovunque;
@@ -93,16 +93,16 @@ Nella dashboard energia di Home Assistant, nel consumo dalla rete, scegli di usa
 
 Dopo aver configurato Corrente la prima volta, **ricarica la pagina** del browser una volta, così trova la card.
 
-Nella dashboard: **Aggiungi scheda** → cerca **Corrente**. In YAML:
-
-Il nome del sensore dipende dalla lingua e dal comune (per esempio `sensor.corrente_lugano_prezzo_attuale`): se aggiungi la card dall'editor, lo trova da sola.
+Nella dashboard: **Aggiungi scheda** → cerca **Corrente**: l'editor trova da solo il sensore giusto. In YAML:
 
 ```yaml
 type: custom:corrente-card
 entity: sensor.corrente_prezzo_attuale
 ```
 
-La card mostra il prezzo adesso, le prossime 24 ore a colori (verde più economico, rosso più caro) e il momento migliore per avviare un apparecchio di 2 ore. In basso trovi la fonte dei dati e il link **Suggerisci una modifica**; per nasconderlo aggiungi `feedback: false`.
+Il nome del sensore dipende dalla lingua e dal comune (per esempio `sensor.corrente_lugano_prezzo_attuale`).
+
+La card mostra il prezzo adesso, le prossime 24 ore a colori (verde più economico, rosso più caro) e il momento migliore per avviare un apparecchio di 2 ore. In basso trovi la fonte dei dati e i link **Guida** e **Suggerisci una modifica**; per nasconderli aggiungi `guide: false` o `feedback: false`.
 
 ## Il prezzo non torna con la bolletta?
 

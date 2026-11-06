@@ -55,7 +55,7 @@ La repo è ancora privata, quindi HACS non può scaricarla: la copiamo a mano.
 1. **Impostazioni → Dispositivi e servizi → Aggiungi integrazione → Corrente**.
 2. Scegli **Svizzera**, scrivi **il tuo comune**, scegli **la tua tariffa** come sulla bolletta. Corrente propone la tariffa di rete e i tributi: se non sei sicuro, lascia quelli proposti.
 3. Apri il dispositivo Corrente e controlla, rispondendo alle domande qui sotto.
-4. **Ricarica la pagina** del browser (tasto F5, o ⌘R sul Mac), poi aggiungi la card: in una dashboard **Modifica → Aggiungi scheda** → cerca **Corrente**. Dovresti vedere qualcosa così (prova fatta da Claude su Home Assistant 2026.2, Lugano e un contratto italiano biorario):
+4. **Ricarica la pagina** del browser (tasto F5, o ⌘R sul Mac), poi aggiungi la card: in una dashboard **Modifica → Aggiungi scheda** → cerca **Corrente**. Dovresti vedere qualcosa così (prova fatta da Claude su Home Assistant 2026.11, Lugano giorno-notte e un contratto italiano biorario):
 
    ![Card di Corrente in Home Assistant](images/prova-dashboard-it.png)
 5. Se ti va, aggiungi anche una seconda configurazione **Italia** (per esempio un contratto biorario inventato) per vedere che funziona anche quella.

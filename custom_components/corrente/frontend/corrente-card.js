@@ -168,7 +168,7 @@ class CorrenteCard extends HTMLElement {
       `<a href="${SUGGEST_URL}" target="_blank" rel="noopener">${t.suggest}</a>`;
     // "guide: false" hides the link to Corrente's guide.
     const guide = this._config.guide === false ? "" : `<a href="${GUIDE_PATH}" class="guide">${t.guide}</a>`;
-    const links = guide || suggest ? `<span>${[guide, suggest].filter(Boolean).join(" · ")}</span>` : "";
+    const links = guide || suggest ? `<span class="links">${[guide, suggest].filter(Boolean).join(" · ")}</span>` : "";
     const footHtml = a.attribution || links ? `<div class="foot">${source}${links}</div>` : "";
 
     this.shadowRoot.innerHTML = `
@@ -190,8 +190,11 @@ class CorrenteCard extends HTMLElement {
         rect.bestband { fill: var(--cheap); opacity: .15; }
         line.tick { stroke: var(--secondary-text-color); stroke-width: .5; }
         .msg { color: var(--error-color, #c62828); }
-        .foot { display: flex; justify-content: space-between; gap: 8px; margin-top: 8px; font-size: .7rem; color: var(--secondary-text-color); }
-        .foot a { color: inherit; white-space: nowrap; flex-shrink: 0; }
+        .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 8px; margin-top: 8px; font-size: .7rem; color: var(--secondary-text-color); }
+        .foot > span:first-child { flex: 1 1 180px; }
+        /* the links stay together: on a narrow card they move to a line of their own */
+        .foot .links { white-space: nowrap; margin-left: auto; }
+        .foot a { color: inherit; }
       </style>
       <ha-card>
         <div class="head"><span class="title">${title}</span>${chip ? `<span class="chip">${chip}</span>` : ""}</div>
