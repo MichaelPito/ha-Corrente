@@ -2,8 +2,8 @@
 
 > Preparato da Claude. L'owner deve solo **copiare e incollare** i post nel giorno indicato. Tutto il resto lo fa Claude.
 >
-> **Versione da lanciare:** l'ultima 0.3.x (oggi la 0.3.2, 23 ottobre), con le correzioni del test a casa di inizio novembre.
-> **Data:** martedì 17 novembre 2026 (finestra 17–20). Testi aggiornati il 22 ottobre (verifica con ElCom su tutti i gestori svizzeri, 0.2.3–0.2.6) e il 23 ottobre (costi della bolletta per l'Italia, costi fissi con contatore, diagnostica: 0.2.7–0.3.2).
+> **Versione da lanciare:** l'ultima 0.3.x (oggi la 0.3.12, 4 novembre), con le correzioni del test a casa.
+> **Data:** martedì 17 novembre 2026 (finestra 17–20). Testi aggiornati il 22 ottobre (verifica con ElCom su tutti i gestori svizzeri, 0.2.3–0.2.6) e il 23 ottobre (costi della bolletta per l'Italia, costi fissi con contatore, diagnostica: 0.2.7–0.3.2); il 6 novembre: guida dentro Home Assistant, Marketplace della 2026.11 visto dal vero, come si installa prima che Corrente sia nel catalogo.
 
 ## Lista di controllo per il giorno del lancio
 
@@ -18,6 +18,7 @@
 | 6 | Richiesta di inserimento nel catalogo (`hacs/default`): una riga `MichaelPito/ha-corrente` nel file `integration`, in ordine alfabetico. Dalla 2026.11 lo stesso catalogo alimenta il **Marketplace** integrato in Home Assistant (e HACS sulle versioni precedenti). Prima: togliere la riga `ignore` dal controllo HACS in `.github/workflows/validate.yml` (il catalogo accetta solo un controllo senza `ignore`), nuova release dopo i controlli verdi; nella richiesta i link alla release, a un controllo HACS e a uno hassfest riusciti | Claude prepara, **owner** approva | ⏳ |
 | 7 | Post nelle community (testi qui sotto), con uno screenshot da `docs/images/` (o la GIF della configurazione `docs/images/setup.gif`, 26 s, per il forum e Reddit): `prova-dashboard-it.png` per i post in italiano, `card-ekz-dynamic-en.png` (tariffa dinamica EKZ, in inglese) per quelli in inglese; in alternativa `card-lugano-en.png` | **Owner**, copia e incolla, circa 10 min | ⏳ |
 | 8 | Modulo per chi non ha GitHub: Google Form creato da uno script (`docs/MODULO.md`), nessun account nuovo | Claude prepara ✅, **owner** esegue lo script una volta (circa 3 min) | ✅ 8 ottobre |
+| 6b | Il catalogo accetta le richieste dopo una revisione: Corrente può non esserci ancora il giorno dei post. I post quindi dicono come aggiungerlo con il link (Marketplace: **Aggiungi dal collegamento**, chiede di collegare un account GitHub; HACS: repository personalizzato). Quando è nel catalogo: README e guida italiana senza il passo del link | Claude | ⏳ |
 | 9 | Il giorno del lancio: README, guida italiana e link del modulo ricontrollati sulla repo pubblica; nessuna richiesta aperta senza risposta | Claude | ⏳ |
 
 **Descrizione della repo (punto 3):**
@@ -42,6 +43,8 @@
 > - a dashboard card (screenshot), and a guide in the sidebar that shows what is set up and what is left;
 > - three blueprints: start the dishwasher at the cheapest time, a **price alert** (below or above a threshold), and **use your solar surplus** (switch the boiler or the car charger on when the panels export enough power, off when the home buys from the grid again).
 >
+> **Install:** in the **Marketplace** (Home Assistant 2026.11, Settings → Marketplace) or in **HACS** (earlier versions), search for Corrente; if it is not listed yet, add the link https://github.com/MichaelPito/ha-corrente (Marketplace: *Add from link*; HACS: custom repository, type Integration). Then add the integration from Settings → Devices & services.
+>
 > Everything is set up from the UI, no YAML. Every Home Assistant downloads its own data from the official sources (ElCom, the operators, GME): no Corrente server, no account, no telemetry.
 >
 > **Transparency:** Corrente is developed with the help of AI (Claude) and tested against real tariff files. Feedback is very welcome: open an issue on GitHub (if a price looks wrong, attach the diagnostics file: it shows every tariff and figure Corrente used), or use the form if you don't have a GitHub account (e.g. "add my operator / tariff"): https://docs.google.com/forms/d/e/1FAIpQLSce_vFvHpz3Qav3o05DvoJhpIuM2zXWmvpgBHWRS1gJsEF6yQ/viewform
@@ -54,9 +57,9 @@
 
 **Testo:** (con lo screenshot della card)
 
-> Corrente is a free, open-source Home Assistant integration (in the Marketplace / HACS) for Switzerland and Italy. Swiss users type their municipality and get their grid operator's real tariff (high/low windows, fees, federal charges, VAT; dynamic quarter-hour prices for EKZ, Groupe E and, from 2027, Primeo), checked against ElCom's figures for about 340 operators. Italian users get the F1/F2/F3 bands or PUN-indexed prices from GME, plus the other costs from their bill if they want the whole price.
+> Corrente is a free, open-source Home Assistant integration for Switzerland and Italy, installed from the Marketplace (Home Assistant 2026.11) or HACS. Swiss users type their municipality and get their grid operator's real tariff (high/low windows, fees, federal charges, VAT; dynamic quarter-hour prices for EKZ, Groupe E and, from 2027, Primeo), checked against ElCom's figures for about 340 operators. Italian users get the F1/F2/F3 bands or PUN-indexed prices from GME, plus the other costs from their bill if they want the whole price.
 >
-> It shows the price now and the next change, the best time to start an appliance, what you spent today and this month (also per appliance), and comes with blueprints for cheap-hour starts, price alerts and solar surplus.
+> It shows the price now and the next change, the best time to start an appliance, what you spent today and this month (also per appliance), and comes with blueprints for cheap-hour starts, price alerts and solar surplus. A guide in the sidebar walks you through it.
 >
 > Upfront: it's developed with the help of AI (Claude), and tested against real tariff files. Feedback welcome!
 >
@@ -71,12 +74,13 @@
 >
 > Ti dice anche **quando conviene avviare** lavastoviglie o lavatrice, quanto hai **speso oggi e nel mese** (anche per singolo apparecchio, se ha una presa intelligente), e c'è una card per la dashboard.
 > Ci sono tre blueprint pronti: avvio all'ora più economica, **avviso sul prezzo** e **uso del surplus del fotovoltaico** (accende boiler o auto quando i pannelli mandano corrente in rete).
+> Si installa dal **Marketplace** (Home Assistant 2026.11, Impostazioni → Marketplace) o da **HACS** cercando Corrente; se non c'è ancora, si aggiunge il link https://github.com/MichaelPito/ha-corrente (Marketplace: *Aggiungi dal collegamento*). Dopo l'installazione compare **Corrente** nella barra laterale: una guida in italiano che mostra cosa è già configurato e cosa manca.
 > Si configura tutto dall'interfaccia, senza YAML, e i dati arrivano direttamente dalle fonti ufficiali: nessun server, nessun account. Guida in italiano: https://github.com/MichaelPito/ha-corrente/blob/main/docs/guida-it.md
 >
 > È sviluppato con l'aiuto dell'AI e ogni suggerimento è benvenuto! Chi non ha un account GitHub può scrivere qui: https://docs.google.com/forms/d/e/1FAIpQLSce_vFvHpz3Qav3o05DvoJhpIuM2zXWmvpgBHWRS1gJsEF6yQ/viewform
 
 ## Prima del lancio (controllo di Claude, settimana del 9 novembre)
-- AEM Massagno: il link 2027 registrato presso ElCom risponde 404 (controllato il 23 ottobre; il file 2026 funziona). Se manca ancora, togliere "AEM" dagli esempi del post in italiano e del README, o lasciarlo se il file 2026 basta fino al 31 dicembre (Corrente avvisa con una segnalazione in Riparazioni quando il file dell'anno nuovo manca).
+- AEM Massagno: il link 2027 registrato presso ElCom risponde 404 (controllato il 23 ottobre e il 5 novembre; il file 2026 funziona, anche se il link 2026 presso ElCom ora punta a un SharePoint privato: Corrente lo trova con l'anno cambiato). Se manca ancora, togliere "AEM" dagli esempi del post in italiano e del README, o lasciarlo se il file 2026 basta fino al 31 dicembre (Corrente avvisa con una segnalazione in Riparazioni quando il file dell'anno nuovo manca).
 
 ## Dopo il lancio
 - Claude risponde alle richieste su GitHub e del modulo ogni giorno feriale (sessione automatica delle 8:52); le risposte pubbliche portano la firma di Claude Code.
