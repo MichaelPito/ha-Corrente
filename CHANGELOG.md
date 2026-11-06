@@ -2,6 +2,14 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.13] — 2026-11-06
+
+### Fixed
+- Card: the «Guide» and «Suggest a change» links no longer break apart at the end of a line; when the data source leaves too little room, they move together to a line of their own.
+
+### Documentation
+- README and Italian guide: Primeo's dynamic grid tariff *NetzDynamisch* works already in 2026 (it said «from 2027»); new screenshots of the card and of the guide.
+
 ## [0.3.12] — 2026-11-04
 
 ### Changed
