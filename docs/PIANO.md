@@ -494,3 +494,8 @@ solo utenti che le condividono, quindi sono una stima per difetto) e con le stel
   - **AEM Massagno**, controllo anticipato: il link 2027 presso ElCom risponde ancora 404; il link 2026 registrato presso ElCom ora punta a un SharePoint privato (401). Corrente funziona lo stesso: prova anche il link 2027 con l'anno cambiato, e `Tariffe_AEM_2026.json` risponde (200). Da ricontrollare per il 2027 prima di Capodanno;
   - **CKW**: file delle tariffe 2026 e 2027 ancora dietro la verifica anti-bot (403): resta come deciso il 9 ottobre (non la aggiriamo);
   - **Prossimi pezzi:** test automatici sulla 2026.11 appena esce il pacchetto; test a casa dell'owner; settimana del 9 novembre: controllo prima del lancio; dicembre: AEM 2027, Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
+
+- **6 novembre 2026** (sessione automatica):
+  - nessuna richiesta nuova; il pacchetto dei test automatici per la 2026.11 non è ancora uscito (ultimo 0.13.375);
+  - ✅ **kit di lancio aggiornato** (`docs/LANCIO.md`, parte del controllo prima del lancio): versione 0.3.12; i post dicono come installare dal Marketplace o da HACS, anche se il giorno dei post Corrente non fosse ancora nel catalogo (il link con «Aggiungi dal collegamento»); il post in italiano cita la guida nella barra laterale; nuovo punto 6b: togliere il passo del link da README e guida quando Corrente entra nel catalogo;
+  - **Prossimi pezzi:** test automatici sulla 2026.11 appena esce il pacchetto; test a casa dell'owner; settimana del 9 novembre: resto del controllo prima del lancio (README, guida italiana, screenshot); dicembre: AEM 2027, Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
