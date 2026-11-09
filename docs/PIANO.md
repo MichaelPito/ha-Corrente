@@ -508,3 +508,10 @@ solo utenti che le condividono, quindi sono una stima per difetto) e con le stel
   - in `main` la nuova regola dell'owner (altra sessione, stesso giorno): i passi nel browser dell'owner li fa Claude in Chrome con un prompt pronto;
   - ✅ **prompt per il giorno del lancio** in `docs/LANCIO-PROMPT.md`: A descrizione e topic della repo, B repo pubblica (l'owner conferma l'ultimo passo), C richiesta al catalogo `hacs/default` (dopo i controlli verdi senza `ignore` e la nuova versione), D i post nelle community uno alla volta, con «sì» dell'owner prima di pubblicare; i testi dei post restano solo in `LANCIO.md`. La lista di controllo del lancio rimanda ai prompt;
   - il pacchetto dei test automatici per la 2026.11 non è ancora uscito (ultimo 0.13.375).
+
+- **9 novembre 2026** (sessione automatica):
+  - nessuna richiesta nuova;
+  - 📌 **il pacchetto dei test che aspettavamo non uscirà più**: `pytest-homeassistant-custom-component` si è fermato alla 2026.10.4; il 3 novembre il suo README dice di passare a **`pytest-homeassistant`**, il pacchetto ufficiale di Home Assistant (versioni uguali a quelle di Home Assistant, la 2026.11.0 è uscita il 5 novembre);
+  - ✅ **test su Home Assistant 2026.11.0**: requisiti dei test con `pytest-homeassistant==2026.11.0`, import nei test cambiati, impostazioni di pytest chieste dal suo README; per la versione minima (2025.10, ancora con il vecchio pacchetto) `tests/conftest.py` fa rispondere il vecchio pacchetto al nome nuovo, da togliere quando si alza il minimo. Controlli GitHub: 281 test verdi sulla 2026.11.0 e sulla 2025.10. Nel contenitore di Claude l'installazione del pacchetto nuovo è stata bloccata dal controllo automatico (dipendenza esterna nuova): la verifica è fatta nei controlli di GitHub, come per ogni aggiornamento dei requisiti;
+  - README: «tested on 2025.10 and 2026.11.0»;
+  - **Prossimi pezzi:** test a casa dell'owner; ultimi controlli prima del lancio; 17 novembre lancio con i prompt di `docs/LANCIO-PROMPT.md`; dicembre: AEM 2027, Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.

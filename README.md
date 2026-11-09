@@ -7,7 +7,7 @@
 
 **Your real electricity price in Home Assistant — and the best time to switch things on. Made for Italy 🇮🇹 and Switzerland 🇨🇭.**
 
-> Requires Home Assistant 2025.10 or later (tested on 2025.10 and 2026.10.4; checked on 2026.11.0). What's new in each version: [CHANGELOG](CHANGELOG.md).
+> Requires Home Assistant 2025.10 or later (tested on 2025.10 and 2026.11.0). What's new in each version: [CHANGELOG](CHANGELOG.md).
 
 <p>
   <img src="docs/images/card-lugano-it.png" width="340" alt="Corrente card for a day/night tariff in Lugano">
