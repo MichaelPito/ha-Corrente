@@ -4,6 +4,19 @@
 > Tempo: circa 45 minuti la prima volta (di cui 15–20 di attesa mentre Home Assistant si installa).
 > Non serve saper programmare. Se qualcosa non va, **fermati e scrivimi in chat** cosa vedi (anche una foto dello schermo va benissimo).
 
+## Versione rapida (circa 10 minuti, senza installare niente)
+
+Se oggi non hai 45 minuti: la parte più importante, cioè **la tua tariffa**, si prova anche sul Home Assistant di prova che Claude tiene acceso nella sessione di lavoro su Corrente, con l'ultima versione di Corrente.
+
+1. Nell'app Claude apri la sessione di lavoro su Corrente e, nell'**anteprima**, apri **Home Assistant**. Accedi con utente e password che Claude ti ha scritto in chat (se l'anteprima non risponde, scrivilo a Claude: la riaccende in un minuto).
+2. **Impostazioni → Dispositivi e servizi → Aggiungi integrazione → Corrente** → **Svizzera** → **il tuo comune** → **la tua tariffa** come sulla bolletta.
+3. Aggiungi la card con il tuo sensore «Prezzo attuale» (**Prezzi luce → matita → Aggiungi scheda → Corrente**) e apri **Corrente** nella barra laterale.
+4. Rispondi alle **domande della parte 3** (dalla 2 alla 8).
+
+Quello che la versione rapida non prova: l'installazione sul tuo computer e la tua rete. La versione completa qui sotto resta il test vero, quando hai tempo.
+
+---
+
 Tutto succede in una "macchina virtuale": un computer finto dentro il tuo. Non tocca nulla del resto del computer e alla fine si cancella con un clic.
 
 **Basta il tuo laptop**, non serve un apparecchio dedicato. Ti servono circa **8 GB di RAM** (Home Assistant ne usa 2) e **35 GB liberi** sul disco. Finché il test gira, il laptop deve restare **acceso, collegato alla corrente e senza sospensione** (Windows: Impostazioni → Sistema → Alimentazione → Sospensione: **Mai**). Se lo chiudi o va in sospensione, Home Assistant si ferma; riparte quando riavvii la macchina virtuale.
