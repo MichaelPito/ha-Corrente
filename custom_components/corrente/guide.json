@@ -1,6 +1,6 @@
 {
  "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
- "version": "0.3.13",
+ "version": "0.3.14",
  "tour": [
   "welcome",
   "setup_italy",
@@ -1223,6 +1223,28 @@
   }
  ],
  "whats_new": [
+  {
+   "version": "0.3.14",
+   "date": "2026-11-10",
+   "items": {
+    "en": [
+     "Switzerland: a price that holds all day only in some months (e.g. winter at Uznach) is no longer counted twice.",
+     "Switzerland: Schüpbach's tariffs are read from its own file for 2027."
+    ],
+    "it": [
+     "Svizzera: un prezzo valido tutto il giorno solo in alcuni mesi (per esempio l'inverno a Uznach) non si conta più due volte.",
+     "Svizzera: le tariffe 2027 di Schüpbach si leggono dal suo file."
+    ],
+    "de": [
+     "Schweiz: Ein Preis, der nur in einigen Monaten den ganzen Tag gilt (z. B. der Winter in Uznach), wird nicht mehr doppelt gezählt.",
+     "Schweiz: Die Tarife 2027 von Schüpbach werden aus der eigenen Datei gelesen."
+    ],
+    "fr": [
+     "Suisse : un prix valable toute la journée seulement certains mois (par exemple l'hiver à Uznach) n'est plus compté deux fois.",
+     "Suisse : les tarifs 2027 de Schüpbach sont lus dans son propre fichier."
+    ]
+   }
+  },
   {
    "version": "0.3.13",
    "date": "2026-11-06",

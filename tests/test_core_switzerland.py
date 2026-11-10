@@ -823,6 +823,25 @@ def test_repeated_surcharge_next_to_other_prices_still_adds_up() -> None:
     assert price == pytest.approx(0.0725 + 0.0055)
 
 
+def test_whole_day_in_some_months_is_a_season_not_a_surcharge() -> None:
+    """Uznach 2027 grid: 12.45 Rp. all day from October to March, and from April to
+    September 16:00-12:00 and 12:00-16:00. Winter was counted twice (24.9 Rp.)."""
+    every_day = {"weekdays": _EVERY_DAY}
+    winter = ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"]
+    summer = ["Apr", "May", "Jun", "Jul", "Aug", "Sep"]
+    tariff = _one_tariff(
+        [
+            {**every_day, "months": winter, "from": "00:00", "to": "00:00", "price": 0.1245},
+            {**every_day, "months": summer, "from": "16:00", "to": "12:00", "price": 0.1245},
+            {**every_day, "months": summer, "from": "12:00", "to": "16:00", "price": 0.1195},
+        ]
+    )
+    tariff.check_supported()
+    assert price_of_windows(tariff.energy, zurich(2027, 1, 13, 3, 0)) == (0.1245, False)
+    assert price_of_windows(tariff.energy, zurich(2027, 7, 14, 13, 0)) == (0.1195, False)
+    assert price_of_windows(tariff.energy, zurich(2027, 7, 14, 20, 0)) == (0.1245, False)
+
+
 def test_part_of_a_day_inside_the_whole_day_wins() -> None:
     """Dietlikon 2027 grid: Saturday 07:00-13:00 at 7.22 Rp. and the whole of Saturday at
     5.48 Rp. (meaning the rest of it). Diessenhofen: the same, at one price."""

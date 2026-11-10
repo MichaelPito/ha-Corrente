@@ -2,6 +2,12 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.14] — 2026-11-10
+
+### Fixed
+- Switzerland: a price that holds all day but only in some months was added on top of the other prices, as if it were a surcharge. At Uznach the grid price (12.45 Rp. all day from October to March) counted twice in winter. Found with the new comparison against ElCom for every operator (`tools/elcom_sweep.py`); no other operator changed.
+- Switzerland: for 2027, Schüpbach (Lauperswil, Signau) registered another operator's tariff file with ElCom; Corrente now reads Schüpbach's own file.
+
 ## [0.3.13] — 2026-11-06
 
 ### Fixed

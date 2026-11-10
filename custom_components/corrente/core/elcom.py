@@ -24,10 +24,13 @@ from .version import USER_AGENT
 LINDAS_ENDPOINT = "https://lindas.admin.ch/query"
 _TIMEOUT = aiohttp.ClientTimeout(total=30)
 
-# Operators whose link registered with ElCom is a web page rather than the
-# tariff file. Curated by hand; see docs/FONTI-DATI.md. Keyed by (operator id, year).
+# Operators whose link registered with ElCom is a web page rather than the tariff
+# file, or another operator's file. Curated by hand; see docs/FONTI-DATI.md. Keyed by
+# (operator id, year).
 KNOWN_TARIFF_URLS: dict[tuple[str, int], str] = {
     ("33", 2027): "https://www.amb.ch/media/2hcct0s4/tariffe-2027.json",  # AMB Bellinzona
+    # Schüpbach (Lauperswil, Signau): ElCom's 2027 link is Schangnau's file.
+    ("284", 2027): "https://www.youtility.ch/stromtarife/Schuepbach.json",
 }
 
 _QUERY = """

@@ -214,5 +214,9 @@ Quindi Corrente **non** aggiunge più sempre le stesse voci. Per ogni gestore e 
 
 **Limite noto:** per EKZ "400F" riserva elettrica e costi solidali (circa 0,46 Rp nel 2026) potrebbero non essere né nel file né aggiunti da Corrente: errore massimo stimato intorno all'1,5%. Prima della correzione il prezzo EKZ era gonfiato di circa il 13% (voci contate due volte).
 
+### Prezzi validi tutto il giorno solo in alcuni mesi (10 novembre 2026)
+- **Uznach 2027, rete:** 12,45 Rp tutto il giorno da ottobre a marzo, e da aprile a settembre per fasce orarie (16–12 e 12–16). Fino alla 0.3.13 il prezzo d'inverno contava come un supplemento da aggiungere agli altri: d'inverno la rete costava il doppio. Ora un prezzo di tutto il giorno si somma solo se vale tutti i giorni di tutti i mesi; se vale solo in alcuni mesi è una stagione. Trovato con `tools/elcom_sweep.py` (Uznach da 2,8 a 0,04 Rp da ElCom); nessun altro gestore cambia.
+- **Schüpbach 2027:** il link registrato presso ElCom è il file di Schangnau (stesso sito youtility); il suo file è `https://www.youtility.ch/stromtarife/Schuepbach.json` (in `KNOWN_TARIFF_URLS`). Con quello la rete torna entro 0,2 Rp.
+
 ### Siti dei gestori che non rispondono
 - 30 ottobre 2026: `www.lausanne.ch` interrompe le connessioni (e `lausanne.ch` risponde 503) per ore, dal server cloud. Dalla v0.3.8 Corrente tiene l'ultima copia del file (in memoria e su disco, `.storage/corrente.tariff_file.<entry>`) e la usa finché ha prezzi in vigore oggi.
