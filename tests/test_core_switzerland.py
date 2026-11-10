@@ -946,6 +946,19 @@ def test_grid_suggestion_skips_tariffs_far_from_elcom() -> None:
     assert suggest_grid(electricity, grids, 4006, "Gränichen").name == "netz.temporär"
 
 
+def test_standard_grid_only_with_the_same_shape() -> None:
+    """Groupe E 2027 flags its day/night grid as standard: it went with the single-price
+    energy too, 1 Rp. off ElCom. The single-price grid is 0.3 Rp. off."""
+    tariffs = load("groupe-e-2027.json")
+    grids = tariffs_on(tariffs, "grid", DAY_2027)
+    elcom = (9.193, 2.3, 2027, 8.393)  # Attalens
+    for name, grid in (("Tarif unitaire REGIO", "Tarif unitaire réseau"),
+                       ("Tarif double REGIO", "Tarif double réseau")):  # fmt: skip
+        energy = next(t for t in tariffs_on(tariffs, "electricity", DAY_2027)
+                      if t.name.startswith(name))  # fmt: skip
+        assert suggest_grid(energy, grids, 2008, "Attalens", elcom).name.startswith(grid)
+
+
 def test_federal_charges_clear_when_the_next_hypothesis_is_far() -> None:
     """ebs 2026 compared per kWh (ElCom: 10.32 Rp. without fees): the household day/night
     average is 0.72 Rp. off with all charges added, 1.45 with the surcharge only. Over

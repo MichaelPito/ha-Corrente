@@ -49,3 +49,8 @@ Added on 2026-10-20, from the comparison with ElCom of every operator for 2027, 
 - `spreitenbach-2027.json` — Gemeinde Spreitenbach: the yearly grid fee (66 CHF) written as monthly
 - `graenichen-2027.json` — TB Gränichen: with a flat energy tariff, the only flat grid tariff is
   for building sites
+
+Added on 2026-11-10:
+
+- `groupe-e-2027.json` — Groupe E, Fribourg (`tarifs.json`), trimmed to the 2027 single-price
+  and day/night household tariffs: its day/night grid is flagged as the standard one.
