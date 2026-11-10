@@ -218,5 +218,12 @@ Quindi Corrente **non** aggiunge più sempre le stesse voci. Per ogni gestore e 
 - **Uznach 2027, rete:** 12,45 Rp tutto il giorno da ottobre a marzo, e da aprile a settembre per fasce orarie (16–12 e 12–16). Fino alla 0.3.13 il prezzo d'inverno contava come un supplemento da aggiungere agli altri: d'inverno la rete costava il doppio. Ora un prezzo di tutto il giorno si somma solo se vale tutti i giorni di tutti i mesi; se vale solo in alcuni mesi è una stagione. Trovato con `tools/elcom_sweep.py` (Uznach da 2,8 a 0,04 Rp da ElCom); nessun altro gestore cambia.
 - **Schüpbach 2027:** il link registrato presso ElCom è il file di Schangnau (stesso sito youtility); il suo file è `https://www.youtility.ch/stromtarife/Schuepbach.json` (in `KNOWN_TARIFF_URLS`). Con quello la rete torna entro 0,2 Rp.
 
+### Rete proposta: la «standard» solo se ha la stessa forma (10 novembre 2026)
+- **Groupe E 2027** segna come standard la rete a doppia tariffa: veniva proposta anche con l'energia a prezzo unico (1,1 Rp da ElCom; la rete a prezzo unico 0,3). Ora la rete standard cede il posto solo se ha l'altra forma e una rete della stessa forma dell'energia torna meglio con ElCom. Provato con `tools/elcom_sweep.py --cache --each` su tutti i file 2027: 25 proposte su 1787 cambiano, tutte più vicine a ElCom; BKW (solo rete a prezzo unico per le case) resta com'era. Una prima versione più larga (la rete standard cede sempre se ha l'altra forma) cambiava 57 proposte, alcune in peggio (BKW: un «Zusatztarif»): scartata.
+
+### Prezzi scritti dieci volte troppo alti (10 novembre 2026)
+- **EW Rothrist 2026** («EWR.Netz S», «EWR.Netz S flex») e **Vilters-Wangs 2026** («Haushalt Basis N», «Haushalt Flex N», «Haushalt Flex mit Flexbonus N»): la rete per le case è scritta 0,82 / 0,841 CHF/kWh invece di 8,2 / 8,41 Rp. Diviso per dieci torna con ElCom (Rothrist 8,2 Rp esatti). Tabella curata `KNOWN_TENFOLD_PRICES`, solo per queste tariffe e quell'anno; i file 2027 sono giusti. Le tariffe non per le case (industria, cantieri, illuminazione) restano come sono: non si possono controllare con ElCom.
+- **Oberbuchsiten 2026**: il file contiene solo la tariffa per cantieri; le case dovranno aspettare il file 2027 (gennaio).
+
 ### Siti dei gestori che non rispondono
 - 30 ottobre 2026: `www.lausanne.ch` interrompe le connessioni (e `lausanne.ch` risponde 503) per ore, dal server cloud. Dalla v0.3.8 Corrente tiene l'ultima copia del file (in memoria e su disco, `.storage/corrente.tariff_file.<entry>`) e la usa finché ha prezzi in vigore oggi.

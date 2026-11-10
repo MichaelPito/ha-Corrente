@@ -515,6 +515,20 @@ def _same_days(first: PriceWindow, second: PriceWindow) -> bool:
     return meet(first.months, second.months) and meet(first.weekdays, second.weekdays)
 
 
+# Household grid tariffs written ten times too high in an operator's file (0.82 CHF/kWh
+# for 8.2 Rp.), checked against ElCom's grid price for the same operator and year.
+# Keyed by the file's "dsoName", the tariff's name and year. See docs/FONTI-DATI.md.
+KNOWN_TENFOLD_PRICES: frozenset[tuple[str, str, int]] = frozenset(
+    {
+        ("EW Rothrist AG", "EWR.Netz S", 2026),  # ElCom 8.2 Rp.
+        ("EW Rothrist AG", "EWR.Netz S flex", 2026),
+        ("TB Vilters-Wangs", "Haushalt Basis N", 2026),  # ElCom 7.95 Rp.
+        ("TB Vilters-Wangs", "Haushalt Flex N", 2026),
+        ("TB Vilters-Wangs", "Haushalt Flex mit Flexbonus N", 2026),
+    }
+)
+
+
 def parse_tariffs(document: Mapping[str, Any]) -> list[Tariff]:
     """Parse a VSE tariff document, skipping entries that cannot be read.
 
@@ -528,10 +542,13 @@ def parse_tariffs(document: Mapping[str, Any]) -> list[Tariff]:
         except (KeyError, TypeError, ValueError) as err:
             _LOGGER.debug("Skipping unreadable tariff %s: %s", raw.get("tariffName"), err)
             continue
-        if tariff.is_dynamic and not is_api_url(tariff.dynamic_url):
-            key = (document.get("dsoName"), tariff.name, tariff.start_date.year)
-            if key in KNOWN_DYNAMIC_URLS:
-                tariff = replace(tariff, dynamic_url=KNOWN_DYNAMIC_URLS[key])
+        key = (document.get("dsoName"), tariff.name, tariff.start_date.year)
+        if tariff.is_dynamic and not is_api_url(tariff.dynamic_url) and key in KNOWN_DYNAMIC_URLS:
+            tariff = replace(tariff, dynamic_url=KNOWN_DYNAMIC_URLS[key])
+        if key in KNOWN_TENFOLD_PRICES:
+            tariff = replace(
+                tariff, energy=tuple(replace(w, price=w.price / 10) for w in tariff.energy)
+            )
         tariffs.append(tariff)
     return tariffs
 
