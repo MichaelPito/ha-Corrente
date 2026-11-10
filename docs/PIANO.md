@@ -517,3 +517,8 @@ solo utenti che le condividono, quindi sono una stima per difetto) e con le stel
   - **Prossimi pezzi:** test a casa dell'owner; ultimi controlli prima del lancio; 17 novembre lancio con i prompt di `docs/LANCIO-PROMPT.md`; dicembre: AEM 2027, Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
   - ✅ controlli GitHub su `actions/checkout`, `setup-python` e `setup-node` **v7** (Node 24): GitHub avvisava che le versioni v4/v5 usano Node 20, deprecato;
   - ✅ `docs/TEST-A-CASA.md`: **versione rapida** del test a casa (circa 10 minuti) sul Home Assistant di prova nell'anteprima, con il comune e la tariffa dell'owner e le domande 2–8; la versione completa sul laptop resta (decisione dell'owner del 16 ottobre).
+
+- **10 novembre 2026** (sessione automatica):
+  - nessuna richiesta nuova (GitHub e modulo);
+  - ✅ uscite Home Assistant 2026.11.1 e `pytest-homeassistant` 2026.11.1: test spostati sulla 2026.11.1, 281 verdi; README «tested on 2025.10 and 2026.11.1»;
+  - **Prossimi pezzi:** test a casa dell'owner (anche in versione rapida); ultimi controlli prima del lancio; 17 novembre lancio con i prompt di `docs/LANCIO-PROMPT.md`; dicembre: AEM 2027, Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
