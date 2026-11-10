@@ -48,7 +48,7 @@ Le fasce seguono le regole ARERA:
 
 Il prezzo svizzero include IVA, supplemento di rete, riserva elettrica, servizi di sistema Swissgrid e tributi cantonali e comunali. Le quote fisse mensili sono in un sensore a parte.
 
-Corrente controlla le voci nazionali e i tributi con i dati ElCom del tuo comune: se nel file del gestore mancano dei tributi, li prende da ElCom (attributo "other_fees_from_elcom" del sensore del prezzo). I **costi fissi al mese** comprendono anche la misurazione (il contatore), che quasi tutti i gestori mettono in una tariffa a parte: Corrente la prende da ElCom, circa 6 CHF al mese (attributo "metering_from_elcom"). Prima del lancio l'abbiamo confrontato con ElCom per tutti i gestori svizzeri con un file leggibile (circa 340).
+Corrente controlla le voci nazionali e i tributi con i dati ElCom del tuo comune: se nel file del gestore mancano dei tributi, li prende da ElCom (attributo "other_fees_from_elcom" del sensore del prezzo). I **costi fissi al mese** comprendono anche la misurazione (il contatore), che quasi tutti i gestori mettono in una tariffa a parte: Corrente la prende da ElCom, circa 6 CHF al mese (attributo "metering_from_elcom"). Prima del lancio l'abbiamo confrontato con ElCom per tutti i gestori svizzeri con un file leggibile (oltre 300): la rete torna entro 0,6 Rp per il 95%.
 
 ## La guida dentro Home Assistant
 
