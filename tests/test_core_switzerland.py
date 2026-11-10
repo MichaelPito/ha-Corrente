@@ -946,6 +946,47 @@ def test_grid_suggestion_skips_tariffs_far_from_elcom() -> None:
     assert suggest_grid(electricity, grids, 4006, "Gränichen").name == "netz.temporär"
 
 
+def test_known_tenfold_prices_are_divided() -> None:
+    """Rothrist's 2026 file has its household grid at 0.82 CHF/kWh (ElCom: 8.2 Rp.)."""
+
+    def document(dso: str, year: int) -> dict:
+        return {
+            "dsoName": dso,
+            "tariffs": [
+                {
+                    "tariffName": "EWR.Netz S",
+                    "tariffType": "grid",
+                    "tariffForm": "multilevel",
+                    "startDate": f"{year}-01-01",
+                    "endDate": f"{year}-12-31",
+                    "prices": {
+                        "energy": [{"from": "00:00", "to": "00:00", "price": 0.82,
+                                    "priceUnit": "CHF/kWh"}],
+                    },
+                }
+            ],
+        }  # fmt: skip
+
+    assert parse_tariffs(document("EW Rothrist AG", 2026))[0].energy[0].price == pytest.approx(
+        0.082
+    )
+    assert parse_tariffs(document("EW Rothrist AG", 2027))[0].energy[0].price == 0.82
+    assert parse_tariffs(document("Another operator", 2026))[0].energy[0].price == 0.82
+
+
+def test_standard_grid_only_with_the_same_shape() -> None:
+    """Groupe E 2027 flags its day/night grid as standard: it went with the single-price
+    energy too, 1 Rp. off ElCom. The single-price grid is 0.3 Rp. off."""
+    tariffs = load("groupe-e-2027.json")
+    grids = tariffs_on(tariffs, "grid", DAY_2027)
+    elcom = (9.193, 2.3, 2027, 8.393)  # Attalens
+    for name, grid in (("Tarif unitaire REGIO", "Tarif unitaire réseau"),
+                       ("Tarif double REGIO", "Tarif double réseau")):  # fmt: skip
+        energy = next(t for t in tariffs_on(tariffs, "electricity", DAY_2027)
+                      if t.name.startswith(name))  # fmt: skip
+        assert suggest_grid(energy, grids, 2008, "Attalens", elcom).name.startswith(grid)
+
+
 def test_federal_charges_clear_when_the_next_hypothesis_is_far() -> None:
     """ebs 2026 compared per kWh (ElCom: 10.32 Rp. without fees): the household day/night
     average is 0.72 Rp. off with all charges added, 1.45 with the surcharge only. Over

@@ -2,6 +2,15 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.15] — 2026-11-10
+
+### Fixed
+- Switzerland, setup: the grid tariff the operator flags as standard was suggested even when it has the other shape (day/night next to a single-price energy tariff). It now gives way when a grid tariff of the energy's shape is closer to ElCom's figure: Groupe E (Fribourg, 1.1 Rp. off ElCom before, 0.3 now). On every 2027 tariff file, 25 of 1787 suggestions changed, all closer to ElCom; BKW, whose only household grid is single-price, keeps it.
+- Switzerland: EW Rothrist and Vilters-Wangs wrote their 2026 household grid prices ten times too high (0.82 CHF/kWh for 8.2 Rp., checked against ElCom); Corrente divides them by ten. Their 2027 files are right.
+
+### Tools
+- `tools/elcom_sweep.py`: `--cache` keeps the downloaded files for a second run on other code, `--each` lists the grid suggested for every energy tariff.
+
 ## [0.3.14] — 2026-11-10
 
 ### Fixed

@@ -1,6 +1,6 @@
 {
  "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
- "version": "0.3.14",
+ "version": "0.3.15",
  "tour": [
   "welcome",
   "setup_italy",
@@ -1223,6 +1223,28 @@
   }
  ],
  "whats_new": [
+  {
+   "version": "0.3.15",
+   "date": "2026-11-10",
+   "items": {
+    "en": [
+     "Switzerland: with a single-price energy tariff, the suggested grid tariff is single-price too when it is closer to ElCom's figure (Groupe E and others).",
+     "Switzerland: Rothrist and Vilters-Wangs wrote their 2026 household grid price ten times too high; Corrente corrects it."
+    ],
+    "it": [
+     "Svizzera: con una tariffa dell'energia a prezzo unico, anche la tariffa di rete proposta è a prezzo unico quando torna meglio con ElCom (Groupe E e altri).",
+     "Svizzera: Rothrist e Vilters-Wangs hanno scritto il prezzo di rete 2026 per le case dieci volte troppo alto; Corrente lo corregge."
+    ],
+    "de": [
+     "Schweiz: Zu einem Energietarif mit Einheitspreis wird auch ein Netztarif mit Einheitspreis vorgeschlagen, wenn er näher an ElCom liegt (Groupe E und andere).",
+     "Schweiz: Rothrist und Vilters-Wangs haben den Netzpreis 2026 für Haushalte zehnmal zu hoch angegeben; Corrente korrigiert ihn."
+    ],
+    "fr": [
+     "Suisse : avec un tarif d'énergie à prix unique, le tarif de réseau proposé est aussi à prix unique lorsqu'il est plus proche du chiffre de l'ElCom (Groupe E et d'autres).",
+     "Suisse : Rothrist et Vilters-Wangs ont indiqué leur prix de réseau 2026 pour les ménages dix fois trop élevé ; Corrente le corrige."
+    ]
+   }
+  },
   {
    "version": "0.3.14",
    "date": "2026-11-10",

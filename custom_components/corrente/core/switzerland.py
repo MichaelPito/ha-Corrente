@@ -515,6 +515,20 @@ def _same_days(first: PriceWindow, second: PriceWindow) -> bool:
     return meet(first.months, second.months) and meet(first.weekdays, second.weekdays)
 
 
+# Household grid tariffs written ten times too high in an operator's file (0.82 CHF/kWh
+# for 8.2 Rp.), checked against ElCom's grid price for the same operator and year.
+# Keyed by the file's "dsoName", the tariff's name and year. See docs/FONTI-DATI.md.
+KNOWN_TENFOLD_PRICES: frozenset[tuple[str, str, int]] = frozenset(
+    {
+        ("EW Rothrist AG", "EWR.Netz S", 2026),  # ElCom 8.2 Rp.
+        ("EW Rothrist AG", "EWR.Netz S flex", 2026),
+        ("TB Vilters-Wangs", "Haushalt Basis N", 2026),  # ElCom 7.95 Rp.
+        ("TB Vilters-Wangs", "Haushalt Flex N", 2026),
+        ("TB Vilters-Wangs", "Haushalt Flex mit Flexbonus N", 2026),
+    }
+)
+
+
 def parse_tariffs(document: Mapping[str, Any]) -> list[Tariff]:
     """Parse a VSE tariff document, skipping entries that cannot be read.
 
@@ -528,10 +542,13 @@ def parse_tariffs(document: Mapping[str, Any]) -> list[Tariff]:
         except (KeyError, TypeError, ValueError) as err:
             _LOGGER.debug("Skipping unreadable tariff %s: %s", raw.get("tariffName"), err)
             continue
-        if tariff.is_dynamic and not is_api_url(tariff.dynamic_url):
-            key = (document.get("dsoName"), tariff.name, tariff.start_date.year)
-            if key in KNOWN_DYNAMIC_URLS:
-                tariff = replace(tariff, dynamic_url=KNOWN_DYNAMIC_URLS[key])
+        key = (document.get("dsoName"), tariff.name, tariff.start_date.year)
+        if tariff.is_dynamic and not is_api_url(tariff.dynamic_url) and key in KNOWN_DYNAMIC_URLS:
+            tariff = replace(tariff, dynamic_url=KNOWN_DYNAMIC_URLS[key])
+        if key in KNOWN_TENFOLD_PRICES:
+            tariff = replace(
+                tariff, energy=tuple(replace(w, price=w.price / 10) for w in tariff.energy)
+            )
         tariffs.append(tariff)
     return tariffs
 
@@ -1005,7 +1022,8 @@ def suggest_grid(
     named exactly like the energy tariff (Primeo "NetzDynamisch": energy by the clock,
     dynamic grid; 6 of 3486 suggestions in the 2026 and 2027 files changed, all for the
     better), dynamic with dynamic, the same kind of customer, the user's municipality
-    or canton named in the tariff, the operator's standard tariff, a day/night tariff
+    or canton named in the tariff, the operator's standard tariff (unless a tariff of the
+    energy's shape is closer to ElCom: Groupe E, up to 0.3.14), a day/night tariff
     with a day/night tariff, then (with ``elcom``: ElCom's household grid figure, surcharge and
     year, and optionally its grid price per kWh without fees) the price closest to
     what ElCom says a household pays, to the nearest Rp.: St. Gallen's reactive
@@ -1033,15 +1051,33 @@ def suggest_grid(
 
     same_name = electricity.name.strip().casefold()
 
+    def same_shape(grid: Tariff) -> bool:
+        return _by_time_of_day(grid) == _by_time_of_day(electricity)
+
+    def standard(grid: Tariff) -> bool:
+        """The operator's standard grid, unless it has the other shape and a grid of the
+        energy's shape is closer to ElCom: Groupe E flags its day/night grid as
+        standard, also next to its single-price energy (1.1 Rp. off ElCom, the
+        single-price grid 0.3). BKW has only a single-price household grid."""
+        if not grid.standard:
+            return False
+        if same_shape(grid) or elcom is None:
+            return True
+        own = error(grid)
+        return not any(
+            same_shape(other) and (rp := error(other)) is not None and (own is None or rp < own)
+            for other in grids
+        )
+
     def score(grid: Tariff) -> tuple[bool, bool, bool, bool, bool, bool, bool, int, float]:
         return (
             grid.name.strip().casefold() == same_name,
             grid.is_dynamic == electricity.is_dynamic,
             bool(customer) and grid.customer_type.strip().casefold() == customer,
             _names_place(grid, municipality_name or "", canton),
-            grid.standard,
+            standard(grid),
             plausible(grid),
-            _by_time_of_day(grid) == _by_time_of_day(electricity),
+            same_shape(grid),
             closeness(grid),
             SequenceMatcher(None, electricity.name.lower(), grid.name.lower()).ratio(),
         )
