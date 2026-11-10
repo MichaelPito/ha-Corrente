@@ -272,9 +272,9 @@ class PriceWindow:
         """True for a price that applies all day on every day of the week.
 
         Such prices add up with the others (a surcharge on top of the energy
-        price). A whole day on some weekdays only is one of the alternatives:
-        ewz's grid tariff is 06:00-22:00 and 22:00-06:00 Monday to Saturday, and
-        the whole of Sunday.
+        price), when they also apply in every month (see price_of_windows). A whole
+        day on some weekdays only is one of the alternatives: ewz's grid tariff is
+        06:00-22:00 and 22:00-06:00 Monday to Saturday, and the whole of Sunday.
         """
         return self.all_day and self.weekdays is None
 
@@ -648,8 +648,16 @@ def price_of_windows(windows: Sequence[PriceWindow], local: datetime) -> tuple[f
     gap, the cheapest timed price is used (in Swiss high/low tariffs uncovered
     hours are the night) and the gap is reported so the UI can flag it.
     """
-    whole_day = sum(w.price for w in windows if w.every_day and w.covers(local))
-    timed = [w for w in windows if not w.every_day]
+
+    # Only a price for every day of the year is a surcharge. A whole day in some months
+    # is a season, one of the alternatives: Uznach's grid is 12.45 Rp. all day from
+    # October to March and by the clock from April to September (its winter counted
+    # twice up to 0.3.13).
+    def surcharge(w: PriceWindow) -> bool:
+        return w.every_day and w.months is None
+
+    whole_day = sum(w.price for w in windows if surcharge(w) and w.covers(local))
+    timed = [w for w in windows if not surcharge(w)]
     if not timed:
         return whole_day, False
     matching = [w for w in timed if w.covers(local)]

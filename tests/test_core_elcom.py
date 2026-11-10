@@ -18,6 +18,7 @@ from custom_components.corrente.core.elcom import (
     ElcomError,
     TariffFileError,
     _clean_search,
+    _tariff_url,
     async_fetch_tariff_document,
     async_operators_for,
     async_search_municipalities,
@@ -76,6 +77,16 @@ async def test_web_page_links_are_corrected_or_normalised(
     assert amb.tariff_url == "https://www.amb.ch/media/2hcct0s4/tariffe-2027.json"
     # Zernez has two operators; bare host names get a scheme.
     assert by_name["Gemeinde Zernez"].tariff_url == "https://www.ee-en.ch/tarife"
+
+
+def test_another_operators_file_is_corrected() -> None:
+    """Schüpbach registered Schangnau's file with ElCom for 2027; its own is next to it."""
+    schangnau = "https://www.youtility.ch/stromtarife/Schangnau.json"
+    assert _tariff_url("284", 2027, schangnau) == (
+        "https://www.youtility.ch/stromtarife/Schuepbach.json"
+    )
+    own_2026 = "https://www.youtility.ch/stromtarife/2026/Schuepbach.json"
+    assert _tariff_url("284", 2026, own_2026) == own_2026
 
 
 @pytest.mark.parametrize(
