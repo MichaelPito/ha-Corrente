@@ -1,3 +1,3 @@
 # Home Assistant's own test package, versioned like Home Assistant (from 2026.11;
 # it replaces pytest-homeassistant-custom-component, see its README).
-pytest-homeassistant==2026.11.0
+pytest-homeassistant==2026.11.1
