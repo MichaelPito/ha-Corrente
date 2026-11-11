@@ -2,6 +2,11 @@
 
 All notable changes to Corrente. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.16] — 2026-11-11
+
+### Fixed
+- Switzerland, setup: a grid tariff for building sites or temporary connections was suggested with household energy when it had the same shape (Rapperswil-Jona 2026: "Baustrom", 1 Rp. off ElCom, instead of "Niederspannung I", 0.05; Zofingen 2027: "Strom temporär" instead of "Haushalt & Gewerbe"). Building-site and temporary tariffs, recognised by their name, now go only with each other. On every 2026 and 2027 tariff file 40 suggestions per year changed: household energy to the household grid, building-site energy to the building-site grid.
+
 ## [0.3.15] — 2026-11-10
 
 ### Fixed

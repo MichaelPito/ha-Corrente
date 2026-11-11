@@ -943,7 +943,44 @@ def test_grid_suggestion_skips_tariffs_far_from_elcom() -> None:
     grid = suggest_grid(electricity, grids, 4006, "Gränichen", (10.867, 2.3, 2027, 9.25))
     # netz.kompakt.flex, or street lighting at the same price: the closest to ElCom.
     assert grid.name in {"netz.kompakt.flex", "netz.öB"}
-    assert suggest_grid(electricity, grids, 4006, "Gränichen").name == "netz.temporär"
+    # Without ElCom's figures: not the building-site tariff, the household one.
+    assert suggest_grid(electricity, grids, 4006, "Gränichen").name == "netz.kompakt"
+
+
+def test_building_site_grid_only_with_building_site_energy() -> None:
+    """Jona-Rapperswil 2026: household energy at one price, household grid by day and
+    night (ElCom 0.05 Rp. away) and "Baustrom" at one price (1 Rp. away). The building
+    site tariff went with the household energy for having the same shape."""
+
+    def tariff(name: str, kind: str, windows: list[dict]) -> dict:
+        return {"tariffName": name, "tariffType": kind, "tariffForm": "multilevel",
+                "startDate": "2026-01-01", "endDate": "2026-12-31",
+                "prices": {"energy": windows}}  # fmt: skip
+
+    flat = [{"from": "00:00", "to": "00:00", "price": 0.084, "priceUnit": "CHF/kWh"}]
+    day_night = [
+        {"weekdays": _WORKDAYS, "from": "07:00", "to": "20:00", "price": 0.075,
+         "priceUnit": "CHF/kWh"},
+        {"weekdays": _WORKDAYS, "from": "20:00", "to": "07:00", "price": 0.05,
+         "priceUnit": "CHF/kWh"},
+        {"weekdays": ["Sa", "Su"], "from": "00:00", "to": "00:00", "price": 0.05,
+         "priceUnit": "CHF/kWh"},
+    ]  # fmt: skip
+    tariffs = parse_tariffs(
+        {
+            "tariffs": [
+                tariff("EWJR ÖKOPOWER NE7", "electricity", [{**flat[0], "price": 0.12}]),
+                tariff("EWJR ÖKOPOWER Baustrom", "electricity", [{**flat[0], "price": 0.12}]),
+                tariff("Baustrom", "grid", flat),
+                tariff("Niederspannung I", "grid", day_night),
+            ]
+        }
+    )
+    grids = [t for t in tariffs if t.tariff_type == "grid"]
+    home, site = (t for t in tariffs if t.tariff_type == "electricity")
+    elcom = (9.277, 2.3, 2026, 6.387)
+    assert suggest_grid(home, grids, 1340, "Rapperswil-Jona", elcom).name == "Niederspannung I"
+    assert suggest_grid(site, grids, 1340, "Rapperswil-Jona", elcom).name == "Baustrom"
 
 
 def test_known_tenfold_prices_are_divided() -> None:
