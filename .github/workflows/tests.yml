@@ -1,8 +1,8 @@
 name: Tests
 
 on:
-  push:
-  pull_request:
+  # 💰 [2026-11-11] Solo a mano (scheda Actions → Run workflow) o prima di un rilascio.
+  # 👤 Owner: «riduciamo al minimo corrente» — il conto GitHub Actions dell'account sfora la quota gratuita.
   workflow_dispatch:
 
 permissions:
