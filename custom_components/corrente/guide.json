@@ -1,6 +1,6 @@
 {
  "_comment": "Corrente's guide inside Home Assistant (docs/ONBOARDING.md). Update at every release: a test checks it.",
- "version": "0.3.15",
+ "version": "0.3.16",
  "tour": [
   "welcome",
   "setup_italy",
@@ -1223,6 +1223,24 @@
   }
  ],
  "whats_new": [
+  {
+   "version": "0.3.16",
+   "date": "2026-11-11",
+   "items": {
+    "en": [
+     "Switzerland, setup: a building-site or temporary tariff is suggested only with another one; homes get the household grid (Rapperswil-Jona, Zofingen and others)."
+    ],
+    "it": [
+     "Svizzera, configurazione: una tariffa per cantieri o temporanea si propone solo con un'altra dello stesso tipo; le case ricevono la rete per le case (Rapperswil-Jona, Zofingen e altri)."
+    ],
+    "de": [
+     "Schweiz, Einrichtung: Ein Baustrom- oder Temporärtarif wird nur zu einem ebensolchen vorgeschlagen; Haushalte erhalten den Haushalts-Netztarif (Rapperswil-Jona, Zofingen und andere)."
+    ],
+    "fr": [
+     "Suisse, configuration : un tarif de chantier ou provisoire n'est proposé qu'avec un tarif du même type ; les ménages reçoivent le réseau des ménages (Rapperswil-Jona, Zofingue et d'autres)."
+    ]
+   }
+  },
   {
    "version": "0.3.15",
    "date": "2026-11-10",

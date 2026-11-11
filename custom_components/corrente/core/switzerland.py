@@ -989,6 +989,23 @@ def canton_of(municipality: int | None) -> str | None:
     return _CANTON_BLOCKS[index][1]
 
 
+# Tariffs for building sites and other temporary connections, never a home's.
+_BUILDING_SITE = re.compile(
+    # "Temprorär": EWO's spelling.
+    r"bau(strom|stelle|anschluss)|temp\w{0,3}r[äa]r|chantier|provisoire|cantier|provvisori",
+    re.IGNORECASE,
+)
+
+
+def _for_building_sites(tariff: Tariff) -> bool:
+    """True for a tariff named for building sites or other temporary connections.
+
+    The name only: descriptions mislead ("except building sites"), and RTB describes
+    as temporary the only low-voltage grid that matches ElCom's household figure.
+    """
+    return bool(_BUILDING_SITE.search(tariff.name))
+
+
 def _by_time_of_day(tariff: Tariff) -> bool:
     """True for a dynamic tariff or one whose price changes during the day."""
     return tariff.is_dynamic or any(not window.every_day for window in tariff.energy)
@@ -1021,7 +1038,9 @@ def suggest_grid(
     customer. So the signals in the file come first, strongest first: a grid tariff
     named exactly like the energy tariff (Primeo "NetzDynamisch": energy by the clock,
     dynamic grid; 6 of 3486 suggestions in the 2026 and 2027 files changed, all for the
-    better), dynamic with dynamic, the same kind of customer, the user's municipality
+    better), a building-site tariff only with a building-site tariff (Jona-Rapperswil
+    2026: "Baustrom" went with household energy, being single-price like it),
+    dynamic with dynamic, the same kind of customer, the user's municipality
     or canton named in the tariff, the operator's standard tariff (unless a tariff of the
     energy's shape is closer to ElCom: Groupe E, up to 0.3.14), a day/night tariff
     with a day/night tariff, then (with ``elcom``: ElCom's household grid figure, surcharge and
@@ -1069,9 +1088,10 @@ def suggest_grid(
             for other in grids
         )
 
-    def score(grid: Tariff) -> tuple[bool, bool, bool, bool, bool, bool, bool, int, float]:
+    def score(grid: Tariff) -> tuple[bool, bool, bool, bool, bool, bool, bool, bool, int, float]:
         return (
             grid.name.strip().casefold() == same_name,
+            _for_building_sites(grid) == _for_building_sites(electricity),
             grid.is_dynamic == electricity.is_dynamic,
             bool(customer) and grid.customer_type.strip().casefold() == customer,
             _names_place(grid, municipality_name or "", canton),
