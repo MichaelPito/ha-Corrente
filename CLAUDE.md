@@ -14,7 +14,7 @@
 
 ## Regole di lavoro
 - **La repo è la memoria:** ogni decisione nuova va in `docs/DECISIONI.md` (data, chi, cosa, perché). Il lavoro non pushato si perde quando la sessione si chiude: commit + push a ogni passo.
-- Si lavora su **rami dedicati**; in `main` si entra solo con i controlli automatici verdi.
+- Si lavora su **rami dedicati**; in `main` si entra solo con test e ruff verdi **in locale**. I controlli di GitHub (tests, validate) non partono più da soli: si lanciano **a mano prima di un rilascio** (owner, 11 novembre 2026, per il budget di GitHub Actions; vedi `docs/DECISIONI.md`).
 - I rilasci pubblici hanno numero di versione (SemVer) e note di rilascio. **Le nuove versioni si pubblicano senza chiedere** (owner, 20 ottobre 2026); l'ok dell'owner serve **solo per cancellare** qualcosa (file, rami, versioni, dati).
 - **Segreti mai committati**, nemmeno in file di prova.
 - **Guida dentro Home Assistant (onboarding) aggiornata a ogni rilascio** (owner, 28 ottobre 2026): ogni versione aggiunge le sue novità in `custom_components/corrente/guide.json` e aggiorna gli argomenti che tocca; una funzione nuova (sensore, passo, opzione, blueprint) va in un argomento. `tests/test_guide.py` blocca il rilascio se manca qualcosa. Dettagli in `docs/ONBOARDING.md`.

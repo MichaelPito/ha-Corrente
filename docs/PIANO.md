@@ -465,7 +465,8 @@ solo utenti che le condividono, quindi sono una stima per difetto) e con le stel
   - **ogni lunedì:** controllo delle richieste nuove, risposte, aggiornamento della roadmap;
   - **una settimana prima di ogni versione mensile di Home Assistant:** test sulla beta;
   - all'owner arriva un messaggio **solo** se serve una sua decisione.
-- **Ogni modifica** passa da un ramo dedicato, controlli automatici verdi, poi `main`. I rilasci pubblici
+- **Ogni modifica** passa da un ramo dedicato, test e ruff verdi in locale, poi `main`. I controlli di GitHub
+  si lanciano a mano prima di ogni rilascio (owner, 11 novembre: budget di GitHub Actions). I rilasci pubblici
   hanno numero di versione e note.
 - **Pubblicare nuove versioni non richiede l'ok dell'owner** (owner, 20 ottobre: «Hai sempre l'autorizzazione
   a pubblicare upgrade»). L'ok serve **solo per cancellare** qualcosa (file, rami, versioni, dati).
@@ -530,3 +531,9 @@ solo utenti che le condividono, quindi sono una stima per difetto) e con le stel
   - nessuna richiesta nuova (GitHub e modulo);
   - gestori lontani da ElCom, seguito: **Stabio** non è un errore (l'energia 7S05 va con la rete 7S05; ElCom calcola sulla 7D05); **Rapperswil-Jona** 2026 e **Zofingen** 2027: alle case veniva proposta la rete per cantieri o temporanea → corretto (le tariffe per cantieri solo tra loro, riconosciute dal nome). Provato con `tools/elcom_sweep.py --cache --each` su tutti i file 2026 e 2027 → ✅ v0.3.16, 286 test;
   - **Prossimi pezzi:** test a casa dell'owner (anche in versione rapida); ultimi controlli prima del lancio; 17 novembre lancio con i prompt di `docs/LANCIO-PROMPT.md`; dicembre: AEM 2027, Winterthur, AGE, gestori senza file, gli ultimi gestori lontani da ElCom (Vorderthal, RTB, Arosa, Saas-Balen); gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
+
+- **12 novembre 2026** (sessione automatica):
+  - nessuna richiesta nuova (GitHub e modulo);
+  - 📌 in `main` la decisione dell'owner dell'11 novembre (altra sessione): i controlli di GitHub non partono più da soli, si lanciano a mano prima di un rilascio (budget di GitHub Actions). Da oggi Claude prova ogni modifica in locale (pytest e ruff) e lancia i controlli di GitHub solo prima di pubblicare una versione; aggiornati `CLAUDE.md` e §10;
+  - gestori lontani da ElCom, seguito: **Vorderthal** (1,1 Rp) e **Arosa** (0,8) hanno la rete giusta per la tariffa scelta (casa con casa): la differenza viene dai dati del gestore, non dalla scelta di Corrente. Restano da guardare a dicembre insieme ai file 2027 nuovi;
+  - **Prossimi pezzi:** test a casa dell'owner (anche in versione rapida); 17 novembre lancio con i prompt di `docs/LANCIO-PROMPT.md` (prima: controlli di GitHub a mano e una versione con `ignore` tolto dal controllo HACS); dicembre: AEM 2027, Winterthur, AGE, gestori senza file; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.
