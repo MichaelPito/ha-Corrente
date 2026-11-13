@@ -21,6 +21,13 @@
 | 6b | Il catalogo accetta le richieste dopo una revisione: Corrente può non esserci ancora il giorno dei post. I post quindi dicono come aggiungerlo con il link (Marketplace: **Aggiungi dal collegamento**, chiede di collegare un account GitHub; HACS: repository personalizzato). Quando è nel catalogo: README e guida italiana senza il passo del link | Claude | ⏳ |
 | 9 | Il giorno del lancio: README, guida italiana e link del modulo ricontrollati sulla repo pubblica; nessuna richiesta aperta senza risposta | Claude | ⏳ |
 
+### Ordine del giorno del lancio (17 novembre)
+1. **Owner**, Claude in Chrome: prompt **A** (descrizione e topic) e **B** (repo pubblica) di `docs/LANCIO-PROMPT.md`; incolla i resoconti in chat.
+2. **Claude**: merge in `main` del ramo pronto `claude/launch-hacs-strict` (toglie `ignore` dal controllo HACS); test e ruff in locale; versione nuova (0.3.x, con la novità nella guida).
+3. **Claude**: lancia a mano i controlli di GitHub su `main` (Tests e Validate: è il momento previsto dalla decisione dell'11 novembre) e aspetta che siano verdi, controllo HACS compreso; poi `release.yml`.
+4. **Owner**, Claude in Chrome: prompt **C** (richiesta al catalogo), poi **D** un post alla volta.
+5. **Claude**: README, guida italiana e link del modulo ricontrollati sulla repo pubblica; risposte alle prime richieste.
+
 **Descrizione della repo (punto 3):**
 > Your real electricity price in Home Assistant and the best time to switch things on — Italy (F1/F2/F3) and Switzerland (your grid operator found via ElCom's open data, Ticino included).
 
