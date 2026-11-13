@@ -26,6 +26,5 @@ jobs:
       - uses: hacs/action@main
         with:
           category: integration
-          # Description and topics are set by the owner at the public launch; then this line
-          # goes: the catalog accepts only a run without "ignore" (brand: custom_components/corrente/brand).
-          ignore: description topics
+          # No "ignore": the catalog (hacs/default) accepts only a full run. The brand
+          # icon is in custom_components/corrente/brand.
