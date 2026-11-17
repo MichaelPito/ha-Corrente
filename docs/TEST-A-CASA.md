@@ -50,7 +50,7 @@ Riassunto di cosa fare (ottobre 2026, Home Assistant OS 18.3):
 
 ## Parte 2 — Installare Corrente (circa 10 minuti)
 
-La repo è ancora privata, quindi HACS non può scaricarla: la copiamo a mano.
+Corrente non è ancora nel catalogo (Marketplace/HACS): la copiamo a mano. In alternativa si aggiunge con il link come spiega il README.
 
 1. In Home Assistant: **Impostazioni → App → Samba share → Installa**. (Le "App" una volta si chiamavano "Add-on".)
 2. Scheda **Configurazione**: scegli un nome utente e una password qualsiasi, **Salva**. Scheda **Informazioni**: **Avvia**.

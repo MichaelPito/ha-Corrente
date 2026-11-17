@@ -11,7 +11,7 @@
 |---|---|---|---|
 | 0 | Test a casa dell'owner con la sua tariffa (`docs/TEST-A-CASA.md`), inizio novembre | **Owner**, circa 45 min | ⏳ |
 | 1 | Versione con note di rilascio (`CHANGELOG.md`, release da GitHub Actions) | Claude | ✅ v0.1.0 l'8 ottobre … v0.3.2 il 23; le correzioni del test a casa escono come v0.3.x |
-| 2 | Repo da privata a **pubblica** (Settings → General → Danger zone → Change visibility) | **Owner** con Claude in Chrome: prompt **B** (l'owner conferma l'ultimo passo) | ⏳ |
+| 2 | Repo da privata a **pubblica** (Settings → General → Danger zone → Change visibility) | **Owner** con Claude in Chrome: prompt **B** (l'owner conferma l'ultimo passo) | ✅ già pubblica (lo era almeno dal 6 novembre: il controllo HACS è sempre partito); il prompt B non serve |
 | 3 | Descrizione della repo e topic (`home-assistant`, `hacs`, `hacs-integration`, `energy`, `electricity-prices`, `switzerland`, `italy`, `ticino`) — Settings → General / About | **Owner** con Claude in Chrome: prompt **A** (testo qui sotto) | ⏳ |
 | 4 | Il controllo HACS si riattiva da solo con la repo pubblica: verifica verde | Claude | ⏳ |
 | 5 | Icona e logo: dentro l'integrazione (cartella `brand/`, letta da Home Assistant 2026.3 e successivi), nessuna richiesta esterna | Claude | ✅ 8 ottobre |
@@ -22,7 +22,7 @@
 | 9 | Il giorno del lancio: README, guida italiana e link del modulo ricontrollati sulla repo pubblica; nessuna richiesta aperta senza risposta | Claude | ⏳ |
 
 ### Ordine del giorno del lancio (17 novembre)
-1. **Owner**, Claude in Chrome: prompt **A** (descrizione e topic) e **B** (repo pubblica) di `docs/LANCIO-PROMPT.md`; incolla i resoconti in chat.
+1. **Owner**, Claude in Chrome: prompt **A** (descrizione e topic) di `docs/LANCIO-PROMPT.md`; incolla il resoconto in chat. (La repo è già pubblica: il prompt B non serve.)
 2. **Claude**: merge in `main` del ramo pronto `claude/launch-hacs-strict` (toglie `ignore` dal controllo HACS); test e ruff in locale; versione nuova (0.3.x, con la novità nella guida).
 3. **Claude**: lancia a mano i controlli di GitHub su `main` (Tests e Validate: è il momento previsto dalla decisione dell'11 novembre) e aspetta che siano verdi, controllo HACS compreso; poi `release.yml`.
 4. **Owner**, Claude in Chrome: prompt **C** (richiesta al catalogo), poi **D** un post alla volta.
