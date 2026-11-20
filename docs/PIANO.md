@@ -547,3 +547,8 @@ solo utenti che le condividono, quindi sono una stima per difetto) e con le stel
   - nessuna richiesta nuova (GitHub e modulo); uscita Home Assistant 2026.11.2 → test spostati sulla 2026.11.2 (si provano con i controlli di GitHub a mano prima del rilascio di lancio);
   - 📌 **la repo è già pubblica**, almeno dal 6 novembre (il controllo HACS, che salta se la repo è privata, è partito ogni volta): il passo B del lancio è fatto. Mancano **descrizione e topic** (prompt A): senza, il controllo HACS completo (senza `ignore`), che il catalogo chiede, non passa. Corretti `TEST-A-CASA.md` e la lista del lancio;
   - lancio: in attesa del prompt A dell'owner; poi Claude unisce `claude/launch-hacs-strict`, lancia i controlli di GitHub, pubblica la versione e manda il prompt C.
+
+- **18–20 novembre 2026** (sessioni automatiche):
+  - nessuna richiesta nuova (GitHub e modulo); Home Assistant ancora 2026.11.2;
+  - 📌 **lancio rinviato**: la finestra del 17–20 novembre è passata senza descrizione e topic della repo (prompt A dell'owner). Tutto il resto è pronto (`docs/LANCIO.md`, ordine del giorno; ramo `claude/launch-hacs-strict`). Il lancio riparte il giorno in cui l'owner fa il prompt A: nuova data da fissare con lui;
+  - **Prossimi pezzi:** lancio appena l'owner fa il prompt A; test a casa dell'owner (anche in versione rapida); dicembre: AEM 2027, Winterthur, AGE, gestori senza file, Vorderthal e Arosa con i file nuovi; gennaio: BKW e voci federali nei prezzi dinamici di Primeo 2027.

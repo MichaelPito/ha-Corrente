@@ -3,7 +3,7 @@
 > Preparato da Claude. I passi nel browser dell'owner li fa **Claude in Chrome** con i prompt pronti di [`docs/LANCIO-PROMPT.md`](LANCIO-PROMPT.md) (regola dell'8 novembre 2026): l'owner incolla un prompt, dice «sì» prima di ogni pubblicazione e incolla il resoconto nella chat. Tutto il resto lo fa Claude.
 >
 > **Versione da lanciare:** l'ultima 0.3.x (oggi la 0.3.12, 4 novembre), con le correzioni del test a casa.
-> **Data:** martedì 17 novembre 2026 (finestra 17–20). Testi aggiornati il 22 ottobre (verifica con ElCom su tutti i gestori svizzeri, 0.2.3–0.2.6) e il 23 ottobre (costi della bolletta per l'Italia, costi fissi con contatore, diagnostica: 0.2.7–0.3.2); il 6 novembre: guida dentro Home Assistant, Marketplace della 2026.11 visto dal vero, come si installa prima che Corrente sia nel catalogo.
+> **Data:** da fissare con l'owner (la finestra del 17–20 novembre è passata senza il prompt A). Testi aggiornati il 22 ottobre (verifica con ElCom su tutti i gestori svizzeri, 0.2.3–0.2.6) e il 23 ottobre (costi della bolletta per l'Italia, costi fissi con contatore, diagnostica: 0.2.7–0.3.2); il 6 novembre: guida dentro Home Assistant, Marketplace della 2026.11 visto dal vero, come si installa prima che Corrente sia nel catalogo.
 
 ## Lista di controllo per il giorno del lancio
 
